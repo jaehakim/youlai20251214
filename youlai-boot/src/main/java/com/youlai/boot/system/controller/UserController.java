@@ -43,12 +43,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
- * 用户控制层
+ * 사용자 컨트롤러
  *
  * @author Ray.Hao
  * @since 2022/10/16
  */
-@Tag(name = "02.用户接口")
+@Tag(name = "02.사용자 인터페이스")
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
@@ -56,9 +56,9 @@ public class UserController {
 
     private final UserService userService;
 
-    @Operation(summary = "用户分页列表")
+    @Operation(summary = "사용자 페이지 목록")
     @GetMapping("/page")
-    @Log(value = "用户分页列表", module = LogModuleEnum.USER)
+    @Log(value = "사용자 페이지 목록", module = LogModuleEnum.USER)
     public PageResult<UserPageVO> getUserPage(
             @Valid UserPageQuery queryParams
     ) {
@@ -66,11 +66,11 @@ public class UserController {
         return PageResult.success(result);
     }
 
-    @Operation(summary = "新增用户")
+    @Operation(summary = "사용자 추가")
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:user:add')")
     @RepeatSubmit
-    @Log(value = "新增用户", module = LogModuleEnum.USER)
+    @Log(value = "사용자 추가", module = LogModuleEnum.USER)
     public Result<?> saveUser(
             @RequestBody @Valid UserForm userForm
     ) {
@@ -78,47 +78,47 @@ public class UserController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "获取用户表单数据")
+    @Operation(summary = "사용자 폼 데이터 조회")
     @GetMapping("/{userId}/form")
     @PreAuthorize("@ss.hasPerm('sys:user:edit')")
-    @Log(value = "用户表单数据", module = LogModuleEnum.USER)
+    @Log(value = "사용자폼데이터", module = LogModuleEnum.USER)
     public Result<UserForm> getUserForm(
-            @Parameter(description = "用户ID") @PathVariable Long userId
+            @Parameter(description = "사용자ID") @PathVariable Long userId
     ) {
         UserForm formData = userService.getUserFormData(userId);
         return Result.success(formData);
     }
 
-    @Operation(summary = "修改用户")
+    @Operation(summary = "사용자 수정")
     @PutMapping(value = "/{userId}")
     @PreAuthorize("@ss.hasPerm('sys:user:edit')")
-    @Log(value = "修改用户", module = LogModuleEnum.USER)
+    @Log(value = "사용자 수정", module = LogModuleEnum.USER)
     public Result<Void> updateUser(
-            @Parameter(description = "用户ID") @PathVariable Long userId,
+            @Parameter(description = "사용자ID") @PathVariable Long userId,
             @RequestBody @Valid UserForm userForm
     ) {
         boolean result = userService.updateUser(userId, userForm);
         return Result.judge(result);
     }
 
-    @Operation(summary = "删除用户")
+    @Operation(summary = "사용자 삭제")
     @DeleteMapping("/{ids}")
     @PreAuthorize("@ss.hasPerm('sys:user:delete')")
-    @Log(value = "删除用户", module = LogModuleEnum.USER)
+    @Log(value = "사용자 삭제", module = LogModuleEnum.USER)
     public Result<Void> deleteUsers(
-            @Parameter(description = "用户ID，多个以英文逗号(,)分割") @PathVariable String ids
+            @Parameter(description = "사용자ID，여러 개는영문쉼표(,)로 구분") @PathVariable String ids
     ) {
         boolean result = userService.deleteUsers(ids);
         return Result.judge(result);
     }
 
-    @Operation(summary = "修改用户状态")
+    @Operation(summary = "사용자 수정상태")
     @PatchMapping(value = "/{userId}/status")
     @PreAuthorize("@ss.hasPerm('sys:user:edit')")
-    @Log(value = "修改用户状态", module = LogModuleEnum.USER)
+    @Log(value = "사용자 수정상태", module = LogModuleEnum.USER)
     public Result<Void> updateUserStatus(
-            @Parameter(description = "用户ID") @PathVariable Long userId,
-            @Parameter(description = "用户状态(1:启用;0:禁用)") @RequestParam Integer status
+            @Parameter(description = "사용자ID") @PathVariable Long userId,
+            @Parameter(description = "사용자상태(1:활성화;0:비활성화)") @RequestParam Integer status
     ) {
         boolean result = userService.update(new LambdaUpdateWrapper<User>()
                 .eq(User::getId, userId)
@@ -127,19 +127,19 @@ public class UserController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "获取当前登录用户信息")
+    @Operation(summary = "현재 로그인 사용자 정보 조회")
     @GetMapping("/me")
-    @Log(value = "获取当前登录用户信息", module = LogModuleEnum.USER)
+    @Log(value = "현재 로그인 사용자 정보 조회", module = LogModuleEnum.USER)
     public Result<CurrentUserDTO> getCurrentUser() {
         CurrentUserDTO currentUserDTO = userService.getCurrentUserInfo();
         return Result.success(currentUserDTO);
     }
 
-    @Operation(summary = "用户导入模板下载")
+    @Operation(summary = "사용자 가져오기 템플릿 다운로드")
     @GetMapping("/template")
-    @Log(value = "用户导入模板下载", module = LogModuleEnum.USER)
+    @Log(value = "사용자 가져오기 템플릿 다운로드", module = LogModuleEnum.USER)
     public void downloadTemplate(HttpServletResponse response)  {
-        String fileName = "用户导入模板.xlsx";
+        String fileName = "사용자 가져오기템플릿.xlsx";
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
 
@@ -150,63 +150,63 @@ public class UserController {
              ExcelWriter excelWriter = EasyExcel.write(outputStream).withTemplate(inputStream).build()) {
             excelWriter.finish();
         } catch (IOException e) {
-            throw new RuntimeException("用户导入模板下载失败", e);
+            throw new RuntimeException("사용자 가져오기 템플릿 다운로드실패", e);
         }
     }
 
-    @Operation(summary = "导入用户")
+    @Operation(summary = "사용자 가져오기")
     @PostMapping("/import")
     @PreAuthorize("@ss.hasPerm('sys:user:import')")
-    @Log(value = "导入用户", module = LogModuleEnum.USER)
+    @Log(value = "사용자 가져오기", module = LogModuleEnum.USER)
     public Result<ExcelResult> importUsers(MultipartFile file) throws IOException {
         UserImportListener listener = new UserImportListener();
         ExcelUtils.importExcel(file.getInputStream(), UserImportDTO.class, listener);
         return Result.success(listener.getExcelResult());
     }
 
-    @Operation(summary = "导出用户")
+    @Operation(summary = "사용자 내보내기")
     @GetMapping("/export")
     @PreAuthorize("@ss.hasPerm('sys:user:export')")
-    @Log(value = "导出用户", module = LogModuleEnum.USER)
+    @Log(value = "사용자 내보내기", module = LogModuleEnum.USER)
     public void exportUsers(UserPageQuery queryParams, HttpServletResponse response) throws IOException {
-        String fileName = "用户列表.xlsx";
+        String fileName = "사용자 목록.xlsx";
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
 
         List<UserExportDTO> exportUserList = userService.listExportUsers(queryParams);
-        EasyExcel.write(response.getOutputStream(), UserExportDTO.class).sheet("用户列表")
+        EasyExcel.write(response.getOutputStream(), UserExportDTO.class).sheet("사용자 목록")
                 .doWrite(exportUserList);
     }
 
-    @Operation(summary = "获取个人中心用户信息")
+    @Operation(summary = "개인센터 사용자 정보 조회")
     @GetMapping("/profile")
-    @Log(value = "获取个人中心用户信息", module = LogModuleEnum.USER)
+    @Log(value = "개인센터 사용자 정보 조회", module = LogModuleEnum.USER)
     public Result<UserProfileVO> getUserProfile() {
         Long userId = SecurityUtils.getUserId();
         UserProfileVO userProfile = userService.getUserProfile(userId);
         return Result.success(userProfile);
     }
 
-    @Operation(summary = "个人中心修改用户信息")
+    @Operation(summary = "개인센터 사용자 정보 수정")
     @PutMapping("/profile")
-    @Log(value = "个人中心修改用户信息", module = LogModuleEnum.USER)
+    @Log(value = "개인센터 사용자 정보 수정", module = LogModuleEnum.USER)
     public Result<?> updateUserProfile(@RequestBody UserProfileForm formData) {
         boolean result = userService.updateUserProfile(formData);
         return Result.judge(result);
     }
 
-    @Operation(summary = "重置指定用户密码")
+    @Operation(summary = "지정된 사용자 비밀번호 재설정")
     @PutMapping(value = "/{userId}/password/reset")
     @PreAuthorize("@ss.hasPerm('sys:user:reset-password')")
     public Result<?> resetUserPassword(
-            @Parameter(description = "用户ID") @PathVariable Long userId,
+            @Parameter(description = "사용자ID") @PathVariable Long userId,
             @RequestParam String password
     ) {
         boolean result = userService.resetUserPassword(userId, password);
         return Result.judge(result);
     }
 
-    @Operation(summary = "当前用户修改密码")
+    @Operation(summary = "현재 사용자 비밀번호 변경")
     @PutMapping(value = "/password")
     public Result<?> changeCurrentUserPassword(
             @RequestBody PasswordUpdateForm data
@@ -216,16 +216,16 @@ public class UserController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "发送短信验证码（绑定或更换手机号）")
+    @Operation(summary = "발송SMS 인증코드(휴대폰 번호 바인딩 또는 변경)")
     @PostMapping(value = "/mobile/code")
     public Result<?> sendMobileCode(
-            @Parameter(description = "手机号码", required = true) @RequestParam String mobile
+            @Parameter(description = "휴대폰 번호", required = true) @RequestParam String mobile
     ) {
         boolean result = userService.sendMobileCode(mobile);
         return Result.judge(result);
     }
 
-    @Operation(summary = "绑定或更换手机号")
+    @Operation(summary = "휴대폰 번호 바인딩 또는 변경")
     @PutMapping(value = "/mobile")
     public Result<?> bindOrChangeMobile(
             @RequestBody @Validated MobileUpdateForm data
@@ -234,16 +234,16 @@ public class UserController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "发送邮箱验证码（绑定或更换邮箱）")
+    @Operation(summary = "발송이메일 인증코드(이메일 바인딩 또는 변경)")
     @PostMapping(value = "/email/code")
     public Result<Void> sendEmailCode(
-            @Parameter(description = "邮箱地址", required = true) @RequestParam String email
+            @Parameter(description = "이메일 주소", required = true) @RequestParam String email
     ) {
         userService.sendEmailCode(email);
         return Result.success();
     }
 
-    @Operation(summary = "绑定或更换邮箱")
+    @Operation(summary = "이메일 바인딩 또는 변경")
     @PutMapping(value = "/email")
     public Result<?> bindOrChangeEmail(
             @RequestBody @Validated EmailUpdateForm data
@@ -252,7 +252,7 @@ public class UserController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "获取用户下拉选项")
+    @Operation(summary = "사용자 드롭다운 옵션 조회")
     @GetMapping("/options")
     public Result<List<Option<String>>> listUserOptions() {
         List<Option<String>> list = userService.listUserOptions();

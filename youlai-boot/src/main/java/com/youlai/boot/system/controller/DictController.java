@@ -29,12 +29,12 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 字典控制层
+ * 사전컨트롤러
  *
  * @author Ray.Hao
  * @since 2.9.0
  */
-@Tag(name = "06.字典接口")
+@Tag(name = "06.사전인터페이스")
 @RestController
 @SuppressWarnings("SpellCheckingInspection")
 @RequestMapping("/api/v1/dicts")
@@ -46,11 +46,11 @@ public class DictController {
     private final WebSocketService webSocketService;
 
     //---------------------------------------------------
-    // 字典相关接口
+    // 사전 관련 인터페이스
     //---------------------------------------------------
-    @Operation(summary = "字典分页列表")
+    @Operation(summary = "사전 페이지목록")
     @GetMapping("/page")
-    @Log( value = "字典分页列表",module = LogModuleEnum.DICT)
+    @Log( value = "사전 페이지목록",module = LogModuleEnum.DICT)
     public PageResult<DictPageVO> getDictPage(
             DictPageQuery queryParams
     ) {
@@ -59,36 +59,36 @@ public class DictController {
     }
 
 
-    @Operation(summary = "字典列表")
+    @Operation(summary = "사전목록")
     @GetMapping
     public Result<List<Option<String>>> getDictList() {
         List<Option<String>> list = dictService.getDictList();
         return Result.success(list);
     }
 
-    @Operation(summary = "获取字典表单数据")
+    @Operation(summary = "사전 폼 데이터 조회")
     @GetMapping("/{id}/form")
     public Result<DictForm> getDictForm(
-            @Parameter(description = "字典ID") @PathVariable Long id
+            @Parameter(description = "사전ID") @PathVariable Long id
     ) {
         DictForm formData = dictService.getDictForm(id);
         return Result.success(formData);
     }
 
-    @Operation(summary = "新增字典")
+    @Operation(summary = "추가사전")
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:dict:add')")
     @RepeatSubmit
     public Result<?> saveDict(@Valid @RequestBody DictForm formData) {
         boolean result = dictService.saveDict(formData);
-        // 发送字典更新通知
+        // 발송사전업데이트공지
         if (result) {
             webSocketService.broadcastDictChange(formData.getDictCode());
         }
         return Result.judge(result);
     }
 
-    @Operation(summary = "修改字典")
+    @Operation(summary = "수정사전")
     @PutMapping("/{id}")
     @PreAuthorize("@ss.hasPerm('sys:dict:edit')")
     public Result<?> updateDict(
@@ -96,25 +96,25 @@ public class DictController {
             @RequestBody DictForm dictForm
     ) {
         boolean status = dictService.updateDict(id, dictForm);
-        // 发送字典更新通知
+        // 발송사전업데이트공지
         if (status && dictForm.getDictCode() != null) {
           webSocketService.broadcastDictChange(dictForm.getDictCode());
         }
         return Result.judge(status);
     }
 
-    @Operation(summary = "删除字典")
+    @Operation(summary = "삭제사전")
     @DeleteMapping("/{ids}")
     @PreAuthorize("@ss.hasPerm('sys:dict:delete')")
     public Result<?> deleteDictionaries(
-            @Parameter(description = "字典ID，多个以英文逗号(,)拼接") @PathVariable String ids
+            @Parameter(description = "사전ID，여러 개는영문쉼표(,)로 연결") @PathVariable String ids
     ) {
-        // 获取字典编码列表，用于发送删除通知
+        // 조회사전 코드목록，용도발송삭제공지
         List<String> dictCodes = dictService.getDictCodesByIds(Arrays.stream(ids.split(",")).toList());
         
         dictService.deleteDictByIds(Arrays.stream(ids.split(",")).toList());
         
-        // 发送字典删除通知
+        // 발송사전삭제공지
         for (String dictCode : dictCodes) {
           webSocketService.broadcastDictChange(dictCode);
         }
@@ -124,9 +124,9 @@ public class DictController {
 
 
     //---------------------------------------------------
-    // 字典项相关接口
+    // 사전 항목 관련 인터페이스
     //---------------------------------------------------
-    @Operation(summary = "字典项分页列表")
+    @Operation(summary = "사전 항목페이지 목록")
     @GetMapping("/{dictCode}/items/page")
     public PageResult<DictItemPageVO> getDictItemPage(
             @PathVariable String dictCode,
@@ -137,16 +137,16 @@ public class DictController {
         return PageResult.success(result);
     }
 
-    @Operation(summary = "字典项列表")
+    @Operation(summary = "사전 항목목록")
     @GetMapping("/{dictCode}/items")
     public Result<List<DictItemOptionVO>> getDictItems(
-            @Parameter(description = "字典编码") @PathVariable String dictCode
+            @Parameter(description = "사전 코드") @PathVariable String dictCode
     ) {
         List<DictItemOptionVO> list = dictItemService.getDictItems(dictCode);
         return Result.success(list);
     }
 
-    @Operation(summary = "新增字典项")
+    @Operation(summary = "추가사전 항목")
     @PostMapping("/{dictCode}/items")
     @PreAuthorize("@ss.hasPerm('sys:dict-item:add')")
     @RepeatSubmit
@@ -157,7 +157,7 @@ public class DictController {
         formData.setDictCode(dictCode);
         boolean result = dictItemService.saveDictItem(formData);
         
-        // 发送字典更新通知
+        // 발송사전업데이트공지
         if (result) {
           webSocketService.broadcastDictChange(dictCode);
         }
@@ -165,17 +165,17 @@ public class DictController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "字典项表单数据")
+    @Operation(summary = "사전 항목 폼 데이터")
     @GetMapping("/{dictCode}/items/{itemId}/form")
     public Result<DictItemForm> getDictItemForm(
             @PathVariable String dictCode,
-            @Parameter(description = "字典项ID") @PathVariable Long itemId
+            @Parameter(description = "사전 항목ID") @PathVariable Long itemId
     ) {
         DictItemForm formData = dictItemService.getDictItemForm(itemId);
         return Result.success(formData);
     }
 
-    @Operation(summary = "修改字典项")
+    @Operation(summary = "수정사전 항목")
     @PutMapping("/{dictCode}/items/{itemId}")
     @PreAuthorize("@ss.hasPerm('sys:dict-item:edit')")
     @RepeatSubmit
@@ -188,7 +188,7 @@ public class DictController {
         formData.setDictCode(dictCode);
         boolean status = dictItemService.updateDictItem(formData);
         
-        // 发送字典更新通知
+        // 발송사전업데이트공지
         if (status) {
             webSocketService.broadcastDictChange(dictCode);
         }
@@ -196,16 +196,16 @@ public class DictController {
         return Result.judge(status);
     }
 
-    @Operation(summary = "删除字典项")
+    @Operation(summary = "삭제사전 항목")
     @DeleteMapping("/{dictCode}/items/{itemIds}")
     @PreAuthorize("@ss.hasPerm('sys:dict-item:delete')")
     public Result<Void> deleteDictItems(
             @PathVariable String dictCode,
-            @Parameter(description = "字典ID，多个以英文逗号(,)拼接") @PathVariable String itemIds
+            @Parameter(description = "사전ID，여러 개는영문쉼표(,)로 연결") @PathVariable String itemIds
     ) {
         dictItemService.deleteDictItemByIds(itemIds);
         
-        // 发送字典更新通知
+        // 발송사전업데이트공지
         webSocketService.broadcastDictChange(dictCode);
         
         return Result.success();

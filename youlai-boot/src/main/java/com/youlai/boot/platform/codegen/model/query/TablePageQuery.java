@@ -9,21 +9,21 @@ import lombok.Setter;
 import java.util.List;
 
 /**
- * 数据表分页查询对象
+ * 데이터 테이블 페이징 조회 객체
  *
  * @author Ray
  * @since 2.10.0
  */
-@Schema(description = "数据表分页查询对象")
+@Schema(description = "데이터 테이블 페이징 조회 객체")
 @Getter
 @Setter
 public class TablePageQuery extends BasePageQuery {
 
-    @Schema(description="关键字(表名)")
+    @Schema(description="키워드 (테이블명)")
     private String keywords;
 
     /**
-     * 排除的表名
+     * 제외할 테이블명
      */
     @JsonIgnore
     private List<String> excludeTables;

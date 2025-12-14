@@ -11,7 +11,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
- * 用户通知公告实体对象
+ * 사용자 알림 공지 엔티티 객체
  *
  * @author Kylin
  * @since 2024-08-28 16:56
@@ -22,30 +22,30 @@ import java.time.LocalDateTime;
 public class UserNotice extends BaseEntity {
 
     /**
-     * 主键ID
+     * 기본 키 ID
      */
     @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
-     * 公共通知id
+     * 공용 알림 id
      */
     private Long noticeId;
     /**
-     * 用户id
+     * 사용자 id
      */
     private Long userId;
     /**
-     * 读取状态，0未读，1已读
+     * 읽기 상태, 0-미읽음, 1-읽음
      */
     private Integer isRead;
     /**
-     * 用户阅读时间
+     * 사용자 읽은 시간
      */
     private LocalDateTime readTime;
 
     /**
-     * 逻辑删除标识(0-未删除 1-已删除)
+     * 논리 삭제 표시(0-미삭제 1-삭제됨)
      */
     @TableLogic(value = "0", delval = "1")
     private Integer isDeleted;

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Set;
 
 /**
- * 角色权限业务对象
+ * 역할 권한 비즈니스 객체
  *
  * @author haoxr
  * @since 2023/11/29
@@ -14,12 +14,12 @@ import java.util.Set;
 public class RolePermsBO {
 
     /**
-     * 角色编码
+     * 역할 코드
      */
     private String roleCode;
 
     /**
-     * 权限标识集合
+     * 권한 식별자 집합
      */
     private Set<String> perms;
 

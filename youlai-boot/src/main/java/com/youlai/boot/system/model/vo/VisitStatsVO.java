@@ -7,32 +7,32 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 /**
- * 访问量统计视图对象
+ * 방문량 통계 뷰 객체
  *
  * @author Ray.Hao
  * @since 2024/7/2
  */
-@Schema(description = "访问量统计视图对象")
+@Schema(description = "방문량 통계 뷰 객체")
 @Getter
 @Setter
 public class VisitStatsVO {
 
-    @Schema(description = "今日独立访客数 (UV)")
+    @Schema(description = "오늘 순방문자수 (UV)")
     private Integer todayUvCount;
 
-    @Schema(description = "累计独立访客数 (UV)")
+    @Schema(description = "누적 순방문자수 (UV)")
     private Integer totalUvCount;
 
-    @Schema(description = "独立访客增长率")
+    @Schema(description = "순방문자 증가율")
     private BigDecimal uvGrowthRate;
 
-    @Schema(description = "今日页面浏览量 (PV)")
+    @Schema(description = "오늘 페이지 조회수 (PV)")
     private Integer todayPvCount;
 
-    @Schema(description = "累计页面浏览量 (PV)")
+    @Schema(description = "누적 페이지 조회수 (PV)")
     private Integer totalPvCount;
 
-    @Schema(description = "页面浏览量增长率")
+    @Schema(description = "페이지 조회수 증가율")
     private BigDecimal pvGrowthRate;
 
 }

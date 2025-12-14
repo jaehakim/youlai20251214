@@ -9,24 +9,24 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
- * 角色分页查询对象
+ * 역할 페이지 조회 객체
  *
  * @author Ray
  * @since 2022/6/3
  */
-@Schema(description = "角色分页查询对象")
+@Schema(description = "역할 페이지 조회 객체")
 @Getter
 @Setter
 public class RolePageQuery extends BasePageQuery {
 
-    @Schema(description="关键字(角色名称/角色编码)")
+    @Schema(description="키워드(역할명/역할 코드)")
     private String keywords;
 
-    @Schema(description="开始日期")
+    @Schema(description="시작 날짜")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime startDate;
 
-    @Schema(description="结束日期")
+    @Schema(description="종료 날짜")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime endDate;
 }

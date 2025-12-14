@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 用户实体
+ * 사용자 엔티티
  */
 @TableName("sys_user")
 @Getter
@@ -14,67 +14,67 @@ import lombok.Setter;
 public class User extends BaseEntity {
 
     /**
-     * 用户名
+     * 사용자명
      */
     private String username;
 
     /**
-     * 昵称
+     * 닉네임
      */
     private String nickname;
 
     /**
-     * 性别((1-男 2-女 0-保密)
+     * 성별(1-남성 2-여성 0-비공개)
      */
     private Integer gender;
 
     /**
-     * 密码
+     * 비밀번호
      */
     private String password;
 
     /**
-     * 部门ID
+     * 부서 ID
      */
     private Long deptId;
 
     /**
-     * 用户头像
+     * 사용자 아바타
      */
     private String avatar;
 
     /**
-     * 联系方式
+     * 연락처
      */
     private String mobile;
 
     /**
-     * 状态((1-正常 0-禁用)
+     * 상태(1-정상 0-비활성화)
      */
     private Integer status;
 
     /**
-     * 用户邮箱
+     * 사용자 이메일
      */
     private String email;
 
     /**
-     * 创建人 ID
+     * 생성자 ID
      */
     private Long createBy;
 
     /**
-     * 更新人 ID
+     * 수정자 ID
      */
     private Long updateBy;
 
     /**
-     * 是否删除(0-否 1-是)
+     * 삭제 여부(0-아니오 1-예)
      */
     private Integer isDeleted;
 
     /**
-     * 微信 OpenID
+     * 위챗 OpenID
      */
     private String openid;
 }

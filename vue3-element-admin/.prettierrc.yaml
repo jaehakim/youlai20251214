@@ -1,40 +1,40 @@
-# 在单参数箭头函数中始终添加括号
+# 단일 매개변수 화살표 함수에 항상 괄호 추가
 arrowParens: "always"
-# JSX 多行元素的闭合标签另起一行
+# JSX 다중 행 요소의 닫는 태그를 별도 행에 배치
 bracketSameLine: false
-# 对象字面量中的括号之间添加空格
+# 객체 리터럴의 중괄호 사이에 공백 추가
 bracketSpacing: true
-# 自动格式化嵌入的代码（如 Markdown 和 HTML 内的代码）
+# 임베디드 코드 자동 포맷(예: Markdown 및 HTML 내의 코드)
 embeddedLanguageFormatting: "auto"
-# 忽略 HTML 空白敏感度，将空白视为非重要内容
+# HTML 공백 민감도 무시, 공백을 중요하지 않은 내용으로 처리
 htmlWhitespaceSensitivity: "ignore"
-# 不插入 @prettier 的 pragma 注释
+# @prettier pragma 주석 삽입 안 함
 insertPragma: false
-# 在 JSX 中使用双引号
+# JSX에서 큰따옴표 사용
 jsxSingleQuote: false
-# 每行代码的最大长度限制为 100 字符
+# 한 줄당 코드의 최대 길이를 100자로 제한
 printWidth: 100
-# 在 Markdown 中保留原有的换行格式
+# Markdown에서 원래 줄바꿈 형식 유지
 proseWrap: "preserve"
-# 仅在必要时添加对象属性的引号
+# 필요한 경우에만 객체 속성에 따옴표 추가
 quoteProps: "as-needed"
-# 不要求文件开头插入 @prettier 的 pragma 注释
+# 파일 시작 부분에 @prettier pragma 주석 삽입 불필요
 requirePragma: false
-# 在语句末尾添加分号
+# 문장 끝에 세미콜론 추가
 semi: true
-# 使用双引号而不是单引号
+# 작은따옴표 대신 큰따옴표 사용
 singleQuote: false
-# 缩进使用 2 个空格
+# 들여쓰기에 2개의 공백 사용
 tabWidth: 2
-# 在多行元素的末尾添加逗号（ES5 支持的对象、数组等）
+# 다중 행 요소의 끝에 쉼표 추가(ES5 지원 객체, 배열 등)
 trailingComma: "es5"
-# 使用空格而不是制表符缩进
+# 탭 대신 공백으로 들여쓰기
 useTabs: false
-# Vue 文件中的 <script> 和 <style> 不增加额外的缩进
+# Vue 파일의 <script>와 <style>에 추가 들여쓰기 하지 않음
 vueIndentScriptAndStyle: false
-# 根据系统自动检测换行符
+# 시스템에 따라 자동으로 줄바꿈 문자 감지
 endOfLine: "auto"
-# 对 HTML 文件应用特定格式化规则
+# HTML 파일에 특정 포맷팅 규칙 적용
 overrides:
   - files: "*.html"
     options:

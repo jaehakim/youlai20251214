@@ -9,7 +9,7 @@ import java.io.Serial;
 import java.time.LocalDateTime;
 
 /**
- * 通知公告实体对象
+ * 알림 공지 엔티티 객체
  *
  * @author Kylin
  * @since 2024-08-27 10:31
@@ -23,65 +23,65 @@ public class Notice extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 通知标题
+     * 알림 제목
      */
     private String title;
     /**
-     * 通知内容
+     * 알림 내용
      */
     private String content;
     /**
-     * 通知类型
+     * 알림 유형
      */
     private Integer type;
 
     /**
-     * 发布人
+     * 발행자
      */
     private Long publisherId;
 
     /**
-     * 通知等级（L: 低, M: 中, H: 高）
+     * 알림 등급(L: 낮음, M: 중간, H: 높음)
      */
     private String level;
 
     /**
-     * 目标类型（1: 全体, 2: 指定）
+     * 대상 유형(1: 전체, 2: 지정)
      */
     private Integer targetType;
 
     /**
-     * 目标用户ID集合
+     * 대상 사용자 ID 목록
      */
     private String targetUserIds;
 
     /**
-     * 发布状态（0: 未发布, 1: 已发布, -1: 已撤回）
+     * 발행 상태(0: 미발행, 1: 발행됨, -1: 철회됨)
      */
     private Integer publishStatus;
 
     /**
-     * 发布时间
+     * 발행 시간
      */
     private LocalDateTime publishTime;
 
     /**
-     * 撤回时间
+     * 철회 시간
      */
     private LocalDateTime revokeTime;
 
     /**
-     * 创建人ID
+     * 생성자 ID
      */
     private Long createBy;
 
     /**
-     * 更新人ID
+     * 수정자 ID
      */
     private Long updateBy;
 
     /**
-     * 逻辑删除标识(0-未删除 1-已删除)
+     * 논리 삭제 표시(0-미삭제 1-삭제됨)
      */
     private Integer isDeleted;
 }

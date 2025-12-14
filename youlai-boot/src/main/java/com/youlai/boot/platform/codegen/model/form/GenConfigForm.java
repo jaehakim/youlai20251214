@@ -8,101 +8,101 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 代码生成配置表单
+ * 코드 생성 설정 폼
  *
  * @author Ray
  * @since 2.10.0
  */
-@Schema(description = "代码生成配置表单")
+@Schema(description = "코드 생성 설정 폼")
 @Data
 public class GenConfigForm {
 
-    @Schema(description = "主键",example = "1")
+    @Schema(description = "기본 키",example = "1")
     private Long id;
 
-    @Schema(description = "表名",example = "sys_user")
+    @Schema(description = "테이블명",example = "sys_user")
     private String tableName;
 
-    @Schema(description = "业务名",example = "用户")
+    @Schema(description = "비즈니스명",example = "사용자")
     private String businessName;
 
-    @Schema(description = "模块名",example = "system")
+    @Schema(description = "모듈명",example = "system")
     private String moduleName;
 
-    @Schema(description = "包名",example = "com.youlai")
+    @Schema(description = "패키지명",example = "com.youlai")
     private String packageName;
 
-    @Schema(description = "实体名",example = "User")
+    @Schema(description = "엔티티명",example = "User")
     private String entityName;
 
-    @Schema(description = "作者",example = "youlaitech")
+    @Schema(description = "작성자",example = "youlaitech")
     private String author;
 
-    @Schema(description = "上级菜单ID",example = "1")
+    @Schema(description = "상위 메뉴 ID",example = "1")
     private Long parentMenuId;
 
-    @Schema(description = "字段配置列表")
+    @Schema(description = "필드 설정 목록")
     private List<FieldConfig> fieldConfigs;
 
-    @Schema(description = "后端应用名")
+    @Schema(description = "백엔드 애플리케이션명")
     private String backendAppName;
 
-    @Schema(description = "前端应用名")
+    @Schema(description = "프론트엔드 애플리케이션명")
     private String frontendAppName;
 
-    @Schema(description = "页面类型 classic|curd", example = "classic")
+    @Schema(description = "페이지 유형 classic|curd", example = "classic")
     private String pageType;
 
-    @Schema(description = "要移除的表前缀，如: sys_", example = "sys_")
+    @Schema(description = "제거할 테이블 접두사, 예: sys_", example = "sys_")
     private String removeTablePrefix;
 
-    @Schema(description = "字段配置")
+    @Schema(description = "필드 설정")
     @Data
     public static class FieldConfig {
 
-        @Schema(description = "主键")
+        @Schema(description = "기본 키")
         private Long id;
 
-        @Schema(description = "列名")
+        @Schema(description = "컬럼명")
         private String columnName;
 
-        @Schema(description = "列类型")
+        @Schema(description = "컬럼 유형")
         private String columnType;
 
-        @Schema(description = "字段名")
+        @Schema(description = "필드명")
         private String fieldName;
 
-        @Schema(description = "字段排序")
+        @Schema(description = "필드 정렬")
         private Integer fieldSort;
 
-        @Schema(description = "字段类型")
+        @Schema(description = "필드 유형")
         private String fieldType;
 
-        @Schema(description = "字段描述")
+        @Schema(description = "필드 설명")
         private String fieldComment;
 
-        @Schema(description = "是否在列表显示")
+        @Schema(description = "목록 표시 여부")
         private Integer isShowInList;
 
-        @Schema(description = "是否在表单显示")
+        @Schema(description = "폼 표시 여부")
         private Integer isShowInForm;
 
-        @Schema(description = "是否在查询条件显示")
+        @Schema(description = "조회 조건 표시 여부")
         private Integer isShowInQuery;
 
-        @Schema(description = "是否必填")
+        @Schema(description = "필수 여부")
         private Integer isRequired;
 
-        @Schema(description = "最大长度")
+        @Schema(description = "최대 길이")
         private Integer maxLength;
 
-        @Schema(description = "表单类型")
+        @Schema(description = "폼 유형")
         private FormTypeEnum formType;
 
-        @Schema(description = "查询类型")
+        @Schema(description = "조회 유형")
         private QueryTypeEnum queryType;
 
-        @Schema(description = "字典类型")
+        @Schema(description = "사전 유형")
         private String dictType;
 
     }

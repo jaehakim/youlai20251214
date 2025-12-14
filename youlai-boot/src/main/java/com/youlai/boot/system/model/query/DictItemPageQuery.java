@@ -8,13 +8,13 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description ="字典项分页查询对象")
+@Schema(description ="사전 항목 페이지 조회 객체")
 public class DictItemPageQuery extends BasePageQuery {
 
-    @Schema(description="关键字(字典项值/字典项名称)")
+    @Schema(description="키워드(사전 항목값/사전 항목명)")
     private String keywords;
 
-    @Schema(description="字典编码")
+    @Schema(description="사전 코드")
     private String dictCode;
 
 }

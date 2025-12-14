@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 认证服务实现类
+ * 인증 서비스 구현 클래스
  *
  * @author Ray.Hao
  * @since 2.4.0
@@ -57,22 +57,22 @@ public class AuthServiceImpl implements AuthService {
     private final RedisTemplate<String, Object> redisTemplate;
 
     /**
-     * 用户名密码登录
+     * 사용자명비밀번호로그인
      *
-     * @param username 用户名
-     * @param password 密码
-     * @return 访问令牌
+     * @param username 사용자명
+     * @param password 비밀번호
+     * @return 접근토큰
      */
     @Override
     public AuthenticationToken login(String username, String password) {
-        // 1. 创建用于密码认证的令牌（未认证）
+        // 1. 생성용도비밀번호 인증 토큰（인증 안 됨）
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username.trim(), password);
 
-        // 2. 执行认证（认证中）
+        // 2. 인증 실행（인증 중）
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-        // 3. 认证成功后生成 JWT 令牌，并存入 Security 上下文，供登录日志 AOP 使用（已认证）
+        // 3. 인증성공 후생성 JWT 토큰，및 저장 Security 컨텍스트，로그인 로그용 AOP 사용（인증 완료）
         AuthenticationToken authenticationTokenResponse =
                 tokenManager.generateToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -80,20 +80,20 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * 微信一键授权登录
+     * 위챗원클릭 인증 로그인
      *
-     * @param code 微信登录code
-     * @return 访问令牌
+     * @param code 위챗 로그인code
+     * @return 접근토큰
      */
     @Override
     public AuthenticationToken loginByWechat(String code) {
-        // 1. 创建用户微信认证的令牌（未认证）
+        // 1. 사용자 생성 위챗 인증 토큰（인증 안 됨）
         WxMiniAppCodeAuthenticationToken authenticationToken = new WxMiniAppCodeAuthenticationToken(code);
 
-        // 2. 执行认证（认证中）
+        // 2. 인증 실행（인증 중）
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-        // 3. 认证成功后生成 JWT 令牌，并存入 Security 上下文，供登录日志 AOP 使用（已认证）
+        // 3. 인증성공 후생성 JWT 토큰，및 저장 Security 컨텍스트，로그인 로그용 AOP 사용（인증 완료）
         AuthenticationToken token = tokenManager.generateToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -101,46 +101,46 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * 发送登录短信验证码
+     * 로그인 SMS 인증코드 전송
      *
-     * @param mobile 手机号
+     * @param mobile 휴대폰 번호
      */
     @Override
     public void sendSmsLoginCode(String mobile) {
 
-        // 随机生成4位验证码
+        // 랜덤생성4자리인증코드
         // String code = String.valueOf((int) ((Math.random() * 9 + 1) * 1000));
-        // TODO 为了方便测试，验证码固定为 1234，实际开发中在配置了厂商短信服务后，可以使用上面的随机验证码
+        // TODO 위해편의테스트，인증코드固定값 1234，실제개발중에SMS 서비스 설정 후，가는사용上面의랜덤인증코드
         String code = "1234";
 
-        // 发送短信验证码
+        // 발송SMS인증코드
         Map<String, String> templateParams = new HashMap<>();
         templateParams.put("code", code);
         try {
             smsService.sendSms(mobile, SmsTypeEnum.LOGIN, templateParams);
         } catch (Exception e) {
-            log.error("发送短信验证码失败", e);
+            log.error("발송SMS인증코드실패", e);
         }
-        // 缓存验证码至Redis，用于登录校验
+        // 인증코드를 캐시에 저장Redis，로그인 검증용
         redisTemplate.opsForValue().set(StrUtil.format(RedisConstants.Captcha.SMS_LOGIN_CODE, mobile), code, 5, TimeUnit.MINUTES);
     }
 
     /**
-     * 短信验证码登录
+     * SMS 인증 로그인
      *
-     * @param mobile 手机号
-     * @param code   验证码
-     * @return 访问令牌
+     * @param mobile 휴대폰 번호
+     * @param code   인증코드
+     * @return 접근토큰
      */
     @Override
     public AuthenticationToken loginBySms(String mobile, String code) {
-        // 1. 创建用户短信验证码认证的令牌（未认证）
+        // 1. 사용자 생성 SMS 인증코드 인증 토큰（인증 안 됨）
         SmsAuthenticationToken smsAuthenticationToken = new SmsAuthenticationToken(mobile, code);
 
-        // 2. 执行认证（认证中）
+        // 2. 인증 실행（인증 중）
         Authentication authentication = authenticationManager.authenticate(smsAuthenticationToken);
 
-        // 3. 认证成功后生成 JWT 令牌，并存入 Security 上下文，供登录日志 AOP 使用（已认证）
+        // 3. 인증성공 후생성 JWT 토큰，및 저장 Security 컨텍스트，로그인 로그용 AOP 사용（인증 완료）
         AuthenticationToken authenticationToken = tokenManager.generateToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -148,24 +148,24 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * 注销登录
+     * 로그아웃로그인
      */
     @Override
     public void logout() {
         String token = SecurityUtils.getTokenFromRequest();
         if (StrUtil.isNotBlank(token) && token.startsWith(SecurityConstants.BEARER_TOKEN_PREFIX )) {
             token = token.substring(SecurityConstants.BEARER_TOKEN_PREFIX .length());
-            // 将JWT令牌加入黑名单
+            // 을JWT토큰추가黑名单
             tokenManager.invalidateToken(token);
-            // 清除Security上下文
+            // 제거Security컨텍스트
             SecurityContextHolder.clearContext();
         }
     }
 
     /**
-     * 获取验证码
+     * 인증코드 조회
      *
-     * @return 验证码
+     * @return 인증코드
      */
     @Override
     public CaptchaVO getCaptcha() {
@@ -195,7 +195,7 @@ public class AuthServiceImpl implements AuthService {
         String captchaCode = captcha.getCode();
         String imageBase64Data = captcha.getImageBase64Data();
 
-        // 验证码文本缓存至Redis，用于登录校验
+        // 인증코드 텍스트를 캐시에 저장Redis，로그인 검증용
         String captchaKey = IdUtil.fastSimpleUUID();
         redisTemplate.opsForValue().set(
                 StrUtil.format(RedisConstants.Captcha.IMAGE_CODE, captchaKey),
@@ -211,10 +211,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * 刷新token
+     * 새로고침token
      *
-     * @param refreshToken 刷新令牌
-     * @return 新的访问令牌
+     * @param refreshToken 토큰 갱신
+     * @return 새로운 접근 토큰
      */
     @Override
     public AuthenticationToken refreshToken(String refreshToken) {
@@ -222,20 +222,20 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * 微信小程序Code登录
+     * 위챗미니 프로그램Code로그인
      *
-     * @param loginDTO 登录参数
-     * @return 访问令牌
+     * @param loginDTO 로그인参수
+     * @return 접근토큰
      */
     @Override
     public AuthenticationToken loginByWxMiniAppCode(WxMiniAppCodeLoginDTO loginDTO) {
-        // 1. 创建微信小程序认证令牌（未认证）
+        // 1. 위챗 미니 프로그램 인증 토큰 생성（인증 안 됨）
         WxMiniAppCodeAuthenticationToken authenticationToken = new WxMiniAppCodeAuthenticationToken(loginDTO.getCode());
 
-        // 2. 执行认证（认证中）
+        // 2. 인증 실행（인증 중）
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-        // 3. 认证成功后生成 JWT 令牌，并存入 Security 上下文，供登录日志 AOP 使用（已认证）
+        // 3. 인증성공 후생성 JWT 토큰，및 저장 Security 컨텍스트，로그인 로그용 AOP 사용（인증 완료）
         AuthenticationToken token = tokenManager.generateToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -243,24 +243,24 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * 微信小程序手机号登录
+     * 위챗미니 프로그램휴대폰 번호로그인
      *
-     * @param loginDTO 登录参数
-     * @return 访问令牌
+     * @param loginDTO 로그인参수
+     * @return 접근토큰
      */
     @Override
     public AuthenticationToken loginByWxMiniAppPhone(WxMiniAppPhoneLoginDTO loginDTO) {
-        // 创建微信小程序手机号认证Token
+        // 위챗 미니 프로그램 휴대폰 번호 인증 생성Token
         WxMiniAppPhoneAuthenticationToken authenticationToken = new WxMiniAppPhoneAuthenticationToken(
                 loginDTO.getCode(),
                 loginDTO.getEncryptedData(),
                 loginDTO.getIv()
         );
 
-        // 执行认证
+        // 인증 실행
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-        // 认证成功后生成JWT令牌，并存入Security上下文
+        // 인증성공 후생성JWT토큰，및 저장Security컨텍스트
         AuthenticationToken token = tokenManager.generateToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

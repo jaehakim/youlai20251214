@@ -3,7 +3,7 @@ package com.youlai.boot.system.model.dto;
 import lombok.Data;
 
 /**
- * 字典更新事件消息
+ * 사전 업데이트 이벤트 메시지
  *
  * @author Ray.Hao
  * @since 3.0.0
@@ -11,12 +11,12 @@ import lombok.Data;
 @Data
 public class DictEventDTO {
     /**
-     * 字典编码
+     * 사전 코드
      */
     private String dictCode;
-    
+
     /**
-     * 时间戳
+     * 타임스탬프
      */
     private long timestamp;
 

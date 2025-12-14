@@ -13,31 +13,31 @@ spring:
       database: 0
       host: www.youlai.tech
       port: 6379
-      # 如果Redis 服务未设置密码，需要将password删掉或注释，而不是设置为空字符串
+      # Redis 서비스에 비밀번호가 설정되지 않은 경우 password를 삭제하거나 주석 처리해야 하며, 빈 문자열로 설정하지 마세요
       password: 123456
       timeout: 10s
       lettuce:
         pool:
-          # 连接池最大连接数 默认8 ，负数表示没有限制
+          # 연결 풀 최대 연결 수 기본값 8, 음수는 제한 없음을 의미
           max-active: 8
-          # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认-1
+          # 연결 풀 최대 차단 대기 시간(음수는 제한 없음을 의미) 기본값 -1
           max-wait: -1
-          # 连接池中的最大空闲连接 默认8
+          # 연결 풀의 최대 유휴 연결 수 기본값 8
           max-idle: 8
-          # 连接池中的最小空闲连接 默认0
+          # 연결 풀의 최소 유휴 연결 수 기본값 0
           min-idle: 0
   cache:
     enabled: false
-    # 缓存类型 redis、none(不使用缓存)
+    # 캐시 타입 redis, none(캐시 사용 안 함)
     type: redis
-    # 缓存时间(单位：ms)
+    # 캐시 시간(단위: ms)
     redis:
       time-to-live: 3600000
-      # 缓存null值，防止缓存穿透
+      # null 값 캐싱, 캐시 관통 방지
       cache-null-values: true
     caffeine:
       spec: initialCapacity=50,maximumSize=1000,expireAfterWrite=600s
-  # 邮件配置
+  # 이메일 설정
   mail:
     host: smtp.youlai.tech
     port: 587
@@ -49,7 +49,7 @@ spring:
           auth: true
           starttls:
             enable: true
-    # 邮件发送者
+    # 이메일 발신자
     from: youlaitech@163.com
   #  Spring AI 配置
   ai:
@@ -64,13 +64,13 @@ spring:
       chat:
         enabled: true
         options:
-          # 模型名称（qwen-plus、qwen-turbo、qwen-max、qwen-long）
+          # 모델명(qwen-plus, qwen-turbo, qwen-max, qwen-long)
           model: qwen-plus
 
-          # Temperature（0.0-1.0，值越高回答越随机）
+          # Temperature(0.0-1.0, 값이 높을수록 답변이 더 무작위적임)
           temperature: 0.7
 
-          # JSON 输出格式（确保模型返回合法 JSON）
+          # JSON 출력 형식(모델이 유효한 JSON을 반환하도록 보장)
           response-format:
             type: json_object
 
@@ -78,39 +78,39 @@ mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   global-config:
     db-config:
-      # 主键ID类型
+      # 기본키 ID 타입
       id-type: none
-      # 逻辑删除对应的全局属性名（注意：须是对象属性名，不能是表字段名，如 isDeleted 而非 is_deleted，否则逻辑删除失效）
+      # 논리 삭제에 해당하는 전역 속성명(주의: 객체 속성명이어야 하며 테이블 필드명이 아님, 예: isDeleted이며 is_deleted가 아님, 그렇지 않으면 논리 삭제가 실패함)
       logic-delete-field: isDeleted
-      # 逻辑删除-删除值
+      # 논리 삭제 - 삭제 값
       logic-delete-value: 1
-      # 逻辑删除-未删除值
+      # 논리 삭제 - 미삭제 값
       logic-not-delete-value: 0
   configuration:
-    # 驼峰下划线转换
+    # 카멜케이스-언더스코어 변환
     map-underscore-to-camel-case: true
-    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    # 이 설정은 실행된 SQL을 출력하며, 개발 또는 테스트 시 사용 가능
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-# 安全配置
+# 보안 설정
 security:
   session:
-    type: jwt # 会话方式 jwt/redis-token
-    access-token-time-to-live: 7200 # 访问令牌 有效期(单位：秒)，默认 2 小时，-1 表示永不过期
-    refresh-token-time-to-live: 604800 # 刷新令牌有效期(单位：秒)，默认 7 天，-1 表示永不过期
+    type: jwt # 세션 방식 jwt/redis-token
+    access-token-time-to-live: 7200 # 액세스 토큰 유효기간(단위: 초), 기본값 2시간, -1은 영구 유효를 의미
+    refresh-token-time-to-live: 604800 # 리프레시 토큰 유효기간(단위: 초), 기본값 7일, -1은 영구 유효를 의미
     jwt:
-      secret-key: SecretKey012345678901234567890123456789012345678901234567890123456789 # JWT密钥(HS256算法至少32字符)
+      secret-key: SecretKey012345678901234567890123456789012345678901234567890123456789 # JWT 비밀키(HS256 알고리즘은 최소 32자)
     redis-token:
-      allow-multi-login: true # 是否允许多设备登录
-  # 安全白名单路径，仅跳过 AuthorizationFilter 过滤器，还是会走 Spring Security 的其他过滤器(CSRF、CORS等)
+      allow-multi-login: true # 다중 기기 로그인 허용 여부
+  # 보안 화이트리스트 경로, AuthorizationFilter 필터만 건너뛰며, Spring Security의 다른 필터(CSRF, CORS 등)는 여전히 통과
   ignore-urls:
-    - /api/v1/auth/login/** # 登录接口(账号密码登录、手机验证码登录和微信登录)
-    - /api/v1/auth/captcha # 验证码获取接口
-    - /api/v1/auth/refresh-token # 刷新令牌接口
-    - /api/v1/auth/logout # 开放退出登录
-    - /api/v1/auth/wx/miniapp/code-login # 微信小程序code登陆
-    - /ws/** # WebSocket接口
-  # 非安全端点路径，完全绕过 Spring Security 的安全控制
+    - /api/v1/auth/login/** # 로그인 인터페이스(계정 비밀번호 로그인, 휴대폰 인증 코드 로그인 및 위챗 로그인)
+    - /api/v1/auth/captcha # 인증 코드 획득 인터페이스
+    - /api/v1/auth/refresh-token # 리프레시 토큰 인터페이스
+    - /api/v1/auth/logout # 로그아웃 공개
+    - /api/v1/auth/wx/miniapp/code-login # 위챗 미니프로그램 code 로그인
+    - /ws/** # WebSocket 인터페이스
+  # 비보안 엔드포인트 경로, Spring Security의 보안 제어를 완전히 우회
   unsecured-urls:
     - ${springdoc.swagger-ui.path}
     - /doc.html
@@ -119,54 +119,54 @@ security:
     - /webjars/**
     - /favicon.ico
 
-# 文件存储配置
+# 파일 저장 설정
 oss:
-  # OSS 类型 (目前支持aliyun、minio、local)
+  # OSS 타입 (현재 aliyun, minio, local 지원)
   type: minio
-  # MinIO 对象存储服务
+  # MinIO 객체 저장 서비스
   minio:
-    # MinIO 服务地址
+    # MinIO 서비스 주소
     endpoint: http://localhost:9000
-    # 访问凭据
+    # 액세스 자격 증명
     access-key: minioadmin
-    # 凭据密钥
+    # 자격 증명 비밀키
     secret-key: minioadmin
-    # 存储桶名称
+    # 버킷명
     bucket-name: youlai
-    # (可选) 自定义域名：配置后，文件 URL 会使用该域名格式
+    # (선택사항) 사용자 정의 도메인: 설정 후 파일 URL은 해당 도메인 형식을 사용
     custom-domain:
-  # 阿里云OSS对象存储服务
+  # 알리바바 클라우드 OSS 객체 저장 서비스
   aliyun:
-    # 服务Endpoint
+    # 서비스 엔드포인트
     endpoint: oss-cn-hangzhou.aliyuncs.com
-    # 访问凭据`
+    # 액세스 자격 증명`
     access-key-id: your-access-key-id
-    # 凭据密钥
+    # 자격 증명 비밀키
     access-key-secret: your-access-key-secret
-    # 存储桶名称
+    # 버킷명
     bucket-name: default
-  # 本地存储
+  # 로컬 저장
   local:
-    # 文件存储路径 请注意下，mac用户请使用 /Users/your-username/your-path/，否则会有权限问题，windows用户请使用 D:/your-path/
+    # 파일 저장 경로 주의사항: mac 사용자는 /Users/your-username/your-path/를 사용하세요. 그렇지 않으면 권한 문제가 발생할 수 있습니다. windows 사용자는 D:/your-path/를 사용하세요
     storage-path: /Users/theo/home/
-# 短信配置
+# SMS 설정
 sms:
-  # 阿里云短信
+  # 알리바바 클라우드 SMS
   aliyun:
     accessKeyId: LTAI5tSMgfxxxxxxdiBJLyR
     accessKeySecret: SoOWRqpjtS7xxxxxxZ2PZiMTJOVC
     domain: dysmsapi.aliyuncs.com
     regionId: cn-shanghai
-    signName: 有来技术
+    signName: 유라이 기술
     templates:
-      #  注册短信验证码模板
+      #  등록 SMS 인증 코드 템플릿
       register: SMS_22xxx771
-      # 登录短信验证码模板
+      # 로그인 SMS 인증 코드 템플릿
       login: SMS_22xxx772
-      # 修改手机号短信验证码模板
+      # 휴대폰 번호 변경 SMS 인증 코드 템플릿
       change-mobile: SMS_22xxx773
 
-# springdoc配置： https://springdoc.org/properties.html
+# springdoc 설정: https://springdoc.org/properties.html
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
@@ -175,7 +175,7 @@ springdoc:
   api-docs:
     path: /v3/api-docs
   group-configs:
-    - group: "系统管理"
+    - group: "시스템 관리"
       paths-to-match: "/**"
       packages-to-scan:
         - com.youlai.boot.auth.controller
@@ -184,63 +184,63 @@ springdoc:
         - com.youlai.boot.platform.codegen.controller
   default-flat-param-object: true
 
-# knife4j 接口文档配置
+# knife4j 인터페이스 문서 설정
 knife4j:
-  # 是否开启 Knife4j 增强功能
-  enable: true # 设置为 true 表示开启增强功能
-  # 生产环境配置
-  production: false # 设置为 true 表示在生产环境中不显示文档，为 false 表示显示文档（通常在开发环境中使用）
+  # Knife4j 향상 기능 활성화 여부
+  enable: true # true로 설정하면 향상 기능 활성화
+  # 프로덕션 환경 설정
+  production: false # true로 설정하면 프로덕션 환경에서 문서를 표시하지 않음, false는 문서 표시(일반적으로 개발 환경에서 사용)
   setting:
     language: zh_cn
 
-# xxl-job 定时任务配置
+# xxl-job 정기 작업 설정
 xxl:
   job:
-    # 定时任务开关
+    # 정기 작업 스위치
     enabled: false
     admin:
-      # 调度中心地址,多个逗号分隔
+      # 스케줄링 센터 주소, 여러 개는 쉼표로 구분
       addresses: http://127.0.0.1:8080/xxl-job-admin
     accessToken: default_token
-    # 执行器配置
+    # 실행기 설정
     executor:
-      appname: xxl-job-executor-${spring.application.name} # 执行器AppName
-      address: # 执行器注册地址，默认为空，多网卡时可手动设置
-      ip: # 执行器IP，默认为空，多网卡时可手动设置
-      port: 9999 # 执行器通讯端口
-      logpath: /data/applogs/xxl-job/jobhandler # 任务运行日志文件存储磁盘路径
-      logretentiondays: 30 # 日志保存天数，值大于3时生效
+      appname: xxl-job-executor-${spring.application.name} # 실행기 앱명
+      address: # 실행기 등록 주소, 기본값은 비어있음, 다중 네트워크 카드 시 수동 설정 가능
+      ip: # 실행기 IP, 기본값은 비어있음, 다중 네트워크 카드 시 수동 설정 가능
+      port: 9999 # 실행기 통신 포트
+      logpath: /data/applogs/xxl-job/jobhandler # 작업 실행 로그 파일 저장 디스크 경로
+      logretentiondays: 30 # 로그 보존 일수, 값이 3보다 클 때 적용
 
-# 验证码配置
+# 인증 코드 설정
 captcha:
-  # 验证码类型 circle-圆圈干扰验证码|gif-Gif验证码|line-干扰线验证码|shear-扭曲干扰验证码
+  # 인증 코드 타입 circle-원형 간섭 인증 코드|gif-Gif 인증 코드|line-간섭선 인증 코드|shear-왜곡 간섭 인증 코드
   type: circle
-  # 验证码宽度
+  # 인증 코드 너비
   width: 120
-  # 验证码高度
+  # 인증 코드 높이
   height: 40
-  # 验证码干扰元素个数
+  # 인증 코드 간섭 요소 개수
   interfere-count: 2
-  # 文本透明度(0.0-1.0)
+  # 텍스트 투명도(0.0-1.0)
   text-alpha: 0.8
-  # 验证码字符配置
+  # 인증 코드 문자 설정
   code:
-    # 验证码字符类型 math-算术|random-随机字符
+    # 인증 코드 문자 타입 math-산술|random-무작위 문자
     type: math
-    # 验证码字符长度，type=算术时，表示运算位数(1:个位数运算 2:十位数运算)；type=随机字符时，表示字符个数
+    # 인증 코드 문자 길이, type=산술일 때 연산 자릿수를 나타냄(1:일의 자리 연산 2:십의 자리 연산); type=무작위 문자일 때 문자 개수를 나타냄
     length: 1
-  # 验证码字体
+  # 인증 코드 폰트
   font:
-    # 字体名称 Dialog|DialogInput|Monospaced|Serif|SansSerif
+    # 폰트명 Dialog|DialogInput|Monospaced|Serif|SansSerif
     name: SansSerif
-    # 字体样式 0-普通|1-粗体|2-斜体
+    # 폰트 스타일 0-일반|1-굵게|2-기울임
     weight: 1
-    # 字体大小
+    # 폰트 크기
     size: 24
-  # 验证码有效期(秒)
+  # 인증 코드 유효 기간(초)
   expire-seconds: 120
 
-# 微信小程配置
+# 위챗 미니프로그램 설정
 wx:
   miniapp:
     app-id: xxxxxx

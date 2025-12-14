@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 
 /**
- * 用户和角色关联表
+ * 사용자와 역할 연관 테이블
  *
  * @author Rya.Hao
  * @since 2022/12/17
@@ -18,12 +18,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserRole {
     /**
-     * 用户ID
+     * 사용자 ID
      */
     private Long userId;
 
     /**
-     * 角色ID
+     * 역할 ID
      */
     private Long roleId;
 }

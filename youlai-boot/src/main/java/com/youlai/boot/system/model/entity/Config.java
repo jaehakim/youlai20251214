@@ -7,49 +7,49 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 
 /**
- * 系统配置对象
+ * 시스템 설정 객체
  *
  * @author Theo
  * @since 2024-07-29 11:17:26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "系统配置")
+@Schema(description = "시스템 설정")
 @TableName("sys_config")
 public class Config extends BaseEntity {
 
     /**
-     * 配置名称
+     * 설정명
      */
     private String configName;
 
     /**
-     * 配置键
+     * 설정 키
      */
     private String configKey;
 
     /**
-     * 配置值
+     * 설정 값
      */
     private String configValue;
 
     /**
-     * 描述、备注
+     * 설명, 비고
      */
     private String remark;
 
     /**
-     * 创建人ID
+     * 생성자 ID
      */
     private Long createBy;
 
     /**
-     * 更新人ID
+     * 수정자 ID
      */
     private Long updateBy;
 
     /**
-     * 逻辑删除标识(0-未删除 1-已删除)
+     * 논리 삭제 표시(0-미삭제 1-삭제됨)
      */
     private Integer isDeleted;
 

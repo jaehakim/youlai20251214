@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 
 /**
- * 邮件服务实现类
+ * 이메일서비스구현类
  *
  * @author Ray
  * @since 2024/8/17
@@ -30,11 +30,11 @@ public class MailServiceImpl implements MailService {
     private final MailProperties mailProperties;
 
     /**
-     * 发送简单文本邮件
+     * 발송简单텍스트이메일
      *
-     * @param to      收件人地址
-     * @param subject 邮件主题
-     * @param text    邮件内容
+     * @param to      收件人주소
+     * @param subject 이메일主题
+     * @param text    이메일내용
      */
     @Override
     public void sendMail(String to, String subject, String text) {
@@ -46,17 +46,17 @@ public class MailServiceImpl implements MailService {
             message.setText(text);
             mailSender.send(message);
         } catch (Exception e) {
-            log.error("发送邮件失败{}", e.getMessage());
+            log.error("이메일 전송실패{}", e.getMessage());
         }
     }
 
     /**
-     * 发送带附件的邮件
+     * 발송带附件의이메일
      *
-     * @param to       收件人地址
-     * @param subject  邮件主题
-     * @param text     邮件内容
-     * @param filePath 附件路径
+     * @param to       收件人주소
+     * @param subject  이메일主题
+     * @param text     이메일내용
+     * @param filePath 附件경로
      */
     @Override
     public void sendMailWithAttachment(String to, String subject, String text, String filePath) {
@@ -66,14 +66,14 @@ public class MailServiceImpl implements MailService {
             helper.setFrom(mailProperties.getFrom());
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(text, true);  // true表示支持HTML内容
+            helper.setText(text, true);  // true表示支持HTML내용
 
             FileSystemResource file = new FileSystemResource(new File(filePath));
             helper.addAttachment(file.getFilename(), file);
 
             mailSender.send(message);
         } catch (MessagingException e) {
-            log.error("发送邮件失败{}", e.getMessage());
+            log.error("이메일 전송실패{}", e.getMessage());
         }
     }
 }

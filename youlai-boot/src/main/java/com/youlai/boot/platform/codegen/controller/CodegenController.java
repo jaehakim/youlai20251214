@@ -27,12 +27,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
- * 代码生成器控制层
+ * 코드 생성器컨트롤러
  *
  * @author Ray
  * @since 2.10.0
  */
-@Tag(name = "11.代码生成")
+@Tag(name = "11.코드 생성")
 @RestController
 @RequestMapping("/api/v1/codegen")
 @RequiredArgsConstructor
@@ -43,9 +43,9 @@ public class CodegenController {
     private final GenConfigService genConfigService;
     private final CodegenProperties codegenProperties;
 
-    @Operation(summary = "获取数据表分页列表")
+    @Operation(summary = "데이터 테이블 페이지 목록 조회")
     @GetMapping("/table/page")
-    @Log(value = "代码生成分页列表", module = LogModuleEnum.OTHER)
+    @Log(value = "코드 생성페이지 목록", module = LogModuleEnum.OTHER)
     public PageResult<TablePageVO> getTablePage(
             TablePageQuery queryParams
     ) {
@@ -53,44 +53,44 @@ public class CodegenController {
         return PageResult.success(result);
     }
 
-    @Operation(summary = "获取代码生成配置")
+    @Operation(summary = "조회코드 생성설정")
     @GetMapping("/{tableName}/config")
     public Result<GenConfigForm> getGenConfigFormData(
-            @Parameter(description = "表名", example = "sys_user") @PathVariable String tableName
+            @Parameter(description = "테이블명", example = "sys_user") @PathVariable String tableName
     ) {
         GenConfigForm formData = genConfigService.getGenConfigFormData(tableName);
         return Result.success(formData);
     }
 
-    @Operation(summary = "保存代码生成配置")
+    @Operation(summary = "저장코드 생성설정")
     @PostMapping("/{tableName}/config")
-    @Log(value = "生成代码", module = LogModuleEnum.OTHER)
+    @Log(value = "생성代码", module = LogModuleEnum.OTHER)
     public Result<?> saveGenConfig(@RequestBody GenConfigForm formData) {
         genConfigService.saveGenConfig(formData);
         return Result.success();
     }
 
-    @Operation(summary = "删除代码生成配置")
+    @Operation(summary = "삭제코드 생성설정")
     @DeleteMapping("/{tableName}/config")
     public Result<?> deleteGenConfig(
-            @Parameter(description = "表名", example = "sys_user") @PathVariable String tableName
+            @Parameter(description = "테이블명", example = "sys_user") @PathVariable String tableName
     ) {
         genConfigService.deleteGenConfig(tableName);
         return Result.success();
     }
 
-    @Operation(summary = "获取预览生成代码")
+    @Operation(summary = "조회预览생성代码")
     @GetMapping("/{tableName}/preview")
-    @Log(value = "预览生成代码", module = LogModuleEnum.OTHER)
+    @Log(value = "预览생성代码", module = LogModuleEnum.OTHER)
     public Result<List<CodegenPreviewVO>> getTablePreviewData(@PathVariable String tableName,
                                                               @RequestParam(value = "pageType", required = false, defaultValue = "classic") String pageType) {
         List<CodegenPreviewVO> list = codegenService.getCodegenPreviewData(tableName, pageType);
         return Result.success(list);
     }
 
-    @Operation(summary = "下载代码")
+    @Operation(summary = "코드 다운로드")
     @GetMapping("/{tableName}/download")
-    @Log(value = "下载代码", module = LogModuleEnum.OTHER)
+    @Log(value = "코드 다운로드", module = LogModuleEnum.OTHER)
     public void downloadZip(HttpServletResponse response, @PathVariable String tableName,
                             @RequestParam(value = "pageType", required = false, defaultValue = "classic") String pageType) {
         String[] tableNames = tableName.split(",");

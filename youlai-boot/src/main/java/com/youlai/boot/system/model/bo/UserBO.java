@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 用户持久化对象
+ * 사용자 영속화 객체
  *
  * @author haoxr
  * @since 2022/6/10
@@ -14,57 +14,57 @@ import java.time.LocalDateTime;
 public class UserBO {
 
     /**
-     * 用户ID
+     * 사용자 ID
      */
     private Long id;
 
     /**
-     * 账户名
+     * 계정명
      */
     private String username;
 
     /**
-     * 昵称
+     * 닉네임
      */
     private String nickname;
 
     /**
-     * 手机号
+     * 휴대폰 번호
      */
     private String mobile;
 
     /**
-     * 性别(1->男；2->女)
+     * 성별 (1->남성; 2->여성)
      */
     private Integer gender;
 
     /**
-     * 头像URL
+     * 프로필 이미지 URL
      */
     private String avatar;
 
     /**
-     * 邮箱
+     * 이메일
      */
     private String email;
 
     /**
-     * 状态: 1->启用;0->禁用
+     * 상태: 1->활성화; 0->비활성화
      */
     private Integer status;
 
     /**
-     * 部门名称
+     * 부서명
      */
     private String deptName;
 
     /**
-     * 角色名称，多个使用英文逗号(,)分割
+     * 역할명, 여러 개인 경우 쉼표(,)로 구분
      */
     private String roleNames;
 
     /**
-     * 创建时间
+     * 생성 시간
      */
     private LocalDateTime createTime;
 }

@@ -4,7 +4,7 @@ import lombok.Data;
 
 
 /**
- * 数据表元数据
+ * 데이터 테이블 메타데이터
  *
  * @author Ray
  * @since 2.10.0
@@ -13,32 +13,32 @@ import lombok.Data;
 public class TableMetaData {
 
     /**
-     * 表名称
+     * 테이블명
      */
     private String tableName;
 
     /**
-     * 表描述
+     * 테이블 설명
      */
     private String tableComment;
 
     /**
-     * 排序规则
+     * 정렬 규칙
      */
     private String tableCollation;
 
     /**
-     * 存储引擎
+     * 스토리지 엔진
      */
     private String engine;
 
     /**
-     * 字符集
+     * 문자 집합
      */
     private String charset;
 
     /**
-     * 创建时间
+     * 생성 시간
      */
     private String createTime;
 

@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 字段生成配置实体
+ * 字段生成설정实体
  *
  * @author Ray
  * @since 2.10.0
@@ -23,7 +23,7 @@ public class GenFieldConfig extends BaseEntity {
 
 
     /**
-     * 关联的配置ID
+     * 关联的설정ID
      */
     private Long configId;
 
@@ -33,7 +33,7 @@ public class GenFieldConfig extends BaseEntity {
     private String columnName;
 
     /**
-     * 列类型
+     * 列유형
      */
     private String columnType;
 
@@ -43,7 +43,7 @@ public class GenFieldConfig extends BaseEntity {
     private Long maxLength;
 
     /**
-     * 字段名称
+     * 字段이름
      */
     private String fieldName;
 
@@ -53,17 +53,17 @@ public class GenFieldConfig extends BaseEntity {
     private Integer fieldSort;
 
     /**
-     * 字段类型
+     * 字段유형
      */
     private String fieldType;
 
     /**
-     * 字段描述
+     * 字段설명
      */
     private String fieldComment;
 
     /**
-     * 表单类型
+     * 表单유형
      */
     private FormTypeEnum formType;
 
@@ -93,14 +93,14 @@ public class GenFieldConfig extends BaseEntity {
     private Integer isRequired;
 
     /**
-     * TypeScript类型
+     * TypeScript유형
      */
     @TableField(exist = false)
     @JsonIgnore
     private String tsType;
 
     /**
-     * 字典类型
+     * 字典유형
      */
     private String dictType;
 }

@@ -20,12 +20,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 通知公告前端控制层
+ * 공지사항프론트엔드 컨트롤러
  *
  * @author youlaitech
  * @since 2024-08-27 10:31
  */
-@Tag(name = "09.通知公告")
+@Tag(name = "09.공지사항")
 @RestController
 @RequestMapping("/api/v1/notices")
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public class NoticeController {
 
     private final UserNoticeService userNoticeService;
 
-    @Operation(summary = "通知公告分页列表")
+    @Operation(summary = "공지사항페이지 목록")
     @GetMapping("/page")
     @PreAuthorize("@ss.hasPerm('sys:notice:query')")
     public PageResult<NoticePageVO> getNoticePage(NoticePageQuery queryParams) {
@@ -43,7 +43,7 @@ public class NoticeController {
         return PageResult.success(result);
     }
 
-    @Operation(summary = "新增通知公告")
+    @Operation(summary = "추가공지사항")
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:notice:add')")
     public Result<?> saveNotice(@RequestBody @Valid NoticeForm formData) {
@@ -51,74 +51,74 @@ public class NoticeController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "获取通知公告表单数据")
+    @Operation(summary = "공지사항 폼 데이터 조회")
     @GetMapping("/{id}/form")
     @PreAuthorize("@ss.hasPerm('sys:notice:edit')")
     public Result<NoticeForm> getNoticeForm(
-            @Parameter(description = "通知公告ID") @PathVariable Long id
+            @Parameter(description = "공지사항ID") @PathVariable Long id
     ) {
         NoticeForm formData = noticeService.getNoticeFormData(id);
         return Result.success(formData);
     }
 
-    @Operation(summary = "阅读获取通知公告详情")
+    @Operation(summary = "공지사항 상세 읽기 조회")
     @GetMapping("/{id}/detail")
     public Result<NoticeDetailVO> getNoticeDetail(
-            @Parameter(description = "通知公告ID") @PathVariable Long id
+            @Parameter(description = "공지사항ID") @PathVariable Long id
     ) {
         NoticeDetailVO detailVO = noticeService.getNoticeDetail(id);
         return Result.success(detailVO);
     }
 
-    @Operation(summary = "修改通知公告")
+    @Operation(summary = "수정공지사항")
     @PutMapping(value = "/{id}")
     @PreAuthorize("@ss.hasPerm('sys:notice:edit')")
     public Result<Void> updateNotice(
-            @Parameter(description = "通知公告ID") @PathVariable Long id,
+            @Parameter(description = "공지사항ID") @PathVariable Long id,
             @RequestBody @Validated NoticeForm formData
     ) {
         boolean result = noticeService.updateNotice(id, formData);
         return Result.judge(result);
     }
 
-    @Operation(summary = "发布通知公告")
+    @Operation(summary = "발행공지사항")
     @PutMapping("/{id}/publish")
     @PreAuthorize("@ss.hasPerm('sys:notice:publish')")
     public Result<Void> publishNotice(
-            @Parameter(description = "通知公告ID") @PathVariable Long id
+            @Parameter(description = "공지사항ID") @PathVariable Long id
     ) {
         boolean result = noticeService.publishNotice(id);
         return Result.judge(result);
     }
 
-    @Operation(summary = "撤回通知公告")
+    @Operation(summary = "회수공지사항")
     @PutMapping("/{id}/revoke")
     @PreAuthorize("@ss.hasPerm('sys:notice:revoke')")
     public Result<Void> revokeNotice(
-            @Parameter(description = "通知公告ID") @PathVariable Long id
+            @Parameter(description = "공지사항ID") @PathVariable Long id
     ) {
         boolean result = noticeService.revokeNotice(id);
         return Result.judge(result);
     }
 
-    @Operation(summary = "删除通知公告")
+    @Operation(summary = "삭제공지사항")
     @DeleteMapping("/{ids}")
     @PreAuthorize("@ss.hasPerm('sys:notice:delete')")
     public Result<Void> deleteNotices(
-            @Parameter(description = "通知公告ID，多个以英文逗号(,)分割") @PathVariable String ids
+            @Parameter(description = "공지사항ID，여러 개는영문쉼표(,)로 구분") @PathVariable String ids
     ) {
         boolean result = noticeService.deleteNotices(ids);
         return Result.judge(result);
     }
 
-    @Operation(summary = "全部已读")
+    @Operation(summary = "전체 읽음")
     @PutMapping("/read-all")
     public Result<Void> readAll() {
         userNoticeService.readAll();
         return Result.success();
     }
 
-    @Operation(summary = "获取我的通知公告分页列表")
+    @Operation(summary = "내 공지사항 페이지 목록 조회")
     @GetMapping("/my")
     public PageResult<UserNoticePageVO> getMyNoticePage(
             NoticePageQuery queryParams

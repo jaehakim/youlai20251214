@@ -4,7 +4,7 @@ import com.youlai.boot.common.base.IBaseEnum;
 import lombok.Getter;
 
 /**
- * 数据权限枚举
+ * 데이터 권한 열거형
  *
  * @author Ray.Hao
  * @since 2.3.0
@@ -13,12 +13,12 @@ import lombok.Getter;
 public enum DataScopeEnum implements IBaseEnum<Integer> {
 
     /**
-     * value 越小，数据权限范围越大
+     * value가 작을수록 데이터 권한 범위가 큼
      */
-    ALL(1, "所有数据"),
-    DEPT_AND_SUB(2, "部门及子部门数据"),
-    DEPT(3, "本部门数据"),
-    SELF(4, "本人数据");
+    ALL(1, "모든 데이터"),
+    DEPT_AND_SUB(2, "부서 및 하위 부서 데이터"),
+    DEPT(3, "본 부서 데이터"),
+    SELF(4, "본인 데이터");
 
     private final Integer value;
 

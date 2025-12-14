@@ -3,7 +3,7 @@ package com.youlai.boot.system.model.bo;
 import lombok.Data;
 
 /**
- * 特定日期访问统计
+ * 특정 날짜 방문 통계
  *
  * @author Ray
  * @since 2.10.0
@@ -12,12 +12,12 @@ import lombok.Data;
 public class VisitCount {
 
     /**
-     * 日期 yyyy-MM-dd
+     * 날짜 yyyy-MM-dd
      */
     private String date;
 
     /**
-     * 访问次数
+     * 방문 횟수
      */
     private Integer count;
 }

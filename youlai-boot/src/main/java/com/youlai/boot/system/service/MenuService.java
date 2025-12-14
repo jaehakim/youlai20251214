@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 菜单业务接口
+ * 메뉴비즈니스인터페이스
  * 
  * @author haoxr
  * @since 2020/11/06
@@ -21,62 +21,62 @@ import java.util.Set;
 public interface MenuService extends IService<Menu> {
 
     /**
-     * 获取菜单表格列表
+     * 조회메뉴表格목록
      */
     List<MenuVO> listMenus(MenuQuery queryParams);
 
     /**
-     * 获取菜单下拉列表
+     * 조회메뉴 드롭다운 목록
      *
-     * @param onlyParent 是否只查询父级菜单
+     * @param onlyParent 부모 메뉴만 조회 여부
      */
     List<Option<Long>> listMenuOptions(boolean onlyParent);
 
     /**
-     * 新增菜单
+     * 추가메뉴
      *
-     * @param menuForm  菜单表单对象
+     * @param menuForm  메뉴폼객체
      */
     boolean saveMenu(MenuForm menuForm);
 
     /**
-     * 获取当前用户的菜单路由列表
+     * 조회현재사용자의메뉴라우트 목록
      */
     List<RouteVO> listCurrentUserRoutes();
 
     /**
-     * 获取当前用户的菜单路由列表（指定数据源）
+     * 조회현재사용자의메뉴라우트 목록（지정된데이터源）
      *
-     * @param datasource 数据源名称，如：master(主库)、naiveui(NaiveUI数据库)、template(模板数据库)
+     * @param datasource 데이터源이름，如：master(主库)、naiveui(NaiveUI데이터库)、template(템플릿데이터库)
      */
     List<RouteVO> listCurrentUserRoutes(String datasource);
 
     /**
-     * 修改菜单显示状态
+     * 메뉴 표시 상태 수정
      * 
-     * @param menuId 菜单ID
-     * @param visible 是否显示(1-显示 0-隐藏)
+     * @param menuId 메뉴ID
+     * @param visible 여부표시(1-표시 0-숨김)
      */
     boolean updateMenuVisible(Long menuId, Integer visible);
 
     /**
-     * 获取菜单表单数据
+     * 조회메뉴 폼 데이터
      *
-     * @param id 菜单ID
+     * @param id 메뉴ID
      */
     MenuForm getMenuForm(Long id);
 
     /**
-     * 删除菜单
+     * 삭제메뉴
      *
-     * @param id 菜单ID
+     * @param id 메뉴ID
      */
     boolean deleteMenu(Long id);
 
     /**
-     * 代码生成时添加菜单
+     * 코드 생성时添加메뉴
      *
-     * @param parentMenuId 父菜单ID
+     * @param parentMenuId 父메뉴ID
      * @param genConfig   实体名
      */
     void addMenuForCodegen(Long parentMenuId, GenConfig genConfig);

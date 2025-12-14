@@ -13,7 +13,7 @@ import org.springframework.util.PatternMatchUtils;
 import java.util.*;
 
 /**
- * SpringSecurity 权限校验
+ * SpringSecurity 권한검증
  *
  * @author haoxr
  * @since 2022/2/22
@@ -26,60 +26,60 @@ public class PermissionService {
     private final RedisTemplate<String, Object> redisTemplate;
 
     /**
-     * 判断当前登录用户是否拥有操作权限
+     * 判断현재로그인사용자여부拥有操作권한
      *
-     * @param requiredPerm 所需权限
-     * @return 是否有权限
+     * @param requiredPerm 所需권한
+     * @return 여부有권한
      */
     public boolean hasPerm(String requiredPerm) {
 
         if (StrUtil.isBlank(requiredPerm)) {
             return false;
         }
-        // 超级管理员放行
+        // 超级관리员放行
         if (SecurityUtils.isRoot()) {
             return true;
         }
 
-        // 获取当前登录用户的角色编码集合
+        // 조회현재로그인사용자의역할코드集合
         Set<String> roleCodes = SecurityUtils.getRoles();
         if (CollectionUtil.isEmpty(roleCodes)) {
             return false;
         }
 
-        // 获取当前登录用户的所有角色的权限列表
+        // 조회현재로그인사용자의所有역할의권한목록
         Set<String> rolePerms = this.getRolePermsFormCache(roleCodes);
         if (CollectionUtil.isEmpty(rolePerms)) {
             return false;
         }
-        // 判断当前登录用户的所有角色的权限列表中是否包含所需权限
+        // 判断현재로그인사용자의所有역할의권한목록중여부包含所需권한
         boolean hasPermission = rolePerms.stream()
                 .anyMatch(rolePerm ->
-                        // 匹配权限，支持通配符(* 等)
+                        // 匹配권한，支持通配符(* 等)
                         PatternMatchUtils.simpleMatch(rolePerm, requiredPerm)
                 );
 
         if (!hasPermission) {
-            log.error("用户无操作权限：{}",requiredPerm);
+            log.error("사용자无操作권한：{}",requiredPerm);
         }
         return hasPermission;
     }
 
 
     /**
-     * 从缓存中获取角色权限列表
+     * 从캐시중조회역할 권한목록
      *
-     * @param roleCodes 角色编码集合
-     * @return 角色权限列表
+     * @param roleCodes 역할코드集合
+     * @return 역할 권한목록
      */
     public Set<String> getRolePermsFormCache(Set<String> roleCodes) {
-        // 检查输入是否为空
+        // 检查输入여부값空
         if (CollectionUtil.isEmpty(roleCodes)) {
             return Collections.emptySet();
         }
 
         Set<String> perms = new HashSet<>();
-        // 从缓存中一次性获取所有角色的权限
+        // 从캐시중원次性조회所有역할의권한
         Collection<Object> roleCodesAsObjects = new ArrayList<>(roleCodes);
         List<Object> rolePermsList = redisTemplate.opsForHash().multiGet(RedisConstants.System.ROLE_PERMS, roleCodesAsObjects);
 

@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * AI 命令执行响应 DTO
+ * AI 명령 실행 응답 DTO
  *
  * @author Ray.Hao
  * @since 3.0.0
@@ -18,42 +18,42 @@ import lombok.NoArgsConstructor;
 public class AiExecuteResponseDTO {
 
     /**
-     * 是否执行成功
+     * 실행 성공 여부
      */
     private Boolean success;
 
     /**
-     * 执行结果数据
+     * 실행 결과 데이터
      */
     private Object data;
 
     /**
-     * 执行结果说明
+     * 실행 결과 설명
      */
     private String message;
 
     /**
-     * 影响的记录数
+     * 영향받은 레코드 수
      */
     private Integer affectedRows;
 
     /**
-     * 错误信息
+     * 오류 정보
      */
     private String error;
 
     /**
-     * 记录ID（用于追踪）
+     * 레코드 ID (추적용)
      */
     private Long recordId;
 
     /**
-     * 需要用户确认
+     * 사용자 확인 필요
      */
     private Boolean requiresConfirmation;
 
     /**
-     * 确认提示信息
+     * 확인 프롬프트 메시지
      */
     private String confirmationPrompt;
 }

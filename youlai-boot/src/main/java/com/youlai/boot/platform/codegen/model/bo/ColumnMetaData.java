@@ -3,47 +3,47 @@ package com.youlai.boot.platform.codegen.model.bo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "数据表字段VO")
+@Schema(description = "데이터 테이블 컬럼 VO")
 @Data
 public class ColumnMetaData {
 
         /**
-         * 字段名称
+         * 컬럼명
          */
         private String columnName;
 
         /**
-         * 字段类型
+         * 컬럼 유형
          */
         private String dataType;
 
         /**
-         * 字段描述
+         * 컬럼 설명
          */
         private String columnComment;
 
         /**
-         * 字段长度
+         * 컬럼 길이
          */
         private Long characterMaximumLength;
 
         /**
-         * 是否主键(1-是 0-否)
+         * 기본 키 여부 (1-예 0-아니오)
          */
         private Integer isPrimaryKey;
 
         /**
-         * 是否可为空(1-是 0-否)
+         * Null 허용 여부 (1-예 0-아니오)
          */
         private String isNullable;
 
         /**
-         * 字符集
+         * 문자 집합
          */
         private String characterSetName;
 
         /**
-         * 排序规则
+         * 정렬 규칙
          */
         private String collationName;
 

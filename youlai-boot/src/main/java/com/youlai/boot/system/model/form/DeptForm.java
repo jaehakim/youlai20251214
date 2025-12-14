@@ -6,29 +6,29 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
-@Schema(description = "部门表单对象")
+@Schema(description = "부서 폼 객체")
 @Getter
 @Setter
 public class DeptForm {
 
-    @Schema(description="部门ID", example = "1001")
+    @Schema(description="부서 ID", example = "1001")
     private Long id;
 
-    @Schema(description="部门名称", example = "研发部")
+    @Schema(description="부서명", example = "연구개발부")
     private String name;
 
-    @Schema(description="部门编号", example = "RD001")
+    @Schema(description="부서 코드", example = "RD001")
     private String code;
 
-    @Schema(description="父部门ID", example = "1000")
-    @NotNull(message = "父部门ID不能为空")
+    @Schema(description="상위 부서 ID", example = "1000")
+    @NotNull(message = "상위 부서 ID는 비어있을 수 없습니다")
     private Long parentId;
 
-    @Schema(description="状态(1:启用;0:禁用)", example = "1")
-    @Range(min = 0, max = 1, message = "状态值不正确")
+    @Schema(description="상태 (1:활성화; 0:비활성화)", example = "1")
+    @Range(min = 0, max = 1, message = "상태값이 올바르지 않습니다")
     private Integer status;
 
-    @Schema(description="排序(数字越小排名越靠前)", example = "1")
+    @Schema(description="정렬 (숫자가 작을수록 앞에 위치)", example = "1")
     private Integer sort;
 
 }

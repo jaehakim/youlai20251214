@@ -7,46 +7,46 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 用户分页视图对象
+ * 사용자 페이지 뷰 객체
  *
  * @author haoxr
  * @since 2022/1/15 9:41
  */
-@Schema(description ="用户分页对象")
+@Schema(description ="사용자 페이지 객체")
 @Data
 public class UserPageVO {
 
-    @Schema(description="用户ID")
+    @Schema(description="사용자 ID")
     private Long id;
 
-    @Schema(description="用户名")
+    @Schema(description="사용자명")
     private String username;
 
-    @Schema(description="用户昵称")
+    @Schema(description="사용자 닉네임")
     private String nickname;
 
-    @Schema(description="手机号")
+    @Schema(description="휴대폰 번호")
     private String mobile;
 
-    @Schema(description="性别")
+    @Schema(description="성별")
     private Integer gender;
 
-    @Schema(description="用户头像地址")
+    @Schema(description="사용자 프로필 이미지 주소")
     private String avatar;
 
-    @Schema(description="用户邮箱")
+    @Schema(description="사용자 이메일")
     private String email;
 
-    @Schema(description="用户状态(1:启用;0:禁用)")
+    @Schema(description="사용자 상태(1:활성화;0:비활성화)")
     private Integer status;
 
-    @Schema(description="部门名称")
+    @Schema(description="부서명")
     private String deptName;
 
-    @Schema(description="角色名称，多个使用英文逗号(,)分割")
+    @Schema(description="역할명, 여러 개는 쉼표(,)로 구분")
     private String roleNames;
 
-    @Schema(description="创建时间")
+    @Schema(description="생성 시간")
     @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
     private LocalDateTime createTime;
 

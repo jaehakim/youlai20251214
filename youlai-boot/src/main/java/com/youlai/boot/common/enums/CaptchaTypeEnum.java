@@ -1,7 +1,7 @@
 package com.youlai.boot.common.enums;
 
 /**
- * EasyCaptcha 验证码类型枚举
+ * EasyCaptcha 인증 코드 유형 열거형
  *
  * @author haoxr
  * @since 2.5.1
@@ -9,19 +9,19 @@ package com.youlai.boot.common.enums;
 public enum CaptchaTypeEnum {
 
     /**
-     * 圆圈干扰验证码
+     * 원형 간섭 인증 코드
      */
     CIRCLE,
     /**
-     * GIF验证码
+     * GIF 인증 코드
      */
     GIF,
     /**
-     * 干扰线验证码
+     * 간섭선 인증 코드
      */
     LINE,
     /**
-     * 扭曲干扰验证码
+     * 왜곡 간섭 인증 코드
      */
     SHEAR
 }

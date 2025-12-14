@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * AI 解析响应 DTO
+ * AI 파싱 응답 DTO
  *
  * @author Ray.Hao
  * @since 3.0.0
@@ -19,37 +19,37 @@ import java.util.List;
 public class AiParseResponseDTO {
 
     /**
-     * 解析日志ID（用于关联执行记录）
+     * 파싱 로그 ID (실행 기록 연결용)
      */
     private Long parseLogId;
 
     /**
-     * 是否成功解析
+     * 파싱 성공 여부
      */
     private Boolean success;
 
     /**
-     * 解析后的函数调用列表
+     * 파싱된 함수 호출 목록
      */
     private List<AiFunctionCallDTO> functionCalls;
 
     /**
-     * AI 的理解和说明
+     * AI의 이해 및 설명
      */
     private String explanation;
 
     /**
-     * 置信度 (0-1)
+     * 신뢰도 (0-1)
      */
     private Double confidence;
 
     /**
-     * 错误信息
+     * 오류 정보
      */
     private String error;
 
     /**
-     * 原始 LLM 响应（用于调试）
+     * 원본 LLM 응답 (디버깅용)
      */
     private String rawResponse;
 }

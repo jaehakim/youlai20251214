@@ -11,7 +11,7 @@ import com.youlai.boot.system.model.vo.DictItemPageVO;
 import java.util.List;
 
 /**
- * 字典项接口
+ * 사전 항목인터페이스
  *
  * @author Ray Hao
  * @since 2023/3/4
@@ -19,49 +19,49 @@ import java.util.List;
 public interface DictItemService extends IService<DictItem> {
 
     /**
-     * 字典项分页列表
+     * 사전 항목페이지 목록
      *
-     * @param queryParams 查询参数
-     * @return 字典项分页列表
+     * @param queryParams 조회参수
+     * @return 사전 항목페이지 목록
      */
     Page<DictItemPageVO> getDictItemPage(DictItemPageQuery queryParams);
 
     /**
-     * 获取字典项列表
+     * 조회사전 항목목록
      *
-     * @param dictCode 字典编码
-     * @return 字典项列表
+     * @param dictCode 사전 코드
+     * @return 사전 항목목록
      */
     List<DictItemOptionVO> getDictItems(String dictCode);
 
     /**
-     * 获取字典项表单
+     * 조회사전 항목폼
      *
-     * @param itemId 字典项ID
-     * @return 字典项表单
+     * @param itemId 사전 항목ID
+     * @return 사전 항목폼
      */
     DictItemForm getDictItemForm(Long itemId);
 
     /**
-     * 保存字典项
+     * 저장사전 항목
      *
-     * @param formData 字典项表单
-     * @return 是否成功
+     * @param formData 사전 항목폼
+     * @return 여부성공
      */
     boolean saveDictItem(DictItemForm formData);
 
     /**
-     * 更新字典项
+     * 업데이트사전 항목
      *
-     * @param formData 字典项表单
-     * @return 是否成功
+     * @param formData 사전 항목폼
+     * @return 여부성공
      */
     boolean updateDictItem(DictItemForm formData);
 
     /**
-     * 删除字典项
+     * 삭제사전 항목
      *
-     * @param ids 字典项ID,多个逗号分隔
+     * @param ids 사전 항목ID,여러 개쉼표分隔
      */
     void deleteDictItemByIds(String ids);
 

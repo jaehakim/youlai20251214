@@ -1,21 +1,21 @@
 
-# 代码生成器配置
+# 코드 생성기 설정
 codegen:
-  # 下载代码文件名称
+  # 다운로드 코드 파일명
   downloadFileName: youlai-admin-code.zip
-  # 后端项目名称
+  # 백엔드 프로젝트명
   backendAppName: youlai-boot
-  # 前端项目名称
+  # 프론트엔드 프로젝트명
   frontendAppName: vue3-element-admin
-  # 默认配置
+  # 기본 설정
   defaultConfig:
     author: youlaitech
     moduleName: system
-  # 排除数据表
+  # 제외 데이터 테이블
   excludeTables:
     - gen_config
     - gen_field_config
-  ## 模板配置
+  ## 템플릿 설정
   templateConfigs:
     API:
       templatePath: codegen/api.ts.vm

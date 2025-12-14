@@ -7,10 +7,10 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description ="字典分页查询对象")
+@Schema(description ="사전 페이지 조회 객체")
 public class DictPageQuery extends BasePageQuery {
 
-    @Schema(description="关键字(字典名称)")
+    @Schema(description="키워드(사전명)")
     private String keywords;
 
 }

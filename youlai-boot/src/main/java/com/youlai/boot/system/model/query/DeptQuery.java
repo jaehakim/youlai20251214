@@ -4,19 +4,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 部门查询对象
+ * 부서 조회 객체
  *
  * @author haoxr
  * @since 2022/6/11
  */
-@Schema(description ="部门分页查询对象")
+@Schema(description ="부서 페이지 조회 객체")
 @Data
 public class DeptQuery {
 
-    @Schema(description="关键字(部门名称)")
+    @Schema(description="키워드(부서명)")
     private String keywords;
 
-    @Schema(description="状态(1->正常；0->禁用)")
+    @Schema(description="상태(1->정상;0->비활성화)")
     private Integer status;
 
 }

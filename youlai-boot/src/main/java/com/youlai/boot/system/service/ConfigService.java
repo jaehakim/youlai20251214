@@ -8,7 +8,7 @@ import com.youlai.boot.system.model.query.ConfigPageQuery;
 import com.youlai.boot.system.model.vo.ConfigVO;
 
 /**
- * 系统配置Service接口
+ * 시스템 설정Service인터페이스
  *
  * @author Theo
  * @since 2024-07-29 11:17:26
@@ -16,52 +16,52 @@ import com.youlai.boot.system.model.vo.ConfigVO;
 public interface ConfigService extends IService<Config> {
 
     /**
-     * 分页查询系统配置
-     * @param sysConfigPageQuery 查询参数
-     * @return 系统配置分页列表
+     * 페이지조회시스템 설정
+     * @param sysConfigPageQuery 조회参수
+     * @return 시스템 설정페이지 목록
      */
     IPage<ConfigVO> page(ConfigPageQuery sysConfigPageQuery);
 
     /**
-     * 保存系统配置
-     * @param sysConfigForm 系统配置表单
-     * @return 是否保存成功
+     * 저장시스템 설정
+     * @param sysConfigForm 시스템 설정폼
+     * @return 여부저장성공
      */
     boolean save(ConfigForm sysConfigForm);
 
     /**
-     * 获取系统配置表单数据
+     * 시스템 설정 폼 데이터 조회
      *
-     * @param id 系统配置ID
-     * @return 系统配置表单数据
+     * @param id 시스템 설정ID
+     * @return 시스템 설정폼데이터
      */
     ConfigForm getConfigFormData(Long id);
 
     /**
-     * 编辑系统配置
-     * @param id  系统配置ID
-     * @param sysConfigForm 系统配置表单
-     * @return 是否编辑成功
+     * 编辑시스템 설정
+     * @param id  시스템 설정ID
+     * @param sysConfigForm 시스템 설정폼
+     * @return 여부编辑성공
      */
     boolean edit(Long id, ConfigForm sysConfigForm);
 
     /**
-     * 删除系统配置
-     * @param ids 系统配置ID
-     * @return 是否删除成功
+     * 삭제시스템 설정
+     * @param ids 시스템 설정ID
+     * @return 여부삭제성공
      */
     boolean delete(Long ids);
 
     /**
-     * 刷新系统配置缓存
-     * @return 是否刷新成功
+     * 새로고침시스템 설정캐시
+     * @return 여부새로고침성공
      */
     boolean refreshCache();
 
     /**
-     * 获取系统配置
-     * @param key 配置键
-     * @return 配置值
+     * 조회시스템 설정
+     * @param key 설정클릭
+     * @return 설정值
      */
     Object getSystemConfig(String key);
 

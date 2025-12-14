@@ -4,34 +4,34 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 个人中心用户信息
+ * 개인 센터 사용자 정보
  *
  * @author Ray.Hao
  * @since 2024/8/13
  */
-@Schema(description = "个人中心用户信息")
+@Schema(description = "개인 센터 사용자 정보")
 @Data
 public class UserProfileForm {
 
-    @Schema(description = "用户ID")
+    @Schema(description = "사용자 ID")
     private Long id;
 
-    @Schema(description = "用户名")
+    @Schema(description = "사용자명")
     private String username;
 
-    @Schema(description = "用户昵称")
+    @Schema(description = "사용자 닉네임")
     private String nickname;
 
-    @Schema(description = "头像URL")
+    @Schema(description = "프로필 이미지 URL")
     private String avatar;
 
-    @Schema(description = "性别")
+    @Schema(description = "성별")
     private Integer gender;
 
-    @Schema(description = "手机号")
+    @Schema(description = "휴대폰 번호")
     private String mobile;
 
-    @Schema(description = "邮箱")
+    @Schema(description = "이메일")
     private String email;
 
 

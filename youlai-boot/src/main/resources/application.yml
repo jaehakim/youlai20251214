@@ -9,6 +9,6 @@ spring:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
-# 在 banner.txt 中显示项目版本，使用 @project.version@ 从 pom.xml 获取
+# banner.txt에 프로젝트 버전 표시, @project.version@을 사용하여 pom.xml에서 가져옴
 project:
   version: @project.version@

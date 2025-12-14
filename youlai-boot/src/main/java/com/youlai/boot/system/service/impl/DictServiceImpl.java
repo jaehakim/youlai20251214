@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * 字典业务实现类
+ * 사전비즈니스구현类
  *
  * @author haoxr
  * @since 2022/10/12
@@ -35,24 +35,24 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     private final DictConverter dictConverter;
 
     /**
-     * 字典分页列表
+     * 사전 페이지목록
      *
-     * @param queryParams 分页查询对象
+     * @param queryParams 페이지조회객체
      */
     @Override
     public Page<DictPageVO> getDictPage(DictPageQuery queryParams) {
-        // 查询参数
+        // 조회参수
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
 
-        // 查询数据
+        // 조회데이터
         return this.baseMapper.getDictPage(new Page<>(pageNum, pageSize), queryParams);
     }
 
     /**
-     * 获取字典列表
+     * 조회사전목록
      *
-     * @return 字典列表
+     * @return 사전목록
      */
     @Override
     public List<Option<String>> getDictList() {
@@ -64,71 +64,71 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
 
     /**
-     * 新增字典
+     * 추가사전
      *
-     * @param dictForm 字典表单数据
+     * @param dictForm 사전폼데이터
      */
     @Override
     public boolean saveDict(DictForm dictForm) {
-        // 保存字典
+        // 저장사전
         Dict entity = dictConverter.toEntity(dictForm);
 
-        // 校验 code 是否唯一
+        // 검증 code 여부唯원
         String dictCode = entity.getDictCode();
 
         long count = this.count(new LambdaQueryWrapper<Dict>()
                 .eq(Dict::getDictCode, dictCode)
         );
 
-        Assert.isTrue(count == 0, "字典编码已存在");
+        Assert.isTrue(count == 0, "사전 코드이미存에");
 
         return this.save(entity);
     }
 
 
     /**
-     * 获取字典表单详情
+     * 조회사전폼상세
      *
-     * @param id 字典ID
+     * @param id 사전ID
      */
     @Override
     public DictForm getDictForm(Long id) {
-        // 获取字典
+        // 조회사전
         Dict entity = this.getById(id);
         if (entity == null) {
-            throw new BusinessException("字典不存在");
+            throw new BusinessException("사전不存에");
         }
         return dictConverter.toForm(entity);
     }
 
     /**
-     * 修改字典
+     * 수정사전
      *
-     * @param id       字典ID
-     * @param dictForm 字典表单
+     * @param id       사전ID
+     * @param dictForm 사전폼
      */
     @Override
     @Transactional
     public boolean updateDict(Long id, DictForm dictForm) {
-        // 获取字典
+        // 조회사전
         Dict entity = this.getById(id);
         if (entity == null) {
-            throw new BusinessException("字典不存在");
+            throw new BusinessException("사전不存에");
         }
-        // 校验 code 是否唯一
+        // 검증 code 여부唯원
         String dictCode = dictForm.getDictCode();
         if (!entity.getDictCode().equals(dictCode)) {
             long count = this.count(new LambdaQueryWrapper<Dict>()
                     .eq(Dict::getDictCode, dictCode)
             );
-            Assert.isTrue(count == 0, "字典编码已存在");
+            Assert.isTrue(count == 0, "사전 코드이미存에");
         }
-        // 更新字典
+        // 업데이트사전
         Dict dict = dictConverter.toEntity(dictForm);
         dict.setId(id);
         boolean result = this.updateById(dict);
         if (result) {
-            // 更新字典数据
+            // 업데이트사전 데이터
             List<DictItem> dictItemList = dictItemService.list(
                     new LambdaQueryWrapper<DictItem>()
                             .eq(DictItem::getDictCode, entity.getDictCode())
@@ -148,17 +148,17 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     }
 
     /**
-     * 删除字典
+     * 삭제사전
      *
-     * @param ids 字典ID，多个以英文逗号(,)分割
+     * @param ids 사전ID，여러 개는영문쉼표(,)로 구분
      */
     @Transactional
     @Override
     public void deleteDictByIds(List<String> ids) {
-        // 删除字典
+        // 삭제사전
         this.removeByIds(ids);
 
-        // 删除字典项
+        // 삭제사전 항목
         List<Dict> list = this.listByIds(ids);
         if (!list.isEmpty()) {
             List<String> dictCodes = list.stream().map(Dict::getDictCode).toList();
@@ -169,10 +169,10 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     }
 
     /**
-     * 根据字典ID列表获取字典编码列表
+     * 根据사전ID목록조회사전 코드목록
      *
-     * @param ids 字典ID列表
-     * @return 字典编码列表
+     * @param ids 사전ID목록
+     * @return 사전 코드목록
      */
     @Override
     public List<String> getDictCodesByIds(List<String> ids) {

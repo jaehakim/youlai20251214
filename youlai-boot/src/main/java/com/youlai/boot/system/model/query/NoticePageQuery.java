@@ -8,29 +8,29 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 /**
- * 通知公告分页查询对象
+ * 공지사항 페이지 조회 객체
  *
  * @author youlaitech
  * @since 2024-08-27 10:31
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description ="通知公告查询对象")
+@Schema(description ="공지사항 조회 객체")
 public class NoticePageQuery extends BasePageQuery {
 
-    @Schema(description = "通知标题")
+    @Schema(description = "공지 제목")
     private String title;
 
-    @Schema(description = "发布状态(0-未发布 1已发布 -1已撤回)")
+    @Schema(description = "발행 상태(0-미발행 1-발행됨 -1-회수됨)")
     private Integer publishStatus;
 
-    @Schema(description = "发布时间(起止)")
+    @Schema(description = "발행 시간(시작-종료)")
     private List<String> publishTime;
 
-    @Schema(description = "查询人ID")
+    @Schema(description = "조회자 ID")
     private Long userId;
 
-    @Schema(description = "是否已读（0-未读 1-已读）")
+    @Schema(description = "읽음 여부(0-읽지 않음 1-읽음)")
     private Integer isRead;
 
 }

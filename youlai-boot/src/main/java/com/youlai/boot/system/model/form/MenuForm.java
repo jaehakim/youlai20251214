@@ -8,59 +8,59 @@ import org.hibernate.validator.constraints.Range;
 import java.util.List;
 
 /**
- * 菜单表单对象
+ * 메뉴 폼 객체
  *
  * @author Ray.Hao
  * @since 2024/06/23
  */
-@Schema(description = "菜单表单对象")
+@Schema(description = "메뉴 폼 객체")
 @Data
 public class MenuForm {
 
-    @Schema(description = "菜单ID")
+    @Schema(description = "메뉴 ID")
     private Long id;
 
-    @Schema(description = "父菜单ID")
+    @Schema(description = "상위 메뉴 ID")
     private Long parentId;
 
-    @Schema(description = "菜单名称")
+    @Schema(description = "메뉴명")
     private String name;
 
-    @Schema(description = "菜单类型（1-菜单 2-目录 3-外链 4-按钮）")
+    @Schema(description = "메뉴 유형 (1-메뉴 2-디렉토리 3-외부링크 4-버튼)")
     private Integer type;
 
-    @Schema(description = "路由名称")
+    @Schema(description = "라우트명")
     private String routeName;
 
-    @Schema(description = "路由路径")
+    @Schema(description = "라우트 경로")
     private String routePath;
 
-    @Schema(description = "组件路径(vue页面完整路径，省略.vue后缀)")
+    @Schema(description = "컴포넌트 경로 (vue 페이지 전체 경로, .vue 확장자 생략)")
     private String component;
 
-    @Schema(description = "权限标识")
+    @Schema(description = "권한 식별자")
     private String perm;
 
-    @Schema(description = "显示状态(1:显示;0:隐藏)")
-    @Range(max = 1, min = 0, message = "显示状态不正确")
+    @Schema(description = "표시 상태 (1:표시; 0:숨김)")
+    @Range(max = 1, min = 0, message = "표시 상태가 올바르지 않습니다")
     private Integer visible;
 
-    @Schema(description = "排序(数字越小排名越靠前)")
+    @Schema(description = "정렬 (숫자가 작을수록 앞에 위치)")
     private Integer sort;
 
-    @Schema(description = "菜单图标")
+    @Schema(description = "메뉴 아이콘")
     private String icon;
 
-    @Schema(description = "跳转路径")
+    @Schema(description = "리다이렉트 경로")
     private String redirect;
 
-    @Schema(description = "【菜单】是否开启页面缓存", example = "1")
+    @Schema(description = "[메뉴] 페이지 캐시 활성화 여부", example = "1")
     private Integer keepAlive;
 
-    @Schema(description = "【目录】只有一个子路由是否始终显示", example = "1")
+    @Schema(description = "[디렉토리] 하나의 자식 라우트만 있을 때도 항상 표시", example = "1")
     private Integer alwaysShow;
 
-    @Schema(description = "路由参数")
+    @Schema(description = "라우트 파라미터")
     private List<KeyValue> params;
 
 }

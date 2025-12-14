@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 通知公告业务对象
+ * 공지사항 비즈니스 객체
  *
  * @author Theo
  * @since 2024-09-01 10:31
@@ -14,62 +14,62 @@ import java.time.LocalDateTime;
 public class NoticeBO {
 
     /**
-     * 通知ID
+     * 공지 ID
      */
     private Long id;
 
     /**
-     * 通知标题
+     * 공지 제목
      */
     private String title;
 
     /**
-     * 通知类型
+     * 공지 유형
      */
     private Integer type;
 
     /**
-     * 通知类型标签
+     * 공지 유형 라벨
      */
     private String typeLabel;
 
     /**
-     * 通知内容
+     * 공지 내용
      */
     private String content;
 
     /**
-     * 发布人姓名
+     * 발행인 성명
      */
     private String publisherName;
 
     /**
-     * 通知等级（L: 低, M: 中, H: 高）
+     * 공지 레벨 (L: 낮음, M: 중간, H: 높음)
      */
     private String level;
 
     /**
-     * 目标类型(1: 全体 2: 指定)
+     * 대상 유형 (1: 전체 2: 지정)
      */
     private Integer targetType;
 
     /**
-     * 发布状态（0: 未发布, 1: 已发布, -1: 已撤回）
+     * 발행 상태 (0: 미발행, 1: 발행됨, -1: 철회됨)
      */
     private Integer publishStatus;
 
     /**
-     * 创建时间
+     * 생성 시간
      */
     private LocalDateTime createTime;
 
     /**
-     * 发布时间
+     * 발행 시간
      */
     private LocalDateTime publishTime;
 
     /**
-     * 撤回时间
+     * 철회 시간
      */
     private LocalDateTime revokeTime;
 }

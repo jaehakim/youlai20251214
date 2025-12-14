@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 字典实体
+ * 사전 엔티티
  *
  * @author Ray.Hao
  * @since 2022/12/17
@@ -17,28 +17,28 @@ import lombok.EqualsAndHashCode;
 public class Dict extends BaseEntity {
 
     /**
-     * 字典编码
+     * 사전 코드
      */
     private String dictCode;
 
     /**
-     * 字典名称
+     * 사전명
      */
     private String name;
 
 
     /**
-     * 状态（1：启用, 0：停用）
+     * 상태(1:활성화, 0:중지)
      */
     private Integer status;
 
     /**
-     * 备注
+     * 비고
      */
     private String remark;
 
     /**
-     * 逻辑删除标识(0-未删除 1-已删除)
+     * 논리 삭제 표시(0-미삭제 1-삭제됨)
      */
     private Integer isDeleted;
 

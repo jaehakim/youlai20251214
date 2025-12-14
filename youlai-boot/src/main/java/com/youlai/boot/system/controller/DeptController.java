@@ -20,12 +20,12 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 部门控制器
+ * 부서컨트롤러
  *
  * @author Ray.Hao
  * @since 2020/11/6
  */
-@Tag(name = "05.部门接口")
+@Tag(name = "05.부서인터페이스")
 @RestController
 @RequestMapping("/api/v1/dept")
 @RequiredArgsConstructor
@@ -33,9 +33,9 @@ public class DeptController {
 
     private final DeptService deptService;
 
-    @Operation(summary = "部门列表")
+    @Operation(summary = "부서 목록")
     @GetMapping
-    @Log( value = "部门列表",module = LogModuleEnum.DEPT)
+    @Log( value = "부서 목록",module = LogModuleEnum.DEPT)
     public Result<List<DeptVO>> getDeptList(
              DeptQuery queryParams
     ) {
@@ -43,14 +43,14 @@ public class DeptController {
         return Result.success(list);
     }
 
-    @Operation(summary = "部门下拉列表")
+    @Operation(summary = "부서 드롭다운 목록")
     @GetMapping("/options")
     public Result<List<Option<Long>>> getDeptOptions() {
         List<Option<Long>> list = deptService.listDeptOptions();
         return Result.success(list);
     }
 
-    @Operation(summary = "新增部门")
+    @Operation(summary = "추가부서")
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:dept:add')")
     @RepeatSubmit
@@ -61,16 +61,16 @@ public class DeptController {
         return Result.success(id);
     }
 
-    @Operation(summary = "获取部门表单数据")
+    @Operation(summary = "부서 폼 데이터 조회")
     @GetMapping("/{deptId}/form")
     public Result<DeptForm> getDeptForm(
-            @Parameter(description ="部门ID") @PathVariable Long deptId
+            @Parameter(description ="부서ID") @PathVariable Long deptId
     ) {
         DeptForm deptForm = deptService.getDeptForm(deptId);
         return Result.success(deptForm);
     }
 
-    @Operation(summary = "修改部门")
+    @Operation(summary = "수정부서")
     @PutMapping(value = "/{deptId}")
     @PreAuthorize("@ss.hasPerm('sys:dept:edit')")
     public Result<?> updateDept(
@@ -81,11 +81,11 @@ public class DeptController {
         return Result.success(deptId);
     }
 
-    @Operation(summary = "删除部门")
+    @Operation(summary = "삭제부서")
     @DeleteMapping("/{ids}")
     @PreAuthorize("@ss.hasPerm('sys:dept:delete')")
     public Result<?> deleteDepartments(
-            @Parameter(description ="部门ID，多个以英文逗号(,)分割") @PathVariable("ids") String ids
+            @Parameter(description ="부서ID，여러 개는영문쉼표(,)로 구분") @PathVariable("ids") String ids
     ) {
         boolean result = deptService.deleteByIds(ids);
         return Result.judge(result);

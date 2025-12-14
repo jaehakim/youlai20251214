@@ -1,7 +1,7 @@
 package com.youlai.boot.platform.sms.controller;
 
 /**
- * 短信控制层
+ * SMS컨트롤러
  *
  * @author Ray
  * @since 2.10.0

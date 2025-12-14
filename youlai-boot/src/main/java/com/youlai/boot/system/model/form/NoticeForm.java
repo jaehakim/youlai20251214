@@ -12,43 +12,43 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 通知公告表单对象
+ * 공지사항 폼 객체
  *
  * @author youlaitech
  * @since 2024-08-27 10:31
  */
 @Getter
 @Setter
-@Schema(description = "通知公告表单对象")
+@Schema(description = "공지사항 폼 객체")
 public class NoticeForm implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "通知ID")
+    @Schema(description = "공지 ID")
     private Long id;
 
-    @Schema(description = "通知标题")
-    @NotBlank(message = "通知标题不能为空")
-    @Size(max=50, message="通知标题长度不能超过50个字符")
+    @Schema(description = "공지 제목")
+    @NotBlank(message = "공지 제목은 비어있을 수 없습니다")
+    @Size(max=50, message="공지 제목 길이는 50자를 초과할 수 없습니다")
     private String title;
 
-    @Schema(description = "通知内容")
-    @NotBlank(message = "通知内容不能为空")
-    @Size(max=65535, message="通知内容长度不能超过65535个字符")
+    @Schema(description = "공지 내용")
+    @NotBlank(message = "공지 내용은 비어있을 수 없습니다")
+    @Size(max=65535, message="공지 내용 길이는 65535자를 초과할 수 없습니다")
     private String content;
 
-    @Schema(description = "通知类型")
+    @Schema(description = "공지 유형")
     private Integer type;
 
-    @Schema(description = "优先级(L-低 M-中 H-高)")
+    @Schema(description = "우선순위 (L-낮음 M-중간 H-높음)")
     private String level;
 
-    @Schema(description = "目标类型(1-全体 2-指定)")
-    @Range(min = 1, max = 2, message = "目标类型取值范围[1,2]")
+    @Schema(description = "대상 유형 (1-전체 2-지정)")
+    @Range(min = 1, max = 2, message = "대상 유형 범위는 [1,2]입니다")
     private Integer targetType;
 
-    @Schema(description = "接收人ID集合")
+    @Schema(description = "수신자 ID 집합")
     private List<String> targetUserIds;
 
 }

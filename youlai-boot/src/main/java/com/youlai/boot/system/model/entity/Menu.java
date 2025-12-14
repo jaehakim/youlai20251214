@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
- * 菜单实体
+ * 메뉴 엔티티
  *
  * @author Ray.Hao
  * @since 2023/3/6
@@ -18,83 +18,83 @@ import java.time.LocalDateTime;
 @Setter
 public class Menu {
     /**
-     * 菜单ID
+     * 메뉴 ID
      */
     @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
-     * 父菜单ID
+     * 상위 메뉴 ID
      */
     private Long parentId;
 
     /**
-     * 菜单名称
+     * 메뉴명
      */
     private String name;
 
     /**
-     * 菜单类型(1-菜单；2-目录；3-外链；4-按钮权限)
+     * 메뉴 유형(1-메뉴, 2-디렉토리, 3-외부링크, 4-버튼권한)
      */
     private Integer type;
 
     /**
-     * 路由名称（Vue Router 中定义的路由名称）
+     * 라우트명(Vue Router에 정의된 라우트명)
      */
     private String routeName;
 
     /**
-     * 路由路径（Vue Router 中定义的 URL 路径）
+     * 라우트 경로(Vue Router에 정의된 URL 경로)
      */
     private String routePath;
 
     /**
-     * 组件路径(vue页面完整路径，省略.vue后缀)
+     * 컴포넌트 경로(vue 페이지 전체 경로, .vue 확장자 생략)
      */
     private String component;
 
     /**
-     * 权限标识
+     * 권한 식별자
      */
     private String perm;
 
     /**
-     * 显示状态(1:显示;0:隐藏)
+     * 표시 상태(1:표시, 0:숨김)
      */
     private Integer visible;
 
     /**
-     * 排序
+     * 정렬
      */
     private Integer sort;
 
     /**
-     * 菜单图标
+     * 메뉴 아이콘
      */
     private String icon;
 
     /**
-     * 跳转路径
+     * 리다이렉트 경로
      */
     private String redirect;
 
     /**
-     * 父节点路径，以英文逗号(,)分割
+     * 상위 노드 경로, 쉼표(,)로 구분
      */
     private String treePath;
 
     /**
-     * 【菜单】是否开启页面缓存(1:开启;0:关闭)
+     * [메뉴] 페이지 캐시 활성화 여부(1:활성화, 0:비활성화)
      */
     private Integer keepAlive;
 
     /**
-     * 【目录】只有一个子路由是否始终显示(1:是 0:否)
+     * [디렉토리] 하위 라우트가 하나일 때 항상 표시 여부(1:예 0:아니오)
      */
     private Integer alwaysShow;
 
     /**
-     * 路由参数
+     * 라우트 파라미터
      */
     @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private String params;
@@ -104,7 +104,7 @@ public class Menu {
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 수정 시간
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;

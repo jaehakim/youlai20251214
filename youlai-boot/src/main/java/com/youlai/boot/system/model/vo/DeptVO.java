@@ -7,35 +7,35 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Schema(description = "部门视图对象")
+@Schema(description = "부서 뷰 객체")
 @Data
 public class DeptVO {
 
-    @Schema(description = "部门ID")
+    @Schema(description = "부서 ID")
     private Long id;
 
-    @Schema(description = "父部门ID")
+    @Schema(description = "상위 부서 ID")
     private Long parentId;
 
-    @Schema(description = "部门名称")
+    @Schema(description = "부서명")
     private String name;
 
-    @Schema(description = "部门编号")
+    @Schema(description = "부서 코드")
     private String code;
 
-    @Schema(description = "排序")
+    @Schema(description = "정렬")
     private Integer sort;
 
-    @Schema(description = "状态(1:启用；0:禁用)")
+    @Schema(description = "상태(1:활성화；0:비활성화)")
     private Integer status;
 
-    @Schema(description = "子部门")
+    @Schema(description = "하위 부서")
     private List<DeptVO> children;
 
-    @Schema(description = "创建时间")
+    @Schema(description = "생성 시간")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createTime;
-    @Schema(description = "修改时间")
+    @Schema(description = "수정 시간")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime updateTime;
 

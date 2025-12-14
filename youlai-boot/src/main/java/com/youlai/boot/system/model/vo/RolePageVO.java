@@ -6,23 +6,23 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description ="角色分页对象")
+@Schema(description ="역할 페이지 객체")
 @Data
 public class RolePageVO {
 
-    @Schema(description="角色ID")
+    @Schema(description="역할 ID")
     private Long id;
 
-    @Schema(description="角色名称")
+    @Schema(description="역할명")
     private String name;
 
-    @Schema(description="角色编码")
+    @Schema(description="역할 코드")
     private String code;
 
-    @Schema(description="角色状态")
+    @Schema(description="역할 상태")
     private Integer status;
 
-    @Schema(description="排序")
+    @Schema(description="정렬")
     private Integer sort;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

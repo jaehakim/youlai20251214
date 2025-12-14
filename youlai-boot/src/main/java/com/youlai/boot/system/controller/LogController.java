@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 
 /**
- * 日志控制层
+ * 로그컨트롤러
  *
  * @author Ray.Hao
  * @since 2.10.0
  */
-@Tag(name = "10.日志接口")
+@Tag(name = "10.로그인터페이스")
 @RestController
 @RequestMapping("/api/v1/logs")
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class LogController {
 
     private final LogService logService;
 
-    @Operation(summary = "日志分页列表")
+    @Operation(summary = "로그페이지 목록")
     @GetMapping("/page")
     public PageResult<LogPageVO> getLogPage(
              LogPageQuery queryParams
@@ -39,11 +39,11 @@ public class LogController {
         return PageResult.success(result);
     }
 
-    @Operation(summary = "获取访问趋势")
+    @Operation(summary = "접근 추세 조회")
     @GetMapping("/visit-trend")
     public Result<VisitTrendVO> getVisitTrend(
-            @Parameter(description = "开始时间", example = "yyyy-MM-dd") @RequestParam String startDate,
-            @Parameter(description = "结束时间", example = "yyyy-MM-dd") @RequestParam String endDate
+            @Parameter(description = "시작 시간", example = "yyyy-MM-dd") @RequestParam String startDate,
+            @Parameter(description = "종료 시간", example = "yyyy-MM-dd") @RequestParam String endDate
     ) {
         LocalDate start = LocalDate.parse(startDate);
         LocalDate end = LocalDate.parse(endDate);
@@ -51,7 +51,7 @@ public class LogController {
         return Result.success(data);
     }
 
-    @Operation(summary = "获取访问统计")
+    @Operation(summary = "접근 통계 조회")
     @GetMapping("/visit-stats")
     public Result<VisitStatsVO> getVisitStats() {
         VisitStatsVO result = logService.getVisitStats();

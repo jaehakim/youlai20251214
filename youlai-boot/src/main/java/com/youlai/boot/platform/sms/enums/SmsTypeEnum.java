@@ -4,9 +4,9 @@ import com.youlai.boot.common.base.IBaseEnum;
 import lombok.Getter;
 
 /**
- * 短信类型枚举
+ * SMS 유형 열거형
  * <p>
- * value 值对应 application-*.yml 中的 sms.templates.* 配置
+ * value 값은 application-*.yml의 sms.templates.* 설정과 대응
  *
  * @author Ray.Hao
  * @since 2.21.0
@@ -15,19 +15,19 @@ import lombok.Getter;
 public enum SmsTypeEnum implements IBaseEnum<String> {
 
     /**
-     * 注册短信验证码
+     * 회원가입 SMS 인증 코드
      */
-    REGISTER("register", "注册短信验证码"),
+    REGISTER("register", "회원가입 SMS 인증 코드"),
 
     /**
-     * 登录短信验证码
+     * 로그인 SMS 인증 코드
      */
-    LOGIN("login", "登录短信验证码"),
+    LOGIN("login", "로그인 SMS 인증 코드"),
 
     /**
-     * 修改手机号短信验证码
+     * 휴대폰 번호 변경 SMS 인증 코드
      */
-    CHANGE_MOBILE("change-mobile", "修改手机号短信验证码");
+    CHANGE_MOBILE("change-mobile", "휴대폰 번호 변경 SMS 인증 코드");
 
     private final String value;
     private final String label;

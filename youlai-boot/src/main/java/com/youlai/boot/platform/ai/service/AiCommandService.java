@@ -6,22 +6,22 @@ import com.youlai.boot.platform.ai.model.dto.AiParseResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * AI 命令编排服务：负责对外的解析与执行编排
+ * AI 명령编排서비스：负责对外의解析与执行编排
  */
 public interface AiCommandService {
 
 	/**
-	 * 解析自然语言命令
+	 * 자연어 명령 파싱
 	 */
 	AiParseResponseDTO parseCommand(AiParseRequestDTO request, HttpServletRequest httpRequest);
 
 	/**
-	 * 执行已解析的命令
+	 * 파싱된 명령 실행
 	 * 
 	 * @param request 执行请求
 	 * @param httpRequest HTTP 请求
-	 * @return 执行结果数据（成功时返回）
-	 * @throws Exception 执行失败时抛出异常
+	 * @return 执行결과데이터（성공时返回）
+	 * @throws Exception 执行실패时抛出오류
 	 */
 	Object executeCommand(AiExecuteRequestDTO request, HttpServletRequest httpRequest) throws Exception;
 }

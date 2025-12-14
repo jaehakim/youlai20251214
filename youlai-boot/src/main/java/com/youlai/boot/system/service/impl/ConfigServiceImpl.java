@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * 系统配置Service接口实现
+ * 시스템 설정Service인터페이스구현
  *
  * @author Theo
  * @since 2024-07-29 11:17:26
@@ -40,7 +40,7 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     private final RedisTemplate<String, Object> redisTemplate;
 
     /**
-     * 系统启动完成后，加载系统配置到缓存
+     * 시스템启动完成후，加载시스템 설정到캐시
      */
     @PostConstruct
     public void init() {
@@ -48,10 +48,10 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     /**
-     * 分页查询系统配置
+     * 페이지조회시스템 설정
      *
-     * @param configPageQuery 查询参数
-     * @return 系统配置分页列表
+     * @param configPageQuery 조회参수
+     * @return 시스템 설정페이지 목록
      */
     @Override
     public IPage<ConfigVO> page(ConfigPageQuery configPageQuery) {
@@ -68,16 +68,16 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     /**
-     * 保存系统配置
+     * 저장시스템 설정
      *
-     * @param configForm 系统配置表单
-     * @return 是否保存成功
+     * @param configForm 시스템 설정폼
+     * @return 여부저장성공
      */
     @Override
     public boolean save(ConfigForm configForm) {
         Assert.isTrue(
                 super.count(new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, configForm.getConfigKey())) == 0,
-                "配置键已存在");
+                "설정클릭이미存에");
         Config config = configConverter.toEntity(configForm);
         config.setCreateBy(SecurityUtils.getUserId());
         config.setIsDeleted(0);
@@ -85,10 +85,10 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     /**
-     * 获取系统配置表单数据
+     * 시스템 설정 폼 데이터 조회
      *
-     * @param id 系统配置ID
-     * @return 系统配置表单数据
+     * @param id 시스템 설정ID
+     * @return 시스템 설정폼데이터
      */
     @Override
     public ConfigForm getConfigFormData(Long id) {
@@ -97,27 +97,27 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     /**
-     * 编辑系统配置
+     * 编辑시스템 설정
      *
-     * @param id         系统配置ID
-     * @param configForm 系统配置表单
-     * @return 是否编辑成功
+     * @param id         시스템 설정ID
+     * @param configForm 시스템 설정폼
+     * @return 여부编辑성공
      */
     @Override
     public boolean edit(Long id, ConfigForm configForm) {
         Assert.isTrue(
                 super.count(new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, configForm.getConfigKey()).ne(Config::getId, id)) == 0,
-                "配置键已存在");
+                "설정클릭이미存에");
         Config config = configConverter.toEntity(configForm);
         config.setUpdateBy(SecurityUtils.getUserId());
         return this.updateById(config);
     }
 
     /**
-     * 删除系统配置
+     * 삭제시스템 설정
      *
-     * @param id 系统配置ID
-     * @return 是否删除成功
+     * @param id 시스템 설정ID
+     * @return 여부삭제성공
      */
     @Override
     public boolean delete(Long id) {
@@ -132,9 +132,9 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     /**
-     * 刷新系统配置缓存
+     * 새로고침시스템 설정캐시
      *
-     * @return 是否刷新成功
+     * @return 여부새로고침성공
      */
     @Override
     public boolean refreshCache() {
@@ -149,10 +149,10 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     /**
-     * 获取系统配置
+     * 조회시스템 설정
      *
-     * @param key 配置键
-     * @return 配置值
+     * @param key 설정클릭
+     * @return 설정值
      */
     @Override
     public Object getSystemConfig(String key) {

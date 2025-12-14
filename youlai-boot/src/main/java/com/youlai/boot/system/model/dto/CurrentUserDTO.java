@@ -6,31 +6,31 @@ import lombok.Data;
 import java.util.Set;
 
 /**
- * 当前登录用户对象
+ * 현재 로그인 사용자 객체
  *
  * @author haoxr
  * @since 2022/1/14
  */
-@Schema(description ="当前登录用户对象")
+@Schema(description ="현재 로그인 사용자 객체")
 @Data
 public class CurrentUserDTO {
 
-    @Schema(description="用户ID")
+    @Schema(description="사용자 ID")
     private Long userId;
 
-    @Schema(description="用户名")
+    @Schema(description="사용자명")
     private String username;
 
-    @Schema(description="用户昵称")
+    @Schema(description="사용자 닉네임")
     private String nickname;
 
-    @Schema(description="头像地址")
+    @Schema(description="프로필 이미지 주소")
     private String avatar;
 
-    @Schema(description="用户角色编码集合")
+    @Schema(description="사용자 역할 코드 집합")
     private Set<String> roles;
 
-    @Schema(description="用户权限标识集合")
+    @Schema(description="사용자 권한 식별자 집합")
     private Set<String> perms;
 
 }

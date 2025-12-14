@@ -8,32 +8,32 @@ import lombok.Setter;
 import java.util.List;
 
 /**
- * AI命令记录分页查询对象
+ * AI 명령 기록 페이징 조회 객체
  *
  * @author Ray.Hao
  * @since 3.0.0
  */
-@Schema(description = "AI命令记录分页查询对象")
+@Schema(description = "AI 명령 기록 페이징 조회 객체")
 @Getter
 @Setter
 public class AiCommandPageQuery extends BasePageQuery {
 
-    @Schema(description = "关键字(原始命令/函数名称/用户名)")
+    @Schema(description = "키워드 (원본 명령/함수 이름/사용자명)")
     private String keywords;
 
-    @Schema(description = "执行状态(pending-待执行, success-成功, failed-失败)")
+    @Schema(description = "실행 상태(pending-대기 중, success-성공, failed-실패)")
     private String executeStatus;
 
-    @Schema(description = "用户ID")
+    @Schema(description = "사용자 ID")
     private Long userId;
 
-    @Schema(description = "是否危险操作")
+    @Schema(description = "위험한 작업 여부")
     private Boolean isDangerous;
 
-    @Schema(description = "创建时间范围")
+    @Schema(description = "생성 시간 범위")
     private List<String> createTime;
 
-    @Schema(description = "函数名称")
+    @Schema(description = "함수 이름")
     private String functionName;
 }
 

@@ -4,21 +4,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 修改密码表单
+ * 비밀번호 수정 폼
  *
  * @author Ray.Hao
  * @since 2024/8/13
  */
-@Schema(description = "修改密码表单")
+@Schema(description = "비밀번호 수정 폼")
 @Data
 public class PasswordUpdateForm {
 
-    @Schema(description = "原密码")
+    @Schema(description = "기존 비밀번호")
     private String oldPassword;
 
-    @Schema(description = "新密码")
+    @Schema(description = "새 비밀번호")
     private String newPassword;
 
-    @Schema(description = "确认密码")
+    @Schema(description = "비밀번호 확인")
     private String confirmPassword;
 }

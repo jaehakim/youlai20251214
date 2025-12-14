@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 菜单控制层
+ * 메뉴컨트롤러
  *
  * @author Ray.Hao
  * @since 2020/11/06
  */
-@Tag(name = "04.菜单接口")
+@Tag(name = "04.메뉴인터페이스")
 @RestController
 @RequestMapping("/api/v1/menus")
 @RequiredArgsConstructor
@@ -35,42 +35,42 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    @Operation(summary = "菜单列表")
+    @Operation(summary = "메뉴 목록")
     @GetMapping
-    @Log(value = "菜单列表", module = LogModuleEnum.MENU)
+    @Log(value = "메뉴 목록", module = LogModuleEnum.MENU)
     public Result<List<MenuVO>> getMenus(MenuQuery queryParams) {
         List<MenuVO> menuList = menuService.listMenus(queryParams);
         return Result.success(menuList);
     }
 
-    @Operation(summary = "菜单下拉列表")
+    @Operation(summary = "메뉴 드롭다운 목록")
     @GetMapping("/options")
     public Result<List<Option<Long>>> getMenuOptions(
-            @Parameter(description = "是否只查询父级菜单")
+            @Parameter(description = "부모 메뉴만 조회 여부")
             @RequestParam(required = false, defaultValue = "false") boolean onlyParent
     ) {
         List<Option<Long>> menus = menuService.listMenuOptions(onlyParent);
         return Result.success(menus);
     }
 
-    @Operation(summary = "当前用户菜单路由列表")
+    @Operation(summary = "현재 사용자 메뉴 라우트 목록")
     @GetMapping("/routes")
     public Result<List<RouteVO>> getCurrentUserRoutes() {
         List<RouteVO> routeList = menuService.listCurrentUserRoutes();
         return Result.success(routeList);
     }
 
-    @Operation(summary = "菜单表单数据")
+    @Operation(summary = "메뉴 폼 데이터")
     @GetMapping("/{id}/form")
     @PreAuthorize("@ss.hasPerm('sys:menu:edit')")
     public Result<MenuForm> getMenuForm(
-            @Parameter(description = "菜单ID") @PathVariable Long id
+            @Parameter(description = "메뉴ID") @PathVariable Long id
     ) {
         MenuForm menu = menuService.getMenuForm(id);
         return Result.success(menu);
     }
 
-    @Operation(summary = "新增菜单")
+    @Operation(summary = "추가메뉴")
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:menu:add')")
     @RepeatSubmit
@@ -79,7 +79,7 @@ public class MenuController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "修改菜单")
+    @Operation(summary = "수정메뉴")
     @PutMapping(value = "/{id}")
     @PreAuthorize("@ss.hasPerm('sys:menu:edit')")
     public Result<?> updateMenu(
@@ -89,22 +89,22 @@ public class MenuController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "删除菜单")
+    @Operation(summary = "삭제메뉴")
     @DeleteMapping("/{id}")
     @PreAuthorize("@ss.hasPerm('sys:menu:delete')")
     public Result<?> deleteMenu(
-            @Parameter(description = "菜单ID，多个以英文(,)分割") @PathVariable("id") Long id
+            @Parameter(description = "메뉴 ID, 여러 개는 영문(,)로 구분") @PathVariable("id") Long id
     ) {
         boolean result = menuService.deleteMenu(id);
         return Result.judge(result);
     }
 
-    @Operation(summary = "修改菜单显示状态")
+    @Operation(summary = "메뉴 표시 상태 수정")
     @PatchMapping("/{menuId}")
     @PreAuthorize("@ss.hasPerm('sys:menu:edit')")
     public Result<?> updateMenuVisible(
-            @Parameter(description = "菜单ID") @PathVariable Long menuId,
-            @Parameter(description = "显示状态(1:显示;0:隐藏)") Integer visible
+            @Parameter(description = "메뉴ID") @PathVariable Long menuId,
+            @Parameter(description = "표시 상태(1:표시;0:숨김)") Integer visible
 
     ) {
         boolean result = menuService.updateMenuVisible(menuId, visible);

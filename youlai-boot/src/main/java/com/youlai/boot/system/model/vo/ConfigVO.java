@@ -10,7 +10,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * 系统配置视图对象
+ * 시스템 설정 뷰 객체
  *
  * @author Theo
  * @since 2024-07-30 14:49
@@ -18,21 +18,21 @@ import java.io.Serializable;
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "系统配置VO")
+@Schema(description = "시스템 설정 VO")
 public class ConfigVO {
 
-    @Schema(description = "主键")
+    @Schema(description = "기본키")
     private Long id;
 
-    @Schema(description = "配置名称")
+    @Schema(description = "설정명")
     private String configName;
 
-    @Schema(description = "配置键")
+    @Schema(description = "설정 키")
     private String configKey;
 
-    @Schema(description = "配置值")
+    @Schema(description = "설정값")
     private String configValue;
 
-    @Schema(description = "描述、备注")
+    @Schema(description = "설명, 비고")
     private String remark;
 }

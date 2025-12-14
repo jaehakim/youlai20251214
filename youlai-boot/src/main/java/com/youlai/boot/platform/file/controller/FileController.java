@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * 文件控制层
+ * 파일컨트롤러
  *
  * @author Ray.Hao
  * @since 2022/10/16
  */
-@Tag(name = "07.文件接口")
+@Tag(name = "07.파일인터페이스")
 @RestController
 @RequestMapping("/api/v1/files")
 @RequiredArgsConstructor
@@ -28,11 +28,11 @@ public class FileController {
     private final FileService fileService;
 
     @PostMapping
-    @Operation(summary = "文件上传")
+    @Operation(summary = "파일 업로드")
     public Result<FileInfo> uploadFile(
             @Parameter(
                     name = "file",
-                    description = "表单文件对象",
+                    description = "폼 파일 객체",
                     required = true,
                     in = ParameterIn.DEFAULT,
                     schema = @Schema(name = "file", format = "binary")
@@ -44,10 +44,10 @@ public class FileController {
     }
 
     @DeleteMapping
-    @Operation(summary = "文件删除")
+    @Operation(summary = "파일 삭제")
     @SneakyThrows
     public Result<?> deleteFile(
-            @Parameter(description = "文件路径") @RequestParam String filePath
+            @Parameter(description = "파일경로") @RequestParam String filePath
     ) {
         boolean result = fileService.deleteFile(filePath);
         return Result.judge(result);

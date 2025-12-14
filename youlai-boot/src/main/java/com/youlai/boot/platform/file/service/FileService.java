@@ -4,7 +4,7 @@ import com.youlai.boot.platform.file.model.FileInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * 对象存储服务接口层
+ * 객체存储서비스인터페이스层
  *
  * @author haoxr
  * @since 2022/11/19
@@ -12,17 +12,17 @@ import org.springframework.web.multipart.MultipartFile;
 public interface FileService {
 
     /**
-     * 上传文件
-     * @param file 表单文件对象
-     * @return 文件信息
+     * 업로드파일
+     * @param file 폼 파일 객체
+     * @return 파일信息
      */
     FileInfo uploadFile(MultipartFile file);
 
     /**
-     * 删除文件
+     * 삭제파일
      *
-     * @param filePath 文件完整URL
-     * @return 删除结果
+     * @param filePath 파일完整URL
+     * @return 삭제결과
      */
     boolean deleteFile(String filePath);
 

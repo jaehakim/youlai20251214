@@ -8,7 +8,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 /**
- * WebSocket消息服务
+ * WebSocket 메시지서비스
  *
  * @author Ray
  * @since 3.0.0
@@ -22,36 +22,36 @@ public class WebSocketMessageService {
     private final ObjectMapper objectMapper;
 
     /**
-     * 字典事件类型
+     * 사전事件유형
      */
     public enum DictEventType {
         /**
-         * 字典更新
+         * 사전업데이트
          */
         DICT_UPDATED,
         
         /**
-         * 字典删除
+         * 사전삭제
          */
         DICT_DELETED
     }
 
     /**
-     * 字典事件消息
+     * 사전事件메시지
      */
     public static class DictEvent {
         /**
-         * 事件类型
+         * 事件유형
          */
         private String type;
         
         /**
-         * 字典编码
+         * 사전 코드
          */
         private String dictCode;
         
         /**
-         * 时间戳
+         * 타임스탬프
          */
         private long timestamp;
 
@@ -87,9 +87,9 @@ public class WebSocketMessageService {
     }
 
     /**
-     * 向所有客户端发送字典更新事件
+     * 向所有客户端발송사전업데이트事件
      *
-     * @param dictCode 字典编码
+     * @param dictCode 사전 코드
      */
     public void sendDictUpdatedEvent(String dictCode) {
         DictEvent event = new DictEvent(DictEventType.DICT_UPDATED, dictCode);
@@ -97,9 +97,9 @@ public class WebSocketMessageService {
     }
 
     /**
-     * 向所有客户端发送字典删除事件
+     * 向所有客户端발송사전삭제事件
      *
-     * @param dictCode 字典编码
+     * @param dictCode 사전 코드
      */
     public void sendDictDeletedEvent(String dictCode) {
         DictEvent event = new DictEvent(DictEventType.DICT_DELETED, dictCode);
@@ -107,9 +107,9 @@ public class WebSocketMessageService {
     }
 
     /**
-     * 发送字典事件消息
+     * 발송사전事件메시지
      *
-     * @param event 字典事件
+     * @param event 사전事件
      */
     private void sendDictEvent(DictEvent event) {
         try {

@@ -5,34 +5,34 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 字典项表单对象
+ * 사전 항목 폼 객체
  *
  * @author Ray Hao
  * @since 2.9.0
  */
-@Schema(description = "字典项表单")
+@Schema(description = "사전 항목 폼")
 @Data
 public class DictItemForm {
 
-    @Schema(description = "字典项ID")
+    @Schema(description = "사전 항목 ID")
     private Long id;
 
-    @Schema(description = "字典编码")
+    @Schema(description = "사전 코드")
     private String dictCode;
 
-    @Schema(description = "字典项值")
+    @Schema(description = "사전 항목값")
     private String value;
 
-    @Schema(description = "字典项标签")
+    @Schema(description = "사전 항목 라벨")
     private String label;
 
-    @Schema(description = "排序")
+    @Schema(description = "정렬")
     private Integer sort;
 
-    @Schema(description = "状态（0：禁用，1：启用）")
+    @Schema(description = "상태 (0: 비활성화, 1: 활성화)")
     private Integer status;
 
-    @Schema(description = "字典类型（用于显示样式）")
+    @Schema(description = "사전 유형 (표시 스타일용)")
     private String tagType;
 
 }

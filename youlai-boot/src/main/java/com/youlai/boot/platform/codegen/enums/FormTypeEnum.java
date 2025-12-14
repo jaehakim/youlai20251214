@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * 表单类型枚举
+ * 폼 유형 열거형
  *
  * @author Ray
  * @since 2.10.0
@@ -18,62 +18,62 @@ import lombok.RequiredArgsConstructor;
 public enum FormTypeEnum implements IBaseEnum<Integer> {
 
     /**
-     * 输入框
+     * 입력 상자
      */
-    INPUT(1, "输入框"),
+    INPUT(1, "입력 상자"),
 
     /**
-     * 下拉框
+     * 드롭다운
      */
-    SELECT(2, "下拉框"),
+    SELECT(2, "드롭다운"),
 
     /**
-     * 单选框
+     * 라디오 버튼
      */
-    RADIO(3, "单选框"),
+    RADIO(3, "라디오 버튼"),
 
     /**
-     * 复选框
+     * 체크박스
      */
-    CHECK_BOX(4, "复选框"),
+    CHECK_BOX(4, "체크박스"),
 
     /**
-     * 数字输入框
+     * 숫자 입력 상자
      */
-    INPUT_NUMBER(5, "数字输入框"),
+    INPUT_NUMBER(5, "숫자 입력 상자"),
 
     /**
-     * 开关
+     * 스위치
      */
-    SWITCH(6, "开关"),
+    SWITCH(6, "스위치"),
 
     /**
-     * 文本域
+     * 텍스트 영역
      */
-    TEXT_AREA(7, "文本域"),
+    TEXT_AREA(7, "텍스트 영역"),
 
     /**
-     * 日期时间框
+     * 날짜/시간 선택기
      */
-    DATE(8, "日期框"),
+    DATE(8, "날짜 선택기"),
 
     /**
-     * 日期框
+     * 날짜 선택기
      */
-    DATE_TIME(9, "日期时间框"),
+    DATE_TIME(9, "날짜/시간 선택기"),
 
     /**
-     * 隐藏域
+     * 숨김 필드
      */
-    HIDDEN(10, "隐藏域");
+    HIDDEN(10, "숨김 필드");
 
 
-    //  Mybatis-Plus 提供注解表示插入数据库时插入该值
+    //  Mybatis-Plus 어노테이션, 데이터베이스에 삽입 시 이 값을 사용
     @EnumValue
     @JsonValue
     private final Integer value;
 
-    // @JsonValue //  表示对枚举序列化时返回此字段
+    // @JsonValue //  열거형 직렬화 시 이 필드를 반환
     private final String label;
 
 

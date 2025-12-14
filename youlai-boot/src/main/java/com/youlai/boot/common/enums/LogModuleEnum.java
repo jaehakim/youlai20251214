@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 /**
- * 日志模块枚举
+ * 로그 모듈 열거형
  *
  * @author Ray
  * @since 2.10.0
@@ -14,15 +14,15 @@ import lombok.Getter;
 @Getter
 public enum LogModuleEnum {
 
-    EXCEPTION("异常"),
-    LOGIN("登录"),
-    USER("用户"),
-    DEPT("部门"),
-    ROLE("角色"),
-    MENU("菜单"),
-    DICT("字典"),
-    SETTING("系统配置"),
-    OTHER("其他");
+    EXCEPTION("예외"),
+    LOGIN("로그인"),
+    USER("사용자"),
+    DEPT("부서"),
+    ROLE("역할"),
+    MENU("메뉴"),
+    DICT("사전"),
+    SETTING("시스템 설정"),
+    OTHER("기타");
 
     @JsonValue
     private final String moduleName;

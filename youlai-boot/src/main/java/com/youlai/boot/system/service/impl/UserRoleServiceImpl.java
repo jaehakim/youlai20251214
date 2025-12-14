@@ -25,10 +25,10 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
   private final TokenManager tokenManager;
 
   /**
-   * 保存用户角色
+   * 저장사용자역할
    *
-   * @param userId 用户ID
-   * @param roleIds 选择的角色ID集合
+   * @param userId 사용자ID
+   * @param roleIds 选择의역할ID集合
    * @return
    */
   @Override
@@ -37,7 +37,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
       return ;
     }
 
-    // 获取现有角色
+    // 조회现有역할
     List<Long> userRoleIds = this.list(new LambdaQueryWrapper<UserRole>()
         .select(UserRole::getRoleId)
         .eq(UserRole::getUserId, userId))
@@ -45,7 +45,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
       .map(UserRole::getRoleId)
       .toList();
 
-    // 使用Set提升对比效率
+    // 사용Set提升对比效率
     Set<Long> oldRoles = new HashSet<>(userRoleIds);
     Set<Long> newRoles = new HashSet<>(roleIds);
 
@@ -58,31 +58,31 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
 
     boolean rolesChanged = !addedRoles.isEmpty() || !removedRoles.isEmpty();
 
-    // 批量保存新增角色
+    // 批量저장추가역할
     if (!addedRoles.isEmpty()) {
       this.saveBatch(addedRoles.stream()
         .map(roleId -> new UserRole(userId, roleId))
         .collect(Collectors.toList()));
     }
 
-    // 删除废弃角色
+    // 삭제废弃역할
     if (!removedRoles.isEmpty()) {
       this.remove(new LambdaQueryWrapper<UserRole>()
         .eq(UserRole::getUserId, userId)
         .in(UserRole::getRoleId, removedRoles));
     }
 
-    // 当权限变更时清除被修改用户的登录态
+    // 当권한变更时제거被사용자 수정의로그인态
     if (rolesChanged) {
       tokenManager.invalidateUserSessions(userId);
     }
   }
 
   /**
-   * 判断角色是否存在绑定的用户
+   * 判断역할여부存에바인딩의사용자
    *
-   * @param roleId 角色ID
-   * @return true：已分配 false：未分配
+   * @param roleId 역할ID
+   * @return true：이미分配 false：미分配
    */
   @Override
   public boolean hasAssignedUsers(Long roleId) {

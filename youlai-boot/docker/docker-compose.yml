@@ -1,4 +1,4 @@
-# 创建一个名为 "youlai-boot" 的桥接网络，在同一个网络中的容器可以通过容器名互相访问
+# "youlai-boot"라는 이름의 브리지 네트워크 생성, 동일한 네트워크의 컨테이너는 컨테이너명을 통해 서로 접근 가능
 networks:
   youlai-boot:
     driver: bridge
@@ -7,25 +7,25 @@ services:
   mysql:
     image: mysql:8.0.29
     container_name: mysql
-    restart: unless-stopped # 重启策略：除非手动停止容器，否则自动重启
+    restart: unless-stopped # 재시작 정책: 수동으로 중지하지 않는 한 자동 재시작
     environment:
       - TZ=Asia/Shanghai
       - LANG= en_US.UTF-8
-      - MYSQL_ROOT_PASSWORD=123456 #设置 root 用户的密码
+      - MYSQL_ROOT_PASSWORD=123456 # root 사용자의 비밀번호 설정
     volumes:
-      - ./mysql/conf/my.cnf:/etc/my.cnf # 挂载 my.cnf 文件到容器的指定路径
-      - ./mysql/data:/var/lib/mysql # 持久化 MySQL 数据
-      - ../sql/mysql:/docker-entrypoint-initdb.d # 初始化 SQL 脚本目录
+      - ./mysql/conf/my.cnf:/etc/my.cnf # my.cnf 파일을 컨테이너의 지정 경로에 마운트
+      - ./mysql/data:/var/lib/mysql # MySQL 데이터 영구 저장
+      - ../sql/mysql:/docker-entrypoint-initdb.d # SQL 스크립트 초기화 디렉토리
     ports:
       - 3306:3306
     networks:
-      - youlai-boot # 加入 "youlai-boot" 网络
+      - youlai-boot # "youlai-boot" 네트워크에 가입
 
   redis:
     image: redis:7.2.3
     container_name: redis
     restart: unless-stopped
-    command: redis-server /etc/redis/redis.conf --requirepass 123456 --appendonly no # 启动 Redis 服务并添加密码为：123456，默认不开启 Redis AOF 方式持久化配置
+    command: redis-server /etc/redis/redis.conf --requirepass 123456 --appendonly no # Redis 서비스 시작 및 비밀번호 123456 추가, 기본적으로 Redis AOF 방식 영구 저장 설정 비활성화
     environment:
       - TZ=Asia/Shanghai
     volumes:

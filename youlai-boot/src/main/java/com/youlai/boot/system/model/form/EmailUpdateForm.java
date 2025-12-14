@@ -5,21 +5,21 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
- * 修改邮箱表单
+ * 이메일 수정 폼
  *
  * @author Ray.Hao
  * @since 2024/8/19
  */
-@Schema(description = "修改邮箱表单")
+@Schema(description = "이메일 수정 폼")
 @Data
 public class EmailUpdateForm {
 
-    @Schema(description = "邮箱")
-    @NotBlank(message = "邮箱不能为空")
+    @Schema(description = "이메일")
+    @NotBlank(message = "이메일은 비어있을 수 없습니다")
     private String email;
 
-    @Schema(description = "验证码")
-    @NotBlank(message = "验证码不能为空")
+    @Schema(description = "인증코드")
+    @NotBlank(message = "인증코드는 비어있을 수 없습니다")
     private String code;
 
 }

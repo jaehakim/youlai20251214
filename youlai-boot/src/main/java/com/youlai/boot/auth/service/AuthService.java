@@ -6,7 +6,7 @@ import com.youlai.boot.security.model.AuthenticationToken;
 import com.youlai.boot.auth.model.dto.WxMiniAppCodeLoginDTO;
 
 /**
- * 认证服务接口
+ * 인증 서비스 인터페이스
  *
  * @author Ray.Hao
  * @since 2.4.0
@@ -14,71 +14,71 @@ import com.youlai.boot.auth.model.dto.WxMiniAppCodeLoginDTO;
 public interface AuthService {
 
     /**
-     * 登录
+     * 로그인
      *
-     * @param username 用户名
-     * @param password 密码
-     * @return 登录结果
+     * @param username 사용자명
+     * @param password 비밀번호
+     * @return 로그인결과
      */
     AuthenticationToken login(String username, String password);
 
     /**
-     * 登出
+     * 로그아웃
      */
     void logout();
 
     /**
-     * 获取验证码
+     * 인증코드 조회
      *
-     * @return 验证码
+     * @return 인증코드
      */
     CaptchaVO getCaptcha();
 
     /**
-     * 刷新令牌
+     * 토큰 갱신
      *
-     * @param refreshToken 刷新令牌
-     * @return 登录结果
+     * @param refreshToken 토큰 갱신
+     * @return 로그인결과
      */
     AuthenticationToken refreshToken(String refreshToken);
 
     /**
-     * 微信小程序登录
+     * 위챗 미니 프로그램 로그인
      *
-     * @param code 微信登录code
-     * @return 登录结果
+     * @param code 위챗 로그인code
+     * @return 로그인결과
      */
     AuthenticationToken loginByWechat(String code);
 
     /**
-     * 微信小程序Code登录
+     * 위챗미니 프로그램Code로그인
      *
-     * @param loginDTO 登录参数
-     * @return 访问令牌
+     * @param loginDTO 로그인参수
+     * @return 접근토큰
      */
     AuthenticationToken loginByWxMiniAppCode(WxMiniAppCodeLoginDTO loginDTO);
 
     /**
-     * 微信小程序手机号登录
+     * 위챗미니 프로그램휴대폰 번호로그인
      *
-     * @param loginDTO 登录参数
-     * @return 访问令牌
+     * @param loginDTO 로그인参수
+     * @return 접근토큰
      */
     AuthenticationToken loginByWxMiniAppPhone(WxMiniAppPhoneLoginDTO loginDTO);
 
     /**
-     * 发送短信验证码
+     * 발송SMS인증코드
      *
-     * @param mobile 手机号
+     * @param mobile 휴대폰 번호
      */
     void sendSmsLoginCode(String mobile);
 
     /**
-     * 短信验证码登录
+     * SMS 인증 로그인
      *
-     * @param mobile 手机号
-     * @param code   验证码
-     * @return 登录结果
+     * @param mobile 휴대폰 번호
+     * @param code   인증코드
+     * @return 로그인결과
      */
     AuthenticationToken loginBySms(String mobile, String code);
 }

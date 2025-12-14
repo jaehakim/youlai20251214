@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * 系统用户认证 DetailsService
+ * 시스템사용자인증 DetailsService
  *
  * @author Ray.Hao
  * @since 2021/10/19
@@ -24,11 +24,11 @@ public class SysUserDetailsService implements UserDetailsService {
     private final UserService userService;
 
     /**
-     * 根据用户名获取用户信息
+     * 根据사용자명조회사용자 정보
      *
-     * @param username 用户名
-     * @return 用户信息
-     * @throws UsernameNotFoundException 用户名未找到异常
+     * @param username 사용자명
+     * @return 사용자 정보
+     * @throws UsernameNotFoundException 사용자명미找到오류
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -39,9 +39,9 @@ public class SysUserDetailsService implements UserDetailsService {
             }
             return new SysUserDetails(userAuthCredentials);
         } catch (Exception e) {
-            // 记录异常日志
-            log.error("认证异常:{}", e.getMessage());
-            // 抛出异常
+            // 기록오류로그
+            log.error("인증오류:{}", e.getMessage());
+            // 抛出오류
             throw e;
         }
     }

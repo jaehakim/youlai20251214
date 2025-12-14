@@ -11,40 +11,40 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 /**
- * 用户分页查询对象
+ * 사용자 페이지 조회 객체
  *
  * @author haoxr
  * @since 2022/1/14
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "用户分页查询对象")
+@Schema(description = "사용자 페이지 조회 객체")
 public class UserPageQuery extends BasePageQuery {
 
-    @Schema(description = "关键字(用户名/昵称/手机号)")
+    @Schema(description = "키워드(사용자명/닉네임/휴대폰 번호)")
     private String keywords;
 
-    @Schema(description = "用户状态")
+    @Schema(description = "사용자 상태")
     private Integer status;
 
-    @Schema(description = "部门ID")
+    @Schema(description = "부서 ID")
     private Long deptId;
 
-    @Schema(description = "角色ID")
+    @Schema(description = "역할 ID")
     private List<Long> roleIds;
 
-    @Schema(description = "创建时间范围")
+    @Schema(description = "생성 시간 범위")
     private List<String> createTime;
 
-    @Schema(description = "排序的字段")
+    @Schema(description = "정렬 필드")
     @ValidField(allowedValues = {"create_time", "update_time"})
     private String field;
 
-    @Schema(description = "排序方式（正序:ASC；反序:DESC）")
+    @Schema(description = "정렬 방식(오름차순:ASC;내림차순:DESC)")
     private Direction direction;
 
     /**
-     * 是否超级管理员
+     * 슈퍼 관리자 여부
      */
     @JsonIgnore
     @Schema(hidden = true)

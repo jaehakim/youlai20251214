@@ -9,26 +9,26 @@ import java.util.List;
 
 
 /**
- * 字典分页VO
+ * 사전 페이지 VO
  *
  * @author Ray
  * @since 0.0.1
  */
-@Schema(description = "字典分页对象")
+@Schema(description = "사전 페이지 객체")
 @Getter
 @Setter
 public class DictPageVO {
 
-    @Schema(description = "字典ID")
+    @Schema(description = "사전 ID")
     private Long id;
 
-    @Schema(description = "字典名称")
+    @Schema(description = "사전명")
     private String name;
 
-    @Schema(description = "字典编码")
+    @Schema(description = "사전 코드")
     private String dictCode;
 
-    @Schema(description = "字典状态（1-启用，0-禁用）")
+    @Schema(description = "사전 상태（1-활성화，0-비활성화）")
     private Integer status;
 
 }

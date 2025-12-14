@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 角色菜单服务实现类
+ * 역할메뉴서비스구현类
  *
  * @author Ray.Hao
  * @since 2.5.0
@@ -31,20 +31,20 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
     private final RedisTemplate<String, Object> redisTemplate;
 
     /**
-     * 初始化权限缓存
+     * 初始化권한캐시
      */
     @PostConstruct
     public void initRolePermsCache() {
-        log.info("初始化权限缓存... ");
+        log.info("初始化권한캐시... ");
         refreshRolePermsCache();
     }
 
     /**
-     * 刷新权限缓存
+     * 새로고침권한캐시
      */
     @Override
     public void refreshRolePermsCache() {
-        // 清理权限缓存
+        // 清理권한캐시
         redisTemplate.opsForHash().delete(RedisConstants.System.ROLE_PERMS, "*");
 
         List<RolePermsBO> list = this.baseMapper.getRolePermsList(null);
@@ -60,11 +60,11 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
     }
 
     /**
-     * 刷新权限缓存
+     * 새로고침권한캐시
      */
     @Override
     public void refreshRolePermsCache(String roleCode) {
-        // 清理权限缓存
+        // 清理권한캐시
         redisTemplate.opsForHash().delete(RedisConstants.System.ROLE_PERMS, roleCode);
 
         List<RolePermsBO> list = this.baseMapper.getRolePermsList(roleCode);
@@ -82,14 +82,14 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
     }
 
     /**
-     * 刷新权限缓存 (角色编码变更时调用)
+     * 새로고침권한캐시 (역할코드变更时调用)
      */
     @Override
     public void refreshRolePermsCache(String oldRoleCode, String newRoleCode) {
-        // 清理旧角色权限缓存
+        // 清理旧역할 권한캐시
         redisTemplate.opsForHash().delete(RedisConstants.System.ROLE_PERMS, oldRoleCode);
 
-        // 添加新角色权限缓存
+        // 添加새역할 권한캐시
         List<RolePermsBO> list = this.baseMapper.getRolePermsList(newRoleCode);
         if (CollectionUtil.isNotEmpty(list)) {
             RolePermsBO rolePerms = list.get(0);
@@ -103,10 +103,10 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
     }
 
     /**
-     * 获取角色权限集合
+     * 조회역할 권한集合
      *
-     * @param roles 角色编码集合
-     * @return 权限集合
+     * @param roles 역할코드集合
+     * @return 권한集合
      */
     @Override
     public Set<String> getRolePermsByRoleCodes(Set<String> roles) {
@@ -114,10 +114,10 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
     }
 
     /**
-     * 获取角色拥有的菜单ID集合
+     * 조회역할拥有의메뉴ID集合
      *
-     * @param roleId 角色ID
-     * @return 菜单ID集合
+     * @param roleId 역할ID
+     * @return 메뉴ID集合
      */
     @Override
     public List<Long> listMenuIdsByRoleId(Long roleId) {

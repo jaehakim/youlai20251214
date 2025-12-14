@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 用户会话DTO
+ * 사용자 세션 DTO
  *
  * @author Ray.Hao
  * @since 3.0.0
@@ -15,17 +15,17 @@ import java.util.Set;
 public class UserSessionDTO {
 
     /**
-     * 用户名
+     * 사용자명
      */
     private String username;
 
     /**
-     * 用户会话ID集合
+     * 사용자 세션 ID 집합
      */
     private Set<String> sessionIds;
 
     /**
-     * 最后活动时间
+     * 마지막 활동 시간
      */
     private long lastActiveTime;
 

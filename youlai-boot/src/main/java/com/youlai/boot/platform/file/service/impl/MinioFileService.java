@@ -25,7 +25,7 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 
 /**
- * MinIO 文件上传服务类
+ * MinIO 파일 업로드서비스类
  *
  * @author Ray.Hao
  * @since 2023/6/2
@@ -39,11 +39,11 @@ import java.time.LocalDateTime;
 public class MinioFileService implements FileService {
 
     /**
-     * 服务Endpoint
+     * 서비스Endpoint
      */
     private String endpoint;
     /**
-     * 访问凭据
+     * 접근凭据
      */
     private String accessKey;
     /**
@@ -51,7 +51,7 @@ public class MinioFileService implements FileService {
      */
     private String secretKey;
     /**
-     * 存储桶名称
+     * 存储桶이름
      */
     private String bucketName;
     /**
@@ -61,42 +61,42 @@ public class MinioFileService implements FileService {
 
     private MinioClient minioClient;
 
-    // 依赖注入完成之后执行初始化
+    // 依赖注入完成之후执行初始化
     @PostConstruct
     public void init() {
         minioClient = MinioClient.builder()
                 .endpoint(endpoint)
                 .credentials(accessKey, secretKey)
                 .build();
-        // 创建存储桶(存储桶不存在)
+        // 생성存储桶(存储桶不存에)
         // createBucketIfAbsent(bucketName);
     }
 
 
     /**
-     * 上传文件
+     * 업로드파일
      *
-     * @param file 表单文件对象
-     * @return 文件信息
+     * @param file 폼 파일 객체
+     * @return 파일信息
      */
     @Override
     public FileInfo uploadFile(MultipartFile file) {
 
-        // 创建存储桶(存储桶不存在)，如果有搭建好的minio服务，建议放在init方法中
+        // 생성存储桶(存储桶不存에)，如果有搭建好의minio서비스，建议放에init方法중
         createBucketIfAbsent(bucketName);
 
-        // 文件原生名称
+        // 파일原生이름
         String originalFilename = file.getOriginalFilename();
-        // 文件后缀
+        // 파일후缀
         String suffix = FileUtil.getSuffix(originalFilename);
-        // 文件夹名称
+        // 파일夹이름
         String dateFolder = DateUtil.format(LocalDateTime.now(), "yyyyMMdd");
-        // 文件名称
+        // 파일이름
         String fileName = IdUtil.simpleUUID() + "." + suffix;
 
         //  try-with-resource 语法糖自动释放流
         try (InputStream inputStream = file.getInputStream()) {
-            // 文件上传
+            // 파일 업로드
             PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                     .bucket(bucketName)
                     .object(dateFolder + "/"+ fileName)
@@ -105,11 +105,11 @@ public class MinioFileService implements FileService {
                     .build();
             minioClient.putObject(putObjectArgs);
 
-            // 返回文件路径
+            // 返回파일경로
             String fileUrl;
-            // 未配置自定义域名
+            // 미설정自定义域名
             if (StrUtil.isBlank(customDomain)) {
-                // 获取文件URL
+                // 조회파일URL
                 GetPresignedObjectUrlArgs getPresignedObjectUrlArgs = GetPresignedObjectUrlArgs.builder()
                         .bucket(bucketName)
                         .object(dateFolder + "/"+ fileName)
@@ -119,7 +119,7 @@ public class MinioFileService implements FileService {
                 fileUrl = minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
                 fileUrl = fileUrl.substring(0, fileUrl.indexOf("?"));
             } else {
-                // 配置自定义文件路径域名
+                // 설정自定义파일경로域名
                 fileUrl = customDomain + "/"+ bucketName + "/"+ dateFolder + "/"+ fileName;
             }
 
@@ -128,26 +128,26 @@ public class MinioFileService implements FileService {
             fileInfo.setUrl(fileUrl);
             return fileInfo;
         } catch (Exception e) {
-            log.error("上传文件失败", e);
+            log.error("업로드파일실패", e);
             throw new BusinessException(ResultCode.UPLOAD_FILE_EXCEPTION, e.getMessage());
         }
     }
 
 
     /**
-     * 删除文件
+     * 삭제파일
      *
-     * @param filePath 文件完整路径
-     * @return 是否删除成功
+     * @param filePath 파일完整경로
+     * @return 여부삭제성공
      */
     @Override
     public boolean deleteFile(String filePath) {
-        Assert.notBlank(filePath, "删除文件路径不能为空");
+        Assert.notBlank(filePath, "삭제파일경로不能값空");
         try {
             String fileName;
             if (StrUtil.isNotBlank(customDomain)) {
                 // https://oss.youlai.tech/default/20221120/test.jpg → 20221120/websocket.jpg
-                fileName = filePath.substring(customDomain.length() + 1 + bucketName.length() + 1); // 两个/占了2个字符长度
+                fileName = filePath.substring(customDomain.length() + 1 + bucketName.length() + 1); // 两个/占2个字符长度
             } else {
                 // http://localhost:9000/default/20221120/test.jpg → 20221120/websocket.jpg
                 fileName = filePath.substring(endpoint.length() + 1 + bucketName.length() + 1);
@@ -160,7 +160,7 @@ public class MinioFileService implements FileService {
             minioClient.removeObject(removeObjectArgs);
             return true;
         } catch (Exception e) {
-            log.error("删除文件失败", e);
+            log.error("삭제파일실패", e);
             throw new BusinessException(ResultCode.DELETE_FILE_EXCEPTION, e.getMessage());
         }
     }
@@ -168,13 +168,13 @@ public class MinioFileService implements FileService {
 
     /**
      * PUBLIC桶策略
-     * 如果不配置，则新建的存储桶默认是PRIVATE，则存储桶文件会拒绝访问 Access Denied
+     * 如果不설정，则새建의存储桶默认是PRIVATE，则存储桶파일会拒绝접근 Access Denied
      *
-     * @param bucketName 存储桶名称
+     * @param bucketName 存储桶이름
      * @return 存储桶策略
      */
     private static String publicBucketPolicy(String bucketName) {
-        // AWS的S3存储桶策略 JSON 格式 https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/example-bucket-policies.html
+        // AWS의S3存储桶策略 JSON 格式 https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/userguide/example-bucket-policies.html
         return "{\"Version\":\"2012-10-17\","
                 + "\"Statement\":[{\"Effect\":\"Allow\","
                 + "\"Principal\":{\"AWS\":[\"*\"]},"
@@ -186,9 +186,9 @@ public class MinioFileService implements FileService {
     }
 
     /**
-     * 创建存储桶(存储桶不存在)
+     * 생성存储桶(存储桶不存에)
      *
-     * @param bucketName 存储桶名称
+     * @param bucketName 存储桶이름
      */
     @SneakyThrows
     private void createBucketIfAbsent(String bucketName) {
@@ -198,7 +198,7 @@ public class MinioFileService implements FileService {
 
             minioClient.makeBucket(makeBucketArgs);
 
-            // 设置存储桶访问权限为PUBLIC， 如果不配置，则新建的存储桶默认是PRIVATE，则存储桶文件会拒绝访问 Access Denied
+            // 设置存储桶접근권한값PUBLIC， 如果不설정，则새建의存储桶默认是PRIVATE，则存储桶파일会拒绝접근 Access Denied
             SetBucketPolicyArgs setBucketPolicyArgs = SetBucketPolicyArgs
                     .builder()
                     .bucket(bucketName)

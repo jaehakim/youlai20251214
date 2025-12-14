@@ -40,7 +40,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 通知公告服务实现类
+ * 공지사항서비스구현类
  *
  * @author Theo
  * @since 2024-08-27 10:31
@@ -56,10 +56,10 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     private final UserOnlineService userOnlineService;
 
     /**
-     * 获取通知公告分页列表
+     * 조회공지사항페이지 목록
      *
-     * @param queryParams 查询参数
-     * @return {@link IPage< NoticePageVO >} 通知公告分页列表
+     * @param queryParams 조회参수
+     * @return {@link IPage< NoticePageVO >} 공지사항페이지 목록
      */
     @Override
     public IPage<NoticePageVO> getNoticePage(NoticePageQuery queryParams) {
@@ -71,10 +71,10 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     /**
-     * 获取通知公告表单数据
+     * 공지사항 폼 데이터 조회
      *
-     * @param id 通知公告ID
-     * @return {@link NoticeForm} 通知公告表单对象
+     * @param id 공지사항ID
+     * @return {@link NoticeForm} 공지사항폼객체
      */
     @Override
     public NoticeForm getNoticeFormData(Long id) {
@@ -83,10 +83,10 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     /**
-     * 新增通知公告
+     * 추가공지사항
      *
-     * @param formData 通知公告表单对象
-     * @return {@link Boolean} 是否新增成功
+     * @param formData 공지사항폼객체
+     * @return {@link Boolean} 여부추가성공
      */
     @Override
     public boolean saveNotice(NoticeForm formData) {
@@ -94,7 +94,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         if (NoticeTargetEnum.SPECIFIED.getValue().equals(formData.getTargetType())) {
             List<String> targetUserIdList = formData.getTargetUserIds();
             if (CollectionUtil.isEmpty(targetUserIdList)) {
-                throw new BusinessException("推送指定用户不能为空");
+                throw new BusinessException("推送지정된사용자不能값空");
             }
         }
         Notice entity = noticeConverter.toEntity(formData);
@@ -103,18 +103,18 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     /**
-     * 更新通知公告
+     * 업데이트공지사항
      *
-     * @param id       通知公告ID
-     * @param formData 通知公告表单对象
-     * @return {@link Boolean} 是否更新成功
+     * @param id       공지사항ID
+     * @param formData 공지사항폼객체
+     * @return {@link Boolean} 여부업데이트성공
      */
     @Override
     public boolean updateNotice(Long id, NoticeForm formData) {
         if (NoticeTargetEnum.SPECIFIED.getValue().equals(formData.getTargetType())) {
             List<String> targetUserIdList = formData.getTargetUserIds();
             if (CollectionUtil.isEmpty(targetUserIdList)) {
-                throw new BusinessException("推送指定用户不能为空");
+                throw new BusinessException("推送지정된사용자不能값空");
             }
         }
 
@@ -123,53 +123,53 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     /**
-     * 删除通知公告
+     * 삭제공지사항
      *
-     * @param ids 通知公告ID，多个以英文逗号(,)分割
-     * @return {@link Boolean} 是否删除成功
+     * @param ids 공지사항ID，여러 개는영문쉼표(,)로 구분
+     * @return {@link Boolean} 여부삭제성공
      */
     @Override
     @Transactional
     public boolean deleteNotices(String ids) {
         if (StrUtil.isBlank(ids)) {
-            throw new BusinessException("删除的通知公告数据为空");
+            throw new BusinessException("삭제의공지사항데이터값空");
         }
 
-        // 逻辑删除
+        // 逻辑삭제
         List<Long> idList = Arrays.stream(ids.split(","))
                 .map(Long::parseLong)
                 .toList();
         boolean isRemoved = this.removeByIds(idList);
         if (isRemoved) {
-            // 删除通知公告的同时，需要删除通知公告对应的用户通知状态
+            // 삭제공지사항의同时，需要삭제공지사항对应의사용자공지상태
             userNoticeService.remove(new LambdaQueryWrapper<UserNotice>().in(UserNotice::getNoticeId, idList));
         }
         return isRemoved;
     }
 
     /**
-     * 发布通知公告
+     * 발행공지사항
      *
-     * @param id 通知公告ID
-     * @return 是否发布成功
+     * @param id 공지사항ID
+     * @return 여부발행성공
      */
     @Override
     @Transactional
     public boolean publishNotice(Long id) {
         Notice notice = this.getById(id);
         if (notice == null) {
-            throw new BusinessException("通知公告不存在");
+            throw new BusinessException("공지사항不存에");
         }
 
         if (NoticePublishStatusEnum.PUBLISHED.getValue().equals(notice.getPublishStatus())) {
-            throw new BusinessException("通知公告已发布");
+            throw new BusinessException("공지사항이미발행");
         }
 
         Integer targetType = notice.getTargetType();
         String targetUserIds = notice.getTargetUserIds();
         if (NoticeTargetEnum.SPECIFIED.getValue().equals(targetType)
                 && StrUtil.isBlank(targetUserIds)) {
-            throw new BusinessException("推送指定用户不能为空");
+            throw new BusinessException("推送지정된사용자不能값空");
         }
 
         notice.setPublishStatus(NoticePublishStatusEnum.PUBLISHED.getValue());
@@ -178,12 +178,12 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         boolean publishResult = this.updateById(notice);
 
         if (publishResult) {
-            // 发布通知公告的同时，删除该通告之前的用户通知数据，因为可能是重新发布
+            // 발행공지사항의同时，삭제该通告之前의사용자공지데이터，因값가能是重새발행
             userNoticeService.remove(
                     new LambdaQueryWrapper<UserNotice>().eq(UserNotice::getNoticeId, id)
             );
 
-            // 添加新的用户通知数据
+            // 添加새의사용자공지데이터
             List<String> targetUserIdList = null;
             if (NoticeTargetEnum.SPECIFIED.getValue().equals(targetType)) {
                 targetUserIdList = Arrays.asList(targetUserIds.split(","));
@@ -191,7 +191,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
 
             List<User> targetUserList = userService.list(
                     new LambdaQueryWrapper<User>()
-                            // 如果是指定用户，则筛选出指定用户
+                            // 如果是지정된사용자，则筛选出지정된사용자
                             .in(
                                     NoticeTargetEnum.SPECIFIED.getValue().equals(targetType),
                                     User::getId,
@@ -217,7 +217,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
               .map(UserOnlineService.UserOnlineDTO::getUsername)
               .collect(Collectors.toSet());
 
-            // 找出在线用户的通知接收者
+            // 找出온라인 사용자의공지接收者
             Set<String> onlineReceivers = new HashSet<>(CollectionUtil.intersection(receivers, allOnlineUsers));
 
             NoticeDTO noticeDTO = new NoticeDTO();
@@ -232,21 +232,21 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     /**
-     * 撤回通知公告
+     * 회수공지사항
      *
-     * @param id 通知公告ID
-     * @return 是否撤回成功
+     * @param id 공지사항ID
+     * @return 여부회수성공
      */
     @Override
     @Transactional
     public boolean revokeNotice(Long id) {
         Notice notice = this.getById(id);
         if (notice == null) {
-            throw new BusinessException("通知公告不存在");
+            throw new BusinessException("공지사항不存에");
         }
 
         if (!NoticePublishStatusEnum.PUBLISHED.getValue().equals(notice.getPublishStatus())) {
-            throw new BusinessException("通知公告未发布或已撤回");
+            throw new BusinessException("공지사항미발행또는이미회수");
         }
 
         notice.setPublishStatus(NoticePublishStatusEnum.REVOKED.getValue());
@@ -256,7 +256,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         boolean revokeResult = this.updateById(notice);
 
         if (revokeResult) {
-            // 撤回通知公告的同时，需要删除通知公告对应的用户通知状态
+            // 회수공지사항의同时，需要삭제공지사항对应의사용자공지상태
             userNoticeService.remove(new LambdaQueryWrapper<UserNotice>()
                     .eq(UserNotice::getNoticeId, id)
             );
@@ -266,13 +266,13 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
 
     /**
      *
-     * @param id 通知公告ID
-     * @return NoticeDetailVO 通知公告详情
+     * @param id 공지사항ID
+     * @return NoticeDetailVO 공지사항상세
      */
     @Override
     public NoticeDetailVO getNoticeDetail(Long id) {
         NoticeBO noticeBO = this.baseMapper.getNoticeDetail(id);
-        // 更新用户通知公告的阅读状态
+        // 업데이트사용자공지사항의읽기상태
         Long userId = SecurityUtils.getUserId();
         userNoticeService.update(new LambdaUpdateWrapper<UserNotice>()
                 .eq(UserNotice::getNoticeId, id)
@@ -284,10 +284,10 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     /**
-     * 获取当前登录用户的通知公告列表
+     * 조회현재로그인사용자의공지사항목록
      *
-     * @param queryParams 查询参数
-     * @return 通知公告分页列表
+     * @param queryParams 조회参수
+     * @return 공지사항페이지 목록
      */
     @Override
     public IPage<UserNoticePageVO> getMyNoticePage(NoticePageQuery queryParams) {

@@ -4,7 +4,7 @@ import com.youlai.boot.common.base.IBaseEnum;
 import lombok.Getter;
 
 /**
- * 状态枚举
+ * 상태 열거형
  *
  * @author haoxr
  * @since 2022/10/14
@@ -12,8 +12,8 @@ import lombok.Getter;
 @Getter
 public enum StatusEnum implements IBaseEnum<Integer> {
 
-    ENABLE(1, "启用"),
-    DISABLE (0, "禁用");
+    ENABLE(1, "활성화"),
+    DISABLE (0, "비활성화");
 
     private final Integer value;
 

@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 部门实体对象
+ * 부서 엔티티 객체
  *
  * @author Ray.Hao
  * @since 2024/06/23
@@ -17,47 +17,47 @@ import lombok.Setter;
 public class Dept extends BaseEntity {
 
     /**
-     * 部门名称
+     * 부서명
      */
     private String name;
 
     /**
-     * 部门编码
+     * 부서 코드
      */
     private String code;
 
     /**
-     * 父节点id
+     * 상위 노드 id
      */
     private Long parentId;
 
     /**
-     * 父节点id路径
+     * 상위 노드 id 경로
      */
     private String treePath;
 
     /**
-     * 显示顺序
+     * 표시 순서
      */
     private Integer sort;
 
     /**
-     * 状态(1-正常 0-禁用)
+     * 상태(1-정상 0-비활성화)
      */
     private Integer status;
 
     /**
-     * 创建人 ID
+     * 생성자 ID
      */
     private Long createBy;
 
     /**
-     * 更新人 ID
+     * 수정자 ID
      */
     private Long updateBy;
 
     /**
-     * 是否删除(0-否 1-是)
+     * 삭제 여부(0-아니오 1-예)
      */
     private Integer isDeleted;
 

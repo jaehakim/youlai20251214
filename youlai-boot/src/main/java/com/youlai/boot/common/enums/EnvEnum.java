@@ -4,7 +4,7 @@ import com.youlai.boot.common.base.IBaseEnum;
 import lombok.Getter;
 
 /**
- * 环境枚举
+ * 환경 열거형
  *
  * @author Ray
  * @since 4.0.0
@@ -12,8 +12,8 @@ import lombok.Getter;
 @Getter
 public enum EnvEnum implements IBaseEnum<String> {
 
-    DEV("dev", "开发环境"),
-    PROD("prod", "生产环境");
+    DEV("dev", "개발 환경"),
+    PROD("prod", "프로덕션 환경");
 
     private final String value;
 

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.youlai.boot.platform.codegen.model.entity.GenFieldConfig;
 
 /**
- * 代码生成配置接口
+ * 코드 생성설정인터페이스
  *
  * @author Ray
  * @since 2.10.0

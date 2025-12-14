@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- * AI 命令记录服务实现类
+ * AI 명령 기록서비스구현类
  */
 @Service
 @Slf4j
@@ -31,16 +31,16 @@ public class AiCommandRecordServiceImpl extends ServiceImpl<AiCommandRecordMappe
     public void rollbackCommand(String recordId) {
         AiCommandRecord record = this.getById(recordId);
         if (record == null) {
-            throw new RuntimeException("命令记录不存在");
+            throw new RuntimeException("명령 기록不存에");
         }
 
         if (!"success".equals(record.getExecuteStatus())) {
-            throw new RuntimeException("只能撤销成功执行的命令");
+            throw new RuntimeException("만能撤销성공执行의명령");
         }
 
-        // TODO: 实现具体的回滚逻辑
-        log.info("撤销命令执行: recordId={}, function={}", recordId, record.getFunctionName());
-        throw new UnsupportedOperationException("回滚功能尚未实现");
+        // TODO: 구현具体의回滚逻辑
+        log.info("명령 실행 취소: recordId={}, function={}", recordId, record.getFunctionName());
+        throw new UnsupportedOperationException("回滚功能尚미구현");
     }
 }
 

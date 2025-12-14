@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 角色和菜单关联表
+ * 역할과 메뉴 연관 테이블
  */
 @TableName("sys_role_menu")
 @Data
@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RoleMenu {
     /**
-     * 角色ID
+     * 역할 ID
      */
     private Long roleId;
 
     /**
-     * 菜单ID
+     * 메뉴 ID
      */
     private Long menuId;
 

@@ -10,7 +10,7 @@ import com.youlai.boot.system.model.vo.UserNoticePageVO;
 import com.youlai.boot.system.model.vo.NoticeDetailVO;
 
 /**
- * 通知公告服务类
+ * 공지사항서비스类
  *
  * @author youlaitech
  * @since 2024-08-27 10:31
@@ -18,74 +18,74 @@ import com.youlai.boot.system.model.vo.NoticeDetailVO;
 public interface NoticeService extends IService<Notice> {
 
     /**
-     * 通知公告分页列表
+     * 공지사항페이지 목록
      *
-     * @return 通知公告分页列表
+     * @return 공지사항페이지 목록
      */
     IPage<NoticePageVO> getNoticePage(NoticePageQuery queryParams);
 
     /**
-     * 获取通知公告表单数据
+     * 공지사항 폼 데이터 조회
      *
-     * @param id 通知公告ID
-     * @return 通知公告表单对象
+     * @param id 공지사항ID
+     * @return 공지사항폼객체
      */
     NoticeForm getNoticeFormData(Long id);
 
     /**
-     * 新增通知公告
+     * 추가공지사항
      *
-     * @param formData 通知公告表单对象
-     * @return 是否新增成功
+     * @param formData 공지사항폼객체
+     * @return 여부추가성공
      */
     boolean saveNotice(NoticeForm formData);
 
     /**
-     * 修改通知公告
+     * 수정공지사항
      *
-     * @param id       通知公告ID
-     * @param formData 通知公告表单对象
-     * @return 是否修改成功
+     * @param id       공지사항ID
+     * @param formData 공지사항폼객체
+     * @return 여부수정성공
      */
     boolean updateNotice(Long id, NoticeForm formData);
 
     /**
-     * 删除通知公告
+     * 삭제공지사항
      *
-     * @param ids 通知公告ID，多个以英文逗号(,)分割
-     * @return 是否删除成功
+     * @param ids 공지사항ID，여러 개는영문쉼표(,)로 구분
+     * @return 여부삭제성공
      */
     boolean deleteNotices(String ids);
 
     /**
-     * 发布通知公告
+     * 발행공지사항
      *
-     * @param id 通知公告ID
-     * @return 是否发布成功
+     * @param id 공지사항ID
+     * @return 여부발행성공
      */
     boolean publishNotice(Long id);
 
     /**
-     * 撤回通知公告
+     * 회수공지사항
      *
-     * @param id 通知公告ID
-     * @return 是否撤回成功
+     * @param id 공지사항ID
+     * @return 여부회수성공
      */
     boolean revokeNotice(Long id);
 
     /**
-     * 阅读获取通知公告详情
+     * 공지사항 상세 읽기 조회
      *
-     * @param id 通知公告ID
-     * @return 通知公告详情
+     * @param id 공지사항ID
+     * @return 공지사항상세
      */
     NoticeDetailVO getNoticeDetail(Long id);
 
     /**
-     * 获取我的通知公告分页列表
+     * 내 공지사항 페이지 목록 조회
      *
-     * @param queryParams 查询参数
-     * @return 通知公告分页列表
+     * @param queryParams 조회参수
+     * @return 공지사항페이지 목록
      */
     IPage<UserNoticePageVO> getMyNoticePage(NoticePageQuery queryParams);
 }

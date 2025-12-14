@@ -4,7 +4,7 @@ import lombok.Data;
 import java.util.Map;
 
 /**
- * AI 解析请求 DTO
+ * AI 파싱 요청 DTO
  *
  * @author Ray.Hao
  * @since 3.0.0
@@ -13,22 +13,22 @@ import java.util.Map;
 public class AiParseRequestDTO {
 
     /**
-     * 用户输入的自然语言命令
+     * 사용자가 입력한 자연어 명령
      */
     private String command;
 
     /**
-     * 当前页面路由（用于上下文）
+     * 현재 페이지 라우트 (컨텍스트용)
      */
     private String currentRoute;
 
     /**
-     * 当前激活的组件名称
+     * 현재 활성화된 컴포넌트 이름
      */
     private String currentComponent;
 
     /**
-     * 额外上下文信息
+     * 추가 컨텍스트 정보
      */
     private Map<String, Object> context;
 }

@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 字典项实体对象
+ * 사전 항목 엔티티 객체
  *
  * @author Ray.Hao
  * @since 2022/12/17
@@ -17,37 +17,37 @@ import lombok.EqualsAndHashCode;
 public class DictItem extends BaseEntity {
 
     /**
-     * 字典编码
+     * 사전 코드
      */
     private String dictCode;
 
     /**
-     * 字典项名称
+     * 사전 항목명
      */
     private String label;
 
     /**
-     * 字典项值
+     * 사전 항목 값
      */
     private String value;
 
     /**
-     * 排序
+     * 정렬
      */
     private Integer sort;
 
     /**
-     * 状态（1-正常，0-禁用）
+     * 상태(1-정상, 0-비활성화)
      */
     private Integer status;
 
     /**
-     * 备注
+     * 비고
      */
     private String remark;
 
     /**
-     * 标签类型
+     * 태그 유형
      */
     private String tagType;
 }

@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
- * 代码生成字段配置服务实现类
+ * 코드 생성필드 설정서비스구현类
  *
  * @author Ray
  * @since 2.10.0

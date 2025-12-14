@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 部门 业务实现类
+ * 부서 비즈니스구현类
  *
  * @author Ray
  * @since 2021/08/22
@@ -39,15 +39,15 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     private final DeptConverter deptConverter;
 
     /**
-     * 获取部门列表
+     * 조회부서 목록
      */
     @Override
     public List<DeptVO> getDeptList(DeptQuery queryParams) {
-        // 查询参数
+        // 조회参수
         String keywords = queryParams.getKeywords();
         Integer status = queryParams.getStatus();
 
-        // 查询数据
+        // 조회데이터
         List<Dept> deptList = this.list(
                 new LambdaQueryWrapper<Dept>()
                         .like(StrUtil.isNotBlank(keywords), Dept::getName, keywords)
@@ -59,29 +59,29 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
             return Collections.EMPTY_LIST;
         }
 
-        // 获取所有部门ID
+        // 조회所有부서ID
         Set<Long> deptIds = deptList.stream()
                 .map(Dept::getId)
                 .collect(Collectors.toSet());
-        // 获取父节点ID
+        // 조회父节点ID
         Set<Long> parentIds = deptList.stream()
                 .map(Dept::getParentId)
                 .collect(Collectors.toSet());
-        // 获取根节点ID（递归的起点），即父节点ID中不包含在部门ID中的节点，注意这里不能拿顶级部门 O 作为根节点，因为部门筛选的时候 O 会被过滤掉
+        // 조회根节点ID（递归의起点），即父节点ID중不包含에부서ID중의节点，注意这里不能拿顶级부서 O 作값根节点，因값부서筛选의时候 O 会被过滤掉
         List<Long> rootIds = CollectionUtil.subtractToList(parentIds, deptIds);
 
-        // 递归生成部门树形列表
+        // 递归생성부서树形목록
         return rootIds.stream()
                 .flatMap(rootId -> recurDeptList(rootId, deptList).stream())
                 .toList();
     }
 
     /**
-     * 递归生成部门树形列表
+     * 递归생성부서树形목록
      *
      * @param parentId 父ID
-     * @param deptList 部门列表
-     * @return 部门树形列表
+     * @param deptList 부서 목록
+     * @return 부서树形목록
      */
     public List<DeptVO> recurDeptList(Long parentId, List<Dept> deptList) {
         return deptList.stream()
@@ -95,9 +95,9 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     }
 
     /**
-     * 部门下拉选项
+     * 부서 드롭다운 옵션
      *
-     * @return 部门下拉List集合
+     * @return 부서下拉List集合
      */
     @Override
     public List<Option<Long>> listDeptOptions() {
@@ -121,48 +121,48 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 
         List<Long> rootIds = CollectionUtil.subtractToList(parentIds, deptIds);
 
-        // 递归生成部门树形列表
+        // 递归생성부서树形목록
         return rootIds.stream()
                 .flatMap(rootId -> recurDeptTreeOptions(rootId, deptList).stream())
                 .toList();
     }
 
     /**
-     * 新增部门
+     * 추가부서
      *
-     * @param formData 部门表单
-     * @return 部门ID
+     * @param formData 부서폼
+     * @return 부서ID
      */
     @Override
     public Long saveDept(DeptForm formData) {
-        // 校验部门名称是否存在
+        // 검증부서이름여부存에
         String code = formData.getCode();
         long count = this.count(new LambdaQueryWrapper<Dept>()
                 .eq(Dept::getCode, code)
         );
-        Assert.isTrue(count == 0, "部门编号已存在");
+        Assert.isTrue(count == 0, "부서번호이미存에");
 
         // form->entity
         Dept entity = deptConverter.toEntity(formData);
 
-        // 生成部门路径(tree_path)，格式：父节点tree_path + , + 父节点ID，用于删除部门时级联删除子部门
+        // 생성부서경로(tree_path)，格式：父节点tree_path + , + 父节点ID，용도삭제부서时级联삭제子부서
         String treePath = generateDeptTreePath(formData.getParentId());
         entity.setTreePath(treePath);
 
         entity.setCreateBy(SecurityUtils.getUserId());
-        // 保存部门并返回部门ID
+        // 저장부서并返回부서ID
         boolean result = this.save(entity);
-        Assert.isTrue(result, "部门保存失败");
+        Assert.isTrue(result, "부서저장실패");
 
         return entity.getId();
     }
 
 
     /**
-     * 获取部门表单
+     * 조회부서폼
      *
-     * @param deptId 部门ID
-     * @return 部门表单对象
+     * @param deptId 부서ID
+     * @return 부서폼객체
      */
     @Override
     public DeptForm getDeptForm(Long deptId) {
@@ -172,44 +172,44 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 
 
     /**
-     * 更新部门
+     * 업데이트부서
      *
-     * @param deptId   部门ID
-     * @param formData 部门表单
-     * @return 部门ID
+     * @param deptId   부서ID
+     * @param formData 부서폼
+     * @return 부서ID
      */
     @Override
     public Long updateDept(Long deptId, DeptForm formData) {
-        // 校验部门名称/部门编号是否存在
+        // 검증부서이름/부서번호여부存에
         String code = formData.getCode();
         long count = this.count(new LambdaQueryWrapper<Dept>()
                 .ne(Dept::getId, deptId)
                 .eq(Dept::getCode, code)
         );
-        Assert.isTrue(count == 0, "部门编号已存在");
+        Assert.isTrue(count == 0, "부서번호이미存에");
 
 
         // form->entity
         Dept entity = deptConverter.toEntity(formData);
         entity.setId(deptId);
 
-        // 生成部门路径(tree_path)，格式：父节点tree_path + , + 父节点ID，用于删除部门时级联删除子部门
+        // 생성부서경로(tree_path)，格式：父节点tree_path + , + 父节点ID，용도삭제부서时级联삭제子부서
         String treePath = generateDeptTreePath(formData.getParentId());
         entity.setTreePath(treePath);
 
-        // 保存部门并返回部门ID
+        // 저장부서并返回부서ID
         boolean result = this.updateById(entity);
-        Assert.isTrue(result, "部门更新失败");
+        Assert.isTrue(result, "부서업데이트실패");
 
         return entity.getId();
     }
 
     /**
-     * 递归生成部门表格层级列表
+     * 递归생성부서表格层级목록
      *
      * @param parentId 父ID
-     * @param deptList 部门列表
-     * @return 部门表格层级列表
+     * @param deptList 부서 목록
+     * @return 부서表格层级목록
      */
     public static List<Option<Long>> recurDeptTreeOptions(long parentId, List<Dept> deptList) {
         return CollectionUtil.emptyIfNull(deptList).stream()
@@ -227,14 +227,14 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 
 
     /**
-     * 删除部门
+     * 삭제부서
      *
-     * @param ids 部门ID，多个以英文逗号,拼接字符串
-     * @return 是否删除成功
+     * @param ids 부서ID，여러 개는영문쉼표,로 연결字符串
+     * @return 여부삭제성공
      */
     @Override
     public boolean deleteByIds(String ids) {
-        // 删除部门及子部门
+        // 삭제부서及子부서
         if (StrUtil.isNotBlank(ids)) {
             String[] menuIds = ids.split(",");
             for (String deptId : menuIds) {
@@ -253,10 +253,10 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 
 
     /**
-     * 部门路径生成
+     * 부서경로생성
      *
      * @param parentId 父ID
-     * @return 父节点路径以英文逗号(, )分割，eg: 1,2,3
+     * @return 父节点경로는영문쉼표(, )로 구분，eg: 1,2,3
      */
     private String generateDeptTreePath(Long parentId) {
         String treePath = null;

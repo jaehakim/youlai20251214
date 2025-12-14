@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * 系统日志 服务实现类
+ * 시스템로그 서비스구현类
  *
  * @author Ray.Hao
  * @since 2.10.0
@@ -31,10 +31,10 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
         implements LogService {
 
     /**
-     * 获取日志分页列表
+     * 조회로그페이지 목록
      *
-     * @param queryParams 查询参数
-     * @return 日志分页列表
+     * @param queryParams 조회参수
+     * @return 로그페이지 목록
      */
     @Override
     public Page<LogPageVO> getLogPage(LogPageQuery queryParams) {
@@ -43,10 +43,10 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
     }
 
     /**
-     * 获取访问趋势
+     * 접근 추세 조회
      *
-     * @param startDate 开始时间
-     * @param endDate   结束时间
+     * @param startDate 시작 시간
+     * @param endDate   종료 시간
      * @return
      */
     @Override
@@ -54,22 +54,22 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
         VisitTrendVO visitTrend = new VisitTrendVO();
         List<String> dates = new ArrayList<>();
 
-        // 获取日期范围内的日期
+        // 조회日期范围内의日期
         while (!startDate.isAfter(endDate)) {
             dates.add(startDate.toString());
             startDate = startDate.plusDays(1);
         }
         visitTrend.setDates(dates);
 
-        // 获取访问量和访问 IP 数的统计数据
+        // 조회접근量和접근 IP 수의통계데이터
         List<VisitCount> pvCounts = this.baseMapper.getPvCounts(dates.get(0) + " 00:00:00", dates.get(dates.size() - 1) + " 23:59:59");
         List<VisitCount> ipCounts = this.baseMapper.getIpCounts(dates.get(0) + " 00:00:00", dates.get(dates.size() - 1) + " 23:59:59");
 
-        // 将统计数据转换为 Map
+        // 을통계데이터转换값 Map
         Map<String, Integer> pvMap = pvCounts.stream().collect(Collectors.toMap(VisitCount::getDate, VisitCount::getCount));
         Map<String, Integer> ipMap = ipCounts.stream().collect(Collectors.toMap(VisitCount::getDate, VisitCount::getCount));
 
-        // 匹配日期和访问量/访问 IP 数
+        // 匹配日期和접근量/접근 IP 수
         List<Integer> pvList = new ArrayList<>();
         List<Integer> ipList = new ArrayList<>();
 
@@ -85,13 +85,13 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
     }
 
     /**
-     * 访问量统计
+     * 접근量통계
      */
     @Override
     public VisitStatsVO getVisitStats() {
         VisitStatsVO result = new VisitStatsVO();
 
-        // 访客数统计(UV)
+        // 访客수통계(UV)
         VisitStatsBO uvStats = this.baseMapper.getUvStats();
         if(uvStats!=null){
             result.setTodayUvCount(uvStats.getTodayCount());
@@ -99,7 +99,7 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
             result.setUvGrowthRate(uvStats.getGrowthRate());
         }
 
-        // 浏览量统计(PV)
+        // 浏览量통계(PV)
         VisitStatsBO pvStats = this.baseMapper.getPvStats();
         if(pvStats!=null){
             result.setTodayPvCount(pvStats.getTodayCount());

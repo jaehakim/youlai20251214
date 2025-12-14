@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * 查询类型枚举
+ * 쿼리 유형 열거형
  *
  * @author Ray
  * @since 2.10.0
@@ -17,46 +17,46 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum QueryTypeEnum implements IBaseEnum<Integer> {
 
-    /** 等于 */
+    /** 같음 */
     EQ(1, "="),
 
-    /** 模糊匹配 */
+    /** 모호 매칭 */
     LIKE(2, "LIKE '%s%'"),
 
-    /** 包含 */
+    /** 포함 */
     IN(3, "IN"),
 
-    /** 范围 */
+    /** 범위 */
     BETWEEN(4, "BETWEEN"),
 
-    /** 大于 */
+    /** 크다 */
     GT(5, ">"),
 
-    /** 大于等于 */
+    /** 크다같음 */
     GE(6, ">="),
 
-    /** 小于 */
+    /** 작다 */
     LT(7, "<"),
 
-    /** 小于等于 */
+    /** 작다같음 */
     LE(8, "<="),
 
-    /** 不等于 */
+    /** 不같음 */
     NE(9, "!="),
 
-    /** 左模糊匹配 */
+    /** 左모호 매칭 */
     LIKE_LEFT(10, "LIKE '%s'"),
 
-    /** 右模糊匹配 */
+    /** 右모호 매칭 */
     LIKE_RIGHT(11, "LIKE 's%'");
 
 
-    // 存储在数据库中的枚举属性值
+    // 데이터베이스에 저장되는 열거형 속성 값
     @EnumValue
     @JsonValue
     private final Integer value;
 
-    // 序列化成 JSON 时的属性值
+    // JSON으로 직렬화 시 속성 값
     private final String label;
 
 

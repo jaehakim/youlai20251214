@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 
 /**
- * Aliyun 对象存储服务类
+ * Aliyun 객체存储서비스类
  *
  * @author haoxr
  * @since 2.3.0
@@ -35,11 +35,11 @@ import java.time.LocalDateTime;
 @Data
 public class AliyunFileService implements FileService {
     /**
-     * 服务Endpoint
+     * 서비스Endpoint
      */
     private String endpoint;
     /**
-     * 访问凭据
+     * 접근凭据
      */
     private String accessKeyId;
     /**
@@ -47,7 +47,7 @@ public class AliyunFileService implements FileService {
      */
     private String accessKeySecret;
     /**
-     * 存储桶名称
+     * 存储桶이름
      */
     private String bucketName;
 
@@ -62,26 +62,26 @@ public class AliyunFileService implements FileService {
     @SneakyThrows
     public FileInfo uploadFile(MultipartFile file) {
 
-        // 获取文件名称
+        // 조회파일이름
         String originalFilename = file.getOriginalFilename();
-        // 生成文件名(日期文件夹)
+        // 생성파일名(日期파일夹)
         String suffix = FileUtil.getSuffix(originalFilename);
         String uuid = IdUtil.simpleUUID();
         String fileName = DateUtil.format(LocalDateTime.now(), "yyyyMMdd") + "/" + uuid + "." + suffix;
         //  try-with-resource 语法糖自动释放流
         try (InputStream inputStream = file.getInputStream()) {
 
-            // 设置上传文件的元信息，例如Content-Type
+            // 设置업로드파일의元信息，例如Content-Type
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(file.getContentType());
-            // 创建PutObjectRequest对象，指定Bucket名称、对象名称和输入流
+            // 생성PutObjectRequest객체，지정된Bucket이름、객체이름和输入流
             PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName, inputStream, metadata);
-            // 上传文件
+            // 업로드파일
             aliyunOssClient.putObject(putObjectRequest);
         } catch (Exception e) {
-            throw new RuntimeException("文件上传失败");
+            throw new RuntimeException("파일 업로드실패");
         }
-        // 获取文件访问路径
+        // 조회파일접근경로
         String fileUrl = "https://" + bucketName + "." + endpoint + "/" + fileName;
         FileInfo fileInfo = new FileInfo();
         fileInfo.setName(originalFilename);
@@ -91,9 +91,9 @@ public class AliyunFileService implements FileService {
 
     @Override
     public boolean deleteFile(String filePath) {
-        Assert.notBlank(filePath, "删除文件路径不能为空");
-        String fileHost = "https://" + bucketName + "." + endpoint; // 文件主机域名
-        String fileName = filePath.substring(fileHost.length() + 1); // +1 是/占一个字符，截断左闭右开
+        Assert.notBlank(filePath, "삭제파일경로不能값空");
+        String fileHost = "https://" + bucketName + "." + endpoint; // 파일主机域名
+        String fileName = filePath.substring(fileHost.length() + 1); // +1 是/占원个字符，截断左闭右开
         aliyunOssClient.deleteObject(bucketName, fileName);
         return true;
     }

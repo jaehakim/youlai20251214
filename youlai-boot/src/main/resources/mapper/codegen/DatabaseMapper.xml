@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.boot.platform.codegen.mapper.DatabaseMapper">
 
-    <!-- 查询数据库表分页 -->
+    <!-- 데이터베이스 테이블 페이지 조회 -->
     <select id="getTablePage" resultType="com.youlai.boot.platform.codegen.model.vo.TablePageVO">
         SELECT
             t1.TABLE_NAME ,
@@ -22,7 +22,7 @@
             <if test="queryParams.keywords != null and queryParams.keywords.trim() neq ''">
                 AND t1.TABLE_NAME LIKE CONCAT('%',#{queryParams.keywords},'%')
             </if>
-        <!-- 排除的表 -->
+        <!-- 제외할 테이블 -->
         <if test="queryParams.excludeTables != null and queryParams.excludeTables.size() > 0">
             AND t1.TABLE_NAME NOT IN
             <foreach collection="queryParams.excludeTables" item="excludeTable" open="(" close=")" separator=",">

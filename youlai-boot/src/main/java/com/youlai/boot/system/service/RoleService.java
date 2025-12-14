@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 角色业务接口层
+ * 역할비즈니스인터페이스层
  *
  * @author haoxr
  * @since 2022/6/3
@@ -21,7 +21,7 @@ import java.util.Set;
 public interface RoleService extends IService<Role> {
 
     /**
-     * 角色分页列表
+     * 역할 페이지목록
      *
      * @param queryParams
      * @return
@@ -30,7 +30,7 @@ public interface RoleService extends IService<Role> {
 
 
     /**
-     * 角色下拉列表
+     * 역할 드롭다운 목록
      *
      * @return
      */
@@ -44,47 +44,47 @@ public interface RoleService extends IService<Role> {
     boolean saveRole(RoleForm roleForm);
 
     /**
-     * 获取角色表单数据
+     * 역할 폼 데이터 조회
      *
-     * @param roleId 角色ID
-     * @return  {@link RoleForm} – 角色表单数据
+     * @param roleId 역할ID
+     * @return  {@link RoleForm} – 역할폼데이터
      */
     RoleForm getRoleForm(Long roleId);
 
     /**
-     * 修改角色状态
+     * 수정역할상태
      *
-     * @param roleId 角色ID
-     * @param status 角色状态(1:启用；0:禁用)
+     * @param roleId 역할ID
+     * @param status 역할상태(1:활성화；0:비활성화)
      * @return {@link Boolean}
      */
     boolean updateRoleStatus(Long roleId, Integer status);
 
     /**
-     * 批量删除角色
+     * 일괄 삭제역할
      *
-     * @param ids 角色ID，多个使用英文逗号(,)分割
+     * @param ids 역할ID，여러 개사용영문쉼표(,)로 구분
      */
     void deleteRoles(String ids);
 
     /**
-     * 获取角色的菜单ID集合
+     * 역할의 메뉴 ID 집합 조회
      *
-     * @param roleId 角色ID
-     * @return 菜单ID集合(包括按钮权限ID)
+     * @param roleId 역할ID
+     * @return 메뉴ID集合(包括버튼 권한ID)
      */
     List<Long> getRoleMenuIds(Long roleId);
 
     /**
-     * 修改角色的资源权限
+     * 수정역할의资源권한
      *
-     * @param roleId 角色ID
-     * @param menuIds 菜单ID集合
+     * @param roleId 역할ID
+     * @param menuIds 메뉴ID集合
      */
     void assignMenusToRole(Long roleId, List<Long> menuIds);
 
     /**
-     * 获取最大范围的数据权限
+     * 조회最大范围의데이터권한
      *
      * @param roles
      * @return

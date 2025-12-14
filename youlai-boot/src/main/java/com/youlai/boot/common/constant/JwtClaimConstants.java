@@ -1,9 +1,9 @@
 package com.youlai.boot.common.constant;
 
 /**
- * JWT Claims声明常量
+ * JWT Claims 선언 상수
  * <p>
- * JWT Claims 属于 Payload 的一部分，包含了一些实体（通常指的用户）的状态和额外的元数据。
+ * JWT Claims는 Payload의 일부로, 엔티티(일반적으로 사용자)의 상태와 추가 메타데이터를 포함합니다.
  *
  * @author haoxr
  * @since 2023/11/24
@@ -11,32 +11,32 @@ package com.youlai.boot.common.constant;
 public interface JwtClaimConstants {
 
     /**
-     * 令牌类型
+     * 토큰 유형
      */
     String TOKEN_TYPE = "tokenType";
 
     /**
-     * 用户ID
+     * 사용자 ID
      */
     String USER_ID = "userId";
 
     /**
-     * 部门ID
+     * 부서 ID
      */
     String DEPT_ID = "deptId";
 
     /**
-     * 数据权限
+     * 데이터 권한
      */
     String DATA_SCOPE = "dataScope";
 
     /**
-     * 权限(角色Code)集合
+     * 권한(역할 Code) 집합
      */
     String AUTHORITIES = "authorities";
 
     /**
-     * 安全版本号，用于按用户失效历史令牌
+     * 사용자별 이전 토큰을 무효화하기 위한 보안 버전 번호
      */
     String SECURITY_VERSION = "securityVersion";
 

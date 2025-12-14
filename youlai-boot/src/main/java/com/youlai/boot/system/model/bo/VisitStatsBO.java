@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 /**
- * 访问量统计业务对象
+ * 방문량 통계 비즈니스 객체
  *
  * @author Ray.Hao
  * @since 2024/7/2
@@ -16,13 +16,13 @@ import java.math.BigDecimal;
 @Setter
 public class VisitStatsBO {
 
-    @Schema(description = "今日访问量 (PV)")
+    @Schema(description = "오늘 방문량 (PV)")
     private Integer todayCount;
 
-    @Schema(description = "累计访问量 ")
+    @Schema(description = "누적 방문량")
     private Integer totalCount;
 
-    @Schema(description = "页面访问量增长率")
+    @Schema(description = "페이지 방문량 증가율")
     private BigDecimal growthRate;
 
 }

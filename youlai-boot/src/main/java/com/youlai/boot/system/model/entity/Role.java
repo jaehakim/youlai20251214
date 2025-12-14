@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 角色实体
+ * 역할 엔티티
  *
  * @author Ray.Hao
  * @since 2024/6/23
@@ -17,42 +17,42 @@ import lombok.Setter;
 public class Role extends BaseEntity {
 
     /**
-     * 角色名称
+     * 역할명
      */
     private String name;
 
     /**
-     * 角色编码
+     * 역할 코드
      */
     private String code;
 
     /**
-     * 显示顺序
+     * 표시 순서
      */
     private Integer sort;
 
     /**
-     * 角色状态(1-正常 0-停用)
+     * 역할 상태(1-정상 0-중지)
      */
     private Integer status;
 
     /**
-     * 数据权限
+     * 데이터 권한
      */
     private Integer dataScope;
 
     /**
-     * 创建人 ID
+     * 생성자 ID
      */
     private Long createBy;
 
     /**
-     * 更新人 ID
+     * 수정자 ID
      */
     private Long updateBy;
 
     /**
-     * 是否删除(0-否 1-是)
+     * 삭제 여부(0-아니오 1-예)
      */
     private Integer isDeleted;
 }

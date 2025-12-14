@@ -5,7 +5,7 @@ import com.youlai.boot.platform.sms.enums.SmsTypeEnum;
 import java.util.Map;
 
 /**
- * 短信服务接口层
+ * SMS서비스인터페이스层
  *
  * @author Ray.Hao
  * @since 2024/8/17
@@ -13,12 +13,12 @@ import java.util.Map;
 public interface SmsService {
 
     /**
-     * 发送短信
+     * 발송SMS
      *
-     * @param mobile         手机号 13388886666
-     * @param smsType        短信模板 SMS_194640010，模板内容：您的验证码为：${code}，请在5分钟内使用
-     * @param templateParams 模板参数 [{"code":"123456"}] ，用于替换短信模板中的变量
-     * @return boolean 是否发送成功
+     * @param mobile         휴대폰 번호 13388886666
+     * @param smsType        SMS템플릿 SMS_194640010，템플릿내용：您의인증코드값：${code}，请에5分钟内사용
+     * @param templateParams 템플릿参수 [{"code":"123456"}] ，용도替换SMS템플릿중의变量
+     * @return boolean 여부발송성공
      */
     boolean sendSms(String mobile, SmsTypeEnum smsType, Map<String, String> templateParams);
 }

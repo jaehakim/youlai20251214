@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 
 /**
- * 认证控制层
+ * 인증 컨트롤러
  *
  * @author Ray.Hao
  * @since 2022/10/16
  */
-@Tag(name = "01.认证中心")
+@Tag(name = "01.인증센터")
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -32,62 +32,62 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @Operation(summary = "获取验证码")
+    @Operation(summary = "인증코드 조회")
     @GetMapping("/captcha")
     public Result<CaptchaVO> getCaptcha() {
         CaptchaVO captcha = authService.getCaptcha();
         return Result.success(captcha);
     }
 
-    @Operation(summary = "账号密码登录")
+    @Operation(summary = "계정 비밀번호 로그인")
     @PostMapping("/login")
-    @Log(value = "登录", module = LogModuleEnum.LOGIN)
+    @Log(value = "로그인", module = LogModuleEnum.LOGIN)
     public Result<AuthenticationToken> login(
-            @Parameter(description = "用户名", example = "admin") @RequestParam String username,
-            @Parameter(description = "密码", example = "123456") @RequestParam String password
+            @Parameter(description = "사용자명", example = "admin") @RequestParam String username,
+            @Parameter(description = "비밀번호", example = "123456") @RequestParam String password
     ) {
         AuthenticationToken authenticationToken = authService.login(username, password);
         return Result.success(authenticationToken);
     }
 
-    @Operation(summary = "短信验证码登录")
+    @Operation(summary = "SMS 인증 로그인")
     @PostMapping("/login/sms")
-    @Log(value = "短信验证码登录", module = LogModuleEnum.LOGIN)
+    @Log(value = "SMS 인증 로그인", module = LogModuleEnum.LOGIN)
     public Result<AuthenticationToken> loginBySms(
-            @Parameter(description = "手机号", example = "18812345678") @RequestParam String mobile,
-            @Parameter(description = "验证码", example = "1234") @RequestParam String code
+            @Parameter(description = "휴대폰 번호", example = "18812345678") @RequestParam String mobile,
+            @Parameter(description = "인증코드", example = "1234") @RequestParam String code
     ) {
         AuthenticationToken loginResult = authService.loginBySms(mobile, code);
         return Result.success(loginResult);
     }
 
-    @Operation(summary = "发送登录短信验证码")
+    @Operation(summary = "로그인 SMS 인증코드 전송")
     @PostMapping("/sms/code")
     public Result<Void> sendLoginVerifyCode(
-            @Parameter(description = "手机号", example = "18812345678") @RequestParam String mobile
+            @Parameter(description = "휴대폰 번호", example = "18812345678") @RequestParam String mobile
     ) {
         authService.sendSmsLoginCode(mobile);
         return Result.success();
     }
 
-    @Operation(summary = "微信授权登录(Web)")
+    @Operation(summary = "위챗 인증 로그인(Web)")
     @PostMapping("/login/wechat")
-    @Log(value = "微信登录", module = LogModuleEnum.LOGIN)
+    @Log(value = "위챗 로그인", module = LogModuleEnum.LOGIN)
     public Result<AuthenticationToken> loginByWechat(
-            @Parameter(description = "微信授权码", example = "code") @RequestParam String code
+            @Parameter(description = "위챗 인증코드", example = "code") @RequestParam String code
     ) {
         AuthenticationToken loginResult = authService.loginByWechat(code);
         return Result.success(loginResult);
     }
 
-    @Operation(summary = "微信小程序登录(Code)")
+    @Operation(summary = "위챗 미니 프로그램 로그인(Code)")
     @PostMapping("/wx/miniapp/code-login")
     public Result<AuthenticationToken> loginByWxMiniAppCode(@RequestBody @Valid WxMiniAppCodeLoginDTO loginDTO) {
         AuthenticationToken token = authService.loginByWxMiniAppCode(loginDTO);
         return Result.success(token);
     }
 
-    @Operation(summary = "微信小程序登录(手机号)")
+    @Operation(summary = "위챗 미니 프로그램 로그인(휴대폰 번호)")
     @PostMapping("/wx/miniapp/phone-login")
     public Result<AuthenticationToken> loginByWxMiniAppPhone(@RequestBody @Valid WxMiniAppPhoneLoginDTO loginDTO) {
         AuthenticationToken token = authService.loginByWxMiniAppPhone(loginDTO);
@@ -95,18 +95,18 @@ public class AuthController {
     }
 
 
-    @Operation(summary = "退出登录")
+    @Operation(summary = "로그아웃")
     @DeleteMapping("/logout")
-    @Log(value = "退出登录", module = LogModuleEnum.LOGIN)
+    @Log(value = "로그아웃", module = LogModuleEnum.LOGIN)
     public Result<?> logout() {
         authService.logout();
         return Result.success();
     }
 
-    @Operation(summary = "刷新令牌")
+    @Operation(summary = "토큰 갱신")
     @PostMapping("/refresh-token")
     public Result<?> refreshToken(
-            @Parameter(description = "刷新令牌", example = "xxx.xxx.xxx") @RequestParam String refreshToken
+            @Parameter(description = "갱신 토큰", example = "xxx.xxx.xxx") @RequestParam String refreshToken
     ) {
         AuthenticationToken authenticationToken = authService.refreshToken(refreshToken);
         return Result.success(authenticationToken);

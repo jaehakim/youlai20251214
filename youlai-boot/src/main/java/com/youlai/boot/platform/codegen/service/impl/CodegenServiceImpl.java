@@ -36,7 +36,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
- * 数据库服务实现类
+ * 데이터库서비스구현类
  *
  * @author Ray
  * @since 2.10.0
@@ -52,14 +52,14 @@ public class CodegenServiceImpl implements CodegenService {
     private final GenFieldConfigService genFieldConfigService;
 
     /**
-     * 数据表分页列表
+     * 데이터表페이지 목록
      *
-     * @param queryParams 查询参数
-     * @return 分页结果
+     * @param queryParams 조회参수
+     * @return 페이지결과
      */
     public Page<TablePageVO> getTablePage(TablePageQuery queryParams) {
         Page<TablePageVO> page = new Page<>(queryParams.getPageNum(), queryParams.getPageSize());
-        // 设置排除的表
+        // 设置排除의表
         List<String> excludeTables = codegenProperties.getExcludeTables();
         queryParams.setExcludeTables(excludeTables);
 
@@ -67,10 +67,10 @@ public class CodegenServiceImpl implements CodegenService {
     }
 
     /**
-     * 获取预览生成代码
+     * 조회预览생성代码
      *
-     * @param tableName 表名
-     * @return 预览数据
+     * @param tableName 테이블명
+     * @return 预览데이터
      */
     @Override
     public List<CodegenPreviewVO> getCodegenPreviewData(String tableName, String pageType) {
@@ -81,7 +81,7 @@ public class CodegenServiceImpl implements CodegenService {
                 .eq(GenConfig::getTableName, tableName)
         );
         if (genConfig == null) {
-            throw new BusinessException("未找到表生成配置");
+            throw new BusinessException("미找到表생성 설정");
         }
 
         List<GenFieldConfig> fieldConfigs = genFieldConfigService.list(new LambdaQueryWrapper<GenFieldConfig>()
@@ -90,17 +90,17 @@ public class CodegenServiceImpl implements CodegenService {
 
         );
         if (CollectionUtil.isEmpty(fieldConfigs)) {
-            throw new BusinessException("未找到字段生成配置");
+            throw new BusinessException("미找到字段생성 설정");
         }
 
-        // 遍历模板配置
+        // 遍历템플릿설정
         Map<String, CodegenProperties.TemplateConfig> templateConfigs = codegenProperties.getTemplateConfigs();
         for (Map.Entry<String, CodegenProperties.TemplateConfig> templateConfigEntry : templateConfigs.entrySet()) {
             CodegenPreviewVO previewVO = new CodegenPreviewVO();
 
             CodegenProperties.TemplateConfig templateConfig = templateConfigEntry.getValue();
 
-            /* 1. 生成文件名 UserController */
+            /* 1. 생성파일名 UserController */
             // User Role Menu Dept
             String entityName = genConfig.getEntityName();
             // Controller Service Mapper Entity
@@ -108,24 +108,24 @@ public class CodegenServiceImpl implements CodegenService {
             // .java .ts .vue
             String extension = templateConfig.getExtension();
 
-            // 文件名 UserController.java
+            // 파일名 UserController.java
             String fileName = getFileName(entityName, templateName, extension);
             previewVO.setFileName(fileName);
 
-            /* 2. 生成文件路径 */
+            /* 2. 생성파일경로 */
             // 包名：com.youlai.boot
             String packageName = genConfig.getPackageName();
             // 模块名：system
             String moduleName = genConfig.getModuleName();
             // 子包名：controller
             String subpackageName = templateConfig.getSubpackageName();
-            // 组合成文件路径：src/main/java/com/youlai/boot/system/controller
+            // 组合成파일경로：src/main/java/com/youlai/boot/system/controller
             String filePath = getFilePath(templateName, moduleName, packageName, subpackageName, entityName);
             previewVO.setPath(filePath);
 
-            /* 3. 生成文件内容 */
-            // 将模板文件中的变量替换为具体的值 生成代码内容
-            // 优先使用保存的 ui，没有则使用请求参数
+            /* 3. 생성파일내용 */
+            // 을템플릿파일중의变量替换값具体의值 생성代码내용
+            // 优先사용저장의 ui，没有则사용请求参수
             String finalType = StrUtil.blankToDefault(genConfig.getPageType(), pageType);
             String content = getCodeContent(templateConfig, genConfig, fieldConfigs, finalType);
             previewVO.setContent(content);
@@ -136,12 +136,12 @@ public class CodegenServiceImpl implements CodegenService {
     }
 
     /**
-     * 生成文件名
+     * 생성파일名
      *
      * @param entityName   实体类名 UserController
-     * @param templateName 模板名 Entity
-     * @param extension    文件后缀 .java
-     * @return 文件名
+     * @param templateName 템플릿名 Entity
+     * @param extension    파일후缀 .java
+     * @return 파일名
      */
     private String getFileName(String entityName, String templateName, String extension) {
         if ("Entity".equals(templateName)) {
@@ -149,7 +149,7 @@ public class CodegenServiceImpl implements CodegenService {
         } else if ("MapperXml".equals(templateName)) {
             return entityName + "Mapper" + extension;
         } else if ("API".equals(templateName)) {
-            // 生成 user-api.ts 命名
+            // 생성 user-api.ts 命名
             return StrUtil.toSymbolCase(entityName, '-') + "-api" + extension;
         } else if ("VIEW".equals(templateName)) {
             return "index.vue";
@@ -158,14 +158,14 @@ public class CodegenServiceImpl implements CodegenService {
     }
 
     /**
-     * 生成文件路径
+     * 생성파일경로
      *
-     * @param templateName   模板名 Entity
+     * @param templateName   템플릿名 Entity
      * @param moduleName     模块名 system
      * @param packageName    包名 com.youlai
      * @param subPackageName 子包名 controller
      * @param entityName     实体类名 UserController
-     * @return 文件路径 src/main/java/com/youlai/system/controller
+     * @return 파일경로 src/main/java/com/youlai/system/controller
      */
     private String getFilePath(String templateName, String moduleName, String packageName, String subPackageName, String entityName) {
         String path;
@@ -208,12 +208,12 @@ public class CodegenServiceImpl implements CodegenService {
     }
 
     /**
-     * 生成代码内容
+     * 생성代码내용
      *
-     * @param templateConfig 模板配置
-     * @param genConfig      生成配置
-     * @param fieldConfigs   字段配置
-     * @return 代码内容
+     * @param templateConfig 템플릿설정
+     * @param genConfig      생성 설정
+     * @param fieldConfigs   필드 설정
+     * @return 代码내용
      */
     private String getCodeContent(CodegenProperties.TemplateConfig templateConfig, GenConfig genConfig, List<GenFieldConfig> fieldConfigs, String pageType) {
 
@@ -256,7 +256,7 @@ public class CodegenServiceImpl implements CodegenService {
         bindMap.put("hasRequiredField", hasRequiredField);
 
         TemplateEngine templateEngine = TemplateUtil.createEngine(new TemplateConfig("templates", TemplateConfig.ResourceMode.CLASSPATH));
-        // 根据 ui 选择不同的前端页面模板：默认 index.vue.vm；封装版使用 index.curd.vue.vm
+        // 根据 ui 选择不同의前端页面템플릿：默认 index.vue.vm；封装版사용 index.curd.vue.vm
         String path = templateConfig.getTemplatePath();
         if ("curd".equalsIgnoreCase(pageType) && path.endsWith("index.vue.vm")) {
             path = path.replace("index.vue.vm", "index.curd.vue.vm");
@@ -267,21 +267,21 @@ public class CodegenServiceImpl implements CodegenService {
     }
 
     /**
-     * 下载代码
+     * 코드 다운로드
      *
-     * @param tableNames 表名数组，支持多张表。
-     * @return 压缩文件字节数组
+     * @param tableNames 테이블명수组，支持多张表。
+     * @return 压缩파일字节수组
      */
     @Override
     public byte[] downloadCode(String[] tableNames, String ui) {
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
              ZipOutputStream zip = new ZipOutputStream(outputStream)) {
 
-            // 遍历每个表名，生成对应的代码并压缩到 zip 文件中
+            // 遍历每个테이블명，생성对应의代码并压缩到 zip 파일중
             for (String tableName : tableNames) {
                 generateAndZipCode(tableName, zip, ui);
             }
-            // 确保所有压缩数据写入输出流，避免数据残留在内存缓冲区引发的数据不完整
+            // 确保所有压缩데이터写入输出流，避免데이터残留에内存缓冲区引发의데이터不完整
             zip.finish();
             return outputStream.toByteArray();
 
@@ -292,10 +292,10 @@ public class CodegenServiceImpl implements CodegenService {
     }
 
     /**
-     * 根据表名生成代码并压缩到zip文件中
+     * 根据테이블명생성代码并压缩到zip파일중
      *
-     * @param tableName 表名
-     * @param zip       压缩文件输出流
+     * @param tableName 테이블명
+     * @param zip       压缩파일输出流
      */
     private void generateAndZipCode(String tableName, ZipOutputStream zip, String ui) {
         List<CodegenPreviewVO> codePreviewList = getCodegenPreviewData(tableName, ui);
@@ -306,14 +306,14 @@ public class CodegenServiceImpl implements CodegenService {
             String path = codePreview.getPath();
 
             try {
-                // 创建压缩条目
+                // 생성压缩条目
                 ZipEntry zipEntry = new ZipEntry(path + File.separator + fileName);
                 zip.putNextEntry(zipEntry);
 
-                // 写入文件内容
+                // 写入파일내용
                 zip.write(content.getBytes(StandardCharsets.UTF_8));
 
-                // 关闭当前压缩条目
+                // 关闭현재压缩条目
                 zip.closeEntry();
 
             } catch (IOException e) {

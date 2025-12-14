@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 系统日志 实体类
+ * 시스템 로그 엔티티 클래스
  *
  * @author Ray.Hao
  * @since 2.10.0
@@ -18,91 +18,91 @@ import java.time.LocalDateTime;
 public class Log implements Serializable {
 
     /**
-     *  主键
+     * 기본 키
      */
     @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
-     * 日志模块
+     * 로그 모듈
      */
     private LogModuleEnum module;
 
     /**
-     * 请求方式
+     * 요청 방식
      */
     @TableField(value = "request_method")
     private String requestMethod;
 
     /**
-     * 请求参数
+     * 요청 파라미터
      */
     @TableField(value = "request_params")
     private String requestParams;
 
     /**
-     * 响应参数
+     * 응답 내용
      */
     @TableField(value = "response_content")
     private String responseContent;
 
     /**
-     * 日志内容
+     * 로그 내용
      */
     private String content;
 
     /**
-     * 请求路径
+     * 요청 경로
      */
     private String requestUri;
 
     /**
-     * 请求方法
+     * 요청 메서드
      */
     private String method;
 
     /**
-     * IP 地址
+     * IP 주소
      */
     private String ip;
 
     /**
-     * 省份
+     * 지역
      */
     private String province;
 
     /**
-     * 城市
+     * 도시
      */
     private String city;
 
     /**
-     * 浏览器
+     * 브라우저
      */
     private String browser;
 
     /**
-     * 浏览器版本
+     * 브라우저 버전
      */
     private String browserVersion;
 
     /**
-     * 终端系统
+     * 운영 체제
      */
     private String os;
 
     /**
-     * 执行时间(毫秒)
+     * 실행 시간(밀리초)
      */
     private Long executionTime;
 
     /**
-     * 创建人ID
+     * 생성자 ID
      */
     private Long createBy;
 
     /**
-     * 创建时间
+     * 생성 시간
      */
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

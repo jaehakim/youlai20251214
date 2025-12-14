@@ -23,12 +23,12 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 /**
- * 角色控制层
+ * 역할컨트롤러
  *
  * @author Ray.Hao
  * @since 2022/10/16
  */
-@Tag(name = "03.角色接口")
+@Tag(name = "03.역할인터페이스")
 @RestController
 @RequestMapping("/api/v1/roles")
 @RequiredArgsConstructor
@@ -36,9 +36,9 @@ public class RoleController {
 
     private final RoleService roleService;
 
-    @Operation(summary = "角色分页列表")
+    @Operation(summary = "역할 페이지목록")
     @GetMapping("/page")
-    @Log(value = "角色分页列表", module = LogModuleEnum.ROLE)
+    @Log(value = "역할 페이지목록", module = LogModuleEnum.ROLE)
     public PageResult<RolePageVO> getRolePage(
             RolePageQuery queryParams
     ) {
@@ -46,14 +46,14 @@ public class RoleController {
         return PageResult.success(result);
     }
 
-    @Operation(summary = "角色下拉列表")
+    @Operation(summary = "역할 드롭다운 목록")
     @GetMapping("/options")
     public Result<List<Option<Long>>> listRoleOptions() {
         List<Option<Long>> list = roleService.listRoleOptions();
         return Result.success(list);
     }
 
-    @Operation(summary = "新增角色")
+    @Operation(summary = "추가역할")
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:role:add')")
     @RepeatSubmit
@@ -62,17 +62,17 @@ public class RoleController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "获取角色表单数据")
+    @Operation(summary = "역할 폼 데이터 조회")
     @GetMapping("/{roleId}/form")
     @PreAuthorize("@ss.hasPerm('sys:role:edit')")
     public Result<RoleForm> getRoleForm(
-            @Parameter(description = "角色ID") @PathVariable Long roleId
+            @Parameter(description = "역할ID") @PathVariable Long roleId
     ) {
         RoleForm roleForm = roleService.getRoleForm(roleId);
         return Result.success(roleForm);
     }
 
-    @Operation(summary = "修改角色")
+    @Operation(summary = "수정역할")
     @PutMapping(value = "/{id}")
     @PreAuthorize("@ss.hasPerm('sys:role:edit')")
     public Result<?> updateRole(@Valid @RequestBody RoleForm roleForm) {
@@ -80,37 +80,37 @@ public class RoleController {
         return Result.judge(result);
     }
 
-    @Operation(summary = "删除角色")
+    @Operation(summary = "삭제역할")
     @DeleteMapping("/{ids}")
     @PreAuthorize("@ss.hasPerm('sys:role:delete')")
     public Result<Void> deleteRoles(
-            @Parameter(description = "删除角色，多个以英文逗号(,)拼接") @PathVariable String ids
+            @Parameter(description = "삭제역할，여러 개는영문쉼표(,)로 연결") @PathVariable String ids
     ) {
         roleService.deleteRoles(ids);
         return Result.success();
     }
 
-    @Operation(summary = "修改角色状态")
+    @Operation(summary = "수정역할상태")
     @PutMapping(value = "/{roleId}/status")
     @PreAuthorize("@ss.hasPerm('sys:role:edit')")
     public Result<?> updateRoleStatus(
-            @Parameter(description = "角色ID") @PathVariable Long roleId,
-            @Parameter(description = "状态(1:启用;0:禁用)") @RequestParam Integer status
+            @Parameter(description = "역할ID") @PathVariable Long roleId,
+            @Parameter(description = "상태(1:활성화;0:비활성화)") @RequestParam Integer status
     ) {
         boolean result = roleService.updateRoleStatus(roleId, status);
         return Result.judge(result);
     }
 
-    @Operation(summary = "获取角色的菜单ID集合")
+    @Operation(summary = "역할의 메뉴 ID 집합 조회")
     @GetMapping("/{roleId}/menuIds")
     public Result<List<Long>> getRoleMenuIds(
-            @Parameter(description = "角色ID") @PathVariable Long roleId
+            @Parameter(description = "역할ID") @PathVariable Long roleId
     ) {
         List<Long> menuIds = roleService.getRoleMenuIds(roleId);
         return Result.success(menuIds);
     }
 
-    @Operation(summary = "角色分配菜单权限")
+    @Operation(summary = "역할메뉴 할당권한")
     @PutMapping("/{roleId}/menus")
     public Result<Void> assignMenusToRole(
             @PathVariable Long roleId,

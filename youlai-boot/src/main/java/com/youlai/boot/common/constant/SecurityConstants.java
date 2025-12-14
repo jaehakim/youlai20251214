@@ -1,7 +1,7 @@
 package com.youlai.boot.common.constant;
 
 /**
- * 安全模块常量
+ * 보안 모듈 상수
  *
  * @author Ray.Hao
  * @since 2023/11/24
@@ -9,12 +9,12 @@ package com.youlai.boot.common.constant;
 public interface SecurityConstants {
 
     /**
-     * 登录路径
+     * 로그인 경로
      */
     String LOGIN_PATH = "/api/v1/auth/login";
 
     /**
-     * JWT Token 前缀
+     * JWT Token 접두사
      */
     String BEARER_TOKEN_PREFIX  = "Bearer ";
 

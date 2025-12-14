@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 代码生成基础配置
+ * 代码生成基础설정
  *
  * @author Ray
  * @since 2.10.0
@@ -53,7 +53,7 @@ public class GenConfig extends BaseEntity {
     private String author;
 
     /**
-     * 页面类型 classic|curd
+     * 页面유형 classic|curd
      */
     private String pageType;
 

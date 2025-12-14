@@ -15,7 +15,7 @@ import com.youlai.boot.system.model.form.*;
 import java.util.List;
 
 /**
- * 用户业务接口
+ * 사용자비즈니스인터페이스
  *
  * @author Ray.Hao
  * @since 2022/1/14
@@ -23,52 +23,52 @@ import java.util.List;
 public interface UserService extends IService<User> {
 
     /**
-     * 用户分页列表
+     * 사용자 페이지 목록
      *
-     * @return {@link IPage<UserPageVO>} 用户分页列表
+     * @return {@link IPage<UserPageVO>} 사용자 페이지 목록
      */
     IPage<UserPageVO> getUserPage(UserPageQuery queryParams);
 
     /**
-     * 获取用户表单数据
+     * 사용자 폼 데이터 조회
      *
-     * @param userId 用户ID
-     * @return {@link UserForm} 用户表单数据
+     * @param userId 사용자ID
+     * @return {@link UserForm} 사용자폼데이터
      */
     UserForm getUserFormData(Long userId);
 
 
     /**
-     * 新增用户
+     * 사용자 추가
      *
-     * @param userForm 用户表单对象
-     * @return {@link Boolean} 是否新增成功
+     * @param userForm 사용자폼객체
+     * @return {@link Boolean} 여부추가성공
      */
     boolean saveUser(UserForm userForm);
 
     /**
-     * 修改用户
+     * 사용자 수정
      *
-     * @param userId   用户ID
-     * @param userForm 用户表单对象
-     * @return {@link Boolean} 是否修改成功
+     * @param userId   사용자ID
+     * @param userForm 사용자폼객체
+     * @return {@link Boolean} 여부수정성공
      */
     boolean updateUser(Long userId, UserForm userForm);
 
 
     /**
-     * 删除用户
+     * 사용자 삭제
      *
-     * @param idsStr 用户ID，多个以英文逗号(,)分割
-     * @return {@link Boolean} 是否删除成功
+     * @param idsStr 사용자ID，여러 개는영문쉼표(,)로 구분
+     * @return {@link Boolean} 여부삭제성공
      */
     boolean deleteUsers(String idsStr);
 
 
     /**
-     * 根据用户名获取认证信息
+     * 根据사용자명조회인증信息
      *
-     * @param username 用户名
+     * @param username 사용자명
      * @return {@link UserAuthCredentials}
      */
 
@@ -76,131 +76,131 @@ public interface UserService extends IService<User> {
 
 
     /**
-     * 获取导出用户列表
+     * 조회사용자 내보내기 목록
      *
-     * @param queryParams 查询参数
-     * @return {@link List<UserExportDTO>} 导出用户列表
+     * @param queryParams 조회参수
+     * @return {@link List<UserExportDTO>} 사용자 내보내기 목록
      */
     List<UserExportDTO> listExportUsers(UserPageQuery queryParams);
 
 
     /**
-     * 获取登录用户信息
+     * 조회로그인사용자 정보
      *
-     * @return {@link CurrentUserDTO} 登录用户信息
+     * @return {@link CurrentUserDTO} 로그인사용자 정보
      */
     CurrentUserDTO getCurrentUserInfo();
 
     /**
-     * 获取个人中心用户信息
+     * 개인센터 사용자 정보 조회
      *
-     * @return {@link UserProfileVO} 个人中心用户信息
+     * @return {@link UserProfileVO} 개인센터사용자 정보
      */
     UserProfileVO getUserProfile(Long userId);
 
     /**
-     * 修改个人中心用户信息
+     * 수정개인센터사용자 정보
      *
-     * @param formData 表单数据
-     * @return {@link Boolean} 是否修改成功
+     * @param formData 폼데이터
+     * @return {@link Boolean} 여부수정성공
      */
     boolean updateUserProfile(UserProfileForm formData);
 
     /**
-     * 修改指定用户密码
+     * 수정지정된사용자비밀번호
      *
-     * @param userId 用户ID
-     * @param data   修改密码表单数据
-     * @return {@link Boolean} 是否修改成功
+     * @param userId 사용자ID
+     * @param data   비밀번호 변경폼데이터
+     * @return {@link Boolean} 여부수정성공
      */
     boolean changeUserPassword(Long userId, PasswordUpdateForm data);
 
     /**
-     * 重置指定用户密码
+     * 지정된 사용자 비밀번호 재설정
      *
-     * @param userId   用户ID
-     * @param password 重置后的密码
-     * @return {@link Boolean} 是否重置成功
+     * @param userId   사용자ID
+     * @param password 재설정후의비밀번호
+     * @return {@link Boolean} 여부재설정성공
      */
     boolean resetUserPassword(Long userId, String password);
 
     /**
-     * 发送短信验证码(绑定或更换手机号)
+     * 발송SMS인증코드(휴대폰 번호 바인딩 또는 변경)
      *
-     * @param mobile 手机号
-     * @return {@link Boolean} 是否发送成功
+     * @param mobile 휴대폰 번호
+     * @return {@link Boolean} 여부발송성공
      */
     boolean sendMobileCode(String mobile);
 
     /**
-     * 修改当前用户手机号
+     * 수정현재사용자휴대폰 번호
      *
-     * @param data 表单数据
-     * @return {@link Boolean} 是否修改成功
+     * @param data 폼데이터
+     * @return {@link Boolean} 여부수정성공
      */
     boolean bindOrChangeMobile(MobileUpdateForm data);
 
     /**
-     * 发送邮箱验证码(绑定或更换邮箱)
+     * 발송이메일인증코드(이메일 바인딩 또는 변경)
      *
-     * @param email 邮箱
+     * @param email 이메일
      */
     void sendEmailCode(String email);
 
     /**
-     * 绑定或更换邮箱
+     * 이메일 바인딩 또는 변경
      *
-     * @param data 表单数据
-     * @return {@link Boolean} 是否绑定成功
+     * @param data 폼데이터
+     * @return {@link Boolean} 여부바인딩성공
      */
     boolean bindOrChangeEmail(EmailUpdateForm data);
 
     /**
-     * 获取用户选项列表
+     * 조회사용자옵션목록
      *
-     * @return {@link List<Option<String>>} 用户选项列表
+     * @return {@link List<Option<String>>} 사용자옵션목록
      */
     List<Option<String>> listUserOptions();
 
     /**
-     * 根据 openid 获取用户认证信息
+     * 根据 openid 조회사용자인증信息
      *
-     * @param openId 用户名
+     * @param openId 사용자명
      * @return {@link UserAuthCredentials}
      */
 
     UserAuthCredentials getAuthCredentialsByOpenId(String openId);
 
     /**
-     * 根据微信 OpenID 注册或绑定用户
+     * 根据위챗 OpenID 注册또는바인딩사용자
      *
-     * @param openId 微信 OpenID
+     * @param openId 위챗 OpenID
      */
     boolean registerOrBindWechatUser(String openId);
 
     /**
-     * 根据手机号获取用户认证信息
+     * 根据휴대폰 번호조회사용자인증信息
      *
-     * @param mobile 手机号
+     * @param mobile 휴대폰 번호
      * @return {@link UserAuthCredentials}
      */
     UserAuthCredentials getAuthCredentialsByMobile(String mobile);
 
     /**
-     * 根据手机号和OpenID注册用户
+     * 根据휴대폰 번호和OpenID注册사용자
      *
-     * @param mobile 手机号
-     * @param openId 微信OpenID
-     * @return 是否成功
+     * @param mobile 휴대폰 번호
+     * @param openId 위챗OpenID
+     * @return 여부성공
      */
     boolean registerUserByMobileAndOpenId(String mobile, String openId);
 
     /**
-     * 绑定用户微信OpenID
+     * 바인딩사용자위챗OpenID
      *
-     * @param userId 用户ID
-     * @param openId 微信OpenID
-     * @return 是否成功
+     * @param userId 사용자ID
+     * @param openId 위챗OpenID
+     * @return 여부성공
      */
     boolean bindUserOpenId(Long userId, String openId);
 

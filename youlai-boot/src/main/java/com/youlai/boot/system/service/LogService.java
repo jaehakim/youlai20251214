@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * 系统日志 服务接口
+ * 시스템로그 서비스인터페이스
  *
  * @author Ray.Hao
  * @since 2.10.0
@@ -20,21 +20,21 @@ import java.util.List;
 public interface LogService extends IService<Log> {
 
     /**
-     * 获取日志分页列表
+     * 조회로그페이지 목록
      */
     Page<LogPageVO> getLogPage(LogPageQuery queryParams);
 
 
     /**
-     * 获取访问趋势
+     * 접근 추세 조회
      *
-     * @param startDate 开始时间
-     * @param endDate   结束时间
+     * @param startDate 시작 시간
+     * @param endDate   종료 시간
      */
     VisitTrendVO getVisitTrend(LocalDate startDate, LocalDate endDate);
 
     /**
-     * 获取访问统计
+     * 접근 통계 조회
      */
     VisitStatsVO getVisitStats();
 

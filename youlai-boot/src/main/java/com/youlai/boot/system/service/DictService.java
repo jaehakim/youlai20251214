@@ -12,7 +12,7 @@ import com.youlai.boot.system.model.vo.DictPageVO;
 import java.util.List;
 
 /**
- * 字典业务接口
+ * 사전비즈니스인터페이스
  *
  * @author haoxr
  * @since 2022/10/12
@@ -20,57 +20,57 @@ import java.util.List;
 public interface DictService extends IService<Dict> {
 
     /**
-     * 获取字典分页列表
+     * 조회사전 페이지목록
      *
-     * @param queryParams 分页查询对象
-     * @return 字典分页列表
+     * @param queryParams 페이지조회객체
+     * @return 사전 페이지목록
      */
     Page<DictPageVO> getDictPage(DictPageQuery queryParams);
 
     /**
-     * 获取字典列表
+     * 조회사전목록
      *
-     * @return 字典列表
+     * @return 사전목록
      */
     List<Option<String>> getDictList();
 
     /**
-     * 获取字典表单数据
+     * 사전 폼 데이터 조회
      *
-     * @param id 字典ID
-     * @return 字典表单
+     * @param id 사전ID
+     * @return 사전폼
      */
     DictForm getDictForm(Long id);
 
     /**
-     * 新增字典
+     * 추가사전
      *
-     * @param dictForm 字典表单
-     * @return 是否成功
+     * @param dictForm 사전폼
+     * @return 여부성공
      */
     boolean saveDict(DictForm dictForm);
 
     /**
-     * 修改字典
+     * 수정사전
      *
-     * @param id     字典ID
-     * @param dictForm 字典表单
-     * @return 是否成功
+     * @param id     사전ID
+     * @param dictForm 사전폼
+     * @return 여부성공
      */
     boolean updateDict(Long id, DictForm dictForm);
 
     /**
-     * 删除字典
+     * 삭제사전
      *
-     * @param ids 字典ID集合
+     * @param ids 사전ID集合
      */
     void deleteDictByIds(List<String> ids);
 
     /**
-     * 根据字典ID列表获取字典编码列表
+     * 根据사전ID목록조회사전 코드목록
      *
-     * @param ids 字典ID列表
-     * @return 字典编码列表
+     * @param ids 사전ID목록
+     * @return 사전 코드목록
      */
     List<String> getDictCodesByIds(List<String> ids);
 }

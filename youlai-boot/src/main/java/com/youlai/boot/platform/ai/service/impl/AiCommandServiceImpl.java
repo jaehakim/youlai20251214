@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * AI 命令编排服务实现
+ * AI 명령编排서비스구현
  */
 @Service
 @Slf4j
@@ -39,16 +39,16 @@ import java.util.Optional;
 public class AiCommandServiceImpl implements AiCommandService {
 
   private static final String SYSTEM_PROMPT = """
-    你是一个智能的企业操作助手，需要将用户的自然语言命令解析成标准的函数调用。
-    请返回严格的 JSON 格式，包含字段：
+    你是원个智能의企业操作助手，需要을사용자의自然语言명령解析成标准의函수调用。
+    请返回严格의 JSON 格式，包含字段：
     - success: boolean
     - explanation: string
     - confidence: number (0-1)
     - error: string
     - provider: string
     - model: string
-    - functionCalls: 数组，每个元素包含 name、description、arguments(对象)
-    当无法识别命令时，success=false，并给出 error。
+    - functionCalls: 수组，每个元素包含 name、description、arguments(객체)
+    当无法识别명령时，success=false，并给出 error。
     """;
 
   private final AiCommandRecordService recordService;
@@ -63,7 +63,7 @@ public class AiCommandServiceImpl implements AiCommandService {
     if (StrUtil.isBlank(command)) {
       return AiParseResponseDTO.builder()
         .success(false)
-        .error("命令不能为空")
+        .error("명령不能값空")
         .functionCalls(Collections.emptyList())
         .build();
     }
@@ -85,7 +85,7 @@ public class AiCommandServiceImpl implements AiCommandService {
     String userPrompt = buildUserPrompt(request);
 
     try {
-      log.info("📤 发送命令至 AI 模型: {}", command);
+      log.info("📤 발송명령에 AI 模型: {}", command);
       ChatResponse chatResponse = chatClient.prompt()
         .system(systemPrompt)
         .user(userPrompt)
@@ -103,7 +103,7 @@ public class AiCommandServiceImpl implements AiCommandService {
       record.setExplanation(parseResult.explanation());
       record.setFunctionCalls(JSONUtil.toJsonStr(parseResult.functionCalls()));
       record.setConfidence(parseResult.confidence() != null ? BigDecimal.valueOf(parseResult.confidence()) : null);
-      record.setParseErrorMessage(parseResult.success() ? null : StrUtil.emptyToDefault(parseResult.error(), "解析失败"));
+      record.setParseErrorMessage(parseResult.success() ? null : StrUtil.emptyToDefault(parseResult.error(), "解析실패"));
       record.setParseTime(System.currentTimeMillis() - startTime);
 
       recordService.save(record);
@@ -119,9 +119,9 @@ public class AiCommandServiceImpl implements AiCommandService {
         .build();
 
       if (!parseResult.success()) {
-        log.warn("❗️ AI 未能解析命令: {}", parseResult.error());
+        log.warn("❗️ AI 미能解析명령: {}", parseResult.error());
       } else {
-        log.info("✅ 解析成功，审计记录ID: {}", record.getId());
+        log.info("✅ 解析성공，审计기록 ID: {}", record.getId());
       }
 
       return response;
@@ -133,8 +133,8 @@ public class AiCommandServiceImpl implements AiCommandService {
       record.setParseTime(duration);
       recordService.save(record);
 
-      log.error("❌ 解析命令失败: {}", e.getMessage(), e);
-      throw new RuntimeException("解析命令失败: " + e.getMessage(), e);
+      log.error("❌ 解析명령실패: {}", e.getMessage(), e);
+      throw new RuntimeException("解析명령실패: " + e.getMessage(), e);
     }
   }
 
@@ -151,7 +151,7 @@ public class AiCommandServiceImpl implements AiCommandService {
       .set("availableFunctions", availableFunctions());
 
     return StrUtil.format("""
-      请根据以下上下文识别用户意图，并输出符合系统提示要求的 JSON：
+      请根据는下컨텍스트识别사용자意图，并输出符合시스템提示要求의 JSON：
       {}
       """, JSONUtil.toJsonPrettyStr(payload));
   }
@@ -160,7 +160,7 @@ public class AiCommandServiceImpl implements AiCommandService {
     return List.of(
       Map.of(
         "name", "updateUserNickname",
-        "description", "根据用户名更新用户昵称",
+        "description", "根据사용자명업데이트사용자닉네임",
         "requiredParameters", List.of("username", "nickname")
       )
     );
@@ -168,7 +168,7 @@ public class AiCommandServiceImpl implements AiCommandService {
 
   private ParseResult parseAiResponse(String rawContent) {
     if (StrUtil.isBlank(rawContent)) {
-      throw new IllegalStateException("AI 返回内容为空");
+      throw new IllegalStateException("AI 返回내용값空");
     }
 
     try {
@@ -225,26 +225,26 @@ public class AiCommandServiceImpl implements AiCommandService {
   public Object executeCommand(AiExecuteRequestDTO request, HttpServletRequest httpRequest) throws Exception {
     long startTime = System.currentTimeMillis();
 
-    // 获取用户信息
+    // 조회사용자 정보
     Long userId = SecurityUtils.getUserId();
     String username = SecurityUtils.getUsername();
     String ipAddress = JakartaServletUtil.getClientIP(httpRequest);
 
     AiFunctionCallDTO functionCall = request.getFunctionCall();
 
-    // 判断是否为危险操作
+    // 判断여부값危险操作
     boolean isDangerous = isDangerousOperation(functionCall.getName());
 
-    // 根据解析日志ID获取审计记录，如果不存在则创建新记录
+    // 根据解析로그ID조회审计기록，如果不存에则생성새기록
     AiCommandRecord record;
     if (StrUtil.isNotBlank(request.getParseLogId())) {
-      // 更新已存在的审计记录（解析阶段已创建）
+      // 업데이트이미存에의审计기록（解析阶段이미생성）
       record = recordService.getById(request.getParseLogId());
       if (record == null) {
-        throw new IllegalStateException("未找到对应的解析记录，ID: " + request.getParseLogId());
+        throw new IllegalStateException("미找到对应의解析기록，ID: " + request.getParseLogId());
       }
     } else {
-      // 如果没有解析日志ID，创建新记录（兼容直接执行的情况）
+      // 如果没有解析로그ID，생성새기록（兼容直接执行의情况）
       record = new AiCommandRecord();
       record.setUserId(userId);
       record.setUsername(username);
@@ -254,7 +254,7 @@ public class AiCommandServiceImpl implements AiCommandService {
       recordService.save(record);
     }
 
-    // 更新执行相关字段
+    // 업데이트执行관련字段
     record.setFunctionName(functionCall.getName());
     record.setFunctionArguments(JSONUtil.toJsonStr(functionCall.getArguments()));
     record.setIsDangerous(isDangerous);
@@ -271,47 +271,47 @@ public class AiCommandServiceImpl implements AiCommandService {
         AiCommandRecord existing = recordService.getOne(
           new LambdaQueryWrapper<AiCommandRecord>()
             .eq(AiCommandRecord::getIdempotencyKey, request.getIdempotencyKey())
-            .ne(AiCommandRecord::getId, record.getId()) // 排除当前记录
+            .ne(AiCommandRecord::getId, record.getId()) // 排除현재기록
         );
         if (existing != null) {
-          log.warn("⚠️ 检测到重复执行，幂等性令牌: {}", request.getIdempotencyKey());
-          throw new IllegalStateException("该操作已执行，请勿重复提交");
+          log.warn("⚠️ 检测到重复执行，幂等性토큰: {}", request.getIdempotencyKey());
+          throw new IllegalStateException("该操作이미执行，请勿重复제출");
         }
       }
 
-      // 🎯 执行具体的函数调用
+      // 🎯 执行具体의函수调用
       Object result = executeFunctionCall(functionCall);
 
-      // 更新执行成功
+      // 업데이트执行성공
       record.setExecuteStatus("success");
       record.setExecuteResult(JSONUtil.toJsonStr(result));
       record.setExecutionTime(System.currentTimeMillis() - startTime);
 
-      // 更新审计记录
+      // 업데이트审计기록
       recordService.updateById(record);
 
-      log.info("✅ 命令执行成功，审计记录ID: {}", record.getId());
+      log.info("✅ 명령 실행성공，审计기록 ID: {}", record.getId());
 
       return result;
 
     } catch (Exception e) {
-      // 更新执行失败
+      // 업데이트执行실패
       record.setExecuteStatus("failed");
       record.setExecuteErrorMessage(e.getMessage());
       record.setExecutionTime(System.currentTimeMillis() - startTime);
 
-      // 更新审计记录
+      // 업데이트审计기록
       recordService.updateById(record);
 
-      log.error("❌ 命令执行失败，审计记录ID: {}", record.getId(), e);
+      log.error("❌ 명령 실행실패，审计기록 ID: {}", record.getId(), e);
 
-      // 抛出异常，由 Controller 统一处理
+      // 抛出오류，由 Controller 统원处理
       throw e;
     }
   }
 
   /**
-   * 判断是否为危险操作
+   * 判断여부값危险操作
    */
   private boolean isDangerousOperation(String functionName) {
     String[] dangerousKeywords = {"delete", "remove", "drop", "truncate", "clear"};
@@ -325,36 +325,36 @@ public class AiCommandServiceImpl implements AiCommandService {
   }
 
   /**
-   * 执行具体的函数调用
+   * 执行具体의函수调用
    */
   private Object executeFunctionCall(AiFunctionCallDTO functionCall) {
     String functionName = functionCall.getName();
     Map<String, Object> arguments = functionCall.getArguments();
 
-    log.info("🎯 执行函数: {}, 参数: {}", functionName, arguments);
+    log.info("🎯 执行函수: {}, 参수: {}", functionName, arguments);
 
-    // 根据函数名称路由到不同的处理器
+    // 根据函수이름路由到不同의处理器
     switch (functionName) {
       case "updateUserNickname":
         return executeUpdateUserNickname(arguments);
       default:
-        throw new UnsupportedOperationException("不支持的函数: " + functionName);
+        throw new UnsupportedOperationException("不支持의函수: " + functionName);
     }
   }
 
   /**
-   * 使用 Tool: 根据用户名更新用户昵称
+   * 사용 Tool: 根据사용자명업데이트사용자닉네임
    */
   private Object executeUpdateUserNickname(Map<String, Object> arguments) {
     String username = (String) arguments.get("username");
     String nickname = (String) arguments.get("nickname");
 
-    log.info("🔧 [Tool] 更新用户昵称: username={}, nickname={}", username, nickname);
+    log.info("🔧 [Tool] 업데이트사용자닉네임: username={}, nickname={}", username, nickname);
     String resultMsg = userTools.updateUserNickname(username, nickname);
 
-    boolean success = resultMsg != null && resultMsg.contains("成功");
+    boolean success = resultMsg != null && resultMsg.contains("성공");
     if (!success) {
-      throw new RuntimeException(resultMsg != null ? resultMsg : "更新用户昵称失败");
+      throw new RuntimeException(resultMsg != null ? resultMsg : "업데이트사용자닉네임실패");
     }
 
     return Map.of("username", username, "nickname", nickname, "message", resultMsg);

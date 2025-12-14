@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 /**
- * 通知目标类型枚举
+ * 알림 대상 유형 열거형
  *
  * @author Ray.Hao
  * @since 2024/10/14
@@ -14,8 +14,8 @@ import lombok.Getter;
 @Schema(enumAsRef = true)
 public enum NoticeTargetEnum implements IBaseEnum<Integer> {
 
-    ALL(1, "全体"),
-    SPECIFIED(2, "指定");
+    ALL(1, "전체"),
+    SPECIFIED(2, "지정됨");
 
 
     private final Integer value;

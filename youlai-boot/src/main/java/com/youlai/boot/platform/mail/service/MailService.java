@@ -1,7 +1,7 @@
 package com.youlai.boot.platform.mail.service;
 
 /**
- * 邮件服务接口层
+ * 이메일서비스인터페이스层
  *
  * @author Ray
  * @since 2024/8/17
@@ -10,21 +10,21 @@ public interface MailService {
 
 
     /**
-     * 发送简单文本邮件
+     * 발송简单텍스트이메일
      *
-     * @param to      收件人地址
-     * @param subject 邮件主题
-     * @param text    邮件内容
+     * @param to      收件人주소
+     * @param subject 이메일主题
+     * @param text    이메일내용
      */
     void sendMail(String to, String subject, String text) ;
 
     /**
-     * 发送带附件的邮件
+     * 발송带附件의이메일
      *
-     * @param to      收件人地址
-     * @param subject 邮件主题
-     * @param text    邮件内容
-     * @param filePath 附件路径
+     * @param to      收件人주소
+     * @param subject 이메일主题
+     * @param text    이메일내용
+     * @param filePath 附件경로
      */
     void sendMailWithAttachment(String to, String subject, String text, String filePath);
 

@@ -1,7 +1,7 @@
 package com.youlai.boot.common.constant;
 
 /**
- * Redis 常量
+ * Redis 상수
  *
  * @author Theo
  * @since 2024-7-29 11:46:08
@@ -9,54 +9,54 @@ package com.youlai.boot.common.constant;
 public interface RedisConstants {
 
     /**
-     * 限流相关键
+     * 속도 제한 관련 키
      */
     interface RateLimiter {
         String IP = "rate_limiter:ip:{}"; // IP限流（示例：rate_limiter:ip:192.168.1.1）
     }
 
     /**
-     * 分布式锁相关键
+     * 분산 잠금 관련 키
      */
     interface Lock {
         String RESUBMIT = "lock:resubmit:{}:{}"; // 防重复提交（示例：lock:resubmit:userIdentifier:requestIdentifier）
     }
 
     /**
-     * 认证模块
+     * 인증 모듈
      */
     interface Auth {
-        // 存储访问令牌对应的用户信息（accessToken -> OnlineUser）
+        // 액세스 토큰에 해당하는 사용자 정보 저장 (accessToken -> OnlineUser）
         String ACCESS_TOKEN_USER = "auth:token:access:{}";
-        // 存储刷新令牌对应的用户信息（refreshToken -> OnlineUser）
+        // 리프레시 토큰에 해당하는 사용자 정보 저장 (refreshToken -> OnlineUser）
         String REFRESH_TOKEN_USER = "auth:token:refresh:{}";
-        // 用户与访问令牌的映射（userId -> accessToken）
+        // 사용자와 액세스 토큰의 매핑 (userId -> accessToken）
         String USER_ACCESS_TOKEN = "auth:user:access:{}";
-        // 用户与刷新令牌的映射（userId -> refreshToken
+        // 사용자와 리프레시 토큰의 매핑 (userId -> refreshToken
         String USER_REFRESH_TOKEN = "auth:user:refresh:{}";
-        // 黑名单 Token（用于退出登录或注销）
+        // 블랙리스트 Token (로그아웃 또는 계정 삭제 시 사용)
         String BLACKLIST_TOKEN = "auth:token:blacklist:{}";
-        // 用户安全版本号（用于按用户失效历史 JWT）
+        // 사용자 보안 버전 번호 (사용자별 이전 JWT 무효화 시 사용)
         String USER_SECURITY_VERSION = "auth:user:security_version:{}";
     }
 
     /**
-     * 验证码模块
+     * 인증 코드 모듈
      */
     interface Captcha {
-        String IMAGE_CODE = "captcha:image:{}";              // 图形验证码
-        String SMS_LOGIN_CODE = "captcha:sms_login:{}";      // 登录短信验证码
-        String SMS_REGISTER_CODE = "captcha:sms_register:{}";// 注册短信验证码
-        String MOBILE_CODE = "captcha:mobile:{}";            // 绑定、更换手机验证码
-        String EMAIL_CODE = "captcha:email:{}";              // 邮箱验证码
+        String IMAGE_CODE = "captcha:image:{}";              // 이미지 인증 코드
+        String SMS_LOGIN_CODE = "captcha:sms_login:{}";      // 로그인 SMS 인증 코드
+        String SMS_REGISTER_CODE = "captcha:sms_register:{}";// 회원가입 SMS 인증 코드
+        String MOBILE_CODE = "captcha:mobile:{}";            // 휴대폰 번호 등록/변경 인증 코드
+        String EMAIL_CODE = "captcha:email:{}";              // 이메일 인증 코드
     }
 
     /**
-     * 系统模块
+     * 시스템 모듈
      */
     interface System {
-        String CONFIG = "system:config";                 // 系统配置
-        String ROLE_PERMS = "system:role:perms"; // 系统角色和权限映射
+        String CONFIG = "system:config";                 // 시스템 설정
+        String ROLE_PERMS = "system:role:perms"; // 시스템 역할 및 권한 매핑
     }
 
 }

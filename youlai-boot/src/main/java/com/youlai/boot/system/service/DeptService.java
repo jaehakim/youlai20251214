@@ -10,56 +10,56 @@ import com.youlai.boot.system.model.vo.DeptVO;
 import java.util.List;
 
 /**
- * 部门业务接口
+ * 부서비즈니스인터페이스
  *
  * @author haoxr
  * @since 2021/8/22
  */
 public interface DeptService extends IService<Dept> {
     /**
-     * 部门列表
+     * 부서 목록
      *
-     * @return 部门列表
+     * @return 부서 목록
      */
     List<DeptVO> getDeptList(DeptQuery queryParams);
 
     /**
-     * 部门树形下拉选项
+     * 부서树形드롭다운 옵션
      *
-     * @return 部门树形下拉选项
+     * @return 부서树形드롭다운 옵션
      */
     List<Option<Long>> listDeptOptions();
 
     /**
-     * 新增部门
+     * 추가부서
      *
-     * @param formData 部门表单
-     * @return 部门ID
+     * @param formData 부서폼
+     * @return 부서ID
      */
     Long saveDept(DeptForm formData);
 
     /**
-     * 修改部门
+     * 수정부서
      *
-     * @param deptId  部门ID
-     * @param formData 部门表单
-     * @return 部门ID
+     * @param deptId  부서ID
+     * @param formData 부서폼
+     * @return 부서ID
      */
     Long updateDept(Long deptId, DeptForm formData);
 
     /**
-     * 删除部门
+     * 삭제부서
      *
-     * @param ids 部门ID，多个以英文逗号,拼接字符串
-     * @return 是否成功
+     * @param ids 부서ID，여러 개는영문쉼표,로 연결字符串
+     * @return 여부성공
      */
     boolean deleteByIds(String ids);
 
     /**
-     * 获取部门详情
+     * 조회부서상세
      *
-     * @param deptId 部门ID
-     * @return 部门详情
+     * @param deptId 부서ID
+     * @return 부서상세
      */
     DeptForm getDeptForm(Long deptId);
 }

@@ -4,7 +4,7 @@ import com.youlai.boot.common.base.IBaseEnum;
 import lombok.Getter;
 
 /**
- * 字典编码枚举
+ * 사전 코드 열거형
  *
  * @author Ray.Hao
  * @since 2024/10/30
@@ -12,9 +12,9 @@ import lombok.Getter;
 @Getter
 public enum DictCodeEnum implements IBaseEnum<String> {
 
-    GENDER("gender", "性别"),
-    NOTICE_TYPE("notice_type", "通知类型"),
-    NOTICE_LEVEL("notice_level", "通知级别");
+    GENDER("gender", "성별"),
+    NOTICE_TYPE("notice_type", "알림 유형"),
+    NOTICE_LEVEL("notice_level", "알림 레벨");
 
     private final String value;
 

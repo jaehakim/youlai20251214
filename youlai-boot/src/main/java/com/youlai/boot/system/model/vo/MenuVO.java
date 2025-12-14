@@ -6,47 +6,47 @@ import lombok.Data;
 
 import java.util.List;
 
-@Schema(description ="菜单视图对象")
+@Schema(description ="메뉴 뷰 객체")
 @Data
 public class MenuVO {
 
-    @Schema(description = "菜单ID")
+    @Schema(description = "메뉴 ID")
     private Long id;
 
-    @Schema(description = "父菜单ID")
+    @Schema(description = "상위 메뉴 ID")
     private Long parentId;
 
-    @Schema(description = "菜单名称")
+    @Schema(description = "메뉴명")
     private String name;
 
-    @Schema(description="菜单类型")
+    @Schema(description="메뉴 유형")
     private Integer type;
 
-    @Schema(description = "路由名称")
+    @Schema(description = "라우트명")
     private String routeName;
 
-    @Schema(description = "路由路径")
+    @Schema(description = "라우트 경로")
     private String routePath;
 
-    @Schema(description = "组件路径")
+    @Schema(description = "컴포넌트 경로")
     private String component;
 
-    @Schema(description = "菜单排序(数字越小排名越靠前)")
+    @Schema(description = "메뉴 정렬(숫자가 작을수록 우선순위 높음)")
     private Integer sort;
 
-    @Schema(description = "菜单是否可见(1:显示;0:隐藏)")
+    @Schema(description = "메뉴 표시 여부(1:표시;0:숨김)")
     private Integer visible;
 
     @Schema(description = "ICON")
     private String icon;
 
-    @Schema(description = "跳转路径")
+    @Schema(description = "리다이렉트 경로")
     private String redirect;
 
-    @Schema(description="按钮权限标识")
+    @Schema(description="버튼 권한 식별자")
     private String perm;
 
-    @Schema(description = "子菜单")
+    @Schema(description = "하위 메뉴")
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private List<MenuVO> children;
 

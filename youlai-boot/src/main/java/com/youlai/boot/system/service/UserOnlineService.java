@@ -13,8 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
- * 用户在线状态服务
- * 负责维护用户的在线状态和相关统计
+ * 사용자에线상태서비스
+ * 负责维护사용자의에线상태和관련통계
  *
  * @author Ray.Hao
  * @since 3.0.0
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserOnlineService {
 
-    // 在线用户映射表，key为用户名，value为用户在线信息
+    // 온라인 사용자映射表，key값사용자명，value값사용자에线信息
     private final Map<String, UserOnlineInfo> onlineUsers = new ConcurrentHashMap<>();
     
     private SimpMessagingTemplate messagingTemplate;
@@ -34,39 +34,39 @@ public class UserOnlineService {
     }
 
     /**
-     * 用户上线
+     * 사용자上线
      *
-     * @param username  用户名
-     * @param sessionId WebSocket会话ID（可选）
+     * @param username  사용자명
+     * @param sessionId WebSocket세션ID（가选）
      */
     public void userConnected(String username, String sessionId) {
-        // 生成会话ID（如果未提供）
+        // 생성세션ID（如果미提용）
         String actualSessionId = sessionId != null ? sessionId : "session-" + System.nanoTime();
         UserOnlineInfo info = new UserOnlineInfo(username, actualSessionId, System.currentTimeMillis());
         onlineUsers.put(username, info);
-        log.info("用户[{}]上线，当前在线用户数：{}", username, onlineUsers.size());
+        log.info("사용자[{}]上线，현재온라인 사용자수：{}", username, onlineUsers.size());
         
-        // 通知在线用户状态变更
+        // 공지온라인 사용자상태变更
         notifyOnlineUsersChange();
     }
 
     /**
-     * 用户下线
+     * 사용자下线
      *
-     * @param username 用户名
+     * @param username 사용자명
      */
     public void userDisconnected(String username) {
         onlineUsers.remove(username);
-        log.info("用户[{}]下线，当前在线用户数：{}", username, onlineUsers.size());
+        log.info("사용자[{}]下线，현재온라인 사용자수：{}", username, onlineUsers.size());
         
-        // 通知在线用户状态变更
+        // 공지온라인 사용자상태变更
         notifyOnlineUsersChange();
     }
 
     /**
-     * 获取在线用户列表
+     * 조회에线사용자 목록
      *
-     * @return 在线用户名列表
+     * @return 온라인 사용자名목록
      */
     public List<UserOnlineDTO> getOnlineUsers() {
         return onlineUsers.values().stream()
@@ -75,58 +75,58 @@ public class UserOnlineService {
     }
 
     /**
-     * 获取在线用户数量
+     * 조회온라인 사용자수量
      *
-     * @return 在线用户数
+     * @return 온라인 사용자수
      */
     public int getOnlineUserCount() {
         return onlineUsers.size();
     }
 
     /**
-     * 检查用户是否在线
+     * 检查사용자여부에线
      *
-     * @param username 用户名
-     * @return 是否在线
+     * @param username 사용자명
+     * @return 여부에线
      */
     public boolean isUserOnline(String username) {
         return onlineUsers.containsKey(username);
     }
 
     /**
-     * 通知所有客户端在线用户变更
+     * 공지所有客户端온라인 사용자变更
      */
     private void notifyOnlineUsersChange() {
         if (messagingTemplate == null) {
-            log.warn("消息模板尚未初始化，无法发送在线用户数量");
+            log.warn("메시지템플릿尚미初始化，无法발송온라인 사용자수量");
             return;
         }
         
-        // 发送简化版数据（仅数量）
+        // 발송简化版데이터（仅수量）
         sendOnlineUserCount();
     }
     
     /**
-     * 发送在线用户数量（简化版，不包含用户详情）
+     * 발송온라인 사용자수量（简化版，不包含사용자 상세）
      */
     private void sendOnlineUserCount() {
         if (messagingTemplate == null) {
-            log.warn("消息模板尚未初始化，无法发送在线用户数量");
+            log.warn("메시지템플릿尚미初始化，无法발송온라인 사용자수量");
             return;
         }
         
         try {
-            // 直接发送数量，更轻量
+            // 直接발송수量，更轻量
             int count = onlineUsers.size();
             messagingTemplate.convertAndSend("/topic/online-count", count);
-            log.debug("已发送在线用户数量: {}", count);
+            log.debug("이미발송온라인 사용자수量: {}", count);
         } catch (Exception e) {
-            log.error("发送在线用户数量失败", e);
+            log.error("발송온라인 사용자수量실패", e);
         }
     }
 
     /**
-     * 用户在线信息
+     * 사용자에线信息
      */
     @Data
     private static class UserOnlineInfo {
@@ -136,7 +136,7 @@ public class UserOnlineService {
     }
 
     /**
-     * 用户在线DTO（用于返回给前端）
+     * 사용자에线DTO（용도返回给前端）
      */
     @Data
     public static class UserOnlineDTO {
@@ -145,7 +145,7 @@ public class UserOnlineService {
     }
 
     /**
-     * 在线用户变更事件
+     * 온라인 사용자变更事件
      */
     @Data
     private static class OnlineUsersChangeEvent {

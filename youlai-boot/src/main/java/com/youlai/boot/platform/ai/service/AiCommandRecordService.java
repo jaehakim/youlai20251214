@@ -7,22 +7,22 @@ import com.youlai.boot.platform.ai.model.query.AiCommandPageQuery;
 import com.youlai.boot.platform.ai.model.vo.AiCommandRecordVO;
 
 /**
- * AI 命令记录服务接口
+ * AI 명령 기록서비스인터페이스
  */
 public interface AiCommandRecordService extends IService<AiCommandRecord> {
 
     /**
-     * 获取命令记录分页列表
+     * 조회명령 기록페이지 목록
      *
-     * @param queryParams 查询参数
-     * @return 命令记录分页列表
+     * @param queryParams 조회参수
+     * @return 명령 기록페이지 목록
      */
     IPage<AiCommandRecordVO> getRecordPage(AiCommandPageQuery queryParams);
 
     /**
-     * 撤销命令执行
+     * 명령 실행 취소
      *
-     * @param recordId 记录ID
+     * @param recordId 기록 ID
      */
     void rollbackCommand(String recordId);
 }

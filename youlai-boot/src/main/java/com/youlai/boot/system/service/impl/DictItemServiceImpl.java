@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 字典项实现类
+ * 사전 항목구현类
  *
  * @author Ray.Hao
  * @since 2022/10/12
@@ -30,10 +30,10 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> i
     private final DictItemConverter dictItemConverter;
 
     /**
-     * 获取字典项分页列表
+     * 조회사전 항목페이지 목록
      *
-     * @param queryParams 查询参数
-     * @return 字典项分页列表
+     * @param queryParams 조회参수
+     * @return 사전 항목페이지 목록
      */
     @Override
     public Page<DictItemPageVO> getDictItemPage(DictItemPageQuery queryParams) {
@@ -46,9 +46,9 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> i
 
 
     /**
-     * 获取字典项列表
+     * 조회사전 항목목록
      *
-     * @param dictCode 字典编码
+     * @param dictCode 사전 코드
      */
     @Override
     public List<DictItemOptionVO> getDictItems(String dictCode) {
@@ -70,10 +70,10 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> i
 
 
     /**
-     * 获取字典项表单
+     * 조회사전 항목폼
      *
-     * @param itemId 字典项ID
-     * @return 字典项表单
+     * @param itemId 사전 항목ID
+     * @return 사전 항목폼
      */
     @Override
     public DictItemForm getDictItemForm( Long itemId) {
@@ -82,10 +82,10 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> i
     }
 
     /**
-     * 保存字典项
+     * 저장사전 항목
      *
-     * @param formData 字典项表单
-     * @return 是否成功
+     * @param formData 사전 항목폼
+     * @return 여부성공
      */
     @Override
     public boolean saveDictItem(DictItemForm formData) {
@@ -94,10 +94,10 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> i
     }
 
     /**
-     * 更新字典项
+     * 업데이트사전 항목
      *
-     * @param formData 字典项表单
-     * @return 是否成功
+     * @param formData 사전 항목폼
+     * @return 여부성공
      */
     @Override
     public boolean updateDictItem(DictItemForm formData) {
@@ -106,9 +106,9 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> i
     }
 
     /**
-     * 删除字典项
+     * 삭제사전 항목
      *
-     * @param ids 字典项ID集合
+     * @param ids 사전 항목ID集合
      */
     @Override
     public void deleteDictItemByIds(String ids) {

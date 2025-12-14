@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 用户公告状态服务实现类
+ * 사용자공지상태서비스구현类
  *
  * @author youlaitech
  * @since 2024-08-28 16:56
@@ -29,9 +29,9 @@ public class UserNoticeServiceImpl extends ServiceImpl<UserNoticeMapper, UserNot
     private final UserNoticeMapper userNoticeMapper;
 
     /**
-     * 全部标记为已读
+     * 全部标记값읽음
      *
-     * @return 是否成功
+     * @return 여부성공
      */
     @Override
     public boolean readAll() {
@@ -44,11 +44,11 @@ public class UserNoticeServiceImpl extends ServiceImpl<UserNoticeMapper, UserNot
     }
 
     /**
-     * 我的通知公告分页列表
+     * 내공지사항페이지 목록
      *
-     * @param page        分页对象
-     * @param queryParams 查询参数
-     * @return 通知公告分页列表
+     * @param page        페이지객체
+     * @param queryParams 조회参수
+     * @return 공지사항페이지 목록
      */
     @Override
     public IPage<UserNoticePageVO> getMyNoticePage(Page<NoticePageVO> page, NoticePageQuery queryParams) {

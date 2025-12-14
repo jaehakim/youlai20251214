@@ -7,20 +7,20 @@ import lombok.Setter;
 import java.util.List;
 
 /**
- * 日志分页查询对象
+ * 로그 페이지 조회 객체
  *
  * @author Ray
  * @since 2.10.0
  */
-@Schema(description = "日志分页查询对象")
+@Schema(description = "로그 페이지 조회 객체")
 @Getter
 @Setter
 public class LogPageQuery extends BasePageQuery {
 
-    @Schema(description="关键字(日志内容/请求路径/请求方法/地区/浏览器/终端系统)")
+    @Schema(description="키워드(로그 내용/요청 경로/요청 메서드/지역/브라우저/운영체제)")
     private String keywords;
 
-    @Schema(description="操作时间范围")
+    @Schema(description="작업 시간 범위")
     List<String> createTime;
 
 }

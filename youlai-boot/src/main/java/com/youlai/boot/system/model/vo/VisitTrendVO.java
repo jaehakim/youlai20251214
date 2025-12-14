@@ -8,23 +8,23 @@ import lombok.Setter;
 import java.util.List;
 
 /**
- * 访问趋势VO
+ * 방문 추세 VO
  *
  * @author Ray.Hao
  * @since 2.3.0
  */
-@Schema(description = "访问趋势VO")
+@Schema(description = "방문 추세 VO")
 @Getter
 @Setter
 public class VisitTrendVO {
 
-    @Schema(description = "日期列表")
+    @Schema(description = "날짜 목록")
     private List<String> dates;
 
-    @Schema(description = "浏览量(PV)")
+    @Schema(description = "조회수(PV)")
     private List<Integer> pvList;
 
-    @Schema(description = "IP数")
+    @Schema(description = "IP 수")
     private List<Integer> ipList;
 
 }

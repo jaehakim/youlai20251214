@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 /**
- * 阿里云短信业务类
+ * 알리바바 클라우드SMS비즈니스类
  *
  * @author Ray
  * @since 2024/8/17
@@ -29,12 +29,12 @@ public class AliyunSmsService implements SmsService {
     private final AliyunSmsProperties aliyunSmsProperties;
 
     /**
-     * 发送短信验证码
+     * 발송SMS인증코드
      *
-     * @param mobile         手机号 13388886666
-     * @param smsType        短信模板 SMS_194640010
-     * @param templateParams 模板参数 [{"code":"123456"}]
-     * @return boolean 是否发送成功
+     * @param mobile         휴대폰 번호 13388886666
+     * @param smsType        SMS템플릿 SMS_194640010
+     * @param templateParams 템플릿参수 [{"code":"123456"}]
+     * @return boolean 여부발송성공
      */
     @Override
     public boolean sendSms(String mobile, SmsTypeEnum smsType, Map<String, String> templateParams) {
@@ -45,23 +45,23 @@ public class AliyunSmsService implements SmsService {
                 aliyunSmsProperties.getAccessKeyId(), aliyunSmsProperties.getAccessKeySecret());
         IAcsClient client = new DefaultAcsClient(profile);
 
-        // 创建通用的请求对象
+        // 생성通用의请求객체
         CommonRequest request = new CommonRequest();
-        // 指定请求方式
+        // 지정된请求方式
         request.setSysMethod(MethodType.POST);
-        // 短信api的请求地址(固定)
+        // SMSapi의请求주소(固定)
         request.setSysDomain(aliyunSmsProperties.getDomain());
         // 签名算法版(固定)
         request.setSysVersion("2017-05-25");
-        // 请求 API 的名称(固定)
+        // 请求 API 의이름(固定)
         request.setSysAction("SendSms");
-        // 指定地域名称
+        // 지정된地域이름
         request.putQueryParameter("RegionId", aliyunSmsProperties.getRegionId());
-        // 要给哪个手机号发送短信  指定手机号
+        // 要给哪个휴대폰 번호발송SMS  지정된휴대폰 번호
         request.putQueryParameter("PhoneNumbers", mobile);
-        // 您的申请签名
+        // 您의申请签名
         request.putQueryParameter("SignName", aliyunSmsProperties.getSignName());
-        // 您申请的模板 code
+        // 您申请의템플릿 code
         request.putQueryParameter("TemplateCode", templateCode);
 
         request.putQueryParameter("TemplateParam", JSONUtil.toJsonStr(templateParams));

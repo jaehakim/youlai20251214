@@ -7,35 +7,35 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 用户公告VO
+ * 사용자 공지 VO
  *
  * @author Theo
  * @since 2024-08-28 16:56
  */
 @Data
-@Schema(description = "用户公告VO")
+@Schema(description = "사용자 공지 VO")
 public class UserNoticePageVO {
 
-    @Schema(description = "通知ID")
+    @Schema(description = "공지 ID")
     private Long id;
 
-    @Schema(description = "通知标题")
+    @Schema(description = "공지 제목")
     private String title;
 
-    @Schema(description = "通知类型")
+    @Schema(description = "공지 유형")
     private Integer type;
 
-    @Schema(description = "通知等级")
+    @Schema(description = "공지 등급")
     private String level;
 
-    @Schema(description = "发布人姓名")
+    @Schema(description = "발행자명")
     private String publisherName;
 
-    @Schema(description = "发布时间")
+    @Schema(description = "발행 시간")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime publishTime;
 
-    @Schema(description = "是否已读")
+    @Schema(description = "읽음 여부")
     private Integer isRead;
 
 }

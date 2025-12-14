@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 角色业务实现类
+ * 역할비즈니스구현类
  *
  * @author haoxr
  * @since 2022/6/3
@@ -45,19 +45,19 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     private final RoleConverter roleConverter;
 
     /**
-     * 角色分页列表
+     * 역할 페이지목록
      *
-     * @param queryParams 角色查询参数
-     * @return {@link Page< RolePageVO >} – 角色分页列表
+     * @param queryParams 역할조회参수
+     * @return {@link Page< RolePageVO >} – 역할 페이지목록
      */
     @Override
     public Page<RolePageVO> getRolePage(RolePageQuery queryParams) {
-        // 查询参数
+        // 조회参수
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
         String keywords = queryParams.getKeywords();
 
-        // 查询数据
+        // 조회데이터
         Page<Role> rolePage = this.page(new Page<>(pageNum, pageSize),
                 new LambdaQueryWrapper<Role>()
                         .and(StrUtil.isNotBlank(keywords),
@@ -66,7 +66,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
                                                 .or()
                                                 .like(Role::getCode, keywords)
                         )
-                        .ne(!SecurityUtils.isRoot(), Role::getCode, SystemConstants.ROOT_ROLE_CODE) // 非超级管理员不显示超级管理员角色
+                        .ne(!SecurityUtils.isRoot(), Role::getCode, SystemConstants.ROOT_ROLE_CODE) // 非超级관리员不표시超级관리员역할
                         .orderByAsc(Role::getSort).orderByDesc(Role::getCreateTime).orderByDesc(Role::getUpdateTime)
         );
 
@@ -75,13 +75,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     /**
-     * 角色下拉列表
+     * 역할 드롭다운 목록
      *
-     * @return {@link List<Option>} – 角色下拉列表
+     * @return {@link List<Option>} – 역할 드롭다운 목록
      */
     @Override
     public List<Option<Long>> listRoleOptions() {
-        // 查询数据
+        // 조회데이터
         List<Role> roleList = this.list(new LambdaQueryWrapper<Role>()
                 .ne(!SecurityUtils.isRoot(), Role::getCode, SystemConstants.ROOT_ROLE_CODE)
                 .select(Role::getId, Role::getName)
@@ -93,9 +93,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     /**
-     * 保存角色
+     * 저장역할
      *
-     * @param roleForm 角色表单数据
+     * @param roleForm 역할폼데이터
      * @return {@link Boolean}
      */
     @Override
@@ -103,11 +103,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
         Long roleId = roleForm.getId();
 
-        // 编辑角色时，判断角色是否存在
+        // 编辑역할时，判断역할여부存에
         Role oldRole = null;
         if (roleId != null) {
             oldRole = this.getById(roleId);
-            Assert.isTrue(oldRole != null, "角色不存在");
+            Assert.isTrue(oldRole != null, "역할不存에");
         }
 
         String roleCode = roleForm.getCode();
@@ -116,14 +116,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
                 .and(wrapper ->
                         wrapper.eq(Role::getCode, roleCode).or().eq(Role::getName, roleForm.getName())
                 ));
-        Assert.isTrue(count == 0, "角色名称或角色编码已存在，请修改后重试！");
+        Assert.isTrue(count == 0, "역할이름또는역할코드이미存에，请수정후重试！");
 
         // 实体转换
         Role role = roleConverter.toEntity(roleForm);
 
         boolean result = this.saveOrUpdate(role);
         if (result) {
-            // 判断角色编码或状态是否修改，修改了则刷新权限缓存
+            // 判断역할코드또는상태여부수정，수정则새로고침권한캐시
             if (oldRole != null
                     && (
                     !StrUtil.equals(oldRole.getCode(), roleCode) ||
@@ -136,10 +136,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     /**
-     * 获取角色表单数据
+     * 역할 폼 데이터 조회
      *
-     * @param roleId 角色ID
-     * @return {@link RoleForm} – 角色表单数据
+     * @param roleId 역할ID
+     * @return {@link RoleForm} – 역할폼데이터
      */
     @Override
     public RoleForm getRoleForm(Long roleId) {
@@ -148,10 +148,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     /**
-     * 修改角色状态
+     * 수정역할상태
      *
-     * @param roleId 角色ID
-     * @param status 角色状态(1:启用；0:禁用)
+     * @param roleId 역할ID
+     * @param status 역할상태(1:활성화；0:비활성화)
      * @return {@link Boolean}
      */
     @Override
@@ -159,51 +159,51 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
         Role role = this.getById(roleId);
         if (role == null) {
-            throw new BusinessException("角色不存在");
+            throw new BusinessException("역할不存에");
         }
 
         role.setStatus(status);
         boolean result = this.updateById(role);
         if (result) {
-            // 刷新角色的权限缓存
+            // 새로고침역할의권한캐시
             roleMenuService.refreshRolePermsCache(role.getCode());
         }
         return result;
     }
 
     /**
-     * 批量删除角色
+     * 일괄 삭제역할
      *
-     * @param ids 角色ID，多个使用英文逗号(,)分割
+     * @param ids 역할ID，여러 개사용영문쉼표(,)로 구분
      */
     @Override
     public void deleteRoles(String ids) {
-        Assert.isTrue(StrUtil.isNotBlank(ids), "删除的角色ID不能为空");
+        Assert.isTrue(StrUtil.isNotBlank(ids), "삭제의역할ID不能값空");
         List<Long> roleIds = Arrays.stream(ids.split(","))
                 .map(Long::parseLong)
                 .toList();
 
         for (Long roleId : roleIds) {
             Role role = this.getById(roleId);
-            Assert.isTrue(role != null, "角色不存在");
+            Assert.isTrue(role != null, "역할不存에");
 
-            // 判断角色是否被用户关联
+            // 判断역할여부被사용자关联
             boolean isRoleAssigned = userRoleService.hasAssignedUsers(roleId);
-            Assert.isTrue(!isRoleAssigned, "角色【{}】已分配用户，请先解除关联后删除", role.getName());
+            Assert.isTrue(!isRoleAssigned, "역할【{}】이미分配사용자，请先解除关联후삭제", role.getName());
 
             boolean deleteResult = this.removeById(roleId);
             if (deleteResult) {
-                // 删除成功，刷新权限缓存
+                // 삭제성공，새로고침권한캐시
                 roleMenuService.refreshRolePermsCache(role.getCode());
             }
         }
     }
 
     /**
-     * 获取角色的菜单ID集合
+     * 역할의 메뉴 ID 집합 조회
      *
-     * @param roleId 角色ID
-     * @return 菜单ID集合(包括按钮权限ID)
+     * @param roleId 역할ID
+     * @return 메뉴ID集合(包括버튼 권한ID)
      */
     @Override
     public List<Long> getRoleMenuIds(Long roleId) {
@@ -211,10 +211,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     /**
-     * 修改角色的资源权限
+     * 수정역할의资源권한
      *
-     * @param roleId  角色ID
-     * @param menuIds 菜单ID集合
+     * @param roleId  역할ID
+     * @param menuIds 메뉴ID集合
      */
     @Override
     @Transactional
@@ -222,14 +222,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     public void assignMenusToRole(Long roleId, List<Long> menuIds) {
         Role role = this.getById(roleId);
         if (role == null) {
-            throw new RuntimeException("角色不存在");
+            throw new RuntimeException("역할不存에");
         }
-        // 删除角色菜单
+        // 삭제역할메뉴
         roleMenuService.remove(
                 new LambdaQueryWrapper<RoleMenu>()
                         .eq(RoleMenu::getRoleId, roleId)
         );
-        // 新增角色菜单
+        // 추가역할메뉴
         if (CollectionUtil.isNotEmpty(menuIds)) {
             List<RoleMenu> roleMenus = menuIds
                     .stream()
@@ -238,15 +238,15 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             roleMenuService.saveBatch(roleMenus);
         }
 
-        // 刷新角色的权限缓存
+        // 새로고침역할의권한캐시
         roleMenuService.refreshRolePermsCache(role.getCode());
     }
 
     /**
-     * 获取最大范围的数据权限
+     * 조회最大范围의데이터권한
      *
-     * @param roles 角色编码集合
-     * @return {@link Integer} – 数据权限范围
+     * @param roles 역할코드集合
+     * @return {@link Integer} – 데이터권한范围
      */
     @Override
     public Integer getMaximumDataScope(Set<String> roles) {

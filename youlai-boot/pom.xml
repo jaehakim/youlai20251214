@@ -7,7 +7,7 @@
     <groupId>com.youlai</groupId>
     <artifactId>youlai-boot</artifactId>
     <version>3.3.0</version>
-    <description>基于 Java 17 + SpringBoot 3 + Spring Security 构建的权限管理系统。</description>
+    <description>Java 17 + SpringBoot 3 + Spring Security 기반의 권한 관리 시스템.</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -36,27 +36,27 @@
 
         <fastexcel.version>1.3.0</fastexcel.version>
 
-        <!-- 对象存储 -->
+        <!-- 객체 스토리지 -->
         <minio.version>8.5.10</minio.version>
         <okhttp3.version>4.8.1</okhttp3.version>
 
         <aliyun-sdk-oss.version>3.16.3</aliyun-sdk-oss.version>
 
-        <!-- redisson 分布式锁 -->
+        <!-- redisson 분산 락 -->
         <redisson.version>3.51.0</redisson.version>
 
-        <!-- 自动代码生成 -->
+        <!-- 자동 코드 생성 -->
         <mybatis-plus-generator.version>3.5.6</mybatis-plus-generator.version>
         <velocity.version>2.3</velocity.version>
 
-        <!-- IP 地区转换 -->
+        <!-- IP 지역 변환 -->
         <ip2region.version>2.7.0</ip2region.version>
 
-        <!-- 阿里云短信 -->
+        <!-- 알리바바 클라우드 SMS -->
         <aliyun.java.sdk.core.version>4.7.6</aliyun.java.sdk.core.version>
         <aliyun.java.sdk.dysmsapi.version>2.2.1</aliyun.java.sdk.dysmsapi.version>
 
-        <!-- 微信 jdk -->
+        <!-- 위챗 jdk -->
         <weixin-java.version>4.7.7.B</weixin-java.version>
         <caffeine.version>2.9.3</caffeine.version>
     </properties>
@@ -65,7 +65,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <!--编译测试环境，不打包在lib-->
+            <!--컴파일 테스트 환경, lib에 패키징하지 않음-->
             <scope>provided</scope>
         </dependency>
 
@@ -75,7 +75,7 @@
             <version>${hutool.version}</version>
         </dependency>
 
-        <!-- 允许使用Lombok的Java Bean类中使用MapStruct注解 (Lombok 1.18.20+) -->
+        <!-- Lombok의 Java Bean 클래스에서 MapStruct 어노테이션 사용 허용 (Lombok 1.18.20+) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok-mapstruct-binding</artifactId>
@@ -148,7 +148,7 @@
             <version>${mybatis-plus.version}</version>
         </dependency>
 
-        <!-- knife4j 接口文档 -->
+        <!-- knife4j 인터페이스 문서 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
@@ -166,7 +166,7 @@
             <version>2.8.9</version>
         </dependency>
 
-        <!-- MapStruct 对象映射 -->
+        <!-- MapStruct 객체 매핑 -->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
@@ -179,56 +179,56 @@
             <version>${mapstruct.version}</version>
         </dependency>
 
-        <!-- xxl-job 定时任务 -->
+        <!-- xxl-job 스케줄링 작업 -->
         <dependency>
             <groupId>com.xuxueli</groupId>
             <artifactId>xxl-job-core</artifactId>
             <version>${xxl-job.version}</version>
         </dependency>
 
-        <!-- Excel 工具（EasyExcel-PLus ）  -->
+        <!-- Excel 도구（EasyExcel-PLus ）  -->
         <dependency>
             <groupId>cn.idev.excel</groupId>
             <artifactId>fastexcel</artifactId>
             <version>${fastexcel.version}</version>
         </dependency>
 
-        <!-- MinIO 对象存储 -->
+        <!-- MinIO 객체 스토리지 -->
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
             <version>${minio.version}</version>
         </dependency>
 
-        <!-- 阿里云 OSS 对象存储 -->
+        <!-- 알리바바 클라우드 OSS 객체 스토리지 -->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>${aliyun-sdk-oss.version}</version>
         </dependency>
 
-        <!-- redisson 分布式锁 -->
+        <!-- redisson 분산 락 -->
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
             <version>${redisson.version}</version>
         </dependency>
 
-        <!-- mybatis-plus 代码生成器 -->
+        <!-- mybatis-plus 코드 생성기 -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
             <version>${mybatis-plus-generator.version}</version>
         </dependency>
 
-        <!-- velocity 模板引擎(代码生成) -->
+        <!-- velocity 템플릿 엔진(코드 생성) -->
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-engine-core</artifactId>
             <version>${velocity.version}</version>
         </dependency>
 
-        <!-- IP 转省市区 -->
+        <!-- IP를 성/시/구로 변환 -->
         <dependency>
             <groupId>org.lionsoul</groupId>
             <artifactId>ip2region</artifactId>
@@ -253,21 +253,21 @@
             <version>${weixin-java.version}</version>
         </dependency>
 
-        <!-- 本地缓存 -->
+        <!-- 로컬 캐시 -->
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
             <version>${caffeine.version}</version>
         </dependency>
 
-        <!-- 动态多数据源 -->
+        <!-- 동적 다중 데이터 소스 -->
         <!--<dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
             <version>${dynamic-datasource.version}</version>
         </dependency>-->
 
-        <!-- Spring AI OpenAI（兼容通义千问、DeepSeek等） -->
+        <!-- Spring AI OpenAI（통이치엔원, DeepSeek 등과 호환） -->
       <dependency>
         <groupId>org.springframework.ai</groupId>
         <artifactId>spring-ai-openai-spring-boot-starter</artifactId>

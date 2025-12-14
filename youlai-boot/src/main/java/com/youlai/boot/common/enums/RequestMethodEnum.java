@@ -7,37 +7,37 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum RequestMethodEnum {
     /**
-     * 搜寻 @AnonymousGetMapping
+     * @AnonymousGetMapping 검색
      */
     GET("GET"),
 
     /**
-     * 搜寻 @AnonymousPostMapping
+     * @AnonymousPostMapping 검색
      */
     POST("POST"),
 
     /**
-     * 搜寻 @AnonymousPutMapping
+     * @AnonymousPutMapping 검색
      */
     PUT("PUT"),
 
     /**
-     * 搜寻 @AnonymousPatchMapping
+     * @AnonymousPatchMapping 검색
      */
     PATCH("PATCH"),
 
     /**
-     * 搜寻 @AnonymousDeleteMapping
+     * @AnonymousDeleteMapping 검색
      */
     DELETE("DELETE"),
 
     /**
-     * 否则就是所有 Request 接口都放行
+     * 그 외에는 모든 Request 인터페이스를 허용
      */
     ALL("All");
 
     /**
-     * Request 类型
+     * Request 유형
      */
     private final String type;
 

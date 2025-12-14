@@ -9,111 +9,111 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * AI命令记录VO（合并解析和执行记录）
+ * AI 명령 기록 VO (파싱 및 실행 기록 통합)
  */
 @Data
-@Schema(description = "AI命令记录VO")
+@Schema(description = "AI 명령 기록 VO")
 public class AiCommandRecordVO implements Serializable {
 
-    @Schema(description = "主键ID")
+    @Schema(description = "기본 키 ID")
     private String id;
 
-    @Schema(description = "用户ID")
+    @Schema(description = "사용자 ID")
     private Long userId;
 
-    @Schema(description = "用户名")
+    @Schema(description = "사용자명")
     private String username;
 
-    @Schema(description = "原始命令")
+    @Schema(description = "원본 명령")
     private String originalCommand;
 
-    // ==================== 解析相关字段 ====================
+    // ==================== 파싱 관련 필드 ====================
 
-    @Schema(description = "AI供应商")
+    @Schema(description = "AI 공급자")
     private String provider;
 
-    @Schema(description = "AI模型")
+    @Schema(description = "AI 모델")
     private String model;
 
-    @Schema(description = "解析是否成功")
+    @Schema(description = "파싱 성공 여부")
     private Boolean parseSuccess;
 
-    @Schema(description = "解析出的函数调用列表(JSON)")
+    @Schema(description = "파싱된 함수 호출 목록 (JSON)")
     private String functionCalls;
 
-    @Schema(description = "AI的理解说明")
+    @Schema(description = "AI의 이해 설명")
     private String explanation;
 
-    @Schema(description = "置信度")
+    @Schema(description = "신뢰도")
     private BigDecimal confidence;
 
-    @Schema(description = "解析错误信息")
+    @Schema(description = "파싱 오류 정보")
     private String parseErrorMessage;
 
-    @Schema(description = "输入Token数量")
+    @Schema(description = "입력 토큰 수량")
     private Integer inputTokens;
 
-    @Schema(description = "输出Token数量")
+    @Schema(description = "출력 토큰 수량")
     private Integer outputTokens;
 
-    @Schema(description = "总Token数量")
+    @Schema(description = "총 토큰 수량")
     private Integer totalTokens;
 
-    @Schema(description = "解析耗时(毫秒)")
+    @Schema(description = "파싱 소요 시간 (밀리초)")
     private Long parseTime;
 
-    // ==================== 执行相关字段 ====================
+    // ==================== 실행 관련 필드 ====================
 
-    @Schema(description = "执行的函数名称")
+    @Schema(description = "실행된 함수 이름")
     private String functionName;
 
-    @Schema(description = "函数参数(JSON)")
+    @Schema(description = "함수 파라미터 (JSON)")
     private String functionArguments;
 
-    @Schema(description = "执行状态")
+    @Schema(description = "실행 상태")
     private String executeStatus;
 
-    @Schema(description = "执行结果(JSON)")
+    @Schema(description = "실행 결과 (JSON)")
     private String executeResult;
 
-    @Schema(description = "执行错误信息")
+    @Schema(description = "실행 오류 정보")
     private String executeErrorMessage;
 
-    @Schema(description = "影响的记录数")
+    @Schema(description = "영향받은 레코드 수")
     private Integer affectedRows;
 
-    @Schema(description = "是否危险操作")
+    @Schema(description = "위험한 작업 여부")
     private Boolean isDangerous;
 
-    @Schema(description = "是否需要确认")
+    @Schema(description = "확인 필요 여부")
     private Boolean requiresConfirmation;
 
-    @Schema(description = "用户是否确认")
+    @Schema(description = "사용자 확인 여부")
     private Boolean userConfirmed;
 
-    @Schema(description = "执行耗时(毫秒)")
+    @Schema(description = "실행 소요 시간 (밀리초)")
     private Long executionTime;
 
-    // ==================== 通用字段 ====================
+    // ==================== 공통 필드 ====================
 
-    @Schema(description = "IP地址")
+    @Schema(description = "IP 주소")
     private String ipAddress;
 
-    @Schema(description = "用户代理")
+    @Schema(description = "사용자 에이전트")
     private String userAgent;
 
-    @Schema(description = "当前页面路由")
+    @Schema(description = "현재 페이지 라우트")
     private String currentRoute;
 
-    @Schema(description = "创建时间")
+    @Schema(description = "생성 시간")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
-    @Schema(description = "更新时间")
+    @Schema(description = "수정 시간")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
 
-    @Schema(description = "备注")
+    @Schema(description = "비고")
     private String remark;
 }
 

@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserRoleService extends IService<UserRole> {
 
     /**
-     * 保存用户角色
+     * 저장사용자역할
      *
      * @param userId
      * @param roleIds
@@ -18,10 +18,10 @@ public interface UserRoleService extends IService<UserRole> {
     void saveUserRoles(Long userId, List<Long> roleIds);
 
     /**
-     * 判断角色是否存在绑定的用户
+     * 判断역할여부存에바인딩의사용자
      *
-     * @param roleId 角色ID
-     * @return true：已分配 false：未分配
+     * @param roleId 역할ID
+     * @return true：이미分配 false：미分配
      */
     boolean hasAssignedUsers(Long roleId);
 }

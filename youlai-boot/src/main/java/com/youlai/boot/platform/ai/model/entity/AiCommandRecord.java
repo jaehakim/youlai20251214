@@ -18,10 +18,10 @@ import java.math.BigDecimal;
 @TableName("ai_command_record")
 public class AiCommandRecord extends BaseEntity {
 
-    /** 用户ID */
+    /** 사용자 ID */
     private Long userId;
 
-    /** 用户名 */
+    /** 사용자명 */
     private String username;
 
     /** 原始命令 */
@@ -47,7 +47,7 @@ public class AiCommandRecord extends BaseEntity {
     /** 置信度（0.00-1.00） */
     private BigDecimal confidence;
 
-    /** 解析错误信息 */
+    /** 解析오류 정보 */
     private String parseErrorMessage;
 
     /** 输入 Token 数量 */
@@ -64,25 +64,25 @@ public class AiCommandRecord extends BaseEntity {
 
     // ==================== 执行相关字段 ====================
 
-    /** 执行的函数名称 */
+    /** 执行的함수 이름 */
     private String functionName;
 
     /** 函数参数（JSON） */
     private String functionArguments;
 
-    /** 执行状态：pending, success, failed */
+    /** 执行상태：pending, success, failed */
     private String executeStatus;
 
     /** 执行结果（JSON） */
     private String executeResult;
 
-    /** 执行错误信息 */
+    /** 执行오류 정보 */
     private String executeErrorMessage;
 
-    /** 影响的记录数 */
+    /** 영향받은 레코드 수 */
     private Integer affectedRows;
 
-    /** 是否危险操作 */
+    /** 위험한 작업 여부 */
     private Boolean isDangerous;
 
     /** 是否需要确认 */
@@ -102,13 +102,13 @@ public class AiCommandRecord extends BaseEntity {
     /** IP 地址 */
     private String ipAddress;
 
-    /** 用户代理 */
+    /** 사용자 에이전트 */
     private String userAgent;
 
-    /** 当前页面路由 */
+    /** 현재 페이지 라우트 */
     private String currentRoute;
 
-    /** 备注 */
+    /** 비고 */
     private String remark;
 }
 
