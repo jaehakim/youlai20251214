@@ -19,7 +19,7 @@
 - 左侧工具栏增加type配置参数([#141](https://github.com/youlaitech/vue3-element-admin/pull/141)) [@diamont1001](https://github.com/diamont1001)
 
 ## ♻️ refactor
-- 更换权限分配弹窗类型为 drawer 并添加父子联动开关([2d9193](https://github.com/youlaitech/vue3-element-admin/commit/2d9193c47fd224f01f82b9c0b2bbeb5e7cb33584)) [@haoxianrui](https://github.com/haoxianrui)
+- 更换权限分配弹窗类型为 drawer 并추가父子联动开关([2d9193](https://github.com/youlaitech/vue3-element-admin/commit/2d9193c47fd224f01f82b9c0b2bbeb5e7cb33584)) [@haoxianrui](https://github.com/haoxianrui)
 
 
 
@@ -27,8 +27,8 @@
 
 ## ✨ feat
 
-- 支持默认工具栏的导入([#138](https://github.com/youlaitech/vue3-element-admin/pull/138)) [@cshaptx4869](https://github.com/cshaptx4869)
--  添加CURD导入示例([19e7bb](https://github.com/youlaitech/vue3-element-admin/commit/eab91effd6a01d5a3d9257249c8d06aa252b3bf8)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 支持默认工具栏의导入([#138](https://github.com/youlaitech/vue3-element-admin/pull/138)) [@cshaptx4869](https://github.com/cshaptx4869)
+-  추가CURD导入示例([19e7bb](https://github.com/youlaitech/vue3-element-admin/commit/eab91effd6a01d5a3d9257249c8d06aa252b3bf8)) [@cshaptx4869](https://github.com/cshaptx4869)
 
 ## ♻️ refactor
 - 修改导出全量数据选项文本([904fec](https://github.com/youlaitech/vue3-element-admin/commit/904fecad65217650482fcdbb10ffb7f3d27eb9ea)) [@cshaptx4869](https://github.com/cshaptx4869)
@@ -41,11 +41,11 @@
 ## ✨ feat
 
 - 支持表格远程筛选([#131](https://github.com/youlaitech/vue3-element-admin/pull/131)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 支持标签输入框([#132](https://github.com/youlaitech/vue3-element-admin/pull/132)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 支持태그 제거输入框([#132](https://github.com/youlaitech/vue3-element-admin/pull/132)) [@cshaptx4869](https://github.com/cshaptx4869)
 - 表单项支持tips配置([#133](https://github.com/youlaitech/vue3-element-admin/pull/133)) [@cshaptx4869](https://github.com/cshaptx4869)
 - 前端导出支持全量数据([#134](https://github.com/youlaitech/vue3-element-admin/pull/134)) [@cshaptx4869](https://github.com/cshaptx4869)
 - 支持选中数据导出([#135](https://github.com/youlaitech/vue3-element-admin/pull/135)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 表格默认工具栏的导出、搜索按钮增加权限点控制([883128](https://github.com/youlaitech/vue3-element-admin/commit/8831289b655f2cc086ecdababaa89f8d8a087c42)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 表格默认工具栏의导出、搜索按钮增加权限点控制([883128](https://github.com/youlaitech/vue3-element-admin/commit/8831289b655f2cc086ecdababaa89f8d8a087c42)) [@cshaptx4869](https://github.com/cshaptx4869)
 - 页签title支持动态设置([23876a](https://github.com/youlaitech/vue3-element-admin/commit/23876aa396143bf77cb5c86af8d6023d9ff6555a)) [@haoxianrui](https://github.com/haoxianrui)
 
 ## ♻️ refactor
@@ -67,13 +67,13 @@
 - 重构布局样式(解决页面抖动问题)([#116](https://github.com/youlaitech/vue3-element-admin/pull/116)) [@cshaptx4869](https://github.com/cshaptx4869)
 - 修改CURD示例编辑弹窗尺寸([#121](https://github.com/youlaitech/vue3-element-admin/pull/121)) [@cshaptx4869](https://github.com/cshaptx4869)
 - 统一注册vue插件([#122](https://github.com/youlaitech/vue3-element-admin/pull/122)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 默认主题跟随系统([#128](https://github.com/youlaitech/vue3-element-admin/pull/128)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 기본 테마 시스템 따라가기([#128](https://github.com/youlaitech/vue3-element-admin/pull/128)) [@cshaptx4869](https://github.com/cshaptx4869)
 - 增加"scss.lint.unknownAtRules": "ignore"代码，解决style中使用@apply提示unknow at rules@apply提示问题([Gitee#22](https://gitee.com/youlaiorg/vue3-element-admin/pulls/22))  [@zjsy521](https://gitee.com/zjsy521)
 
 ## 🐛 fix
 - 修复左侧布局移动端菜单弹出样式 ([#117](https://github.com/youlaitech/vue3-element-admin/pull/117))  [@cshaptx4869](https://github.com/cshaptx4869)
 
-- 修复编辑后未清空id再新增菜单覆盖的问题([0e78eeb](https://github.com/youlaitech/vue3-element-admin/commit/0e78eeb75008fa8e9732b1b4e7d7a1ea345c7a1b)) [@haoxianrui](https://github.com/haoxianrui)
+- 修复编辑后未清空id再新增菜单覆盖의问题([0e78eeb](https://github.com/youlaitech/vue3-element-admin/commit/0e78eeb75008fa8e9732b1b4e7d7a1ea345c7a1b)) [@haoxianrui](https://github.com/haoxianrui)
 - 修复水印层级问题([#123](https://github.com/youlaitech/vue3-element-admin/pull/123))  [@cshaptx4869](https://github.com/cshaptx4869)
 - 修复混合布局样式问题([#124](https://github.com/youlaitech/vue3-element-admin/pull/124))  [@cshaptx4869](https://github.com/cshaptx4869)
 - 修复关闭弹窗时没有clearValidate问题([#125](https://github.com/youlaitech/vue3-element-admin/pull/125))  [@andm31](https://github.com/andm31)
@@ -83,11 +83,11 @@
 # 2.11.0 (2024/5/27)
 
 ## ✨ feat
-- 菜单添加路由参数设置（author by [haoxianrui](https://github.com/haoxianrui)）
+- 菜单추가路由参数设置（author by [haoxianrui](https://github.com/haoxianrui)）
 - 增加列表选择组件（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 增加列表选择组件使用示例（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 增加defaultToolbar配置参数（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 表单弹窗支持drawer模式（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 表单弹窗支持drawer모드（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 表单项增加computed和watchEffect配置（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 支持switch属性修改（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 表单项增加文本类型支持（author by [cshaptx4869](https://github.com/cshaptx4869)）
@@ -96,7 +96,7 @@
 - 支持input属性修改（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - search配置新增函数能力拓展（author by [xiudaozhe](https://github.com/xiudaozhe)）
 - 表格新增列设置控制（author by [haoxianrui](https://github.com/haoxianrui)）
-- 搜索添加展开和收缩（author by [haoxianrui](https://github.com/haoxianrui)）
+- 搜索추가展开和收缩（author by [haoxianrui](https://github.com/haoxianrui)）
 - watch函数增加配置项参数返回（author by [cshaptx4869](https://github.com/cshaptx4869)）
 
 ## ♻️ refactor
@@ -105,7 +105,7 @@
 - 加强对话框表单组件和列表选择组件（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - routeMeta增加alwaysShow字段声明（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 分页组件增加溢出滚动效果（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 修正登录表单的Ref类型（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 修正登录表单의Ref类型（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 点击表格刷新按钮不重置页码（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 筛选列超出一定高度滚动（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 优化加强initFn函数，表单项增加initFn函数（author by [cshaptx4869](https://github.com/cshaptx4869)）
@@ -116,9 +116,9 @@
 
 
 ## 🐛 fix
-- 路由是否始终显示不限制只有顶级目录才有的配置，开放至菜单 （author by [haoxianrui](https://github.com/haoxianrui)）
+- 路由是否始终显示不限制只有顶级目录才有의配置，开放至菜单 （author by [haoxianrui](https://github.com/haoxianrui)）
 - sockjs-client 报错 global is not defined 导致开发环境无法打开 WebSocket 页面问题修复 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 发送用户重启密码功能，最少为6位字符（小于6位登陆时不允许的问题） （author by [dreamnyj](https://gitee.com/dreamnyj)）
+- 发送用户重启密码功能，最少为6位字符（小于6位登陆时不允许의问题） （author by [dreamnyj](https://gitee.com/dreamnyj)）
 - 修复系统设置面板滚动条问题（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 修复表单插槽失效问题（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 修改tagsview刷新丢失query问题（author by [xiudaozhe](https://github.com/xiudaozhe)）
@@ -133,21 +133,21 @@
 # 2.10.1 (2024/5/4)
 
 ## ♻️ refactor
-- 抽离CURD的使用部分代码为Hooks实现（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 抽离CURD의使用部分代码为Hooks实现（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 修改CURD导入权限点标识名（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - cURD表单字段支持watch监听（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - cURD表单input支持number修饰（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - cURD表单组件支持checkbox多选框（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 优化axios响应数据TS类型提示（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 修改CURD表单组件自定义类型的attrs传值（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 修改CURD表单组件自定义类型의attrs传值（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 同步重置密码按钮权限标识重命名（author by [haoxianrui](https://github.com/haoxianrui)）
 - 重构API为静态方法实现模块化管理，并将types.ts重命名为model.ts用于存放接口模型定义（author by [haoxianrui](https://github.com/haoxianrui)）
 
 
 ## 🐛 fix
 - sockjs-client 报错 global is not defined 导致开发环境无法打开 WebSocket 页面问题修复 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 主题颜色设置覆盖暗黑模式下el-table行激活的背景色问题修复 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 修复因API接口调整而影响的调用页面的问题 （author by [haoxianrui](https://github.com/haoxianrui)）
+- 主题颜色设置覆盖暗黑모드下el-table行激活의背景色问题修复 （author by [haoxianrui](https://github.com/haoxianrui)）
+- 修复因API接口调整而影响의调用页面의问题 （author by [haoxianrui](https://github.com/haoxianrui)）
 
 ## 📦️ build
 - 升级 NPM 包版本至最新 （author by [haoxianrui](https://github.com/haoxianrui)）
@@ -163,7 +163,7 @@
 # 2.9.3 (2024/04/14)
 ## ✨ feat
 - 增加vue文件代码片段（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 菜单 hover 背景色添加值全局SCSS变量进行控制（author by [haoxianrui](https://github.com/haoxianrui)）
+- 菜单 hover 背景色추가值全局SCSS变量进行控制（author by [haoxianrui](https://github.com/haoxianrui)）
 
 ## ♻️ refactor
 - 加强基础国际化（author by [cshaptx4869](https://github.com/cshaptx4869)）
@@ -171,15 +171,15 @@
 - 增加侧边栏状态枚举类型（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 使用布局枚举替换字面量（author by [haoxianrui](https://github.com/haoxianrui)）
 - 控制台使用静态数据循环渲染（author by [april](mailto:april@zen-game.cn)）
-- 本地缓存的 token 变量重命名（author by [haoxianrui](https://github.com/haoxianrui)）
+- 本地缓存의 token 变量重命名（author by [haoxianrui](https://github.com/haoxianrui)）
 - 完善 Vite 环境变量类型声明（author by [haoxianrui](https://github.com/haoxianrui)）
 
 ## 🐛 fix
-- 修复构建时提示iconComponent.name可能为undefined的报错 （author by [wangji1042](https://github.com/wangji1042)）
-- 修复浏览器密码自动填充时可能存在的报错 （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 修复构建时提示iconComponent.name可能为undefined의报错 （author by [wangji1042](https://github.com/wangji1042)）
+- 修复浏览器密码自动填充时可能存在의报错 （author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 修复eslint报错（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 移动端下点击左侧菜单节点后关闭侧边栏（author by [haoxianrui](https://github.com/haoxianrui)）
-- 添加 size 类型断言修复类型报错（author by [haoxianrui](https://github.com/haoxianrui)）
+- 추가 size 类型断言修复类型报错（author by [haoxianrui](https://github.com/haoxianrui)）
 
 ## 📦️ build
 - husky9.x版本适配 （author by [cshaptx4869](https://github.com/cshaptx4869)）
@@ -199,7 +199,7 @@
 
 ## 🐛 fix
 - AppMain 高度在非固定头部不正确导致出现滚动条问题修复 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 修复混合模式开启固定Head时的样式问题 （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 修复混合모드开启固定Head时의样式问题 （author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 设置面板统一字体大小 （author by [cshaptx4869](https://github.com/cshaptx4869)）
 
 ## 📦️build
@@ -211,7 +211,7 @@
 ## ♻️ refactor
 - 项目配置按钮移入navbar（author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 优化user数据定义（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 统一设置栏的 SVG 图标风格
+- 统一设置栏의 SVG 图标风格
 
 ## 🐛 fix
 - 规整一些开发依赖（author by [cshaptx4869](https://github.com/cshaptx4869)）
@@ -227,7 +227,7 @@
 ## ✨ feat
 - 引入 animate.css 动画库
 - 新增水印和配置
-- 动态路由菜单支持 element plus 的图标
+- 动态路由菜单支持 element plus 의图标
 
 ## ♻️ refactor
 - Layout 布局重构和相关问题修复
@@ -251,7 +251,7 @@
 # 2.7.1 (2023/12/12)
 
 ## ♻️ refactor
-- 将打包后的文件进行分类 （author by [ityangzhiwen](https://gitee.com/ityangzhiwen)）
+- 将打包后의文件进行分类 （author by [ityangzhiwen](https://gitee.com/ityangzhiwen)）
 
 # 2.7.0 (2023/11/19)
 
@@ -278,16 +278,16 @@
 # 2.6.3 (2023/10/22)
 
 ## ✨ feat
-- 菜单管理新增目录只有一级子路由是否始终显示(alwaysShow)和路由页面是否缓存(keepAlive)的配置
+- 菜单管理新增目录只有一级子路由是否始终显示(alwaysShow)和路由页面是否缓存(keepAlive)의配置
 - 接口文档新增 swagger、knife4j
 - 引入和支持 tsx
 
 ## ♻️ refactor
-- 代码瘦身，整理并删除未使用的 svg
+- 代码瘦身，整理并删除未使用의 svg
 - 控制台样式优化
 
 ## 🐛 fix
-- 菜单栏折叠和展开的图标暗黑模式显示问题修复
+- 菜单栏折叠和展开의图标暗黑모드显示问题修复
 
 
 # 2.6.2 (2023/10/11)
@@ -303,21 +303,21 @@
 # 2.6.1 (2023/9/4)
 
 ## 🐛 fix
-- 导航顶部模式、混合模式样式在固定 Header 出现的样式问题修复
+- 导航顶部모드、混合모드样式在固定 Header 出现의样式问题修复
 - 固定 Header 没有持久化问题修复
 - 字典回显兼容 String 和 Number 类型
 
 # 2.6.0 (2023/8/24)💥💥💥
 
 ## ✨ feat
-- 导航顶部模式、混合模式支持（author by [april-tong](https://april-tong.com/)）
+- 导航顶部모드、混合모드支持（author by [april-tong](https://april-tong.com/)）
 - 平台文档(内嵌)（author by [april-tong](https://april-tong.com/)）
 
 # 2.5.0 (2023/8/8)
 
 ## ✨ feat
 - 新增 Mock（author by [ygcaicn](https://github.com/ygcaicn)）
-- 图标 DEMO（author by [ygcaicn](https://github.com/ygcaicn)）
+- 아이콘 데모（author by [ygcaicn](https://github.com/ygcaicn)）
 
 ## 🐛 fix
 - 字典支持 Number 类型
@@ -336,10 +336,10 @@
 # 2.4.0 (2023/6/17)
 
 ## ✨ feat
-- 新增组件标签输入框（author by [april-tong](https://april-tong.com/)）
+- 新增组件태그 제거输入框（author by [april-tong](https://april-tong.com/)）
 - 新增组件签名（author by [april-tong](https://april-tong.com/)）
 - 新增组件表格（author by [april-tong](https://april-tong.com/)）
-- Echarts 图表添加下载功能 author by [april-tong](https://april-tong.com/)）
+- Echarts 图表추가下载功能 author by [april-tong](https://april-tong.com/)）
 
 ## ♻️ refactor
 - 限制包管理器为 pnpm 和 node 版本16+
@@ -347,7 +347,7 @@
 - 搜索框样式写法优化
 
 ## 🐛 fix
-- 用户导入的部门回显成数字问题修复
+- 用户导入의部门回显成数字问题修复
 
 ## ⬆️ chore
 - element-plus 版本升级 2.3.5 → 2.3.6
@@ -360,8 +360,8 @@
 # 2.2.2 (2023/5/11)
 
 ## ✨ feat
-- 组件封装示例添加源码地址
-- 角色、菜单、部门、字段按钮添加权限控制
+- 组件封装示例추가源码地址
+- 角色、菜单、部门、字段按钮추가权限控制
 
 
 # 2.3.0 (2023/5/12)
@@ -371,12 +371,12 @@
 - vite 版本升级 4.3.1 → 4.3.5
 
 ## ♻️ refactor
-- 使用 vue 3.3 版本新特性 `defineOptions` 在 `setup` 定义组件名称，移除重复的 `script` 标签
+- 使用 vue 3.3 版本新特性 `defineOptions` 在 `setup` 定义组件名称，移除重复의 `script` 태그 제거
 
 # 2.2.2 (2023/5/11)
 
 ## ✨ feat
--  用户新增提交添加 `vueUse` 的 `useDebounceFn` 函数实现按钮防抖节流
+-  用户新增提交추가 `vueUse` 의 `useDebounceFn` 函数实现按钮防抖节流
 
 
 # 2.2.1 (2023/4/25)
