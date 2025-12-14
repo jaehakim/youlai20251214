@@ -218,3 +218,12 @@ pnpm run commit
 - **파일 업로드**: 기본 최대 50MB (`application.yml`에서 설정 가능)
 - **캡차 타입**: `circle`, `gif`, `line`, `shear` (수식 또는 랜덤, `application-dev.yml`에서 설정)
 - **XXL-Job**: 기본값 비활성화 (`xxl.job.enabled=false`), 스케줄 작업 필요시 활성화
+
+## 총 455개 파일에 중국어가 포함
+  총 454개 파일 남음:
+  - Java 파일: 263개 (주석, JavaDoc, 문자열 리터럴)
+  - Vue 파일: 83개 (템플릿 텍스트, 레이블, 메시지)
+  - TypeScript 파일: 83개 (문자열, 주석, 설정값)
+  - XML 파일: 13개 (MyBatis 매퍼 주석, 쿼리)
+  - YAML 파일: 6개 (설정 파일 설명)
+  - Markdown 파일: 6개 (문서)
