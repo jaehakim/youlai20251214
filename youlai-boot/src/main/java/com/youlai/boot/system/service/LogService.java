@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * 시스템로그 서비스인터페이스
+ * 시스템 로그 서비스 인터페이스
  *
  * @author Ray.Hao
  * @since 2.10.0
@@ -20,7 +20,7 @@ import java.util.List;
 public interface LogService extends IService<Log> {
 
     /**
-     * 조회로그페이지 목록
+     * 조회 로그 페이지 목록
      */
     Page<LogPageVO> getLogPage(LogPageQuery queryParams);
 

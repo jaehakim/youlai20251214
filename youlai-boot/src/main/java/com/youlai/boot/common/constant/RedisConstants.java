@@ -12,14 +12,14 @@ public interface RedisConstants {
      * 속도 제한 관련 키
      */
     interface RateLimiter {
-        String IP = "rate_limiter:ip:{}"; // IP限流（示例：rate_limiter:ip:192.168.1.1）
+        String IP = "rate_limiter:ip:{}"; // IP 속도 제한 (예시: rate_limiter:ip:192.168.1.1)
     }
 
     /**
      * 분산 잠금 관련 키
      */
     interface Lock {
-        String RESUBMIT = "lock:resubmit:{}:{}"; // 防重复提交（示例：lock:resubmit:userIdentifier:requestIdentifier）
+        String RESUBMIT = "lock:resubmit:{}:{}"; // 중복 제출 방지 (예시: lock:resubmit:userIdentifier:requestIdentifier)
     }
 
     /**

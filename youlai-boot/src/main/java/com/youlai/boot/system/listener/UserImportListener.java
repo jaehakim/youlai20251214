@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 用户导入监听器
+ * 사용자 가져오기 리스너
  * <p>
- * <a href="https://easyexcel.opensource.alibaba.com/docs/current/quickstart/read#%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E8%AF%BB%E7%9A%84%E7%9B%91%E5%90%AC%E5%99%A8">最简单的读的监听器</a>
+ * <a href="https://easyexcel.opensource.alibaba.com/docs/current/quickstart/read#%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E8%AF%BB%E7%9A%84%E7%9B%91%E5%90%AC%E5%99%A8">가장 간단한 읽기 리스너</a>
  *
  * @author Ray
  * @since 2022/4/10
@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 public class UserImportListener extends AnalysisEventListener<UserImportDTO> {
 
     /**
-     * Excel 导入结果
+     * Excel 가져오기 결과
      */
     @Getter
     private final ExcelResult excelResult;
@@ -53,13 +53,13 @@ public class UserImportListener extends AnalysisEventListener<UserImportDTO> {
     private final List<DictItem> genderList;
 
     /**
-     * 当前行
+     * 현재 행
      */
     private Integer currentRow = 1;
 
     /**
-     * 构造方法
-     * <p>在构造方法中给需要查询的内容查询好，尽量避免每条数据查询一次</p>
+     * 생성자 메서드
+     * <p>생성자 메서드에서 쿼리가 필요한 내용을 미리 조회하여 각 데이터마다 쿼리하는 것을 최대한 피함</p>
      */
     public UserImportListener() {
         this.userService = SpringUtil.getBean(UserService.class);
@@ -77,66 +77,66 @@ public class UserImportListener extends AnalysisEventListener<UserImportDTO> {
     }
 
     /**
-     * 每一条数据解析都会来调用
+     * 각 데이터 파싱마다 호출됨
      * <p>
-     * 1. 数据校验；全字段校验
-     * 2. 数据持久化；
+     * 1. 데이터 검증: 전체 필드 검증
+     * 2. 데이터 영속화
      *
-     * @param userImportDTO 一行数据，类似于 {@link AnalysisContext#readRowHolder()}
+     * @param userImportDTO 한 행의 데이터, {@link AnalysisContext#readRowHolder()}와 유사
      */
     @Override
     public void invoke(UserImportDTO userImportDTO, AnalysisContext analysisContext) {
-        log.info("解析到一条用户数据:{}", JSONUtil.toJsonStr(userImportDTO));
+        log.info("사용자 데이터 파싱: {}", JSONUtil.toJsonStr(userImportDTO));
 
         boolean validation = true;
-        String errorMsg = "第" + currentRow + "行数据校验失败：";
+        String errorMsg = "제" + currentRow + "행 데이터 검증 실패: ";
         String username = userImportDTO.getUsername();
         if (StrUtil.isBlank(username)) {
-            errorMsg += "用户名为空；";
+            errorMsg += "사용자명이 비어있음; ";
             validation = false;
         } else {
             long count = userService.count(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
             if (count > 0) {
-                errorMsg += "用户名已存在；";
+                errorMsg += "사용자명이 이미 존재함; ";
                 validation = false;
             }
         }
 
         String nickname = userImportDTO.getNickname();
         if (StrUtil.isBlank(nickname)) {
-            errorMsg += "用户昵称为空；";
+            errorMsg += "사용자 닉네임이 비어있음; ";
             validation = false;
         }
 
         String mobile = userImportDTO.getMobile();
         if (StrUtil.isBlank(mobile)) {
-            errorMsg += "手机号码为空；";
+            errorMsg += "휴대폰 번호가 비어있음; ";
             validation = false;
         } else {
             if (!Validator.isMobile(mobile)) {
-                errorMsg += "手机号码不正确；";
+                errorMsg += "휴대폰 번호가 올바르지 않음; ";
                 validation = false;
             }
         }
 
         if (validation) {
-            // 校验通过，持久化至数据库
+            // 검증 통과, 데이터베이스에 영속화
             User entity = userConverter.toEntity(userImportDTO);
-            entity.setPassword(passwordEncoder.encode(SystemConstants.DEFAULT_PASSWORD));   // 默认密码
-            // 性别逆向翻译 根据字典标签得到字典值
+            entity.setPassword(passwordEncoder.encode(SystemConstants.DEFAULT_PASSWORD));   // 기본 비밀번호
+            // 성별 역변환 - 사전 레이블로부터 사전 값 획득
             String genderLabel = userImportDTO.getGenderLabel();
             entity.setGender(getGenderValue(genderLabel));
-            // 角色解析
+            // 역할 파싱
             String roleCodes = userImportDTO.getRoleCodes();
             List<Long> roleIds = getRoleIds(roleCodes);
-            // 部门解析
+            // 부서 파싱
             String deptCode = userImportDTO.getDeptCode();
             entity.setDeptId(getDeptId(deptCode));
 
             boolean saveResult = userService.save(entity);
             if (saveResult) {
                 excelResult.setValidCount(excelResult.getValidCount() + 1);
-                // 保存用户角色关联
+                // 사용자 역할 연관 저장
                 if (CollectionUtil.isNotEmpty(roleIds)) {
                     List<UserRole> userRoles = roleIds.stream()
                             .map(roleId -> new UserRole(entity.getId(), roleId))
@@ -145,7 +145,7 @@ public class UserImportListener extends AnalysisEventListener<UserImportDTO> {
                 }
             } else {
                 excelResult.setInvalidCount(excelResult.getInvalidCount() + 1);
-                errorMsg += "第" + currentRow + "行数据保存失败；";
+                errorMsg += "제" + currentRow + "행 데이터 저장 실패; ";
                 excelResult.getMessageList().add(errorMsg);
             }
         } else {
@@ -157,10 +157,10 @@ public class UserImportListener extends AnalysisEventListener<UserImportDTO> {
 
 
     /**
-     * 根据角色编码获取角色ID
+     * 역할 코드로 역할 ID 가져오기
      *
-     * @param roleCodes 角色编码 逗号分隔
-     * @return 角色ID集合
+     * @param roleCodes 역할 코드 쉼표로 구분
+     * @return 역할 ID 집합
      */
     private List<Long> getRoleIds(String roleCodes) {
         if (StrUtil.isNotBlank(roleCodes)) {
@@ -178,10 +178,10 @@ public class UserImportListener extends AnalysisEventListener<UserImportDTO> {
     }
 
     /**
-     * 根据部门编码获取部门ID
+     * 부서 코드로 부서 ID 가져오기
      *
-     * @param deptCode 部门编码
-     * @return 部门ID
+     * @param deptCode 부서 코드
+     * @return 부서 ID
      */
     private Long getDeptId(String deptCode) {
         if (StrUtil.isNotBlank(deptCode)) {
@@ -192,10 +192,10 @@ public class UserImportListener extends AnalysisEventListener<UserImportDTO> {
     }
 
     /**
-     * 根据性别标签获取性别值
+     * 성별 레이블로 성별 값 가져오기
      *
-     * @param genderLabel 性别标签
-     * @return 性别值
+     * @param genderLabel 성별 레이블
+     * @return 성별 값
      */
     private Integer getGenderValue(String genderLabel) {
         if (StrUtil.isNotBlank(genderLabel)) {
@@ -210,11 +210,11 @@ public class UserImportListener extends AnalysisEventListener<UserImportDTO> {
     }
 
     /**
-     * 所有数据解析完成会来调用
+     * 모든 데이터 파싱 완료 시 호출됨
      */
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
-        log.info("所有数据解析完成！");
+        log.info("모든 데이터 파싱 완료!");
     }
 
 }

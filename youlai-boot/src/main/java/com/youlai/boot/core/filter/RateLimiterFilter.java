@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * IP 限流过滤器
+ * IP 속도 제한 필터
  *
  * @author Theo
  * @since 2024/08/10 14:38
@@ -32,7 +32,7 @@ public class RateLimiterFilter extends OncePerRequestFilter {
     private final RedisTemplate<String, Object> redisTemplate;
     private final ConfigService configService;
 
-    private static final long DEFAULT_IP_LIMIT = 10L; // 默认 IP 限流阈值
+    private static final long DEFAULT_IP_LIMIT = 10L; // 기본 IP 속도 제한 임계값
 
     public RateLimiterFilter(RedisTemplate<String, Object> redisTemplate, ConfigService configService) {
         this.redisTemplate = redisTemplate;
@@ -40,59 +40,59 @@ public class RateLimiterFilter extends OncePerRequestFilter {
     }
 
     /**
-     * 判断 IP 是否触发限流
-     * 默认限制同一 IP 每秒最多请求 10 次，可通过系统配置调整。
-     * 如果系统未配置限流阈值，默认跳过限流。
+     * IP가 속도 제한을 트리거했는지 판단
+     * 기본적으로 동일 IP는 초당 최대 10회 요청으로 제한되며, 시스템 설정을 통해 조정 가능
+     * 시스템에 속도 제한 임계값이 설정되지 않은 경우, 기본적으로 속도 제한을 건너뜀
      *
-     * @param ip IP 地址
-     * @return 是否限流：true 表示限流；false 表示未限流
+     * @param ip IP 주소
+     * @return 속도 제한 여부: true는 제한됨, false는 제한되지 않음
      */
     public boolean rateLimit(String ip) {
-        // 限流 Redis 键
+        // 속도 제한 Redis 키
         String key = StrUtil.format(RedisConstants.RateLimiter.IP, ip);
 
-        // 自增请求计数
+        // 요청 카운트 증가
         Long count = redisTemplate.opsForValue().increment(key);
         if (count == null || count == 1) {
-            // 第一次访问时设置过期时间为 1 秒
+            // 첫 번째 접근 시 만료 시간을 1초로 설정
             redisTemplate.expire(key, 1, TimeUnit.SECONDS);
         }
 
-        // 获取系统配置的限流阈值
+        // 시스템 설정된 속도 제한 임계값 가져오기
         Object systemConfig = configService.getSystemConfig(SystemConstants.SYSTEM_CONFIG_IP_QPS_LIMIT_KEY);
         if (systemConfig == null) {
-            // 系统未配置限流，跳过限流逻辑
-            log.warn("系统未配置限流阈值，跳过限流");
+            // 시스템에 속도 제한이 설정되지 않음, 속도 제한 로직 건너뛰기
+            log.warn("시스템에 속도 제한 임계값이 설정되지 않아 속도 제한을 건너뜁니다");
             return false;
         }
 
-        // 转换系统配置为限流值，默认为 10
+        // 시스템 설정을 속도 제한 값으로 변환, 기본값은 10
         long limit = Convert.toLong(systemConfig, DEFAULT_IP_LIMIT);
         return count != null && count > limit;
     }
 
     /**
-     * 执行 IP 限流逻辑
-     * 如果 IP 请求超出限制，直接返回限流响应；否则继续执行过滤器链。
+     * IP 속도 제한 로직 실행
+     * IP 요청이 제한을 초과하면 속도 제한 응답을 직접 반환하고, 그렇지 않으면 필터 체인 계속 실행
      *
-     * @param request     请求体
-     * @param response    响应体
-     * @param filterChain 过滤器链
+     * @param request     요청 본문
+     * @param response    응답 본문
+     * @param filterChain 필터 체인
      */
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response,
                                     @NotNull FilterChain filterChain) throws ServletException, IOException {
-        // 获取请求的 IP 地址
+        // 요청의 IP 주소 가져오기
         String ip = IPUtils.getIpAddr(request);
 
-        // 判断是否限流
+        // 속도 제한 여부 판단
         if (rateLimit(ip)) {
-            // 返回限流错误信息
+            // 속도 제한 오류 정보 반환
             WebResponseHelper.writeError(response, ResultCode.REQUEST_CONCURRENCY_LIMIT_EXCEEDED);
             return;
         }
 
-        // 未触发限流，继续执行过滤器链
+        // 속도 제한이 트리거되지 않음, 필터 체인 계속 실행
         filterChain.doFilter(request, response);
     }
 }

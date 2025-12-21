@@ -24,9 +24,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
- * Redis Token 管理器
+ * Redis 토큰 관리자
  * <p>
- * 用于生成、解析、校验、刷新 Redis Token
+ * Redis 토큰 생성, 파싱, 검증, 갱신에 사용
  *
  * @author Ray.Hao
  * @since 2024/11/15
@@ -44,10 +44,10 @@ public class RedisTokenManager implements TokenManager {
     }
 
     /**
-     * 生成 Token
+     * 토큰 생성
      *
-     * @param authentication 用户认证信息
-     * @return 生成的 AuthenticationToken 对象
+     * @param authentication 사용자 인증 정보
+     * @return 생성된 AuthenticationToken 객체
      */
     @Override
     public AuthenticationToken generateToken(Authentication authentication) {
@@ -55,7 +55,7 @@ public class RedisTokenManager implements TokenManager {
         String accessToken = IdUtil.fastSimpleUUID();
         String refreshToken = IdUtil.fastSimpleUUID();
 
-        // 构建用户在线信息
+        // 사용자 온라인 정보 구성
         OnlineUser onlineUser = new OnlineUser(
                 user.getUserId(),
                 user.getUsername(),
@@ -66,10 +66,10 @@ public class RedisTokenManager implements TokenManager {
                         .collect(Collectors.toSet())
         );
 
-        // 存储访问令牌、刷新令牌和刷新令牌映射
+        // 액세스 토큰, 리프레시 토큰 및 리프레시 토큰 매핑 저장
         storeTokensInRedis(accessToken, refreshToken, onlineUser);
 
-        // 单设备登录控制
+        // 단일 기기 로그인 제어
         handleSingleDeviceLogin(user.getUserId(), accessToken);
 
         return AuthenticationToken.builder()
@@ -80,17 +80,17 @@ public class RedisTokenManager implements TokenManager {
     }
 
     /**
-     * 根据 token 解析用户信息
+     * 토큰으로 사용자 정보 파싱
      *
-     * @param token Redis Token
-     * @return 构建的 Authentication 对象
+     * @param token Redis 토큰
+     * @return 구성된 Authentication 객체
      */
     @Override
     public Authentication parseToken(String token) {
         OnlineUser onlineUser = (OnlineUser) redisTemplate.opsForValue().get(formatTokenKey(token));
         if (onlineUser == null) return null;
 
-        // 构建用户权限集合
+        // 사용자 권한 집합 구성
         Set<SimpleGrantedAuthority> authorities = null;
 
         Set<String> roles = onlineUser.getRoles();
@@ -100,16 +100,16 @@ public class RedisTokenManager implements TokenManager {
                     .collect(Collectors.toSet());
         }
 
-        // 构建用户详情对象
+        // 사용자 세부 정보 객체 구성
         SysUserDetails userDetails = buildUserDetails(onlineUser, authorities);
         return new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
     }
 
     /**
-     * 校验 Token 是否有效
+     * 토큰이 유효한지 검증
      *
-     * @param token 访问令牌
-     * @return 是否有效
+     * @param token 액세스 토큰
+     * @return 유효 여부
      */
     @Override
     public boolean validateToken(String token) {
@@ -117,10 +117,10 @@ public class RedisTokenManager implements TokenManager {
     }
 
     /**
-     * 校验 RefreshToken 是否有效
+     * RefreshToken이 유효한지 검증
      *
-     * @param refreshToken 访问令牌
-     * @return 是否有效
+     * @param refreshToken 액세스 토큰
+     * @return 유효 여부
      */
     @Override
     public boolean validateRefreshToken(String refreshToken) {
@@ -128,10 +128,10 @@ public class RedisTokenManager implements TokenManager {
     }
 
     /**
-     * 刷新令牌
+     * 토큰 갱신
      *
-     * @param refreshToken 刷新令牌
-     * @return 新生成的 AuthenticationToken 对象
+     * @param refreshToken 리프레시 토큰
+     * @return 새로 생성된 AuthenticationToken 객체
      */
     @Override
     public AuthenticationToken refreshToken(String refreshToken) {
@@ -141,12 +141,12 @@ public class RedisTokenManager implements TokenManager {
             throw new BusinessException(ResultCode.REFRESH_TOKEN_INVALID);
         }
         Object oldAccessTokenValue = redisTemplate.opsForValue().get(StrUtil.format(RedisConstants.Auth.USER_ACCESS_TOKEN, onlineUser.getUserId()));
-        // 删除旧的访问令牌记录
+        // 구 액세스 토큰 기록 삭제
         Optional.of(oldAccessTokenValue)
                 .map(String.class::cast)
                 .ifPresent(oldAccessToken -> redisTemplate.delete(formatTokenKey(oldAccessToken)));
 
-        // 生成新访问令牌并存储
+        // 신규 액세스 토큰 생성 및 저장
         String newAccessToken = IdUtil.fastSimpleUUID();
         storeAccessToken(newAccessToken, onlineUser);
 
@@ -159,9 +159,9 @@ public class RedisTokenManager implements TokenManager {
     }
 
     /**
-     * 使访问令牌失效
+     * 액세스 토큰 무효화
      *
-     * @param token 访问令牌
+     * @param token 액세스 토큰
      */
     @Override
     public void invalidateToken(String token) {
@@ -173,9 +173,9 @@ public class RedisTokenManager implements TokenManager {
     }
 
     /**
-     * 使指定用户的所有会话失效
+     * 지정된 사용자의 모든 세션 무효화
      *
-     * @param userId 用户ID
+     * @param userId 사용자 ID
      */
     @Override
     public void invalidateUserSessions(Long userId) {
@@ -183,16 +183,16 @@ public class RedisTokenManager implements TokenManager {
             return;
         }
 
-        // 1. 删除访问令牌相关
+        // 1. 액세스 토큰 관련 삭제
         String userAccessKey = StrUtil.format(RedisConstants.Auth.USER_ACCESS_TOKEN, userId);
         Object accessTokenValue = redisTemplate.opsForValue().get(userAccessKey);
         Optional.of(accessTokenValue)
                 .map(String.class::cast)
                 .ifPresent(accessToken -> redisTemplate.delete(formatTokenKey(accessToken)));
-        // 无论是否存在访问令牌映射，都尝试删除 userAccessKey
+        // 액세스 토큰 매핑 존재 여부와 관계없이 userAccessKey 삭제 시도
         redisTemplate.delete(userAccessKey);
 
-        // 2. 删除刷新令牌相关
+        // 2. 리프레시 토큰 관련 삭제
         String userRefreshKey = StrUtil.format(RedisConstants.Auth.USER_REFRESH_TOKEN, userId);
         Object refreshTokenValue = redisTemplate.opsForValue().get(userRefreshKey);
         Optional.of(refreshTokenValue)
@@ -200,56 +200,56 @@ public class RedisTokenManager implements TokenManager {
                 .ifPresent(refreshToken ->
                         redisTemplate.delete(StrUtil.format(RedisConstants.Auth.REFRESH_TOKEN_USER, refreshToken))
                 );
-        // 同样清理 userRefreshKey 本身
+        // userRefreshKey 자체도 정리
         redisTemplate.delete(userRefreshKey);
     }
 
     /**
-     * 将访问令牌和刷新令牌存储至 Redis
+     * 액세스 토큰과 리프레시 토큰을 Redis에 저장
      *
-     * @param accessToken  访问令牌
-     * @param refreshToken 刷新令牌
-     * @param onlineUser   在线用户信息
+     * @param accessToken  액세스 토큰
+     * @param refreshToken 리프레시 토큰
+     * @param onlineUser   온라인 사용자 정보
      */
     private void storeTokensInRedis(String accessToken, String refreshToken, OnlineUser onlineUser) {
-        // 访问令牌 -> 用户信息
+        // 액세스 토큰 -> 사용자 정보
         setRedisValue(formatTokenKey(accessToken), onlineUser, securityProperties.getSession().getAccessTokenTimeToLive());
 
-        // 刷新令牌 -> 用户信息
+        // 리프레시 토큰 -> 사용자 정보
         String refreshTokenKey = StrUtil.format(RedisConstants.Auth.REFRESH_TOKEN_USER, refreshToken);
         setRedisValue(refreshTokenKey, onlineUser, securityProperties.getSession().getRefreshTokenTimeToLive());
 
-        // 用户ID -> 刷新令牌
+        // 사용자 ID -> 리프레시 토큰
         setRedisValue(StrUtil.format(RedisConstants.Auth.USER_REFRESH_TOKEN, onlineUser.getUserId()),
                 refreshToken,
                 securityProperties.getSession().getRefreshTokenTimeToLive());
     }
 
     /**
-     * 处理单设备登录控制
+     * 단일 기기 로그인 제어 처리
      *
-     * @param userId      用户ID
-     * @param accessToken 新生成的访问令牌
+     * @param userId      사용자 ID
+     * @param accessToken 새로 생성된 액세스 토큰
      */
     private void handleSingleDeviceLogin(Long userId, String accessToken) {
         Boolean allowMultiLogin = securityProperties.getSession().getRedisToken().getAllowMultiLogin();
         String userAccessKey = StrUtil.format(RedisConstants.Auth.USER_ACCESS_TOKEN, userId);
-        // 单设备登录控制，删除旧的访问令牌
+        // 단일 기기 로그인 제어, 구 액세스 토큰 삭제
         if (!allowMultiLogin) {
             Object oldAccessTokenValue = redisTemplate.opsForValue().get(userAccessKey);
             Optional.of(oldAccessTokenValue)
                     .map(String.class::cast)
                     .ifPresent(oldAccessToken -> redisTemplate.delete(formatTokenKey(oldAccessToken)));
         }
-        // 存储访问令牌映射（用户ID -> 访问令牌），用于单设备登录控制删除旧的访问令牌和刷新令牌时删除旧令牌
+        // 액세스 토큰 매핑 저장 (사용자 ID -> 액세스 토큰), 단일 기기 로그인 제어 시 구 액세스 토큰 삭제 및 리프레시 토큰 삭제 시 구 토큰 삭제용
         setRedisValue(userAccessKey, accessToken, securityProperties.getSession().getAccessTokenTimeToLive());
     }
 
     /**
-     * 存储新的访问令牌
+     * 새로운 액세스 토큰 저장
      *
-     * @param newAccessToken 新访问令牌
-     * @param onlineUser     在线用户信息
+     * @param newAccessToken 새 액세스 토큰
+     * @param onlineUser     온라인 사용자 정보
      */
     private void storeAccessToken(String newAccessToken, OnlineUser onlineUser) {
         setRedisValue(StrUtil.format(RedisConstants.Auth.ACCESS_TOKEN_USER, newAccessToken), onlineUser, securityProperties.getSession().getAccessTokenTimeToLive());
@@ -258,11 +258,11 @@ public class RedisTokenManager implements TokenManager {
     }
 
     /**
-     * 构建用户详情对象
+     * 사용자 세부 정보 객체 구성
      *
-     * @param onlineUser  在线用户信息
-     * @param authorities 权限集合
-     * @return SysUserDetails 用户详情
+     * @param onlineUser  온라인 사용자 정보
+     * @param authorities 권한 집합
+     * @return SysUserDetails 사용자 세부 정보
      */
     private SysUserDetails buildUserDetails(OnlineUser onlineUser, Set<SimpleGrantedAuthority> authorities) {
         SysUserDetails userDetails = new SysUserDetails();
@@ -275,37 +275,37 @@ public class RedisTokenManager implements TokenManager {
     }
 
     /**
-     * 格式化访问令牌的 Redis 键
+     * 액세스 토큰의 Redis 키 포맷
      *
-     * @param token 访问令牌
-     * @return 格式化后的 Redis 键
+     * @param token 액세스 토큰
+     * @return 포맷된 Redis 키
      */
     private String formatTokenKey(String token) {
         return StrUtil.format(RedisConstants.Auth.ACCESS_TOKEN_USER, token);
     }
 
     /**
-     * 格式化刷新令牌的 Redis 键
+     * 리프레시 토큰의 Redis 키 포맷
      *
-     * @param refreshToken 访问令牌
-     * @return 格式化后的 Redis 键
+     * @param refreshToken 액세스 토큰
+     * @return 포맷된 Redis 키
      */
     private String formatRefreshTokenKey(String refreshToken) {
         return StrUtil.format(RedisConstants.Auth.REFRESH_TOKEN_USER, refreshToken);
     }
 
     /**
-     * 将值存储到 Redis
+     * 값을 Redis에 저장
      *
-     * @param key   键
-     * @param value 值
-     * @param ttl   过期时间（秒），-1表示永不过期
+     * @param key   키
+     * @param value 값
+     * @param ttl   만료 시간(초), -1은 영구적
      */
     private void setRedisValue(String key, Object value, int ttl) {
         if (ttl != -1) {
             redisTemplate.opsForValue().set(key, value, ttl, TimeUnit.SECONDS);
         } else {
-            redisTemplate.opsForValue().set(key, value); // ttl=-1时永不过期
+            redisTemplate.opsForValue().set(key, value); // ttl=-1일 때 영구적
         }
     }
 }

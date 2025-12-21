@@ -7,7 +7,7 @@ import com.youlai.boot.system.model.form.ConfigForm;
 import org.mapstruct.Mapper;
 
 /**
- * 系统配置对象转换器
+ * 시스템 설정 객체 변환기
  *
  * @author Theo
  * @since 2024-7-29 11:42:49

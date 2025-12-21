@@ -4,7 +4,7 @@ import lombok.Data;
 import java.util.Set;
 
 /**
- * 用户认证凭证信息
+ * 사용자 인증 자격 증명 정보
  *
  * @author Ray.Hao
  * @since 2022/10/22
@@ -13,42 +13,42 @@ import java.util.Set;
 public class UserAuthCredentials {
 
     /**
-     * 用户ID
+     * 사용자 ID
      */
     private Long userId;
 
     /**
-     * 用户名
+     * 사용자명
      */
     private String username;
 
     /**
-     * 昵称
+     * 닉네임
      */
     private String nickname;
 
     /**
-     * 部门ID
+     * 부서 ID
      */
     private Long deptId;
 
     /**
-     * 用户密码
+     * 사용자 비밀번호
      */
     private String password;
 
     /**
-     * 状态（1:启用；0:禁用）
+     * 상태 (1:활성화; 0:비활성화)
      */
     private Integer status;
 
     /**
-     * 用户所属的角色集合
+     * 사용자가 속한 역할 집합
      */
     private Set<String> roles;
 
     /**
-     * 数据权限范围，用于控制用户可以访问的数据级别
+     * 데이터 권한 범위, 사용자가 접근 가능한 데이터 수준 제어에 사용
      *
      * @see com.youlai.boot.common.enums.DataScopeEnum
      */

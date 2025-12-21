@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * AI 명령编排서비스구현
+ * AI 명령 오케스트레이션 서비스 구현
  */
 @Service
 @Slf4j
@@ -39,16 +39,16 @@ import java.util.Optional;
 public class AiCommandServiceImpl implements AiCommandService {
 
   private static final String SYSTEM_PROMPT = """
-    你是원个智能의企业操作助手，需要을사용자의自然语言명령解析成标准의函수调用。
-    请返回严格의 JSON 格式，包含字段：
+    당신은 지능형 엔터프라이즈 운영 도우미입니다，需要을사용자의自然语言명령解析成标准의函수调用。
+    엄격한 JSON 형식으로 반환해주세요. 포함할 필드:
     - success: boolean
     - explanation: string
     - confidence: number (0-1)
     - error: string
     - provider: string
     - model: string
-    - functionCalls: 수组，每个元素包含 name、description、arguments(객체)
-    当无法识别명령时，success=false，并给出 error。
+    - functionCalls: 배열, 각 요소는 name, description, arguments(객체) 포함
+    명령을 인식할 수 없을 때는 success=false로 설정하고 error를 제공하세요。
     """;
 
   private final AiCommandRecordService recordService;
@@ -63,7 +63,7 @@ public class AiCommandServiceImpl implements AiCommandService {
     if (StrUtil.isBlank(command)) {
       return AiParseResponseDTO.builder()
         .success(false)
-        .error("명령不能값空")
+        .error("명령은 비어있을 수 없습니다")
         .functionCalls(Collections.emptyList())
         .build();
     }
@@ -85,7 +85,7 @@ public class AiCommandServiceImpl implements AiCommandService {
     String userPrompt = buildUserPrompt(request);
 
     try {
-      log.info("📤 발송명령에 AI 模型: {}", command);
+      log.info("📤 AI 모델로 명령 전송: {}", command);
       ChatResponse chatResponse = chatClient.prompt()
         .system(systemPrompt)
         .user(userPrompt)
@@ -103,7 +103,7 @@ public class AiCommandServiceImpl implements AiCommandService {
       record.setExplanation(parseResult.explanation());
       record.setFunctionCalls(JSONUtil.toJsonStr(parseResult.functionCalls()));
       record.setConfidence(parseResult.confidence() != null ? BigDecimal.valueOf(parseResult.confidence()) : null);
-      record.setParseErrorMessage(parseResult.success() ? null : StrUtil.emptyToDefault(parseResult.error(), "解析실패"));
+      record.setParseErrorMessage(parseResult.success() ? null : StrUtil.emptyToDefault(parseResult.error(), "파싱 실패"));
       record.setParseTime(System.currentTimeMillis() - startTime);
 
       recordService.save(record);
@@ -119,9 +119,9 @@ public class AiCommandServiceImpl implements AiCommandService {
         .build();
 
       if (!parseResult.success()) {
-        log.warn("❗️ AI 미能解析명령: {}", parseResult.error());
+        log.warn("❗️ AI가 명령을 파싱하지 못했습니다: {}", parseResult.error());
       } else {
-        log.info("✅ 解析성공，审计기록 ID: {}", record.getId());
+        log.info("✅ 파싱 성공, 감사 기록 ID: {}", record.getId());
       }
 
       return response;
@@ -133,8 +133,8 @@ public class AiCommandServiceImpl implements AiCommandService {
       record.setParseTime(duration);
       recordService.save(record);
 
-      log.error("❌ 解析명령실패: {}", e.getMessage(), e);
-      throw new RuntimeException("解析명령실패: " + e.getMessage(), e);
+      log.error("❌ 명령 파싱 실패: {}", e.getMessage(), e);
+      throw new RuntimeException("명령 파싱 실패: " + e.getMessage(), e);
     }
   }
 
@@ -160,7 +160,7 @@ public class AiCommandServiceImpl implements AiCommandService {
     return List.of(
       Map.of(
         "name", "updateUserNickname",
-        "description", "根据사용자명업데이트사용자닉네임",
+        "description", "사용자명으로 사용자 닉네임 업데이트",
         "requiredParameters", List.of("username", "nickname")
       )
     );
@@ -168,7 +168,7 @@ public class AiCommandServiceImpl implements AiCommandService {
 
   private ParseResult parseAiResponse(String rawContent) {
     if (StrUtil.isBlank(rawContent)) {
-      throw new IllegalStateException("AI 返回내용값空");
+      throw new IllegalStateException("AI 반환 내용이 비어있습니다");
     }
 
     try {
@@ -184,7 +184,7 @@ public class AiCommandServiceImpl implements AiCommandService {
 
       return new ParseResult(success, explanation, confidence, error, provider, model, functionCalls);
     } catch (Exception ex) {
-      throw new IllegalStateException("无法解析 AI 响应: " + ex.getMessage(), ex);
+      throw new IllegalStateException("AI 응답을 파싱할 수 없습니다: " + ex.getMessage(), ex);
     }
   }
 
@@ -225,26 +225,26 @@ public class AiCommandServiceImpl implements AiCommandService {
   public Object executeCommand(AiExecuteRequestDTO request, HttpServletRequest httpRequest) throws Exception {
     long startTime = System.currentTimeMillis();
 
-    // 조회사용자 정보
+    // 사용자 정보 조회
     Long userId = SecurityUtils.getUserId();
     String username = SecurityUtils.getUsername();
     String ipAddress = JakartaServletUtil.getClientIP(httpRequest);
 
     AiFunctionCallDTO functionCall = request.getFunctionCall();
 
-    // 判断여부값危险操作
+    // 위험한 작업 여부 판단
     boolean isDangerous = isDangerousOperation(functionCall.getName());
 
-    // 根据解析로그ID조회审计기록，如果不存에则생성새기록
+    // 파싱 로그 ID로 감사 기록 조회, 존재하지 않으면 새 기록 생성
     AiCommandRecord record;
     if (StrUtil.isNotBlank(request.getParseLogId())) {
-      // 업데이트이미存에의审计기록（解析阶段이미생성）
+      // 이미 존재하는 감사 기록 업데이트 (파싱 단계에서 이미 생성됨)
       record = recordService.getById(request.getParseLogId());
       if (record == null) {
-        throw new IllegalStateException("미找到对应의解析기록，ID: " + request.getParseLogId());
+        throw new IllegalStateException("해당 파싱 기록을 찾을 수 없습니다, ID: " + request.getParseLogId());
       }
     } else {
-      // 如果没有解析로그ID，생성새기록（兼容直接执行의情况）
+      // 파싱 로그 ID가 없으면，생성새기록（兼容直接执行의情况）
       record = new AiCommandRecord();
       record.setUserId(userId);
       record.setUsername(username);
@@ -254,7 +254,7 @@ public class AiCommandServiceImpl implements AiCommandService {
       recordService.save(record);
     }
 
-    // 업데이트执行관련字段
+    // 실행 관련 필드 업데이트
     record.setFunctionName(functionCall.getName());
     record.setFunctionArguments(JSONUtil.toJsonStr(functionCall.getArguments()));
     record.setIsDangerous(isDangerous);
@@ -266,31 +266,31 @@ public class AiCommandServiceImpl implements AiCommandService {
     record.setExecuteStatus("pending");
 
     try {
-      // 幂等性检查
+      // 멱등성 검사
       if (StrUtil.isNotBlank(request.getIdempotencyKey())) {
         AiCommandRecord existing = recordService.getOne(
           new LambdaQueryWrapper<AiCommandRecord>()
             .eq(AiCommandRecord::getIdempotencyKey, request.getIdempotencyKey())
-            .ne(AiCommandRecord::getId, record.getId()) // 排除현재기록
+            .ne(AiCommandRecord::getId, record.getId()) // 현재 기록 제외
         );
         if (existing != null) {
-          log.warn("⚠️ 检测到重复执行，幂等性토큰: {}", request.getIdempotencyKey());
-          throw new IllegalStateException("该操作이미执行，请勿重复제출");
+          log.warn("⚠️ 중복 실행 감지됨，幂等性토큰: {}", request.getIdempotencyKey());
+          throw new IllegalStateException("해당 작업이 이미 실행되었습니다，请勿重复제출");
         }
       }
 
       // 🎯 执行具体의函수调用
       Object result = executeFunctionCall(functionCall);
 
-      // 업데이트执行성공
+      // 실행 성공 업데이트
       record.setExecuteStatus("success");
       record.setExecuteResult(JSONUtil.toJsonStr(result));
       record.setExecutionTime(System.currentTimeMillis() - startTime);
 
-      // 업데이트审计기록
+      // 감사 기록 업데이트
       recordService.updateById(record);
 
-      log.info("✅ 명령 실행성공，审计기록 ID: {}", record.getId());
+      log.info("✅ 명령 실행 성공, 감사 기록 ID: {}", record.getId());
 
       return result;
 
@@ -300,10 +300,10 @@ public class AiCommandServiceImpl implements AiCommandService {
       record.setExecuteErrorMessage(e.getMessage());
       record.setExecutionTime(System.currentTimeMillis() - startTime);
 
-      // 업데이트审计기록
+      // 감사 기록 업데이트
       recordService.updateById(record);
 
-      log.error("❌ 명령 실행실패，审计기록 ID: {}", record.getId(), e);
+      log.error("❌ 명령 실행 실패, 감사 기록 ID: {}", record.getId(), e);
 
       // 抛出오류，由 Controller 统원处理
       throw e;
@@ -311,7 +311,7 @@ public class AiCommandServiceImpl implements AiCommandService {
   }
 
   /**
-   * 判断여부값危险操作
+   * 위험한 작업 여부 판단
    */
   private boolean isDangerousOperation(String functionName) {
     String[] dangerousKeywords = {"delete", "remove", "drop", "truncate", "clear"};
@@ -343,7 +343,7 @@ public class AiCommandServiceImpl implements AiCommandService {
   }
 
   /**
-   * 사용 Tool: 根据사용자명업데이트사용자닉네임
+   * 사용 Tool: 사용자명으로 사용자 닉네임 업데이트
    */
   private Object executeUpdateUserNickname(Map<String, Object> arguments) {
     String username = (String) arguments.get("username");

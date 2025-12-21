@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import java.math.BigDecimal;
 
 /**
- * AI 命令记录实体（合并解析和执行记录）
+ * AI 명령 기록 엔티티 (파싱 및 실행 기록 통합)
  *
  * @author Ray.Hao
  * @since 3.0.0
@@ -24,56 +24,56 @@ public class AiCommandRecord extends BaseEntity {
     /** 사용자명 */
     private String username;
 
-    /** 原始命令 */
+    /** 원본 명령 */
     private String originalCommand;
 
-    // ==================== 解析相关字段 ====================
+    // ==================== 파싱 관련 필드 ====================
 
-    /** AI 供应商（qwen/openai/deepseek等） */
+    /** AI 공급자 (qwen/openai/deepseek 등) */
     private String provider;
 
-    /** AI 模型（qwen-plus/qwen-max/gpt-4-turbo等） */
+    /** AI 모델 (qwen-plus/qwen-max/gpt-4-turbo 등) */
     private String model;
 
-    /** 解析是否成功 */
+    /** 파싱 성공 여부 */
     private Boolean parseSuccess;
 
-    /** 解析出的函数调用列表（JSON） */
+    /** 파싱된 함수 호출 목록 (JSON) */
     private String functionCalls;
 
-    /** AI 的理解说明 */
+    /** AI의 이해 설명 */
     private String explanation;
 
-    /** 置信度（0.00-1.00） */
+    /** 신뢰도 (0.00-1.00) */
     private BigDecimal confidence;
 
     /** 解析오류 정보 */
     private String parseErrorMessage;
 
-    /** 输入 Token 数量 */
+    /** 입력 토큰 수 */
     private Integer inputTokens;
 
-    /** 输出 Token 数量 */
+    /** 출력 토큰 수 */
     private Integer outputTokens;
 
-    /** 总 Token 数量 */
+    /** 총 토큰 수 */
     private Integer totalTokens;
 
-    /** 解析耗时（毫秒） */
+    /** 파싱 소요 시간 (밀리초) */
     private Long parseTime;
 
-    // ==================== 执行相关字段 ====================
+    // ==================== 실행 관련 필드 ====================
 
     /** 执行的함수 이름 */
     private String functionName;
 
-    /** 函数参数（JSON） */
+    /** 함수 파라미터 (JSON) */
     private String functionArguments;
 
-    /** 执行상태：pending, success, failed */
+    /** 실행 상태: pending, success, failed */
     private String executeStatus;
 
-    /** 执行结果（JSON） */
+    /** 실행 결과 (JSON) */
     private String executeResult;
 
     /** 执行오류 정보 */
@@ -85,21 +85,21 @@ public class AiCommandRecord extends BaseEntity {
     /** 위험한 작업 여부 */
     private Boolean isDangerous;
 
-    /** 是否需要确认 */
+    /** 확인 필요 여부 */
     private Boolean requiresConfirmation;
 
-    /** 用户是否确认 */
+    /** 사용자 확인 여부 */
     private Boolean userConfirmed;
 
-    /** 幂等性令牌（防止重复执行） */
+    /** 멱등성 토큰 (중복 실행 방지) */
     private String idempotencyKey;
 
-    /** 执行耗时（毫秒） */
+    /** 실행 소요 시간 (밀리초) */
     private Long executionTime;
 
-    // ==================== 通用字段 ====================
+    // ==================== 공통 필드 ====================
 
-    /** IP 地址 */
+    /** IP 주소 */
     private String ipAddress;
 
     /** 사용자 에이전트 */

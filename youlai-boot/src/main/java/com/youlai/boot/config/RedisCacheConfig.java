@@ -14,7 +14,7 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
- * Redis 缓存配置
+ * Redis 캐시 설정
  *
  * @author Ray.Hao
  * @since 2023/12/4
@@ -22,13 +22,13 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 @EnableCaching
 @EnableConfigurationProperties(CacheProperties.class)
 @Configuration
-@ConditionalOnProperty(name = "spring.cache.enabled") // xxl.job.enabled = true 才会自动装配
+@ConditionalOnProperty(name = "spring.cache.enabled") // spring.cache.enabled = true일 때만 자동 설정
 public class RedisCacheConfig {
 
     /**
-     * 自定义 RedisCacheManager
+     * 사용자 정의 RedisCacheManager
      * <p>
-     * 修改 Redis 序列化方式，默认 JdkSerializationRedisSerializer
+     * Redis 직렬화 방식을 수정, 기본값은 JdkSerializationRedisSerializer
      *
      * @param redisConnectionFactory {@link RedisConnectionFactory}
      * @param cacheProperties        {@link CacheProperties}
@@ -42,7 +42,7 @@ public class RedisCacheConfig {
     }
 
     /**
-     * 自定义 RedisCacheConfiguration
+     * 사용자 정의 RedisCacheConfiguration
      *
      * @param cacheProperties {@link CacheProperties}
      * @return {@link RedisCacheConfiguration}
@@ -66,7 +66,7 @@ public class RedisCacheConfig {
         if (!redisProperties.isUseKeyPrefix()) {
             config = config.disableKeyPrefix();
         }
-        // 覆盖默认key双冒号  CacheKeyPrefix#prefixed
+        // 기본 키 이중 콜론 덮어쓰기  CacheKeyPrefix#prefixed
         config = config.computePrefixWith(name -> name + ":");
         return config;
     }

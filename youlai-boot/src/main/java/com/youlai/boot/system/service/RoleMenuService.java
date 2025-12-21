@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 역할메뉴비즈니스인터페이스
+ * 역할 메뉴 비즈니스 인터페이스
  *
  * @author haoxr
  * @since 2.5.0
@@ -16,39 +16,39 @@ import java.util.Set;
 public interface RoleMenuService extends IService<RoleMenu> {
 
     /**
-     * 조회역할拥有의메뉴ID集合
+     * 조회 역할이 보유한 메뉴 ID 집합
      *
-     * @param roleId 역할ID
-     * @return 메뉴ID集合
+     * @param roleId 역할 ID
+     * @return 메뉴 ID 집합
      */
     List<Long> listMenuIdsByRoleId(Long roleId);
 
 
     /**
-     * 새로고침권한캐시(所有역할)
+     * 새로고침 권한 캐시(모든 역할)
      */
     void refreshRolePermsCache();
 
     /**
-     * 새로고침권한캐시(지정된역할)
+     * 새로고침 권한 캐시(지정된 역할)
      *
-     * @param roleCode 역할코드
+     * @param roleCode 역할 코드
      */
     void refreshRolePermsCache(String roleCode);
 
     /**
-     * 새로고침권한캐시(수정역할코드时调用)
+     * 새로고침 권한 캐시(역할 코드 수정 시 호출)
      *
-     * @param oldRoleCode 旧역할코드
-     * @param newRoleCode 새역할코드
+     * @param oldRoleCode 이전 역할 코드
+     * @param newRoleCode 새 역할 코드
      */
     void refreshRolePermsCache(String oldRoleCode, String newRoleCode);
 
     /**
-     * 조회역할 권한集合
+     * 조회 역할 권한 집합
      *
-     * @param roles 역할코드集合
-     * @return 권한集合
+     * @param roles 역할 코드 집합
+     * @return 권한 집합
      */
     Set<String> getRolePermsByRoleCodes(Set<String> roles);
 }

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 /**
- * 请求日志打印过滤器
+ * 요청 로그 출력 필터
  *
  * @author haoxr
  * @since 2023/03/03
@@ -18,7 +18,7 @@ public class RequestLogFilter extends CommonsRequestLoggingFilter {
 
     @Override
     protected boolean shouldLog(HttpServletRequest request) {
-        // 设置日志输出级别，默认debug
+        // 로그 출력 레벨 설정, 기본값은 debug
         return this.logger.isInfoEnabled();
     }
 

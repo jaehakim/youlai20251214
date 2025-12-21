@@ -7,7 +7,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 
 /**
- * 字段校验器
+ * 필드 검증기
  *
  * @author Ray.Hao
  * @since 2024/11/18
@@ -18,16 +18,16 @@ public class FieldValidator implements ConstraintValidator<ValidField, String> {
 
     @Override
     public void initialize(ValidField constraintAnnotation) {
-        // 初始化允许的值列表
+        // 허용된 값 목록 초기화
         this.allowedValues = constraintAnnotation.allowedValues();
     }
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null) {
-            return true; // 如果字段允许为空，可以返回 true
+            return true; // 필드가 null을 허용하는 경우 true 반환
         }
-        // 检查值是否在允许列表中
+        // 값이 허용 목록에 있는지 확인
         return Arrays.asList(allowedValues).contains(value);
     }
 }

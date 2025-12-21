@@ -16,7 +16,7 @@ import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import java.lang.reflect.Method;
 
 /**
- * 数据权限控制器
+ * 데이터 권한 핸들러
  *
  * @author zc
  * @since 2021-12-10 13:28
@@ -25,36 +25,36 @@ import java.lang.reflect.Method;
 public class MyDataPermissionHandler implements DataPermissionHandler {
 
     /**
-     * 获取数据权限的sql片段
-     * @param where 查询条件
-     * @param mappedStatementId mapper接口方法的全路径
-     * @return sql片段
+     * 데이터 권한의 SQL 조각 가져오기
+     * @param where 쿼리 조건
+     * @param mappedStatementId mapper 인터페이스 메서드의 전체 경로
+     * @return SQL 조각
      */
     @Override
     @SneakyThrows
     public Expression getSqlSegment(Expression where, String mappedStatementId) {
-        // 如果是未登录，或者是定时任务执行的SQL，或者是超级管理员，直接返回
+        // 미로그인 상태이거나 정기 작업 실행 SQL이거나 슈퍼 관리자인 경우 바로 반환
         if(SecurityUtils.getUserId() == null || SecurityUtils.isRoot()){
             return where;
         }
-        // 获取当前用户的数据权限
+        // 현재 사용자의 데이터 권한 가져오기
         Integer dataScope = SecurityUtils.getDataScope();
         DataScopeEnum dataScopeEnum = IBaseEnum.getEnumByValue(dataScope, DataScopeEnum.class);
-        // 如果是全部数据权限，直接返回
+        // 전체 데이터 권한인 경우 바로 반환
         if (DataScopeEnum.ALL.equals(dataScopeEnum)) {
             return where;
         }
-        // 获取当前执行的接口类
+        // 현재 실행 중인 인터페이스 클래스 가져오기
         Class<?> clazz = Class.forName(mappedStatementId.substring(0, mappedStatementId.lastIndexOf(StringPool.DOT)));
-        // 获取当前执行的方法名称
+        // 현재 실행 중인 메서드 이름 가져오기
         String methodName = mappedStatementId.substring(mappedStatementId.lastIndexOf(StringPool.DOT) + 1);
-        // 获取当前执行的接口类里所有的方法
+        // 현재 실행 중인 인터페이스 클래스의 모든 메서드 가져오기
         Method[] methods = clazz.getDeclaredMethods();
         for (Method method : methods) {
-            //找到当前执行的方法
+            // 현재 실행 중인 메서드 찾기
             if (method.getName().equals(methodName)) {
                 DataPermission annotation = method.getAnnotation(DataPermission.class);
-                // 判断当前执行的方法是否有权限注解，如果没有注解直接返回
+                // 현재 실행 중인 메서드에 권한 어노테이션이 있는지 판단, 어노테이션이 없으면 바로 반환
                 if (annotation == null ) {
                     return where;
                 }
@@ -65,15 +65,15 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
     }
 
     /**
-     * 构建过滤条件
+     * 필터 조건 구성
      *
-     * @param where 当前查询条件
-     * @return 构建后查询条件
+     * @param where 현재 쿼리 조건
+     * @return 구성된 쿼리 조건
      */
     @SneakyThrows
     public static Expression dataScopeFilter(String deptAlias, String deptIdColumnName, String userAlias, String userIdColumnName,DataScopeEnum dataScopeEnum, Expression where) {
 
-        // 获取部门和用户的别名
+        // 부서와 사용자의 별칭 가져오기
         String deptColumnName = StrUtil.isNotBlank(deptAlias) ? (deptAlias + StringPool.DOT + deptIdColumnName) : deptIdColumnName;
         String userColumnName = StrUtil.isNotBlank(userAlias) ? (userAlias + StringPool.DOT + userIdColumnName) : userIdColumnName;
 
@@ -90,7 +90,7 @@ public class MyDataPermissionHandler implements DataPermissionHandler {
                 userId = SecurityUtils.getUserId();
                 appendSqlStr = userColumnName + StringPool.EQUALS + userId;
                 break;
-            // 默认部门及子部门数据权限
+            // 기본 부서 및 하위 부서 데이터 권한
             default:
                 deptId = SecurityUtils.getDeptId();
                 appendSqlStr = deptColumnName + " IN ( SELECT id FROM sys_dept WHERE id = " + deptId + " OR FIND_IN_SET( " + deptId + " , tree_path ) )";

@@ -19,12 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * AI 명령컨트롤러（基于 Spring AI）
+ * AI 명령 컨트롤러 (Spring AI 기반)
  *
  * @author Ray.Hao
  * @since 3.0.0
  */
-@Tag(name = "AI 명령인터페이스")
+@Tag(name = "AI 명령 인터페이스")
 @RestController
 @RequestMapping("/api/v1/ai/command")
 @RequiredArgsConstructor
@@ -40,13 +40,13 @@ public class AiCommandController {
     @RequestBody AiParseRequestDTO request,
     HttpServletRequest httpRequest
   ) {
-    log.info("收到AI 명령파싱 요청: {}", request.getCommand());
+    log.info("AI 명령 파싱 요청 수신: {}", request.getCommand());
 
     try {
       AiParseResponseDTO response = aiCommandService.parseCommand(request, httpRequest);
       return Result.success(response);
     } catch (Exception e) {
-      log.error("명령解析실패", e);
+      log.error("명령 파싱 실패", e);
       return Result.success(AiParseResponseDTO.builder()
         .success(false)
         .error(e.getMessage())
@@ -60,12 +60,12 @@ public class AiCommandController {
     @RequestBody AiExecuteRequestDTO request,
     HttpServletRequest httpRequest
   ) {
-    log.info("收到AI 명령执行请求: {}", request.getFunctionCall().getName());
+    log.info("AI 명령 실행 요청 수신: {}", request.getFunctionCall().getName());
     try {
       Object result = aiCommandService.executeCommand(request, httpRequest);
       return Result.success(result);
     } catch (Exception e) {
-      log.error("명령 실행실패", e);
+      log.error("명령 실행 실패", e);
       return Result.failed(e.getMessage());
     }
   }
@@ -83,7 +83,7 @@ public class AiCommandController {
     @Parameter(description = "기록 ID") @PathVariable String recordId
   ) {
     recordService.rollbackCommand(recordId);
-    return Result.success("撤销성공");
+    return Result.success("취소 성공");
   }
 
 }

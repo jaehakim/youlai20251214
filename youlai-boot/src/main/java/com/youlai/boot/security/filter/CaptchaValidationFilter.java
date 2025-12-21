@@ -20,7 +20,7 @@ import java.io.IOException;
 
 
 /**
- * 图形验证码校验过滤器
+ * 그래픽 캡차 검증 필터
  *
  * @author haoxr
  * @since 2022/10/1
@@ -44,16 +44,16 @@ public class CaptchaValidationFilter extends OncePerRequestFilter {
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        // 检验登录接口的验证码
+        // 로그인 인터페이스의 캡차 검증
         if (LOGIN_PATH_REQUEST_MATCHER.matches(request)) {
-            // 请求中的验证码
+            // 요청의 캡차 코드
             String captchaCode = request.getParameter(CAPTCHA_CODE_PARAM_NAME);
-            // TODO 兼容没有验证码的版本(线上请移除这个判断)
+            // TODO 캡차가 없는 버전과 호환 (운영 환경에서는 이 판단을 제거하세요)
             if (StrUtil.isBlank(captchaCode)) {
                 chain.doFilter(request, response);
                 return;
             }
-            // 缓存中的验证码
+            // 캐시의 캡차 코드
             String verifyCodeKey = request.getParameter(CAPTCHA_KEY_PARAM_NAME);
             String cacheVerifyCode = (String) redisTemplate.opsForValue().get(
                     StrUtil.format(RedisConstants.Captcha.IMAGE_CODE, verifyCodeKey)
@@ -61,7 +61,7 @@ public class CaptchaValidationFilter extends OncePerRequestFilter {
             if (cacheVerifyCode == null) {
                 WebResponseHelper.writeError(response, ResultCode.USER_VERIFICATION_CODE_EXPIRED);
             } else {
-                // 验证码比对
+                // 캡차 코드 비교
                 if (codeGenerator.verify(cacheVerifyCode, captchaCode)) {
                     chain.doFilter(request, response);
                 } else {
@@ -69,7 +69,7 @@ public class CaptchaValidationFilter extends OncePerRequestFilter {
                 }
             }
         } else {
-            // 非登录接口放行
+            // 비로그인 인터페이스는 통과
             chain.doFilter(request, response);
         }
     }

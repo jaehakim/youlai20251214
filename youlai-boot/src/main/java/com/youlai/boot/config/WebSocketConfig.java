@@ -27,13 +27,13 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 /**
- * WebSocket 配置类
- * 
- * 核心功能：
- * - 配置 WebSocket 端点
- * - 配置消息代理
- * - 实现连接认证与授权
- * - 管理用户会话生命周期
+ * WebSocket 설정 클래스
+ *
+ * 핵심 기능:
+ * - WebSocket 엔드포인트 설정
+ * - 메시지 브로커 설정
+ * - 연결 인증 및 권한 부여 구현
+ * - 사용자 세션 생명주기 관리
  *
  * @author Ray.Hao
  * @since 3.0.0
@@ -54,53 +54,53 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public WebSocketConfig(TokenManager tokenManager, @Lazy WebSocketService webSocketService) {
         this.tokenManager = tokenManager;
         this.webSocketService = webSocketService;
-        log.info("✓ WebSocket 配置已加载");
+        log.info("✓ WebSocket 설정 로드 완료");
     }
 
     /**
-     * 注册 STOMP 端点
-     * 
-     * 客户端通过该端点建立 WebSocket 连接
+     * STOMP 엔드포인트 등록
+     *
+     * 클라이언트는 이 엔드포인트를 통해 WebSocket 연결을 설정합니다
      */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
                 .addEndpoint(WS_ENDPOINT)
-                .setAllowedOriginPatterns("*"); // 允许跨域（生产环境建议配置具体域名）
+                .setAllowedOriginPatterns("*"); // 크로스 도메인 허용 (운영 환경에서는 구체적인 도메인 설정 권장)
 
-        log.info("✓ STOMP 端点已注册: {}", WS_ENDPOINT);
+        log.info("✓ STOMP 엔드포인트 등록 완료: {}", WS_ENDPOINT);
     }
 
     /**
-     * 配置消息代理
-     * 
-     * - /app 前缀：客户端发送消息到服务端的前缀
-     * - /topic 前缀：用于广播消息
-     * - /queue 前缀：用于点对点消息
-     * - /user 前缀：服务端发送给特定用户的消息前缀
+     * 메시지 브로커 설정
+     *
+     * - /app 접두사: 클라이언트가 서버로 메시지를 전송할 때 사용하는 접두사
+     * - /topic 접두사: 브로드캐스트 메시지에 사용
+     * - /queue 접두사: 1:1 메시지에 사용
+     * - /user 접두사: 서버가 특정 사용자에게 메시지를 전송할 때 사용하는 접두사
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        // 客户端发送消息的请求前缀
+        // 클라이언트가 메시지를 전송하는 요청 접두사
         registry.setApplicationDestinationPrefixes(APP_DESTINATION_PREFIX);
 
-        // 启用简单消息代理，处理 /topic 和 /queue 前缀的消息
+        // 간단한 메시지 브로커 활성화, /topic과 /queue 접두사를 가진 메시지 처리
         registry.enableSimpleBroker(BROKER_DESTINATIONS);
 
-        // 服务端通知客户端的前缀
+        // 서버가 클라이언트에게 알릴 때 사용하는 접두사
         registry.setUserDestinationPrefix(USER_DESTINATION_PREFIX);
 
-        log.info("✓ 消息代理已配置: app={}, broker={}, user={}",
+        log.info("✓ 메시지 브로커 설정 완료: app={}, broker={}, user={}",
                 APP_DESTINATION_PREFIX, BROKER_DESTINATIONS, USER_DESTINATION_PREFIX);
     }
 
     /**
-     * 配置客户端入站通道拦截器
-     * 
-     * 核心功能：
-     * 1. 连接建立时：解析 JWT Token 并绑定用户身份
-     * 2. 连接关闭时：触发用户下线通知
-     * 3. 安全防护：拦截无效连接请求
+     * 클라이언트 인바운드 채널 인터셉터 설정
+     *
+     * 핵심 기능:
+     * 1. 연결 설정 시: JWT Token을 파싱하고 사용자 신원 바인딩
+     * 2. 연결 종료 시: 사용자 오프라인 알림 트리거
+     * 3. 보안 방어: 유효하지 않은 연결 요청 차단
      */
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
@@ -109,9 +109,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             public Message<?> preSend(@NotNull Message<?> message, @NotNull MessageChannel channel) {
                 StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
-                // 防御性检查：确保 accessor 不为空
+                // 방어적 체크: accessor가 null이 아님을 보장
                 if (accessor == null) {
-                    log.warn("⚠ 收到异常消息：无法获取 StompHeaderAccessor");
+                    log.warn("⚠ 비정상 메시지 수신: StompHeaderAccessor를 가져올 수 없음");
                     return ChannelInterceptor.super.preSend(message, channel);
                 }
 
@@ -135,127 +135,127 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                             break;
 
                         default:
-                            // 其他命令不需要特殊处理
+                            // 기타 명령은 특별한 처리 불필요
                             break;
                     }
                 } catch (AuthenticationException ex) {
-                    // 认证失败时强制关闭连接
-                    log.error("❌ 连接认证失败: {}", ex.getMessage());
+                    // 인증 실패 시 강제로 연결 종료
+                    log.error("❌ 연결 인증 실패: {}", ex.getMessage());
                     throw ex;
                 } catch (Exception ex) {
-                    // 捕获其他未知异常
-                    log.error("❌ WebSocket 消息处理异常", ex);
-                    throw new MessagingException("消息处理失败: " + ex.getMessage());
+                    // 기타 알 수 없는 예외 포착
+                    log.error("❌ WebSocket 메시지 처리 예외", ex);
+                    throw new MessagingException("메시지 처리 실패: " + ex.getMessage());
                 }
 
                 return ChannelInterceptor.super.preSend(message, channel);
             }
         });
 
-        log.info("✓ 客户端入站通道拦截器已配置");
+        log.info("✓ 클라이언트 인바운드 채널 인터셉터 설정 완료");
     }
 
     /**
-     * 处理客户端连接请求
-     * 
-     * 安全校验流程：
-     * 1. 提取 Authorization 头
-     * 2. 验证 Bearer Token 格式
-     * 3. 解析并验证 JWT 有效性
-     * 4. 绑定用户身份到当前会话
-     * 5. 记录用户上线状态
+     * 클라이언트 연결 요청 처리
+     *
+     * 보안 검증 흐름:
+     * 1. Authorization 헤더 추출
+     * 2. Bearer Token 형식 검증
+     * 3. JWT 유효성 파싱 및 검증
+     * 4. 현재 세션에 사용자 신원 바인딩
+     * 5. 사용자 온라인 상태 기록
      */
     private void handleConnect(StompHeaderAccessor accessor) {
         String authorization = accessor.getFirstNativeHeader(HttpHeaders.AUTHORIZATION);
 
-        // 安全检查：确保 Authorization 头存在且格式正确
+        // 보안 체크: Authorization 헤더가 존재하고 형식이 올바른지 확인
         if (StrUtil.isBlank(authorization)) {
-            log.warn("⚠ 非法连接请求：缺少 Authorization 头");
-            throw new AuthenticationCredentialsNotFoundException("缺少 Authorization 头");
+            log.warn("⚠ 불법 연결 요청: Authorization 헤더 누락");
+            throw new AuthenticationCredentialsNotFoundException("Authorization 헤더 누락");
         }
 
         if (!authorization.startsWith("Bearer ")) {
-            log.warn("⚠ 非法连接请求：Authorization 头格式错误");
-            throw new BadCredentialsException("Authorization 头格式错误");
+            log.warn("⚠ 불법 연결 요청: Authorization 헤더 형식 오류");
+            throw new BadCredentialsException("Authorization 헤더 형식 오류");
         }
 
-        // 提取 JWT Token（移除 "Bearer " 前缀）
+        // JWT Token 추출 ("Bearer " 접두사 제거)
         String token = authorization.substring(7);
 
         if (StrUtil.isBlank(token)) {
-            log.warn("⚠ 非法连接请求：Token 为空");
-            throw new BadCredentialsException("Token 为空");
+            log.warn("⚠ 불법 연결 요청: Token이 비어있음");
+            throw new BadCredentialsException("Token이 비어있음");
         }
 
-        // 解析并验证 Token
+        // Token 파싱 및 검증
         Authentication authentication;
         try {
             authentication = tokenManager.parseToken(token);
         } catch (Exception ex) {
-            log.error("❌ Token 解析失败", ex);
-            throw new BadCredentialsException("Token 无效: " + ex.getMessage());
+            log.error("❌ Token 파싱 실패", ex);
+            throw new BadCredentialsException("Token 유효하지 않음: " + ex.getMessage());
         }
 
-        // 验证解析结果
+        // 파싱 결과 검증
         if (authentication == null || !authentication.isAuthenticated()) {
-            log.warn("⚠ Token 解析失败：认证对象无效");
-            throw new BadCredentialsException("Token 解析失败");
+            log.warn("⚠ Token 파싱 실패: 인증 객체가 유효하지 않음");
+            throw new BadCredentialsException("Token 파싱 실패");
         }
 
-        // 获取用户详细信息
+        // 사용자 상세 정보 가져오기
         Object principal = authentication.getPrincipal();
         if (!(principal instanceof SysUserDetails)) {
-            log.error("❌ 无效的用户凭证类型: {}", principal.getClass().getName());
-            throw new BadCredentialsException("用户凭证类型错误");
+            log.error("❌ 유효하지 않은 사용자 자격 증명 타입: {}", principal.getClass().getName());
+            throw new BadCredentialsException("사용자 자격 증명 타입 오류");
         }
 
         SysUserDetails userDetails = (SysUserDetails) principal;
         String username = userDetails.getUsername();
 
         if (StrUtil.isBlank(username)) {
-            log.warn("⚠ 用户名为空");
-            throw new BadCredentialsException("用户名为空");
+            log.warn("⚠ 사용자 이름이 비어있음");
+            throw new BadCredentialsException("사용자 이름이 비어있음");
         }
 
-        // 绑定用户身份到当前会话（重要：用于 @SendToUser 等注解）
+        // 현재 세션에 사용자 신원 바인딩 (중요: @SendToUser 등 어노테이션에 사용)
         accessor.setUser(authentication);
 
-        // 获取会话 ID
+        // 세션 ID 가져오기
         String sessionId = accessor.getSessionId();
         if (sessionId == null) {
-            log.warn("⚠ 会话 ID 为空，使用临时 ID");
+            log.warn("⚠ 세션 ID가 비어있음, 임시 ID 사용");
             sessionId = "temp-" + System.nanoTime();
         }
 
-        // 记录用户上线状态
+        // 사용자 온라인 상태 기록
         try {
             webSocketService.userConnected(username, sessionId);
-            log.info("✓ WebSocket 连接建立成功: 用户[{}], 会话[{}]", username, sessionId);
+            log.info("✓ WebSocket 연결 설정 성공: 사용자[{}], 세션[{}]", username, sessionId);
         } catch (Exception ex) {
-            log.error("❌ 记录用户上线状态失败: 用户[{}], 会话[{}]", username, sessionId, ex);
-            // 不抛出异常，允许连接继续
+            log.error("❌ 사용자 온라인 상태 기록 실패: 사용자[{}], 세션[{}]", username, sessionId, ex);
+            // 예외를 던지지 않고 연결 계속 진행
         }
     }
 
     /**
-     * 处理客户端断开连接事件
-     * 
-     * 注意：
-     * - 只有成功建立过认证的连接才会触发下线事件
-     * - 防止未认证成功的连接产生脏数据
+     * 클라이언트 연결 끊김 이벤트 처리
+     *
+     * 주의사항:
+     * - 성공적으로 인증이 설정된 연결만 오프라인 이벤트 트리거
+     * - 인증 실패한 연결이 더티 데이터를 생성하는 것 방지
      */
     private void handleDisconnect(StompHeaderAccessor accessor) {
         Authentication authentication = (Authentication) accessor.getUser();
 
-        // 防御性检查：只处理已认证的连接
+        // 방어적 체크: 인증된 연결만 처리
         if (authentication == null || !authentication.isAuthenticated()) {
-            log.debug("未认证的连接断开，跳过处理");
+            log.debug("미인증 연결 끊김, 처리 건너뜀");
             return;
         }
 
         Object principal = authentication.getPrincipal();
         if (!(principal instanceof SysUserDetails)) {
-            log.warn("⚠ 断开连接时用户凭证类型异常");
+            log.warn("⚠ 연결 끊김 시 사용자 자격 증명 타입 이상");
             return;
         }
 
@@ -265,17 +265,17 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         if (StrUtil.isNotBlank(username)) {
             try {
                 webSocketService.userDisconnected(username);
-                log.info("✓ WebSocket 连接断开: 用户[{}]", username);
+                log.info("✓ WebSocket 연결 끊김: 사용자[{}]", username);
             } catch (Exception ex) {
-                log.error("❌ 记录用户下线状态失败: 用户[{}]", username, ex);
+                log.error("❌ 사용자 오프라인 상태 기록 실패: 사용자[{}]", username, ex);
             }
         }
     }
 
     /**
-     * 处理客户端订阅事件（可选）
-     * 
-     * 用于记录订阅信息或实施订阅级别的权限控制
+     * 클라이언트 구독 이벤트 처리 (선택 사항)
+     *
+     * 구독 정보를 기록하거나 구독 수준의 권한 제어를 구현하는 데 사용
      */
     private void handleSubscribe(StompHeaderAccessor accessor) {
         Authentication authentication = (Authentication) accessor.getUser();
@@ -284,10 +284,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             String destination = accessor.getDestination();
             String username = authentication.getName();
 
-            log.debug("用户[{}]订阅主题: {}", username, destination);
+            log.debug("사용자[{}] 주제 구독: {}", username, destination);
 
-            // TODO: 这里可以实现订阅级别的权限控制
-            // 例如：检查用户是否有权限订阅某个主题
+            // TODO: 여기서 구독 수준의 권한 제어를 구현할 수 있습니다
+            // 예: 사용자가 특정 주제를 구독할 권한이 있는지 확인
         }
     }
 }

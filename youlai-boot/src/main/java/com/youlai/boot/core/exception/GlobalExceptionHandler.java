@@ -31,18 +31,18 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * 全局系统异常处理器
+ * 전역 시스템 예외 핸들러
  * <p>
- * 调整异常处理的HTTP状态码，丰富异常处理类型
+ * 예외 처리의 HTTP 상태 코드 조정, 예외 처리 유형 확장
  */
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
     /**
-     * 处理绑定异常
+     * 바인딩 예외 처리
      * <p>
-     * 当请求参数绑定到对象时发生错误，会抛出 BindException 异常。
+     * 요청 파라미터를 객체에 바인딩할 때 오류가 발생하면 BindException 예외가 발생합니다.
      */
     @ExceptionHandler(BindException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -53,10 +53,10 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 @RequestParam 参数校验异常
+     * @RequestParam 파라미터 검증 예외 처리
      * <p>
-     * 当请求参数在校验过程中发生违反约束条件的异常时（如 @RequestParam 验证不通过），
-     * 会捕获到 ConstraintViolationException 异常。
+     * 요청 파라미터 검증 과정에서 제약 조건 위반 예외가 발생할 때 (@RequestParam 검증 실패 시),
+     * ConstraintViolationException 예외가 캐치됩니다.
      */
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -67,10 +67,10 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理方法参数校验异常
+     * 메서드 파라미터 검증 예외 처리
      * <p>
-     * 当使用 @Valid 或 @Validated 注解对方法参数进行验证时，如果验证失败，
-     * 会抛出 MethodArgumentNotValidException 异常。
+     * @Valid 또는 @Validated 어노테이션을 사용하여 메서드 파라미터를 검증할 때 검증이 실패하면,
+     * MethodArgumentNotValidException 예외가 발생합니다.
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -81,9 +81,9 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理接口不存在的异常
+     * 인터페이스가 존재하지 않는 예외 처리
      * <p>
-     * 当客户端请求一个不存在的路径时，会抛出 NoHandlerFoundException 异常。
+     * 클라이언트가 존재하지 않는 경로를 요청할 때 NoHandlerFoundException 예외가 발생합니다.
      */
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -93,9 +93,9 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理缺少请求参数的异常
+     * 요청 파라미터 누락 예외 처리
      * <p>
-     * 当请求缺少必需的参数时，会抛出 MissingServletRequestParameterException 异常。
+     * 요청에 필수 파라미터가 누락되었을 때 MissingServletRequestParameterException 예외가 발생합니다.
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -105,21 +105,21 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理方法参数类型不匹配的异常
+     * 메서드 파라미터 타입 불일치 예외 처리
      * <p>
-     * 当请求参数类型不匹配时，会抛出 MethodArgumentTypeMismatchException 异常。
+     * 요청 파라미터 타입이 일치하지 않을 때 MethodArgumentTypeMismatchException 예외가 발생합니다.
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public <T> Result<T> processException(MethodArgumentTypeMismatchException e) {
         log.error(e.getMessage(), e);
-        return Result.failed(ResultCode.PARAMETER_FORMAT_MISMATCH, "类型错误");
+        return Result.failed(ResultCode.PARAMETER_FORMAT_MISMATCH, "타입 오류");
     }
 
     /**
-     * 处理 Servlet 异常
+     * Servlet 예외 처리
      * <p>
-     * 当 Servlet 处理请求时发生异常时，会抛出 ServletException 异常。
+     * Servlet이 요청을 처리할 때 예외가 발생하면 ServletException 예외가 발생합니다.
      */
     @ExceptionHandler(ServletException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -129,39 +129,39 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理非法参数异常
+     * 비정상 파라미터 예외 처리
      * <p>
-     * 当方法接收到非法参数时，会抛出 IllegalArgumentException 异常。
+     * 메서드가 비정상 파라미터를 받았을 때 IllegalArgumentException 예외가 발생합니다.
      */
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public <T> Result<T> handleIllegalArgumentException(IllegalArgumentException e) {
-        log.error("非法参数异常，异常原因：{}", e.getMessage(), e);
+        log.error("비정상 파라미터 예외, 예외 원인: {}", e.getMessage(), e);
         return Result.failed(e.getMessage());
     }
 
     /**
-     * 处理 JSON 处理异常
+     * JSON 처리 예외 처리
      * <p>
-     * 当处理 JSON 数据时发生错误，会抛出 JsonProcessingException 异常。
+     * JSON 데이터 처리 중 오류가 발생하면 JsonProcessingException 예외가 발생합니다.
      */
     @ExceptionHandler(JsonProcessingException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public <T> Result<T> handleJsonProcessingException(JsonProcessingException e) {
-        log.error("Json转换异常，异常原因：{}", e.getMessage(), e);
+        log.error("JSON 변환 예외, 예외 원인: {}", e.getMessage(), e);
         return Result.failed(e.getMessage());
     }
 
     /**
-     * 处理请求体不可读的异常
+     * 요청 본문을 읽을 수 없는 예외 처리
      * <p>
-     * 当请求体不可读时，会抛出 HttpMessageNotReadableException 异常。
+     * 요청 본문을 읽을 수 없을 때 HttpMessageNotReadableException 예외가 발생합니다.
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public <T> Result<T> processException(HttpMessageNotReadableException e) {
         log.error(e.getMessage(), e);
-        String errorMessage = "请求体不可为空";
+        String errorMessage = "요청 본문은 비어 있을 수 없습니다";
         Throwable cause = e.getCause();
         if (cause != null) {
             errorMessage = convertMessage(cause);
@@ -170,9 +170,9 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理类型不匹配异常
+     * 타입 불일치 예외 처리
      * <p>
-     * 当方法参数类型不匹配时，会抛出 TypeMismatchException 异常。
+     * 메서드 파라미터 타입이 일치하지 않을 때 TypeMismatchException 예외가 발생합니다.
      */
     @ExceptionHandler(TypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -182,9 +182,9 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 SQL 语法错误异常
+     * SQL 구문 오류 예외 처리
      * <p>
-     * 当 SQL 语法错误时，会抛出 BadSqlGrammarException 异常。
+     * SQL 구문 오류가 발생하면 BadSqlGrammarException 예외가 발생합니다.
      */
     @ExceptionHandler(BadSqlGrammarException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
@@ -199,9 +199,9 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理 SQL 语法错误异常
+     * SQL 구문 오류 예외 처리
      * <p>
-     * 当 SQL 语法错误时，会抛出 SQLSyntaxErrorException 异常。
+     * SQL 구문 오류가 발생하면 SQLSyntaxErrorException 예외가 발생합니다.
      */
     @ExceptionHandler(SQLSyntaxErrorException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
@@ -212,9 +212,9 @@ public class GlobalExceptionHandler {
 
 
     /**
-     * 处理 SQL 违反了完整性约束
+     * SQL 무결성 제약 조건 위반 처리
      * <p>
-     * 当 SQL 违反了完整性约束时，会抛出 SQLIntegrityConstraintViolationException 异常。
+     * SQL이 무결성 제약 조건을 위반하면 SQLIntegrityConstraintViolationException 예외가 발생합니다.
      */
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
@@ -224,9 +224,9 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理业务异常
+     * 비즈니스 예외 처리
      * <p>
-     * 当业务逻辑发生错误时，会抛出 BusinessException 异常。
+     * 비즈니스 로직에서 오류가 발생하면 BusinessException 예외가 발생합니다.
      */
     @ExceptionHandler(BusinessException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -239,14 +239,14 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理所有未捕获的异常
+     * 캐치되지 않은 모든 예외 처리
      * <p>
-     * 当发生未捕获的异常时，会抛出 Exception 异常。
+     * 캐치되지 않은 예외가 발생하면 Exception 예외가 발생합니다.
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public <T> Result<T> handleException(Exception e) throws Exception {
-        // 将 Spring Security 异常继续抛出，以便交给自定义处理器处理
+        // Spring Security 예외는 계속 throw하여 사용자 정의 핸들러가 처리하도록 함
         if (e instanceof AccessDeniedException
                 || e instanceof AuthenticationException) {
             throw e;
@@ -256,10 +256,10 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 传参类型错误时，用于消息转换
+     * 파라미터 타입 오류 시 메시지 변환에 사용
      *
-     * @param throwable 异常
-     * @return 错误信息
+     * @param throwable 예외
+     * @return 오류 정보
      */
     private String convertMessage(Throwable throwable) {
         String error = throwable.toString();
@@ -270,7 +270,7 @@ public class GlobalExceptionHandler {
         if (matcher.find()) {
             String matchString = matcher.group();
             matchString = matchString.replace("[", "").replace("]", "");
-            matchString = "%s字段类型错误".formatted(matchString.replaceAll("\"", ""));
+            matchString = "%s 필드 타입 오류".formatted(matchString.replaceAll("\"", ""));
             group += matchString;
         }
         return group;

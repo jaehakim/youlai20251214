@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * 下拉选项对象
+ * 드롭다운 옵션 객체
  *
  * @author haoxr
  * @since 2022/1/22
  */
-@Schema(description ="下拉选项对象")
+@Schema(description ="드롭다운 옵션 객체")
 @Data
 @NoArgsConstructor
 public class Option<T> {
@@ -36,17 +36,17 @@ public class Option<T> {
     }
 
 
-    @Schema(description="选项的值")
+    @Schema(description="옵션 값")
     private T value;
 
-    @Schema(description="选项的标签")
+    @Schema(description="옵션 라벨")
     private String label;
 
-    @Schema(description = "标签类型")
+    @Schema(description = "라벨 타입")
     @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
     private String tag;
 
-    @Schema(description="子选项列表")
+    @Schema(description="하위 옵션 목록")
     @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
     private List<Option<T>> children;
 

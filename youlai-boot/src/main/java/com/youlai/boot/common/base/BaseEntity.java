@@ -10,9 +10,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 基础实体类
+ * 기본 엔티티 클래스
  *
- * <p>实体类的基类，包含了实体类的公共属性，如创建时间、更新时间、逻辑删除标识等</p>
+ * <p>엔티티 클래스의 기본 클래스, 생성 시간, 업데이트 시간, 논리적 삭제 플래그 등 엔티티 클래스의 공통 속성을 포함</p>
  *
  * @author Ray
  * @since 2024/6/23

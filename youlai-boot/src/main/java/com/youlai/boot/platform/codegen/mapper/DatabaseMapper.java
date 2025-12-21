@@ -12,7 +12,7 @@ import java.util.List;
 
 
 /**
- * 数据库映射层
+ * 데이터베이스 매핑 계층
  *
  * @author Ray
  * @since 2.9.0
@@ -21,7 +21,7 @@ import java.util.List;
 public interface DatabaseMapper extends BaseMapper {
 
     /**
-     * 获取表分页列表
+     * 테이블 페이지 목록 조회
      *
      * @param page
      * @param queryParams
@@ -30,7 +30,7 @@ public interface DatabaseMapper extends BaseMapper {
     Page<TablePageVO> getTablePage(Page<TablePageVO> page, TablePageQuery queryParams);
 
     /**
-     * 获取表字段列表
+     * 테이블 필드 목록 조회
      *
      * @param tableName
      * @return
@@ -38,7 +38,7 @@ public interface DatabaseMapper extends BaseMapper {
     List<ColumnMetaData> getTableColumns(String tableName);
 
     /**
-     * 获取表元数据
+     * 테이블 메타데이터 조회
      *
      * @param tableName
      * @return

@@ -12,7 +12,7 @@ import com.youlai.boot.system.model.vo.DictPageVO;
 import java.util.List;
 
 /**
- * 사전비즈니스인터페이스
+ * 사전 비즈니스 인터페이스
  *
  * @author haoxr
  * @since 2022/10/12
@@ -20,57 +20,57 @@ import java.util.List;
 public interface DictService extends IService<Dict> {
 
     /**
-     * 조회사전 페이지목록
+     * 조회 사전 페이지 목록
      *
-     * @param queryParams 페이지조회객체
-     * @return 사전 페이지목록
+     * @param queryParams 페이지 조회 객체
+     * @return 사전 페이지 목록
      */
     Page<DictPageVO> getDictPage(DictPageQuery queryParams);
 
     /**
-     * 조회사전목록
+     * 조회 사전 목록
      *
-     * @return 사전목록
+     * @return 사전 목록
      */
     List<Option<String>> getDictList();
 
     /**
      * 사전 폼 데이터 조회
      *
-     * @param id 사전ID
-     * @return 사전폼
+     * @param id 사전 ID
+     * @return 사전 폼
      */
     DictForm getDictForm(Long id);
 
     /**
-     * 추가사전
+     * 추가 사전
      *
-     * @param dictForm 사전폼
-     * @return 여부성공
+     * @param dictForm 사전 폼
+     * @return 성공 여부
      */
     boolean saveDict(DictForm dictForm);
 
     /**
-     * 수정사전
+     * 수정 사전
      *
-     * @param id     사전ID
-     * @param dictForm 사전폼
-     * @return 여부성공
+     * @param id     사전 ID
+     * @param dictForm 사전 폼
+     * @return 성공 여부
      */
     boolean updateDict(Long id, DictForm dictForm);
 
     /**
-     * 삭제사전
+     * 삭제 사전
      *
-     * @param ids 사전ID集合
+     * @param ids 사전 ID 집합
      */
     void deleteDictByIds(List<String> ids);
 
     /**
-     * 根据사전ID목록조회사전 코드목록
+     * 사전 ID 목록으로 사전 코드 목록 조회
      *
-     * @param ids 사전ID목록
-     * @return 사전 코드목록
+     * @param ids 사전 ID 목록
+     * @return 사전 코드 목록
      */
     List<String> getDictCodesByIds(List<String> ids);
 }

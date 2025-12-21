@@ -5,26 +5,26 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
- * 认证令牌响应对象
+ * 인증 토큰 응답 객체
  *
  * @author Ray.Hao
  * @since 0.0.1
  */
-@Schema(description = "认证令牌响应对象")
+@Schema(description = "인증 토큰 응답 객체")
 @Data
 @Builder
 public class AuthenticationToken {
 
-    @Schema(description = "令牌类型", example = "Bearer")
+    @Schema(description = "토큰 타입", example = "Bearer")
     private String tokenType;
 
-    @Schema(description = "访问令牌")
+    @Schema(description = "액세스 토큰")
     private String accessToken;
 
-    @Schema(description = "刷新令牌")
+    @Schema(description = "리프레시 토큰")
     private String refreshToken;
 
-    @Schema(description = "过期时间(单位：秒)")
+    @Schema(description = "만료 시간(단위: 초)")
     private Integer expiresIn;
 
 }

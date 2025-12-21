@@ -3,7 +3,7 @@ package com.youlai.boot.security.exception;
 import org.springframework.security.core.AuthenticationException;
 
 /**
- * 验证码校验异常
+ * 캡차 검증 예외
  *
  * @author Ray.Hao
  * @since 2025/3/1

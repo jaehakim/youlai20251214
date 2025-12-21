@@ -11,7 +11,7 @@ import com.youlai.boot.system.model.vo.NoticePageVO;
 import java.util.List;
 
 /**
- * 사용자공지상태서비스类
+ * 사용자 공지 상태 서비스
  *
  * @author youlaitech
  * @since 2024-08-28 16:56
@@ -19,17 +19,17 @@ import java.util.List;
 public interface UserNoticeService extends IService<UserNotice> {
 
     /**
-     * 全部标记값읽음
+     * 전체 읽음으로 표시
      *
-     * @return 여부성공
+     * @return 성공 여부
      */
     boolean readAll();
 
     /**
-     * 페이지조회내공지사항
-     * @param page 페이지객체
-     * @param queryParams 조회参수
-     * @return 내공지사항페이지 목록
+     * 페이지 조회 내 공지사항
+     * @param page 페이지 객체
+     * @param queryParams 조회 파라미터
+     * @return 내 공지사항 페이지 목록
      */
     IPage<UserNoticePageVO> getMyNoticePage(Page<NoticePageVO> page, NoticePageQuery queryParams);
 }

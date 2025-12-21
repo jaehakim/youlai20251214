@@ -11,7 +11,7 @@ import com.youlai.boot.system.model.vo.DictItemPageVO;
 import java.util.List;
 
 /**
- * 사전 항목인터페이스
+ * 사전 항목 인터페이스
  *
  * @author Ray Hao
  * @since 2023/3/4
@@ -19,49 +19,49 @@ import java.util.List;
 public interface DictItemService extends IService<DictItem> {
 
     /**
-     * 사전 항목페이지 목록
+     * 사전 항목 페이지 목록
      *
-     * @param queryParams 조회参수
-     * @return 사전 항목페이지 목록
+     * @param queryParams 조회 파라미터
+     * @return 사전 항목 페이지 목록
      */
     Page<DictItemPageVO> getDictItemPage(DictItemPageQuery queryParams);
 
     /**
-     * 조회사전 항목목록
+     * 조회 사전 항목 목록
      *
      * @param dictCode 사전 코드
-     * @return 사전 항목목록
+     * @return 사전 항목 목록
      */
     List<DictItemOptionVO> getDictItems(String dictCode);
 
     /**
-     * 조회사전 항목폼
+     * 조회 사전 항목 폼
      *
-     * @param itemId 사전 항목ID
-     * @return 사전 항목폼
+     * @param itemId 사전 항목 ID
+     * @return 사전 항목 폼
      */
     DictItemForm getDictItemForm(Long itemId);
 
     /**
-     * 저장사전 항목
+     * 저장 사전 항목
      *
-     * @param formData 사전 항목폼
-     * @return 여부성공
+     * @param formData 사전 항목 폼
+     * @return 성공 여부
      */
     boolean saveDictItem(DictItemForm formData);
 
     /**
-     * 업데이트사전 항목
+     * 업데이트 사전 항목
      *
-     * @param formData 사전 항목폼
-     * @return 여부성공
+     * @param formData 사전 항목 폼
+     * @return 성공 여부
      */
     boolean updateDictItem(DictItemForm formData);
 
     /**
-     * 삭제사전 항목
+     * 삭제 사전 항목
      *
-     * @param ids 사전 항목ID,여러 개쉼표分隔
+     * @param ids 사전 항목 ID, 여러 개는 쉼표로 구분
      */
     void deleteDictItemByIds(String ids);
 

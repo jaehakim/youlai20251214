@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
- * 在线用户定时任务
+ * 온라인 사용자 정기 작업
  *
  * @since 2024/10/7
  *
@@ -22,11 +22,11 @@ public class OnlineUserJobHandler {
     private final UserOnlineService userOnlineService;
     private final SimpMessagingTemplate messagingTemplate;
 
-    // 每3分钟统计一次在线用户数，减少服务器压力
+    // 매 3분마다 온라인 사용자 수 통계, 서버 부담 감소
     @Scheduled(cron = "0 */3 * * * ?")
     public void execute() {
-        log.info("定时任务：统计在线用户数");
-        // 推送在线用户数量到新主题
+        log.info("정기 작업: 온라인 사용자 수 통계");
+        // 온라인 사용자 수를 새 토픽으로 푸시
         int count = userOnlineService.getOnlineUserCount();
         messagingTemplate.convertAndSend("/topic/online-count", count);
     }

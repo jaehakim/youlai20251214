@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 无权限访问处理器
+ * 권한 없음 접근 처리기
  *
  * @author Ray.Hao
  * @since 2.0.0

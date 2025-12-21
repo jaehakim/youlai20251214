@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * 邮件配置类，用于接收和存储邮件相关的配置属性。
+ * 메일 설정 클래스, 메일 관련 설정 속성을 수신하고 저장하는 데 사용됩니다.
  *
  * @author Ray
  * @since 2024/8/17
@@ -14,50 +14,50 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class MailProperties {
 
     /**
-     * 邮件服务器主机名或 IP 地址。
-     * 例如：smtp.example.com
+     * 메일 서버 호스트명 또는 IP 주소.
+     * 예: smtp.example.com
      */
     private String host;
 
     /**
-     * 邮件服务器端口号。
-     * 例如：587
+     * 메일 서버 포트 번호.
+     * 예: 587
      */
     private int port;
 
     /**
-     * 用于连接邮件服务器的用户名。
-     * 例如：your_email@example.com
+     * 메일 서버 연결에 사용되는 사용자 이름.
+     * 예: your_email@example.com
      */
     private String username;
 
     /**
-     * 用于连接邮件服务器的密码。
-     * 该密码应安全存储，不应在代码中硬编码。
+     * 메일 서버 연결에 사용되는 비밀번호.
+     * 이 비밀번호는 안전하게 저장되어야 하며, 코드에 하드코딩해서는 안 됩니다.
      */
     private String password;
 
     /**
-     * 邮件发送者地址。
+     * 메일 발신자 주소.
      */
     private String from;
 
     /**
-     * 邮件服务器的其他属性配置。
-     * 这些配置通常用于进一步定制邮件发送行为。
+     * 메일 서버의 기타 속성 설정.
+     * 이러한 설정은 일반적으로 메일 전송 동작을 추가로 커스터마이징하는 데 사용됩니다.
      */
     private Properties properties = new Properties();
 
     /**
-     * 内部类，用于封装邮件服务器的详细配置。
-     * 包含 SMTP 相关的配置选项。
+     * 내부 클래스, 메일 서버의 상세 설정을 캡슐화하는 데 사용됩니다.
+     * SMTP 관련 설정 옵션을 포함합니다.
      */
     @Data
     public static class Properties {
 
         /**
-         * SMTP 配置选项类。
-         * 包含认证、加密等与 SMTP 协议相关的配置。
+         * SMTP 설정 옵션 클래스.
+         * 인증, 암호화 등 SMTP 프로토콜 관련 설정을 포함합니다.
          */
         private Smtp smtp = new Smtp();
 
@@ -65,13 +65,13 @@ public class MailProperties {
         public static class Smtp {
 
             /**
-             * 是否启用 SMTP 认证。
-             * 如果为 `true`，则需要提供有效的用户名和密码进行认证。
+             * SMTP 인증 활성화 여부.
+             * `true`인 경우, 유효한 사용자 이름과 비밀번호를 제공하여 인증해야 합니다.
              */
             private boolean auth;
 
             /**
-             * STARTTLS 加密配置选项。
+             * STARTTLS 암호화 설정 옵션.
              */
             private StartTls starttls = new StartTls();
 
@@ -79,8 +79,8 @@ public class MailProperties {
             public static class StartTls {
 
                 /**
-                 * 是否启用 STARTTLS 加密。
-                 * 如果为 `true`，在发送邮件时将启用 STARTTLS 协议进行加密传输。
+                 * STARTTLS 암호화 활성화 여부.
+                 * `true`인 경우, 메일 전송 시 STARTTLS 프로토콜을 사용하여 암호화 전송합니다.
                  */
                 private boolean enable;
             }

@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 统一处理 Spring Security 认证失败响应
+ * Spring Security 인증 실패 응답 통합 처리
  *
  * @author Ray.Hao
  * @since 2.0.0
@@ -22,22 +22,22 @@ import java.io.IOException;
 public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     /**
-     * 认证失败处理入口方法
+     * 인증 실패 처리 진입 메서드
      *
-     * @param request 触发异常的请求对象（可用于获取请求头、参数等）
-     * @param response 响应对象（用于写入错误信息）
-     * @param authException 认证异常对象（包含具体失败原因）
+     * @param request 예외를 발생시킨 요청 객체 (요청 헤더, 파라미터 등 획득에 사용 가능)
+     * @param response 응답 객체 (오류 정보 작성에 사용)
+     * @param authException 인증 예외 객체 (구체적인 실패 원인 포함)
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         if (authException instanceof BadCredentialsException) {
-            // 用户名或密码错误
+            // 사용자명 또는 비밀번호 오류
             WebResponseHelper.writeError(response, ResultCode.USER_PASSWORD_ERROR);
         } else if(authException instanceof InsufficientAuthenticationException){
-            // 请求头缺失Authorization、Token格式错误、Token过期、签名验证失败
+            // 요청 헤더 Authorization 누락, 토큰 형식 오류, 토큰 만료, 서명 검증 실패
             WebResponseHelper.writeError(response, ResultCode.ACCESS_TOKEN_INVALID);
         } else {
-            // 其他未明确处理的认证异常（如账户被锁定、账户禁用等）
+            // 기타 명확하게 처리되지 않은 인증 예외 (예: 계정 잠금, 계정 비활성화 등)
             WebResponseHelper.writeError(response, ResultCode.USER_LOGIN_EXCEPTION, authException.getMessage());
         }
     }

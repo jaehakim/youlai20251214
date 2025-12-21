@@ -41,13 +41,13 @@ public enum QueryTypeEnum implements IBaseEnum<Integer> {
     /** 작다같음 */
     LE(8, "<="),
 
-    /** 不같음 */
+    /** 같지 않음 */
     NE(9, "!="),
 
-    /** 左모호 매칭 */
+    /** 왼쪽 모호 매칭 */
     LIKE_LEFT(10, "LIKE '%s'"),
 
-    /** 右모호 매칭 */
+    /** 오른쪽 모호 매칭 */
     LIKE_RIGHT(11, "LIKE 's%'");
 
 

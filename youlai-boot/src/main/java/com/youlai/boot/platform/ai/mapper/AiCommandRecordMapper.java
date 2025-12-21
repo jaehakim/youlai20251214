@@ -9,13 +9,13 @@ import com.youlai.boot.platform.ai.model.vo.AiCommandRecordVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * AI 命令记录 Mapper
+ * AI 명령 기록 Mapper
  */
 @Mapper
 public interface AiCommandRecordMapper extends BaseMapper<AiCommandRecord> {
 
     /**
-     * 获取 AI 命令记录分页列表
+     * AI 명령 기록 페이지 목록 조회
      */
     IPage<AiCommandRecordVO> getRecordPage(Page<AiCommandRecordVO> page, AiCommandPageQuery queryParams);
 }

@@ -13,8 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
- * 사용자에线상태서비스
- * 负责维护사용자의에线상태和관련통계
+ * 사용자 온라인 상태 서비스
+ * 사용자의 온라인 상태 및 관련 통계 유지 담당
  *
  * @author Ray.Hao
  * @since 3.0.0
@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserOnlineService {
 
-    // 온라인 사용자映射表，key값사용자명，value값사용자에线信息
+    // 온라인 사용자 매핑 테이블, key는 사용자명, value는 사용자 온라인 정보
     private final Map<String, UserOnlineInfo> onlineUsers = new ConcurrentHashMap<>();
-    
+
     private SimpMessagingTemplate messagingTemplate;
 
     @Autowired(required = false)
@@ -34,39 +34,39 @@ public class UserOnlineService {
     }
 
     /**
-     * 사용자上线
+     * 사용자 접속
      *
      * @param username  사용자명
-     * @param sessionId WebSocket세션ID（가选）
+     * @param sessionId WebSocket 세션 ID(선택사항)
      */
     public void userConnected(String username, String sessionId) {
-        // 생성세션ID（如果미提용）
+        // 세션 ID 생성(미제공 시)
         String actualSessionId = sessionId != null ? sessionId : "session-" + System.nanoTime();
         UserOnlineInfo info = new UserOnlineInfo(username, actualSessionId, System.currentTimeMillis());
         onlineUsers.put(username, info);
-        log.info("사용자[{}]上线，현재온라인 사용자수：{}", username, onlineUsers.size());
-        
-        // 공지온라인 사용자상태变更
+        log.info("사용자 [{}] 접속, 현재 온라인 사용자 수: {}", username, onlineUsers.size());
+
+        // 온라인 사용자 상태 변경 알림
         notifyOnlineUsersChange();
     }
 
     /**
-     * 사용자下线
+     * 사용자 접속 해제
      *
      * @param username 사용자명
      */
     public void userDisconnected(String username) {
         onlineUsers.remove(username);
-        log.info("사용자[{}]下线，현재온라인 사용자수：{}", username, onlineUsers.size());
-        
-        // 공지온라인 사용자상태变更
+        log.info("사용자 [{}] 접속 해제, 현재 온라인 사용자 수: {}", username, onlineUsers.size());
+
+        // 온라인 사용자 상태 변경 알림
         notifyOnlineUsersChange();
     }
 
     /**
-     * 조회에线사용자 목록
+     * 조회 온라인 사용자 목록
      *
-     * @return 온라인 사용자名목록
+     * @return 온라인 사용자명 목록
      */
     public List<UserOnlineDTO> getOnlineUsers() {
         return onlineUsers.values().stream()
@@ -75,58 +75,58 @@ public class UserOnlineService {
     }
 
     /**
-     * 조회온라인 사용자수量
+     * 조회 온라인 사용자 수량
      *
-     * @return 온라인 사용자수
+     * @return 온라인 사용자 수
      */
     public int getOnlineUserCount() {
         return onlineUsers.size();
     }
 
     /**
-     * 检查사용자여부에线
+     * 사용자 온라인 여부 확인
      *
      * @param username 사용자명
-     * @return 여부에线
+     * @return 온라인 여부
      */
     public boolean isUserOnline(String username) {
         return onlineUsers.containsKey(username);
     }
 
     /**
-     * 공지所有客户端온라인 사용자变更
+     * 모든 클라이언트에 온라인 사용자 변경 알림
      */
     private void notifyOnlineUsersChange() {
         if (messagingTemplate == null) {
-            log.warn("메시지템플릿尚미初始化，无法발송온라인 사용자수量");
+            log.warn("메시지 템플릿이 아직 초기화되지 않아 온라인 사용자 수량을 전송할 수 없습니다");
             return;
         }
-        
-        // 발송简化版데이터（仅수量）
+
+        // 간소화된 데이터 전송(수량만)
         sendOnlineUserCount();
     }
-    
+
     /**
-     * 발송온라인 사용자수量（简化版，不包含사용자 상세）
+     * 온라인 사용자 수량 전송(간소화 버전, 사용자 상세 미포함)
      */
     private void sendOnlineUserCount() {
         if (messagingTemplate == null) {
-            log.warn("메시지템플릿尚미初始化，无法발송온라인 사용자수量");
+            log.warn("메시지 템플릿이 아직 초기화되지 않아 온라인 사용자 수량을 전송할 수 없습니다");
             return;
         }
-        
+
         try {
-            // 直接발송수量，更轻量
+            // 수량 직접 전송, 더 가벼움
             int count = onlineUsers.size();
             messagingTemplate.convertAndSend("/topic/online-count", count);
-            log.debug("이미발송온라인 사용자수量: {}", count);
+            log.debug("온라인 사용자 수량 전송 완료: {}", count);
         } catch (Exception e) {
-            log.error("발송온라인 사용자수量실패", e);
+            log.error("온라인 사용자 수량 전송 실패", e);
         }
     }
 
     /**
-     * 사용자에线信息
+     * 사용자 온라인 정보
      */
     @Data
     private static class UserOnlineInfo {
@@ -136,7 +136,7 @@ public class UserOnlineService {
     }
 
     /**
-     * 사용자에线DTO（용도返回给前端）
+     * 사용자 온라인 DTO(프론트엔드 반환용)
      */
     @Data
     public static class UserOnlineDTO {
@@ -145,7 +145,7 @@ public class UserOnlineService {
     }
 
     /**
-     * 온라인 사용자变更事件
+     * 온라인 사용자 변경 이벤트
      */
     @Data
     private static class OnlineUsersChangeEvent {
@@ -154,4 +154,4 @@ public class UserOnlineService {
         private List<UserOnlineDTO> users;
         private long timestamp;
     }
-} 
+}

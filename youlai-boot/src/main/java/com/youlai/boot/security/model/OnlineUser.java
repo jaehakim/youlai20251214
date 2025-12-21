@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.Set;
 
 /**
- * 在线用户信息对象
+ * 온라인 사용자 정보 객체
  *
  * @author wangtao
  * @since 2025/2/27 10:31
@@ -18,28 +18,28 @@ import java.util.Set;
 public class OnlineUser {
 
     /**
-     * 用户ID
+     * 사용자 ID
      */
     private Long userId;
 
     /**
-     * 用户名
+     * 사용자명
      */
     private String username;
 
     /**
-     * 部门ID
+     * 부서 ID
      */
     private Long deptId;
 
     /**
-     * 数据权限范围
-     * <p>定义用户可访问的数据范围，如全部、本部门或自定义范围</p>
+     * 데이터 권한 범위
+     * <p>사용자가 접근 가능한 데이터 범위 정의 (전체, 본 부서 또는 사용자 정의 범위 등)</p>
      */
     private Integer dataScope;
 
     /**
-     * 角色权限集合
+     * 역할 권한 집합
      */
     private Set<String> roles;
 

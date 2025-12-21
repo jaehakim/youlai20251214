@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * xxl-job 测试示例（Bean模式）
+ * xxl-job 테스트 예제 (Bean 모드)
  */
 @Component
 @Slf4j

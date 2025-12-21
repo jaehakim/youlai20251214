@@ -8,7 +8,7 @@ import com.youlai.boot.system.model.vo.DictItemPageVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 字典项映射层
+ * 사전 항목 매핑 계층
  *
  * @author Ray Hao
  * @since 2.9.0
@@ -17,7 +17,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface DictItemMapper extends BaseMapper<DictItem> {
 
     /**
-     * 字典项分页列表
+     * 사전 항목 페이지 목록
      */
     Page<DictItemPageVO> getDictItemPage(Page<DictItemPageVO> page, DictItemPageQuery queryParams);
 }

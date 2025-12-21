@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 /**
- * 应用启动类
+ * 애플리케이션 시작 클래스
  *
  * @author Ray.Hao
  * @since 0.0.1

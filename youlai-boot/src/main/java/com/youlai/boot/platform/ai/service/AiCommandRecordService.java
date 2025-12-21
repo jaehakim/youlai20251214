@@ -7,15 +7,15 @@ import com.youlai.boot.platform.ai.model.query.AiCommandPageQuery;
 import com.youlai.boot.platform.ai.model.vo.AiCommandRecordVO;
 
 /**
- * AI 명령 기록서비스인터페이스
+ * AI 명령 기록 서비스 인터페이스
  */
 public interface AiCommandRecordService extends IService<AiCommandRecord> {
 
     /**
-     * 조회명령 기록페이지 목록
+     * 명령 기록 페이지 목록 조회
      *
      * @param queryParams 조회参수
-     * @return 명령 기록페이지 목록
+     * @return 명령 기록 페이지 목록
      */
     IPage<AiCommandRecordVO> getRecordPage(AiCommandPageQuery queryParams);
 

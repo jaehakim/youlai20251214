@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * 验证码 属性配置
+ * 인증 코드 속성 설정
  *
  * @author haoxr
  * @since 2023/11/24
@@ -16,74 +16,74 @@ import org.springframework.stereotype.Component;
 public class CaptchaProperties {
 
     /**
-     * 验证码类型  circle-圆圈干扰验证码|gif-Gif验证码|line-干扰线验证码|shear-扭曲干扰验证码
+     * 인증 코드 타입  circle-원형 간섭 인증 코드|gif-Gif 인증 코드|line-간섭선 인증 코드|shear-왜곡 간섭 인증 코드
      */
     private String type;
 
     /**
-     * 验证码图片宽度
+     * 인증 코드 이미지 너비
      */
     private int width;
     /**
-     * 验证码图片高度
+     * 인증 코드 이미지 높이
      */
     private int height;
 
     /**
-     * 干扰线数量
+     * 간섭선 수
      */
     private int interfereCount;
 
     /**
-     * 文本透明度
+     * 텍스트 투명도
      */
     private Float textAlpha;
 
     /**
-     * 验证码过期时间，单位：秒
+     * 인증 코드 만료 시간, 단위: 초
      */
     private Long expireSeconds;
 
     /**
-     * 验证码字符配置
+     * 인증 코드 문자 설정
      */
     private CodeProperties code;
 
     /**
-     * 验证码字体
+     * 인증 코드 폰트
      */
     private FontProperties font;
 
     /**
-     * 验证码字符配置
+     * 인증 코드 문자 설정
      */
     @Data
     public static class CodeProperties {
         /**
-         * 验证码字符类型 math-算术|random-随机字符串
+         * 인증 코드 문자 타입 math-산술|random-랜덤 문자열
          */
         private String type;
         /**
-         * 验证码字符长度，type=算术时，表示运算位数(1:个位数 2:十位数)；type=随机字符时，表示字符个数
+         * 인증 코드 문자 길이, type=산술일 때, 연산 자릿수를 나타냄(1:일의 자리 2:십의 자리); type=랜덤 문자일 때, 문자 개수를 나타냄
          */
         private int length;
     }
 
     /**
-     * 验证码字体配置
+     * 인증 코드 폰트 설정
      */
     @Data
     public static class FontProperties {
         /**
-         * 字体名称
+         * 폰트 이름
          */
         private String name;
         /**
-         * 字体样式  0-普通|1-粗体|2-斜体
+         * 폰트 스타일  0-보통|1-볼드|2-이탤릭
          */
         private int weight;
         /**
-         * 字体大小
+         * 폰트 크기
          */
         private int size;
     }

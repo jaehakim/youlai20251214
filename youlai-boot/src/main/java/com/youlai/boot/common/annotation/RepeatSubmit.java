@@ -4,9 +4,9 @@ package com.youlai.boot.common.annotation;
 import java.lang.annotation.*;
 
 /**
- * 防止重复提交注解
+ * 중복 제출 방지 어노테이션
  * <p>
- * 该注解用于方法上，防止在指定时间内的重复提交。 默认时间为5秒。
+ * 이 어노테이션은 메서드에 사용되며, 지정된 시간 내에 중복 제출을 방지합니다. 기본 시간은 5초입니다.
  *
  * @author Ray.Hao
  * @since 2.3.0
@@ -18,9 +18,9 @@ import java.lang.annotation.*;
 public @interface RepeatSubmit {
 
     /**
-     * 锁过期时间（秒）
+     * 락 만료 시간 (초)
      * <p>
-     * 默认5秒内不允许重复提交
+     * 기본 5초 이내 중복 제출 불가
      */
     int expire() default 5;
 

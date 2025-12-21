@@ -9,12 +9,12 @@ import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 import java.util.*;
 
 /**
- * 系统模块代码生成
+ * 시스템 모듈 코드 생성
  * <p>
- * 代码生成、MySQL表生成代码、自动代码生成
+ * 코드 생성, MySQL 테이블 코드 생성, 자동 코드 생성
  *
  * @author Ray Hao
- * @see <a href="https://baomidou.com/pages/981406">代码生成器配置新</a>
+ * @see <a href="https://baomidou.com/pages/981406">코드 생성기 설정</a>
  * @since 2024/4/9
  */
 public class SystemCodeGenerator {
@@ -23,17 +23,17 @@ public class SystemCodeGenerator {
             .Builder("jdbc:mysql://localhost:3306/youlai_boot?serverTimezone=Asia/Shanghai", "root", "123456");
 
     /**
-     * 执行 run
+     * 실행 run
      */
     public static void main(String[] args) {
         FastAutoGenerator.create(DATA_SOURCE_CONFIG)
-                // 全局配置
+                // 전역 설정
                 .globalConfig((scanner, builder) -> {
                     builder.outputDir(System.getProperty("user.dir") + "/src/main/java")
-                            .author("Ray Hao") // 设置作者
+                            .author("Ray Hao") // 작성자 설정
                     ;
                 })
-                // 包配置
+                // 패키지 설정
                 .packageConfig(builder -> {
                             builder
                                     .parent("com.youlai.boot.system")
@@ -45,7 +45,7 @@ public class SystemCodeGenerator {
                                     .pathInfo(Collections.singletonMap(OutputFile.xml, System.getProperty("user.dir") + "/src/main/resources/mapper"));
                         }
                 )
-                // 注入配置(设置扩展类的模板路径和包路径)
+                // 주입 설정 (확장 클래스의 템플릿 경로와 패키지 경로 설정)
                 .injectionConfig(consumer -> {
                     List<CustomFile> customFiles = new ArrayList<>();
                     customFiles.add(new CustomFile.Builder().fileName("VO.java").templatePath("/templates/vo.java.vm").packageName("model.vo").build());
@@ -57,23 +57,23 @@ public class SystemCodeGenerator {
                     customFiles.add(new CustomFile.Builder().fileName("Converter.java").templatePath("/templates/converter.java.vm").packageName("converter").build());
                     consumer.customFile(customFiles);
                     consumer.beforeOutputFile((tableInfo, objectMap) -> {
-                        // 为每个表生成首字母小写的实体名
+                        // 각 테이블에 대해 첫 글자가 소문자인 엔티티 이름 생성
                         String entityName = tableInfo.getEntityName();
                         String lowerCaseEntity = entityName.substring(0, 1).toLowerCase() + entityName.substring(1);
-                        // 注入自定义参数
+                        // 사용자 정의 파라미터 주입
                         objectMap.put("lowerFirstEntityName", lowerCaseEntity);
 
                     });
 
                 })
-                // 策略配置
+                // 전략 설정
                 .strategyConfig((scanner, builder) -> {
 
                             builder.entityBuilder()
-                                    .enableLombok() // 是否使用lombok
-                                    //.enableFileOverride() // 开启覆盖已生成的文件
-                                    .logicDeleteColumnName("deleted") // 逻辑删除字段名
-                                    .enableRemoveIsPrefix() // 开启移除is前缀
+                                    .enableLombok() // lombok 사용 여부
+                                    //.enableFileOverride() // 이미 생성된 파일 덮어쓰기 활성화
+                                    .logicDeleteColumnName("deleted") // 논리 삭제 필드명
+                                    .enableRemoveIsPrefix() // is 접두사 제거 활성화
                             ;
 
                             builder.mapperBuilder()
@@ -86,8 +86,8 @@ public class SystemCodeGenerator {
                                     );
 
 
-                            builder.addTablePrefix("sys_") // 过滤移除表前缀 sys_user 表生成的实体类 User.java
-                                    .addInclude(scanner.apply("请输入表名，多个表名用,隔开"));
+                            builder.addTablePrefix("sys_") // 테이블 접두사 제거 필터 sys_user 테이블에서 엔티티 클래스 User.java 생성
+                                    .addInclude(scanner.apply("테이블 이름을 입력하세요. 여러 테이블은 쉼표로 구분하세요"));
                         }
                 )
                 .execute()

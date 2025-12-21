@@ -5,7 +5,7 @@ import com.youlai.boot.platform.codegen.model.entity.GenConfig;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 代码生成基础配置访问层
+ * 코드 생성 기본 설정 접근 계층
  *
  * @author Ray
  * @since 2.10.0

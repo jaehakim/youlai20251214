@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 配置微信 appId 和 appSecret
+ * 위챗 appId 및 appSecret 설정
  *
  * @author wangtao
  * @since 2024/11/26 17:28

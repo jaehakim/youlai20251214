@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 分页响应结构体
+ * 페이징 응답 구조체
  *
  * @author Ray
  * @since 2022/2/18

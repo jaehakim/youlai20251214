@@ -7,7 +7,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * 视图对象基类
+ * 뷰 객체 기본 클래스
  *
  * @author haoxr
  * @since 2022/10/22

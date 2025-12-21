@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * 通知公告Mapper接口
+ * 공지사항 Mapper 인터페이스
  *
  * @author youlaitech
  * @since 2024-08-27 10:31
@@ -19,19 +19,19 @@ import org.apache.ibatis.annotations.Param;
 public interface NoticeMapper extends BaseMapper<Notice> {
 
     /**
-     * 获取通知公告分页数据
+     * 공지사항 페이지 데이터 가져오기
      *
-     * @param page 分页对象
-     * @param queryParams 查询参数
-     * @return 通知公告分页数据
+     * @param page 페이지 객체
+     * @param queryParams 쿼리 매개변수
+     * @return 공지사항 페이지 데이터
      */
     Page<NoticeBO> getNoticePage(Page<NoticePageVO> page, NoticePageQuery queryParams);
 
     /**
-     * 获取阅读时通知公告详情
+     * 읽을 때 공지사항 상세정보 가져오기
      *
-     * @param id 通知公告ID
-     * @return 通知公告详情
+     * @param id 공지사항 ID
+     * @return 공지사항 상세정보
      */
     NoticeBO getNoticeDetail(@Param("id") Long id);
 }

@@ -9,15 +9,15 @@ import org.springframework.context.annotation.Configuration;
 import com.youlai.boot.platform.ai.tools.UserTools;
 
 /**
- * Spring AI 配置类
- * 
- * 使用 Spring AI 自动配置，支持：
+ * Spring AI 설정 클래스
+ *
+ * Spring AI 자동 설정 사용, 지원 모델:
  * - OpenAI
- * - 通义千问（DashScope 兼容 OpenAI 协议）
- * - DeepSeek（兼容 OpenAI 协议）
- * - 其他兼容 OpenAI 协议的模型
- * 
- * 配置方式：
+ * - 통의천문(DashScope, OpenAI 프로토콜 호환)
+ * - DeepSeek(OpenAI 프로토콜 호환)
+ * - 기타 OpenAI 프로토콜 호환 모델
+ *
+ * 설정 방법:
  * spring.ai.openai.api-key: xxx
  * spring.ai.openai.base-url: xxx
  * spring.ai.openai.chat.options.model: xxx
@@ -31,16 +31,16 @@ import com.youlai.boot.platform.ai.tools.UserTools;
 public class SpringAiConfig {
 
     /**
-     * 创建 ChatClient（Spring AI 核心客户端）
+     * ChatClient 생성 (Spring AI 핵심 클라이언트)
      * <p>
-     * OpenAiChatModel 由 Spring AI 自动配置创建
-     * 根据 spring.ai.openai.* 配置自动初始化
+     * OpenAiChatModel은 Spring AI 자동 설정으로 생성됨
+     * spring.ai.openai.* 설정을 기반으로 자동 초기화
      */
     @Bean
     public ChatClient chatClient(OpenAiChatModel chatModel, UserTools userTools) {
-        log.info("✅ Spring AI ChatClient 初始化成功");
-        log.info("📋 当前配置 - 模型: {}", chatModel.getDefaultOptions().getModel());
-        // 将 UserTools 注册为默认工具，所有调用都可使用
+        log.info("✅ Spring AI ChatClient 초기화 성공");
+        log.info("📋 현재 설정 - 모델: {}", chatModel.getDefaultOptions().getModel());
+        // UserTools를 기본 도구로 등록하여 모든 호출에서 사용 가능
         return ChatClient.builder(chatModel)
                 .defaultTools(userTools)
                 .build();

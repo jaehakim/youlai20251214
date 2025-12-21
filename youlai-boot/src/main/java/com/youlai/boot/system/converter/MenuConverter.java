@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 /**
- * 菜单对象转换器
+ * 메뉴 객체 변환기
  *
  * @author Ray Hao
  * @since 2024/5/26

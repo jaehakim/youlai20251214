@@ -7,7 +7,7 @@ import java.io.Serial;
 import java.util.Collection;
 
 /**
- * 微信小程序手机号认证Token
+ * 위챗 미니프로그램 휴대폰 번호 인증 토큰
  *
  * @author 有来技术团队
  * @since 2.0.0
@@ -15,17 +15,17 @@ import java.util.Collection;
 public class WxMiniAppPhoneAuthenticationToken extends AbstractAuthenticationToken {
     @Serial
     private static final long serialVersionUID = 622L;
-    
+
     private final Object principal; // code
     private String encryptedData;
     private String iv;
 
     /**
-     * 微信小程序手机号认证Token (未认证)
+     * 위챗 미니프로그램 휴대폰 번호 인증 토큰 (미인증)
      *
-     * @param code 微信登录code
-     * @param encryptedData 加密数据
-     * @param iv 初始向量
+     * @param code 위챗 로그인 코드
+     * @param encryptedData 암호화된 데이터
+     * @param iv 초기 벡터
      */
     public WxMiniAppPhoneAuthenticationToken(String code, String encryptedData, String iv) {
         super(null);
@@ -36,10 +36,10 @@ public class WxMiniAppPhoneAuthenticationToken extends AbstractAuthenticationTok
     }
 
     /**
-     * 微信小程序手机号认证Token (已认证)
+     * 위챗 미니프로그램 휴대폰 번호 인증 토큰 (인증됨)
      *
-     * @param principal 用户信息
-     * @param authorities 授权信息
+     * @param principal 사용자 정보
+     * @param authorities 권한 정보
      */
     public WxMiniAppPhoneAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
@@ -48,11 +48,11 @@ public class WxMiniAppPhoneAuthenticationToken extends AbstractAuthenticationTok
     }
 
     /**
-     * 认证通过
+     * 인증 통과
      *
-     * @param principal 用户信息
-     * @param authorities 授权信息
-     * @return 认证通过的Token
+     * @param principal 사용자 정보
+     * @param authorities 권한 정보
+     * @return 인증 통과된 토큰
      */
     public static WxMiniAppPhoneAuthenticationToken authenticated(Object principal, Collection<? extends GrantedAuthority> authorities) {
         return new WxMiniAppPhoneAuthenticationToken(principal, authorities);
@@ -60,7 +60,7 @@ public class WxMiniAppPhoneAuthenticationToken extends AbstractAuthenticationTok
 
     @Override
     public Object getCredentials() {
-        // 微信小程序手机号认证不需要密码
+        // 위챗 미니프로그램 휴대폰 번호 인증은 비밀번호가 필요하지 않음
         return null;
     }
 
@@ -70,18 +70,18 @@ public class WxMiniAppPhoneAuthenticationToken extends AbstractAuthenticationTok
     }
 
     /**
-     * 获取加密数据
-     * 
-     * @return 加密数据
+     * 암호화된 데이터 획득
+     *
+     * @return 암호화된 데이터
      */
     public String getEncryptedData() {
         return encryptedData;
     }
 
     /**
-     * 获取初始向量
-     * 
-     * @return 初始向量
+     * 초기 벡터 획득
+     *
+     * @return 초기 벡터
      */
     public String getIv() {
         return iv;

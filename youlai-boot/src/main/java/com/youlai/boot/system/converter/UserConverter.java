@@ -18,7 +18,7 @@ import org.mapstruct.Mappings;
 import java.util.List;
 
 /**
- * 用户对象转换器
+ * 사용자 객체 변환기
  *
  * @author Ray.Hao
  * @since 2022/6/8

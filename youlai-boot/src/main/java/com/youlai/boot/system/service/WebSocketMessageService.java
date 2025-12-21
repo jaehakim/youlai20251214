@@ -8,7 +8,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 /**
- * WebSocket 메시지서비스
+ * WebSocket 메시지 서비스
  *
  * @author Ray
  * @since 3.0.0
@@ -22,34 +22,34 @@ public class WebSocketMessageService {
     private final ObjectMapper objectMapper;
 
     /**
-     * 사전事件유형
+     * 사전 이벤트 유형
      */
     public enum DictEventType {
         /**
-         * 사전업데이트
+         * 사전 업데이트
          */
         DICT_UPDATED,
-        
+
         /**
-         * 사전삭제
+         * 사전 삭제
          */
         DICT_DELETED
     }
 
     /**
-     * 사전事件메시지
+     * 사전 이벤트 메시지
      */
     public static class DictEvent {
         /**
-         * 事件유형
+         * 이벤트 유형
          */
         private String type;
-        
+
         /**
          * 사전 코드
          */
         private String dictCode;
-        
+
         /**
          * 타임스탬프
          */
@@ -87,7 +87,7 @@ public class WebSocketMessageService {
     }
 
     /**
-     * 向所有客户端발송사전업데이트事件
+     * 모든 클라이언트에 사전 업데이트 이벤트 전송
      *
      * @param dictCode 사전 코드
      */
@@ -97,7 +97,7 @@ public class WebSocketMessageService {
     }
 
     /**
-     * 向所有客户端발송사전삭제事件
+     * 모든 클라이언트에 사전 삭제 이벤트 전송
      *
      * @param dictCode 사전 코드
      */
@@ -107,9 +107,9 @@ public class WebSocketMessageService {
     }
 
     /**
-     * 발송사전事件메시지
+     * 사전 이벤트 메시지 전송
      *
-     * @param event 사전事件
+     * @param event 사전 이벤트
      */
     private void sendDictEvent(DictEvent event) {
         try {
@@ -120,4 +120,4 @@ public class WebSocketMessageService {
             log.error("Failed to send dict event", e);
         }
     }
-} 
+}

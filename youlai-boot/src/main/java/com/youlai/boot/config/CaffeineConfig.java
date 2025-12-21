@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * caffeine缓存配置
+ * Caffeine 캐시 설정
  *
  * @author Theo
  * @since 2025-01-22 17:40:23
@@ -22,9 +22,9 @@ public class CaffeineConfig {
     private String caffeineSpec;
 
     /**
-     * 缓存管理器
+     * 캐시 관리자
      *
-     * @return CacheManager 缓存管理器
+     * @return CacheManager 캐시 관리자
      */
     @Bean
     public CacheManager cacheManager() {

@@ -6,7 +6,7 @@ import com.youlai.boot.system.model.form.DeptForm;
 import org.mapstruct.Mapper;
 
 /**
- * 部门对象转换器
+ * 부서 객체 변환기
  *
  * @author haoxr
  * @since 2022/7/29

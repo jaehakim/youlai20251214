@@ -15,7 +15,7 @@ import com.youlai.boot.system.model.form.*;
 import java.util.List;
 
 /**
- * 사용자비즈니스인터페이스
+ * 사용자 비즈니스 인터페이스
  *
  * @author Ray.Hao
  * @since 2022/1/14
@@ -32,8 +32,8 @@ public interface UserService extends IService<User> {
     /**
      * 사용자 폼 데이터 조회
      *
-     * @param userId 사용자ID
-     * @return {@link UserForm} 사용자폼데이터
+     * @param userId 사용자 ID
+     * @return {@link UserForm} 사용자 폼 데이터
      */
     UserForm getUserFormData(Long userId);
 
@@ -41,17 +41,17 @@ public interface UserService extends IService<User> {
     /**
      * 사용자 추가
      *
-     * @param userForm 사용자폼객체
-     * @return {@link Boolean} 여부추가성공
+     * @param userForm 사용자 폼 객체
+     * @return {@link Boolean} 추가 성공 여부
      */
     boolean saveUser(UserForm userForm);
 
     /**
      * 사용자 수정
      *
-     * @param userId   사용자ID
-     * @param userForm 사용자폼객체
-     * @return {@link Boolean} 여부수정성공
+     * @param userId   사용자 ID
+     * @param userForm 사용자 폼 객체
+     * @return {@link Boolean} 수정 성공 여부
      */
     boolean updateUser(Long userId, UserForm userForm);
 
@@ -59,14 +59,14 @@ public interface UserService extends IService<User> {
     /**
      * 사용자 삭제
      *
-     * @param idsStr 사용자ID，여러 개는영문쉼표(,)로 구분
-     * @return {@link Boolean} 여부삭제성공
+     * @param idsStr 사용자 ID, 여러 개는 영문 쉼표(,)로 구분
+     * @return {@link Boolean} 삭제 성공 여부
      */
     boolean deleteUsers(String idsStr);
 
 
     /**
-     * 根据사용자명조회인증信息
+     * 사용자명으로 인증 정보 조회
      *
      * @param username 사용자명
      * @return {@link UserAuthCredentials}
@@ -76,72 +76,72 @@ public interface UserService extends IService<User> {
 
 
     /**
-     * 조회사용자 내보내기 목록
+     * 조회 사용자 내보내기 목록
      *
-     * @param queryParams 조회参수
+     * @param queryParams 조회 파라미터
      * @return {@link List<UserExportDTO>} 사용자 내보내기 목록
      */
     List<UserExportDTO> listExportUsers(UserPageQuery queryParams);
 
 
     /**
-     * 조회로그인사용자 정보
+     * 조회 로그인 사용자 정보
      *
-     * @return {@link CurrentUserDTO} 로그인사용자 정보
+     * @return {@link CurrentUserDTO} 로그인 사용자 정보
      */
     CurrentUserDTO getCurrentUserInfo();
 
     /**
      * 개인센터 사용자 정보 조회
      *
-     * @return {@link UserProfileVO} 개인센터사용자 정보
+     * @return {@link UserProfileVO} 개인센터 사용자 정보
      */
     UserProfileVO getUserProfile(Long userId);
 
     /**
-     * 수정개인센터사용자 정보
+     * 수정 개인센터 사용자 정보
      *
-     * @param formData 폼데이터
-     * @return {@link Boolean} 여부수정성공
+     * @param formData 폼 데이터
+     * @return {@link Boolean} 수정 성공 여부
      */
     boolean updateUserProfile(UserProfileForm formData);
 
     /**
-     * 수정지정된사용자비밀번호
+     * 수정 지정된 사용자 비밀번호
      *
-     * @param userId 사용자ID
-     * @param data   비밀번호 변경폼데이터
-     * @return {@link Boolean} 여부수정성공
+     * @param userId 사용자 ID
+     * @param data   비밀번호 변경 폼 데이터
+     * @return {@link Boolean} 수정 성공 여부
      */
     boolean changeUserPassword(Long userId, PasswordUpdateForm data);
 
     /**
      * 지정된 사용자 비밀번호 재설정
      *
-     * @param userId   사용자ID
-     * @param password 재설정후의비밀번호
-     * @return {@link Boolean} 여부재설정성공
+     * @param userId   사용자 ID
+     * @param password 재설정 후 비밀번호
+     * @return {@link Boolean} 재설정 성공 여부
      */
     boolean resetUserPassword(Long userId, String password);
 
     /**
-     * 발송SMS인증코드(휴대폰 번호 바인딩 또는 변경)
+     * SMS 인증 코드 발송(휴대폰 번호 바인딩 또는 변경)
      *
      * @param mobile 휴대폰 번호
-     * @return {@link Boolean} 여부발송성공
+     * @return {@link Boolean} 발송 성공 여부
      */
     boolean sendMobileCode(String mobile);
 
     /**
-     * 수정현재사용자휴대폰 번호
+     * 수정 현재 사용자 휴대폰 번호
      *
-     * @param data 폼데이터
-     * @return {@link Boolean} 여부수정성공
+     * @param data 폼 데이터
+     * @return {@link Boolean} 수정 성공 여부
      */
     boolean bindOrChangeMobile(MobileUpdateForm data);
 
     /**
-     * 발송이메일인증코드(이메일 바인딩 또는 변경)
+     * 이메일 인증 코드 발송(이메일 바인딩 또는 변경)
      *
      * @param email 이메일
      */
@@ -150,20 +150,20 @@ public interface UserService extends IService<User> {
     /**
      * 이메일 바인딩 또는 변경
      *
-     * @param data 폼데이터
-     * @return {@link Boolean} 여부바인딩성공
+     * @param data 폼 데이터
+     * @return {@link Boolean} 바인딩 성공 여부
      */
     boolean bindOrChangeEmail(EmailUpdateForm data);
 
     /**
-     * 조회사용자옵션목록
+     * 조회 사용자 옵션 목록
      *
-     * @return {@link List<Option<String>>} 사용자옵션목록
+     * @return {@link List<Option<String>>} 사용자 옵션 목록
      */
     List<Option<String>> listUserOptions();
 
     /**
-     * 根据 openid 조회사용자인증信息
+     * openid로 사용자 인증 정보 조회
      *
      * @param openId 사용자명
      * @return {@link UserAuthCredentials}
@@ -172,14 +172,14 @@ public interface UserService extends IService<User> {
     UserAuthCredentials getAuthCredentialsByOpenId(String openId);
 
     /**
-     * 根据위챗 OpenID 注册또는바인딩사용자
+     * 위챗 OpenID로 사용자 등록 또는 바인딩
      *
      * @param openId 위챗 OpenID
      */
     boolean registerOrBindWechatUser(String openId);
 
     /**
-     * 根据휴대폰 번호조회사용자인증信息
+     * 휴대폰 번호로 사용자 인증 정보 조회
      *
      * @param mobile 휴대폰 번호
      * @return {@link UserAuthCredentials}
@@ -187,20 +187,20 @@ public interface UserService extends IService<User> {
     UserAuthCredentials getAuthCredentialsByMobile(String mobile);
 
     /**
-     * 根据휴대폰 번호和OpenID注册사용자
+     * 휴대폰 번호와 OpenID로 사용자 등록
      *
      * @param mobile 휴대폰 번호
-     * @param openId 위챗OpenID
-     * @return 여부성공
+     * @param openId 위챗 OpenID
+     * @return 성공 여부
      */
     boolean registerUserByMobileAndOpenId(String mobile, String openId);
 
     /**
-     * 바인딩사용자위챗OpenID
+     * 사용자 위챗 OpenID 바인딩
      *
-     * @param userId 사용자ID
-     * @param openId 위챗OpenID
-     * @return 여부성공
+     * @param userId 사용자 ID
+     * @param openId 위챗 OpenID
+     * @return 성공 여부
      */
     boolean bindUserOpenId(Long userId, String openId);
 

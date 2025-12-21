@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
- * Redis 配置
+ * Redis 설정
  *
  * @author Ray.Hao
  * @since 2023/5/15
@@ -16,9 +16,9 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 public class RedisConfig {
 
     /**
-     * 自定义 RedisTemplate
+     * 사용자 정의 RedisTemplate
      * <p>
-     * 修改 Redis 序列化方式，默认 JdkSerializationRedisSerializer
+     * Redis 직렬화 방식을 수정, 기본값은 JdkSerializationRedisSerializer
      *
      * @param redisConnectionFactory {@link RedisConnectionFactory}
      * @return {@link RedisTemplate}

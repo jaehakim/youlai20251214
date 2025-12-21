@@ -6,7 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 统一响应结构体
+ * 통합 응답 구조체
  *
  * @author Ray
  * @since 2022/1/30

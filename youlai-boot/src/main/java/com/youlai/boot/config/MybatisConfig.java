@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * mybatis-plus 配置类
+ * MyBatis-Plus 설정 클래스
  *
  * @author Ray.Hao
  * @since 2022/7/2
@@ -22,21 +22,21 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class MybatisConfig {
 
     /**
-     * 分页插件和数据权限插件
+     * 페이지네이션 플러그인과 데이터 권한 플러그인
      */
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        //数据权限
+        //데이터 권한
         interceptor.addInnerInterceptor(new DataPermissionInterceptor(new MyDataPermissionHandler()));
-        //分页插件
+        //페이지네이션 플러그인
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
 
         return interceptor;
     }
 
     /**
-     * 自动填充数据库创建人、创建时间、更新人、更新时间
+     * 데이터베이스 생성자, 생성 시간, 수정자, 수정 시간 자동 입력
      */
     @Bean
     public GlobalConfig globalConfig() {

@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 
 /**
- * 键值对
+ * 키-값 쌍
  *
  * @author haoxr
  * @since 2024/5/25
  */
-@Schema(description = "键值对")
+@Schema(description = "키-값 쌍")
 @Data
 @NoArgsConstructor
 public class KeyValue {
@@ -21,10 +21,10 @@ public class KeyValue {
         this.value = value;
     }
 
-    @Schema(description = "选项的值")
+    @Schema(description = "옵션 값")
     private String key;
 
-    @Schema(description = "选项的标签")
+    @Schema(description = "옵션 라벨")
     private String value;
 
 }

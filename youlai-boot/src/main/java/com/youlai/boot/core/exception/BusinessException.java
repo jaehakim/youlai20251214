@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.slf4j.helpers.MessageFormatter;
 
 /**
- * 自定义业务异常
+ * 사용자 정의 비즈니스 예외
  *
  * @author Ray
  * @since 2022/7/31

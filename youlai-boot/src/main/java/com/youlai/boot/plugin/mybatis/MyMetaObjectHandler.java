@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 /**
- * mybatis-plus 字段自动填充
+ * mybatis-plus 필드 자동 채우기
  *
  * @author haoxr
  * @since 2022/10/14
@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 public class MyMetaObjectHandler implements MetaObjectHandler {
 
     /**
-     * 新增填充创建时间
+     * 신규 추가 시 생성 시간 채우기
      *
-     * @param metaObject 元数据
+     * @param metaObject 메타데이터
      */
     @Override
     public void insertFill(MetaObject metaObject) {
@@ -27,9 +27,9 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     }
 
     /**
-     * 更新填充更新时间
+     * 업데이트 시 수정 시간 채우기
      *
-     * @param metaObject 元数据
+     * @param metaObject 메타데이터
      */
     @Override
     public void updateFill(MetaObject metaObject) {

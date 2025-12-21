@@ -26,7 +26,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 增强扩展属性支持
+ * 확장 속성 지원 강화
  * @since 4.1.0
  * @author <a href="xiaoymin@foxmail.com">xiaoymin@foxmail.com</a>
  * 2022/12/11 22:40
@@ -49,7 +49,7 @@ public class Knife4jOpenApiCustomizer extends com.github.xiaoymin.knife4j.spring
         if (knife4jProperties.isEnable()) {
             Knife4jSetting setting = knife4jProperties.getSetting();
             OpenApiExtensionResolver openApiExtensionResolver = new OpenApiExtensionResolver(setting, knife4jProperties.getDocuments());
-            // 解析初始化
+            // 파싱 초기화
             openApiExtensionResolver.start();
             Map<String, Object> objectMap = new HashMap<>();
             objectMap.put(GlobalConstants.EXTENSION_OPEN_SETTING_NAME, setting);
@@ -60,7 +60,7 @@ public class Knife4jOpenApiCustomizer extends com.github.xiaoymin.knife4j.spring
     }
 
     /**
-     * 往OpenAPI内tags字段添加x-order属性
+     * OpenAPI의 tags 필드에 x-order 속성 추가
      *
      * @param openApi openApi
      */
@@ -69,7 +69,7 @@ public class Knife4jOpenApiCustomizer extends com.github.xiaoymin.knife4j.spring
         if (CollectionUtils.isEmpty(properties.getGroupConfigs())) {
             return;
         }
-        // 获取包扫描路径
+        // 패키지 스캔 경로 가져오기
         Set<String> packagesToScan =
                 properties.getGroupConfigs().stream()
                         .map(SpringDocConfigProperties.GroupConfig::getPackagesToScan)
@@ -79,7 +79,7 @@ public class Knife4jOpenApiCustomizer extends com.github.xiaoymin.knife4j.spring
         if (CollectionUtils.isEmpty(packagesToScan)) {
             return;
         }
-        // 扫描包下被ApiSupport注解的RestController Class
+        // ApiSupport 어노테이션이 있는 RestController 클래스를 패키지에서 스캔
         Set<Class<?>> classes =
                 packagesToScan.stream()
                         .map(packageToScan -> scanPackageByAnnotation(packageToScan, RestController.class))
@@ -87,7 +87,7 @@ public class Knife4jOpenApiCustomizer extends com.github.xiaoymin.knife4j.spring
                         .filter(clazz -> clazz.isAnnotationPresent(ApiSupport.class))
                         .collect(Collectors.toSet());
         if (!CollectionUtils.isEmpty(classes)) {
-            // ApiSupport oder值存入tagSortMap<Tag.name,ApiSupport.order>
+            // ApiSupport order 값을 tagSortMap<Tag.name,ApiSupport.order>에 저장
             Map<String, Integer> tagOrderMap = new HashMap<>();
             classes.forEach(
                     clazz -> {
@@ -97,7 +97,7 @@ public class Knife4jOpenApiCustomizer extends com.github.xiaoymin.knife4j.spring
                             tagOrderMap.putIfAbsent(tag.name(), apiSupport.order());
                         }
                     });
-            // 往openApi tags字段添加x-order增强属性
+            // openApi tags 필드에 x-order 확장 속성 추가
             if (openApi.getTags() != null) {
                 openApi
                         .getTags()
@@ -113,10 +113,10 @@ public class Knife4jOpenApiCustomizer extends com.github.xiaoymin.knife4j.spring
     }
 
     private Tag getTag(Class<?> clazz) {
-        // 从类上获取
+        // 클래스에서 가져오기
         Tag tag = clazz.getAnnotation(Tag.class);
         if (Objects.isNull(tag)) {
-            // 从接口上获取
+            // 인터페이스에서 가져오기
             Class<?>[] interfaces = clazz.getInterfaces();
             if (ArrayUtils.isNotEmpty(interfaces)) {
                 for (Class<?> interfaceClazz : interfaces) {

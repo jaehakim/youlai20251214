@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 /**
- * Web 配置
+ * Web 설정
  *
  * @author Ray.Hao
  * @since 2020/10/16
@@ -40,29 +40,29 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
-     * 配置消息转换器
+     * 메시지 변환기 설정
      *
-     * @param converters 消息转换器列表
+     * @param converters 메시지 변환기 목록
      */
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
         ObjectMapper objectMapper = new ObjectMapper();
 
-        // 注册 JavaTimeModule（替代手动注册 LocalDateTimeSerializer）
+        // JavaTimeModule 등록 (수동 LocalDateTimeSerializer 등록 대체)
         JavaTimeModule javaTimeModule = new JavaTimeModule();
-        // 返回指定字符串格式
+        // 지정된 문자열 형식으로 반환
         javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DATE_TIME_FORMATTER));
-        // 反序列化，接受前端传来的格式
+        // 역직렬화, 프론트엔드에서 전달된 형식 수용
         javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DATE_TIME_FORMATTER));
         objectMapper.registerModule(javaTimeModule);
 
-        // 配置全局日期格式和时区
+        // 전역 날짜 형식 및 시간대 설정
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         objectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 
-        // 处理 Long/BigInteger 的精度问题
+        // Long/BigInteger 정밀도 문제 처리
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
         simpleModule.addSerializer(BigInteger.class, ToStringSerializer.instance);
@@ -73,20 +73,20 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     /**
-     * 配置校验器
+     * 검증기 설정
      *
-     * @param autowireCapableBeanFactory 用于注入 SpringConstraintValidatorFactory
-     * @return Validator 实例
+     * @param autowireCapableBeanFactory SpringConstraintValidatorFactory 주입에 사용
+     * @return Validator 인스턴스
      */
     @Bean
     public Validator validator(final AutowireCapableBeanFactory autowireCapableBeanFactory) {
         try (ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
                 .configure()
-                .failFast(true) // failFast=true 时，遇到第一个校验失败则立即返回，false 表示校验所有参数
+                .failFast(true) // failFast=true일 때, 첫 번째 검증 실패 시 즉시 반환, false는 모든 파라미터 검증
                 .constraintValidatorFactory(new SpringConstraintValidatorFactory(autowireCapableBeanFactory))
                 .buildValidatorFactory()) {
 
-            // 使用 try-with-resources 确保 ValidatorFactory 被正确关闭
+            // try-with-resources 사용으로 ValidatorFactory가 올바르게 닫히도록 보장
             return validatorFactory.getValidator();
         }
     }

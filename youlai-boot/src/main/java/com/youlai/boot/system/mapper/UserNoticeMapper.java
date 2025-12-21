@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * 用户公告状态Mapper接口
+ * 사용자 공지 상태 Mapper 인터페이스
  *
  * @author youlaitech
  * @since 2024-08-28 16:56
@@ -21,10 +21,10 @@ import java.util.List;
 @Mapper
 public interface UserNoticeMapper extends BaseMapper<UserNotice> {
     /**
-     * 分页获取我的通知公告
-     * @param page 分页对象
-     * @param queryParams 查询参数
-     * @return 通知公告分页列表
+     * 내 공지사항 페이지로 가져오기
+     * @param page 페이지 객체
+     * @param queryParams 쿼리 매개변수
+     * @return 공지사항 페이지 목록
      */
     IPage<UserNoticePageVO> getMyNoticePage(Page<NoticePageVO> page, @Param("queryParams") NoticePageQuery queryParams);
 }

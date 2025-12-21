@@ -19,7 +19,7 @@ public interface SecurityConstants {
     String BEARER_TOKEN_PREFIX  = "Bearer ";
 
     /**
-     * 角色前缀，用于区分 authorities 角色和权限， ROLE_* 角色 、没有前缀的是权限
+     * 역할 접두사, authorities에서 역할과 권한을 구분하기 위해 사용, ROLE_* 는 역할, 접두사 없는 것은 권한
      */
     String ROLE_PREFIX = "ROLE_";
 }

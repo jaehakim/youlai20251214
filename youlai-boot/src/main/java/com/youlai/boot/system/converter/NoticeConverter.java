@@ -11,7 +11,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 /**
- * 通知公告对象转换器
+ * 공지사항 객체 변환기
  *
  * @author youlaitech
  * @since 2024-08-27 10:31

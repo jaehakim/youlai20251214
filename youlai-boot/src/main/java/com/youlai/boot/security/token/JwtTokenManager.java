@@ -33,9 +33,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
- * JWT Token 管理器
+ * JWT 토큰 관리자
  * <p>
- * 用于生成、解析、校验、刷新 JWT Token
+ * JWT 토큰 생성, 파싱, 검증, 갱신에 사용
  *
  * @author Ray.Hao
  * @since 2024/11/15
@@ -55,10 +55,10 @@ public class JwtTokenManager implements TokenManager {
     }
 
     /**
-     * 生成令牌
+     * 토큰 생성
      *
-     * @param authentication 认证信息
-     * @return 令牌响应对象
+     * @param authentication 인증 정보
+     * @return 토큰 응답 객체
      */
     @Override
     public AuthenticationToken generateToken(Authentication authentication) {
@@ -77,10 +77,10 @@ public class JwtTokenManager implements TokenManager {
     }
 
     /**
-     * 解析令牌
+     * 토큰 파싱
      *
-     * @param token JWT Token
-     * @return Authentication 对象
+     * @param token JWT 토큰
+     * @return Authentication 객체
      */
     @Override
     public Authentication parseToken(String token) {
@@ -88,12 +88,12 @@ public class JwtTokenManager implements TokenManager {
         JWT jwt = JWTUtil.parseToken(token);
         JSONObject payloads = jwt.getPayloads();
         SysUserDetails userDetails = new SysUserDetails();
-        userDetails.setUserId(payloads.getLong(JwtClaimConstants.USER_ID)); // 用户ID
-        userDetails.setDeptId(payloads.getLong(JwtClaimConstants.DEPT_ID)); // 部门ID
-        userDetails.setDataScope(payloads.getInt(JwtClaimConstants.DATA_SCOPE)); // 数据权限范围
+        userDetails.setUserId(payloads.getLong(JwtClaimConstants.USER_ID)); // 사용자 ID
+        userDetails.setDeptId(payloads.getLong(JwtClaimConstants.DEPT_ID)); // 부서 ID
+        userDetails.setDataScope(payloads.getInt(JwtClaimConstants.DATA_SCOPE)); // 데이터 권한 범위
 
-        userDetails.setUsername(payloads.getStr(JWTPayload.SUBJECT)); // 用户名
-        // 角色集合
+        userDetails.setUsername(payloads.getStr(JWTPayload.SUBJECT)); // 사용자명
+        // 역할 집합
         Set<SimpleGrantedAuthority> authorities = payloads.getJSONArray(JwtClaimConstants.AUTHORITIES)
                 .stream()
                 .map(authority -> new SimpleGrantedAuthority(Convert.toStr(authority)))
@@ -103,10 +103,10 @@ public class JwtTokenManager implements TokenManager {
     }
 
     /**
-     * 校验令牌
+     * 토큰 검증
      *
-     * @param token JWT Token
-     * @return 是否有效
+     * @param token JWT 토큰
+     * @return 유효 여부
      */
     @Override
     public boolean validateToken(String token) {
@@ -114,10 +114,10 @@ public class JwtTokenManager implements TokenManager {
     }
 
     /**
-     * 校验刷新令牌
+     * 리프레시 토큰 검증
      *
-     * @param refreshToken JWT Token
-     * @return 验证结果
+     * @param refreshToken JWT 토큰
+     * @return 검증 결과
      */
     @Override
     public boolean validateRefreshToken(String refreshToken) {
@@ -125,33 +125,33 @@ public class JwtTokenManager implements TokenManager {
     }
 
     /**
-     * 校验令牌
+     * 토큰 검증
      *
-     * @param token                JWT Token
-     * @param validateRefreshToken 是否校验刷新令牌
-     * @return 是否有效
+     * @param token                JWT 토큰
+     * @param validateRefreshToken 리프레시 토큰 검증 여부
+     * @return 유효 여부
      */
     private boolean validateToken(String token, boolean validateRefreshToken) {
         try {
             JWT jwt = JWTUtil.parseToken(token);
-            // 检查 Token 是否有效(验签 + 是否过期)
+            // 토큰이 유효한지 확인 (서명 검증 + 만료 여부)
             boolean isValid = jwt.setKey(secretKey).validate(0);
 
             if (isValid) {
                 JSONObject payloads = jwt.getPayloads();
-                // 1. 校验刷新令牌类型（仅在校验刷新令牌场景启用）
+                // 1. 리프레시 토큰 타입 검증 (리프레시 토큰 검증 시나리오에서만 활성화)
                 String jti = payloads.getStr(JWTPayload.JWT_ID);
                 if (validateRefreshToken) {
-                    //刷新token需要校验token类别
+                    // 리프레시 토큰은 토큰 타입 검증 필요
                     boolean isRefreshToken = payloads.getBool(JwtClaimConstants.TOKEN_TYPE);
                     if (!isRefreshToken) {
                         return false;
                     }
                 }
-                // 2. 校验安全版本号（用于按用户维度失效历史 Token）
+                // 2. 보안 버전 번호 검증 (사용자 차원에서 이전 토큰 무효화용)
                 Long userId = payloads.getLong(JwtClaimConstants.USER_ID);
                 if (userId != null) {
-                    // 老版本 Token 可能没有 SECURITY_VERSION 声明，视为 0 版本
+                    // 구 버전 토큰은 SECURITY_VERSION 선언이 없을 수 있으며, 0 버전으로 간주
                     Integer tokenVersionRaw = payloads.getInt(JwtClaimConstants.SECURITY_VERSION);
                     int tokenVersion = tokenVersionRaw != null ? tokenVersionRaw : 0;
 
@@ -159,28 +159,28 @@ public class JwtTokenManager implements TokenManager {
                     Integer currentVersionRaw = (Integer) redisTemplate.opsForValue().get(versionKey);
                     int currentVersion = currentVersionRaw != null ? currentVersionRaw : 0;
 
-                    // 如果当前版本号比 Token 携带的版本号新，则认为该 Token 已失效
+                    // 현재 버전 번호가 토큰에 포함된 버전 번호보다 새로우면 해당 토큰은 무효로 간주
                     if (tokenVersion < currentVersion) {
                         return false;
                     }
                 }
 
-                // 3. 判断是否在黑名单中，如果在，则返回 false 标识Token无效
+                // 3. 블랙리스트에 있는지 판단, 있으면 false를 반환하여 토큰 무효 표시
                 if (Boolean.TRUE.equals(redisTemplate.hasKey(StrUtil.format(RedisConstants.Auth.BLACKLIST_TOKEN, jti)))) {
                     return false;
                 }
             }
             return isValid;
         } catch (Exception gitignore) {
-            // token 验证
+            // 토큰 검증
         }
         return false;
     }
 
     /**
-     * 将令牌加入黑名单
+     * 토큰을 블랙리스트에 추가
      *
-     * @param token JWT Token
+     * @param token JWT 토큰
      */
     @Override
     public void invalidateToken(String token) {
@@ -194,29 +194,29 @@ public class JwtTokenManager implements TokenManager {
         JWT jwt = JWTUtil.parseToken(token);
         JSONObject payloads = jwt.getPayloads();
         Integer expirationAt = payloads.getInt(JWTPayload.EXPIRES_AT);
-        // 黑名单Token Key
+        // 블랙리스트 토큰 키
         String blacklistTokenKey = StrUtil.format(RedisConstants.Auth.BLACKLIST_TOKEN, payloads.getStr(JWTPayload.JWT_ID));
 
         if (expirationAt != null) {
             int currentTimeSeconds = Convert.toInt(System.currentTimeMillis() / 1000);
             if (expirationAt < currentTimeSeconds) {
-                // Token已过期，直接返回
+                // 토큰이 이미 만료됨, 직접 반환
                 return;
             }
-            // 计算Token剩余时间，将其加入黑名单（值使用简单布尔标记即可）
+            // 토큰 남은 시간 계산 후 블랙리스트에 추가 (값은 단순 불리언 플래그 사용)
             int expirationIn = expirationAt - currentTimeSeconds;
             redisTemplate.opsForValue().set(blacklistTokenKey, Boolean.TRUE, expirationIn, TimeUnit.SECONDS);
         } else {
-            // 永不过期的Token永久加入黑名单
+            // 영구적인 토큰은 영구적으로 블랙리스트에 추가
             redisTemplate.opsForValue().set(blacklistTokenKey, Boolean.TRUE);
         }
         ;
     }
 
     /**
-     * 失效指定用户的所有会话
+     * 지정된 사용자의 모든 세션 무효화
      * <p>
-     * 通过提升用户的安全版本号，使携带旧版本号的 Token 在后续校验时全部失效
+     * 사용자의 보안 버전 번호를 높여서 구 버전 번호를 포함한 토큰이 후속 검증 시 모두 무효화되도록 함
      */
     @Override
     public void invalidateUserSessions(Long userId) {
@@ -225,16 +225,16 @@ public class JwtTokenManager implements TokenManager {
         }
 
         String versionKey = StrUtil.format(RedisConstants.Auth.USER_SECURITY_VERSION, userId);
-        // 递增版本号
+        // 버전 번호 증가
         redisTemplate.opsForValue().increment(versionKey);
 
     }
 
     /**
-     * 刷新令牌
+     * 토큰 갱신
      *
-     * @param refreshToken 刷新令牌
-     * @return 令牌响应对象
+     * @param refreshToken 리프레시 토큰
+     * @return 토큰 응답 객체
      */
     @Override
     public AuthenticationToken refreshToken(String refreshToken) {
@@ -254,11 +254,11 @@ public class JwtTokenManager implements TokenManager {
     }
 
     /**
-     * 生成 JWT Token
+     * JWT 토큰 생성
      *
-     * @param authentication 认证信息
-     * @param ttl            过期时间
-     * @return JWT Token
+     * @param authentication 인증 정보
+     * @param ttl            만료 시간
+     * @return JWT 토큰
      */
     private String generateToken(Authentication authentication, int ttl) {
         return generateToken(authentication, ttl, false);
@@ -266,21 +266,21 @@ public class JwtTokenManager implements TokenManager {
 
 
     /**
-     * 生成 JWT Token
+     * JWT 토큰 생성
      *
-     * @param authentication 认证信息
-     * @param ttl            过期时间
-     * @param isRefreshToken 类型是否为刷新token
-     * @return JWT Token
+     * @param authentication 인증 정보
+     * @param ttl            만료 시간
+     * @param isRefreshToken 리프레시 토큰 타입 여부
+     * @return JWT 토큰
      */
     private String generateToken(Authentication authentication, int ttl, boolean isRefreshToken) {
         SysUserDetails userDetails = (SysUserDetails) authentication.getPrincipal();
         Map<String, Object> payload = new HashMap<>();
-        payload.put(JwtClaimConstants.USER_ID, userDetails.getUserId()); // 用户ID
-        payload.put(JwtClaimConstants.DEPT_ID, userDetails.getDeptId()); // 部门ID
-        payload.put(JwtClaimConstants.DATA_SCOPE, userDetails.getDataScope()); // 数据权限范围
+        payload.put(JwtClaimConstants.USER_ID, userDetails.getUserId()); // 사용자 ID
+        payload.put(JwtClaimConstants.DEPT_ID, userDetails.getDeptId()); // 부서 ID
+        payload.put(JwtClaimConstants.DATA_SCOPE, userDetails.getDataScope()); // 데이터 권한 범위
 
-        // claims 中添加角色信息
+        // claims에 역할 정보 추가
         Set<String> roles = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
@@ -293,13 +293,13 @@ public class JwtTokenManager implements TokenManager {
             payload.put(JwtClaimConstants.TOKEN_TYPE, true);
         }
 
-        // 设置安全版本号：不存在时默认为 0
+        // 보안 버전 번호 설정: 존재하지 않을 때 기본값 0
         String versionKey = StrUtil.format(RedisConstants.Auth.USER_SECURITY_VERSION, userDetails.getUserId());
         Integer currentVersion = (Integer) redisTemplate.opsForValue().get(versionKey);
         int securityVersion = currentVersion != null ? currentVersion : 0;
         payload.put(JwtClaimConstants.SECURITY_VERSION, securityVersion);
 
-        // 设置过期时间 -1 表示永不过期
+        // 만료 시간 설정, -1은 영구적
         if (ttl != -1) {
             Date expiresAt = DateUtil.offsetSecond(now, ttl);
             payload.put(JWTPayload.EXPIRES_AT, expiresAt);

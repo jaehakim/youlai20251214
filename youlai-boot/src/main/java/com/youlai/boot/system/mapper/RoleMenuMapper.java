@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 角色菜单访问层
+ * 역할 메뉴 접근 계층
  *
  * @author haoxr
  * @since 2022/6/4
@@ -18,21 +18,21 @@ import java.util.Set;
 public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
 
     /**
-     * 获取角色拥有的菜单ID集合
+     * 역할이 가진 메뉴 ID 집합 가져오기
      *
-     * @param roleId 角色ID
-     * @return 菜单ID集合
+     * @param roleId 역할 ID
+     * @return 메뉴 ID 집합
      */
     List<Long> listMenuIdsByRoleId(Long roleId);
 
     /**
-     * 获取权限和拥有权限的角色列表
+     * 권한과 권한을 가진 역할 목록 가져오기
      */
     List<RolePermsBO> getRolePermsList(String roleCode);
 
 
     /**
-     * 获取角色权限集合
+     * 역할 권한 집합 가져오기
      *
      * @param roles
      * @return

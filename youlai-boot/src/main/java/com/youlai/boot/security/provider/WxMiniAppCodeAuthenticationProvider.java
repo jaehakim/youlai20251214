@@ -19,7 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 
 /**
- * 微信小程序Code认证Provider
+ * 위챗 미니프로그램 코드 인증 Provider
  *
  * @author 有来技术团队
  * @since 2.0.0
@@ -38,53 +38,53 @@ public class WxMiniAppCodeAuthenticationProvider implements AuthenticationProvid
 
 
     /**
-     * 微信认证逻辑，参考 Spring Security 认证密码校验流程
+     * 위챗 인증 로직, Spring Security 비밀번호 검증 프로세스 참고
      *
-     * @param authentication 认证对象
-     * @return 认证后的 Authentication 对象
-     * @throws AuthenticationException 认证异常
+     * @param authentication 인증 객체
+     * @return 인증된 Authentication 객체
+     * @throws AuthenticationException 인증 예외
      * @see org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider#authenticate(Authentication)
      */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String code = (String) authentication.getPrincipal();
 
-        // 通过微信服务端验证 code 并获取用户会话信息
+        // 위챗 서버를 통해 code를 검증하고 사용자 세션 정보 획득
         WxMaJscode2SessionResult sessionInfo;
         try {
             sessionInfo = wxMaService.getUserService().getSessionInfo(code);
         } catch (WxErrorException e) {
-            throw new CredentialsExpiredException("微信登录 code 无效或已失效，请重新获取");
+            throw new CredentialsExpiredException("위챗 로그인 코드가 유효하지 않거나 만료되었습니다. 다시 획득해주세요");
         }
 
         String openId = sessionInfo.getOpenid();
         if (StrUtil.isBlank(openId)) {
-            throw new UsernameNotFoundException("未能获取到微信 OpenID，请稍后重试");
+            throw new UsernameNotFoundException("위챗 OpenID를 가져올 수 없습니다. 나중에 다시 시도해주세요");
         }
 
-        // 根据微信 OpenID 查询用户信息
+        // 위챗 OpenID로 사용자 정보 조회
         UserAuthCredentials userAuthCredentials = userService.getAuthCredentialsByOpenId(openId);
 
         if (userAuthCredentials == null) {
-            // 用户不存在则注册
+            // 사용자가 존재하지 않으면 등록
             userService.registerOrBindWechatUser(openId);
 
-            // 再次查询用户信息，确保用户注册成功
+            // 사용자 정보 재조회, 사용자 등록 성공 확인
             userAuthCredentials = userService.getAuthCredentialsByOpenId(openId);
             if (userAuthCredentials == null) {
-                throw new UsernameNotFoundException("用户注册失败，请稍后重试");
+                throw new UsernameNotFoundException("사용자 등록에 실패했습니다. 나중에 다시 시도해주세요");
             }
         }
 
-        // 检查用户状态是否有效
+        // 사용자 상태가 유효한지 확인
         if (ObjectUtil.notEqual(userAuthCredentials.getStatus(), 1)) {
-            throw new DisabledException("用户已被禁用");
+            throw new DisabledException("사용자가 비활성화되었습니다");
         }
 
-        // 构建认证后的用户详情信息
+        // 인증된 사용자 세부 정보 구성
         SysUserDetails userDetails = new SysUserDetails(userAuthCredentials);
 
-        // 创建已认证的Token
+        // 인증된 토큰 생성
         return WxMiniAppCodeAuthenticationToken.authenticated(
                 userDetails,
                 userDetails.getAuthorities()

@@ -5,7 +5,7 @@ import com.youlai.boot.common.enums.LogModuleEnum;
 import java.lang.annotation.*;
 
 /**
- * 日志注解
+ * 로그 어노테이션
  *
  * @author Ray
  * @since 2024/6/25
@@ -16,32 +16,32 @@ import java.lang.annotation.*;
 public @interface Log {
 
     /**
-     * 日志描述
+     * 로그 설명
      *
-     * @return 日志描述
+     * @return 로그 설명
      */
     String value() default "";
 
     /**
-     * 日志模块
+     * 로그 모듈
      *
-     * @return 日志模块
+     * @return 로그 모듈
      */
 
     LogModuleEnum module();
 
     /**
-     * 是否记录请求参数
+     * 요청 파라미터 기록 여부
      *
-     * @return 是否记录请求参数
+     * @return 요청 파라미터 기록 여부
      */
     boolean params() default true;
 
     /**
-     * 是否记录响应结果
+     * 응답 결과 기록 여부
      * <br/>
-     * 响应结果默认不记录，避免日志过大
-     * @return 是否记录响应结果
+     * 응답 결과는 기본적으로 기록하지 않음 (로그 크기 방지)
+     * @return 응답 결과 기록 여부
      */
     boolean result() default false;
 

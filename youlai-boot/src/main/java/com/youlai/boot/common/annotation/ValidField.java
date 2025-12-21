@@ -7,7 +7,7 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 /**
- * 用于验证字段值是否合法的注解
+ * 필드 값의 유효성을 검증하기 위한 어노테이션
  *
  * @author Ray.Hao
  * @since 2.18.0
@@ -19,16 +19,16 @@ import java.lang.annotation.*;
 public @interface ValidField {
 
     /**
-     * 验证失败时的错误信息。
+     * 검증 실패 시 오류 메시지
      */
-    String message() default "非法字段";
+    String message() default "비정상 필드";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
     /**
-     * 允许的合法值列表。
+     * 허용되는 유효한 값 목록
      */
     String[] allowedValues();
 

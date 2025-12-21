@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * 安全模块配置属性类
+ * 보안 모듈 설정 속성 클래스
  *
- * <p>映射 application.yml 中 security 前缀的安全相关配置</p>
+ * <p>application.yml의 security 접두사가 붙은 보안 관련 설정을 매핑합니다</p>
  *
  * @author Ray.Hao
  * @since 2024/4/18
@@ -23,89 +23,89 @@ import org.springframework.validation.annotation.Validated;
 public class SecurityProperties {
 
     /**
-     * 会话管理配置
+     * 세션 관리 설정
      */
     private SessionConfig session;
 
     /**
-     * 安全白名单路径（完全绕过安全过滤器）
-     * <p>示例值：/api/v1/auth/login/**, /ws/**
+     * 보안 화이트리스트 경로 (보안 필터를 완전히 우회)
+     * <p>예시: /api/v1/auth/login/**, /ws/**
      */
     @NotEmpty
     private String[] ignoreUrls;
 
     /**
-     * 非安全端点路径（允许匿名访问的API）
-     * <p>示例值：/doc.html, /v3/api-docs/**
+     * 비보안 엔드포인트 경로 (익명 접근 허용 API)
+     * <p>예시: /doc.html, /v3/api-docs/**
      */
     @NotEmpty
     private String[] unsecuredUrls;
 
     /**
-     * 会话配置嵌套类
+     * 세션 설정 중첩 클래스
      */
     @Data
     public static class SessionConfig {
         /**
-         * 认证策略类型
+         * 인증 전략 타입
          * <ul>
-         *   <li>jwt - 基于JWT的无状态认证</li>
-         *   <li>redis-token - 基于Redis的有状态认证</li>
+         *   <li>jwt - JWT 기반 무상태 인증</li>
+         *   <li>redis-token - Redis 기반 상태 유지 인증</li>
          * </ul>
          */
         @NotNull
         private String type;
 
         /**
-         * 访问令牌有效期（单位：秒）
-         * <p>默认值：3600（1小时）</p>
-         * <p>-1 表示永不过期</p>
+         * 액세스 토큰 유효 기간 (단위: 초)
+         * <p>기본값: 3600 (1시간)</p>
+         * <p>-1은 만료되지 않음을 의미</p>
          */
         @Min(-1)
         private Integer accessTokenTimeToLive = 3600;
 
         /**
-         * 刷新令牌有效期（单位：秒）
-         * <p>默认值：604800（7天）</p>
-         * <p>-1 表示永不过期</p>
+         * 리프레시 토큰 유효 기간 (단위: 초)
+         * <p>기본값: 604800 (7일)</p>
+         * <p>-1은 만료되지 않음을 의미</p>
          */
         @Min(-1)
         private Integer refreshTokenTimeToLive = 604800;
 
         /**
-         * JWT 配置项
+         * JWT 설정 항목
          */
         private JwtConfig jwt;
 
         /**
-         * Redis令牌配置项
+         * Redis 토큰 설정 항목
          */
         private RedisTokenConfig redisToken;
     }
 
     /**
-     * JWT 配置嵌套类
+     * JWT 설정 중첩 클래스
      */
     @Data
     public static class JwtConfig {
         /**
-         * JWT签名密钥
-         * <p>HS256算法要求至少32个字符</p>
-         * <p>示例：SecretKey012345678901234567890123456789</p>
+         * JWT 서명 비밀 키
+         * <p>HS256 알고리즘은 최소 32자를 요구합니다</p>
+         * <p>예시: SecretKey012345678901234567890123456789</p>
          */
         @NotNull
         private String secretKey;
     }
 
     /**
-     * Redis令牌配置嵌套类
+     * Redis 토큰 설정 중첩 클래스
      */
     @Data
     public static class RedisTokenConfig {
         /**
-         * 是否允许多设备同时登录
-         * <p>true - 允许同一账户多设备登录（默认）</p>
-         * <p>false - 新登录会使旧令牌失效</p>
+         * 다중 기기 동시 로그인 허용 여부
+         * <p>true - 동일 계정 다중 기기 로그인 허용 (기본값)</p>
+         * <p>false - 새 로그인 시 기존 토큰 무효화</p>
          */
         private Boolean allowMultiLogin = true;
     }

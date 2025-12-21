@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Spring Security 工具类
+ * Spring Security 유틸리티 클래스
  *
  * @author Ray
  * @since 2021/1/10
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class SecurityUtils {
 
     /**
-     * 获取当前登录人信息
+     * 현재 로그인한 사용자 정보 획득
      *
      * @return Optional<SysUserDetails>
      */
@@ -42,7 +42,7 @@ public class SecurityUtils {
 
 
     /**
-     * 获取用户ID
+     * 사용자 ID 획득
      *
      * @return Long
      */
@@ -52,9 +52,9 @@ public class SecurityUtils {
 
 
     /**
-     * 获取用户账号
+     * 사용자 계정 획득
      *
-     * @return String 用户账号
+     * @return String 사용자 계정
      */
     public static String getUsername() {
         return getUser().map(SysUserDetails::getUsername).orElse(null);
@@ -62,7 +62,7 @@ public class SecurityUtils {
 
 
     /**
-     * 获取部门ID
+     * 부서 ID 획득
      *
      * @return Long
      */
@@ -71,7 +71,7 @@ public class SecurityUtils {
     }
 
     /**
-     * 获取数据权限范围
+     * 데이터 권한 범위 획득
      *
      * @return Integer
      */
@@ -81,9 +81,9 @@ public class SecurityUtils {
 
 
     /**
-     * 获取角色集合
+     * 역할 집합 획득
      *
-     * @return 角色集合
+     * @return 역할 집합
      */
     public static Set<String> getRoles() {
         return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
@@ -92,16 +92,16 @@ public class SecurityUtils {
                 .stream()
                 .flatMap(Collection::stream)
                 .map(GrantedAuthority::getAuthority)
-                // 筛选角色,authorities 中的角色都是以 ROLE_ 开头
+                // 역할 필터링, authorities의 역할은 모두 ROLE_로 시작
                 .filter(authority -> authority.startsWith(SecurityConstants.ROLE_PREFIX))
                 .map(authority -> StrUtil.removePrefix(authority, SecurityConstants.ROLE_PREFIX))
                 .collect(Collectors.toSet());
     }
 
     /**
-     * 是否超级管理员
+     * 최고 관리자 여부
      * <p>
-     * 超级管理员忽视任何权限判断
+     * 최고 관리자는 모든 권한 판단 무시
      */
     public static boolean isRoot() {
         Set<String> roles = getRoles();
@@ -109,9 +109,9 @@ public class SecurityUtils {
     }
 
     /**
-     * 获取请求中的 Token
+     * 요청에서 토큰 획득
      *
-     * @return Token 字符串
+     * @return 토큰 문자열
      */
     public static String getTokenFromRequest() {
         ServletRequestAttributes servletRequestAttributes = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());

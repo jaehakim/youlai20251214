@@ -8,7 +8,7 @@ import com.youlai.boot.system.model.vo.DictPageVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 字典 访问层
+ * 사전 접근 계층
  *
  * @author Ray Hao
  * @since 2.9.0
@@ -17,11 +17,11 @@ import org.apache.ibatis.annotations.Mapper;
 public interface DictMapper extends BaseMapper<Dict> {
 
     /**
-     * 字典分页列表
+     * 사전 페이지 목록
      *
-     * @param page 分页参数
-     * @param queryParams 查询参数
-     * @return 字典分页列表
+     * @param page 페이지 매개변수
+     * @param queryParams 쿼리 매개변수
+     * @return 사전 페이지 목록
      */
     Page<DictPageVO> getDictPage(Page<DictPageVO> page, DictPageQuery queryParams);
 

@@ -5,9 +5,9 @@ import com.youlai.boot.security.model.AuthenticationToken;
 import org.springframework.security.core.Authentication;
 
 /**
- *  Token 管理器
+ *  토큰 관리자
  *  <p>
- *  用于生成、解析、校验、刷新 Token
+ *  토큰 생성, 파싱, 검증, 갱신에 사용
  *
  * @author Ray.Hao
  * @since 2.16.0
@@ -15,62 +15,62 @@ import org.springframework.security.core.Authentication;
 public interface TokenManager {
 
     /**
-     * 生成认证 Token
+     * 인증 토큰 생성
      *
-     * @param authentication 用户认证信息
-     * @return 认证 Token 响应
+     * @param authentication 사용자 인증 정보
+     * @return 인증 토큰 응답
      */
     AuthenticationToken generateToken(Authentication authentication);
 
     /**
-     * 解析 Token 获取认证信息
+     * 토큰 파싱하여 인증 정보 획득
      *
-     * @param token  Token
-     * @return 用户认证信息
+     * @param token  토큰
+     * @return 사용자 인증 정보
      */
     Authentication parseToken(String token);
 
     /**
-     * 校验 Token 是否有效
+     * 토큰이 유효한지 검증
      *
-     * @param token JWT Token
-     * @return 是否有效
+     * @param token JWT 토큰
+     * @return 유효 여부
      */
     boolean validateToken(String token);
 
     /**
-     * 校验 刷新 Token 是否有效
+     * 리프레시 토큰이 유효한지 검증
      *
-     * @param refreshToken JWT Token
-     * @return 是否有效
+     * @param refreshToken JWT 토큰
+     * @return 유효 여부
      */
     boolean validateRefreshToken(String refreshToken);
 
     /**
-     *  刷新 Token
+     *  토큰 갱신
      *
-     * @param token 刷新令牌
-     * @return 认证 Token 响应
+     * @param token 리프레시 토큰
+     * @return 인증 토큰 응답
      */
     AuthenticationToken refreshToken(String token);
 
     /**
-     * 令 Token 失效
+     * 토큰 무효화
      *
-     * @param token Token
+     * @param token 토큰
      */
     default void invalidateToken(String token) {
-        // 默认实现可以是空的，或者抛出不支持的操作异常
+        // 기본 구현은 비어있거나 지원되지 않는 작업 예외를 던질 수 있음
         // throw new UnsupportedOperationException("Not implemented");
     }
 
     /**
-     * 使指定用户的所有会话失效
+     * 지정된 사용자의 모든 세션 무효화
      *
-     * @param userId 用户ID
+     * @param userId 사용자 ID
      */
     default void invalidateUserSessions(Long userId) {
-        // 默认空实现，由具体 TokenManager 决定是否支持按用户下线
+        // 기본 빈 구현, 구체적인 TokenManager가 사용자별 오프라인 지원 여부 결정
     }
 
 }

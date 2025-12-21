@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 import java.util.List;
 
 /**
- * 代码生成配置转换器
+ * 코드 생성 설정 변환기
  *
  * @author Ray
  * @since 2.10.0

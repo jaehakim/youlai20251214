@@ -18,7 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 
 /**
- * 短信验证码认证 Provider
+ * SMS 인증 코드 인증 Provider
  *
  * @author Ray.Hao
  * @since 2.17.0
@@ -37,11 +37,11 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
     }
 
     /**
-     * 短信验证码认证逻辑，参考 Spring Security 认证密码校验流程
+     * SMS 인증 코드 인증 로직, Spring Security 비밀번호 검증 프로세스 참고
      *
-     * @param authentication 认证对象
-     * @return 认证后的 Authentication 对象
-     * @throws AuthenticationException 认证异常
+     * @param authentication 인증 객체
+     * @return 인증된 Authentication 객체
+     * @throws AuthenticationException 인증 예외
      * @see org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider#authenticate(Authentication)
      */
     @Override
@@ -49,33 +49,33 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
         String mobile = (String) authentication.getPrincipal();
         String inputVerifyCode = (String) authentication.getCredentials();
 
-        // 根据手机号获取用户信息
+        // 휴대폰 번호로 사용자 정보 획득
         UserAuthCredentials userAuthCredentials = userService.getAuthCredentialsByMobile(mobile);
 
         if (userAuthCredentials == null) {
-            throw new UsernameNotFoundException("用户不存在");
+            throw new UsernameNotFoundException("사용자가 존재하지 않습니다");
         }
 
-        // 检查用户状态是否有效
+        // 사용자 상태가 유효한지 확인
         if (ObjectUtil.notEqual(userAuthCredentials.getStatus(), 1)) {
-            throw new DisabledException("用户已被禁用");
+            throw new DisabledException("사용자가 비활성화되었습니다");
         }
 
-        // 校验发送短信验证码的手机号是否与当前登录用户一致
+        // SMS 인증 코드를 발송한 휴대폰 번호가 현재 로그인 사용자와 일치하는지 검증
         String cacheKey = StrUtil.format(RedisConstants.Captcha.SMS_LOGIN_CODE, mobile);
         String cachedVerifyCode = (String) redisTemplate.opsForValue().get(cacheKey);
 
         if (!StrUtil.equals(inputVerifyCode, cachedVerifyCode)) {
-            throw new CaptchaValidationException("验证码错误");
+            throw new CaptchaValidationException("인증 코드가 올바르지 않습니다");
         } else {
-            // 验证成功后删除验证码
+            // 검증 성공 후 인증 코드 삭제
             redisTemplate.delete(cacheKey);
         }
 
-        // 构建认证后的用户详情信息
+        // 인증된 사용자 세부 정보 구성
         SysUserDetails userDetails = new SysUserDetails(userAuthCredentials);
 
-        // 创建已认证的 SmsAuthenticationToken
+        // 인증된 SmsAuthenticationToken 생성
         return SmsAuthenticationToken.authenticated(
                 userDetails,
                 userDetails.getAuthorities()

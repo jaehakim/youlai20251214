@@ -12,7 +12,7 @@ import org.mapstruct.Mappings;
 import java.util.List;
 
 /**
- * 角色对象转换器
+ * 역할 객체 변환기
  *
  * @author haoxr
  * @since 2022/5/29

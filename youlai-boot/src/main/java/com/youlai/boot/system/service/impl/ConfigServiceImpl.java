@@ -40,7 +40,7 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     private final RedisTemplate<String, Object> redisTemplate;
 
     /**
-     * 시스템启动完成후，加载시스템 설정到캐시
+     * 시스템 시작 완료 후, 시스템 설정을 캐시에 로드
      */
     @PostConstruct
     public void init() {
@@ -48,10 +48,10 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     /**
-     * 페이지조회시스템 설정
+     * 페이지 조회 시스템 설정
      *
-     * @param configPageQuery 조회参수
-     * @return 시스템 설정페이지 목록
+     * @param configPageQuery 조회 파라미터
+     * @return 시스템 설정 페이지 목록
      */
     @Override
     public IPage<ConfigVO> page(ConfigPageQuery configPageQuery) {
@@ -68,16 +68,16 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     /**
-     * 저장시스템 설정
+     * 시스템 설정 저장
      *
-     * @param configForm 시스템 설정폼
-     * @return 여부저장성공
+     * @param configForm 시스템 설정 폼
+     * @return 저장 성공 여부
      */
     @Override
     public boolean save(ConfigForm configForm) {
         Assert.isTrue(
                 super.count(new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, configForm.getConfigKey())) == 0,
-                "설정클릭이미存에");
+                "설정 키가 이미 존재합니다");
         Config config = configConverter.toEntity(configForm);
         config.setCreateBy(SecurityUtils.getUserId());
         config.setIsDeleted(0);
@@ -87,8 +87,8 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     /**
      * 시스템 설정 폼 데이터 조회
      *
-     * @param id 시스템 설정ID
-     * @return 시스템 설정폼데이터
+     * @param id 시스템 설정 ID
+     * @return 시스템 설정 폼 데이터
      */
     @Override
     public ConfigForm getConfigFormData(Long id) {
@@ -97,27 +97,27 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     /**
-     * 编辑시스템 설정
+     * 시스템 설정 수정
      *
-     * @param id         시스템 설정ID
-     * @param configForm 시스템 설정폼
-     * @return 여부编辑성공
+     * @param id         시스템 설정 ID
+     * @param configForm 시스템 설정 폼
+     * @return 수정 성공 여부
      */
     @Override
     public boolean edit(Long id, ConfigForm configForm) {
         Assert.isTrue(
                 super.count(new LambdaQueryWrapper<Config>().eq(Config::getConfigKey, configForm.getConfigKey()).ne(Config::getId, id)) == 0,
-                "설정클릭이미存에");
+                "설정 키가 이미 존재합니다");
         Config config = configConverter.toEntity(configForm);
         config.setUpdateBy(SecurityUtils.getUserId());
         return this.updateById(config);
     }
 
     /**
-     * 삭제시스템 설정
+     * 시스템 설정 삭제
      *
-     * @param id 시스템 설정ID
-     * @return 여부삭제성공
+     * @param id 시스템 설정 ID
+     * @return 삭제 성공 여부
      */
     @Override
     public boolean delete(Long id) {
@@ -132,9 +132,9 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     /**
-     * 새로고침시스템 설정캐시
+     * 시스템 설정 캐시 새로고침
      *
-     * @return 여부새로고침성공
+     * @return 새로고침 성공 여부
      */
     @Override
     public boolean refreshCache() {
@@ -149,10 +149,10 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     }
 
     /**
-     * 조회시스템 설정
+     * 시스템 설정 조회
      *
-     * @param key 설정클릭
-     * @return 설정值
+     * @param key 설정 키
+     * @return 설정 값
      */
     @Override
     public Object getSystemConfig(String key) {

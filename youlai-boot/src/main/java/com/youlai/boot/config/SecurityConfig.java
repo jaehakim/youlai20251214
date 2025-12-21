@@ -35,7 +35,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * Spring Security 配置类
+ * Spring Security 설정 클래스
  *
  * @author Ray.Hao
  * @since 2023/2/17
@@ -59,50 +59,50 @@ public class SecurityConfig {
     private final SecurityProperties securityProperties;
 
     /**
-     * 配置安全过滤链 SecurityFilterChain
+     * 보안 필터 체인 SecurityFilterChain 설정
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http
                 .authorizeHttpRequests(requestMatcherRegistry -> {
-                            // 配置无需登录即可访问的公开接口
+                            // 로그인 없이 접근 가능한 공개 인터페이스 설정
                             String[] ignoreUrls = securityProperties.getIgnoreUrls();
                             if (ArrayUtil.isNotEmpty(ignoreUrls)) {
                                 requestMatcherRegistry.requestMatchers(ignoreUrls).permitAll();
                             }
-                            // 其他所有请求需登录后访问
+                            // 기타 모든 요청은 로그인 후 접근
                             requestMatcherRegistry.anyRequest().authenticated();
                         }
                 )
                 .exceptionHandling(configurer ->
                         configurer
-                                .authenticationEntryPoint(new MyAuthenticationEntryPoint()) // 未认证异常处理器
-                                .accessDeniedHandler(new MyAccessDeniedHandler()) // 无权限访问异常处理器
+                                .authenticationEntryPoint(new MyAuthenticationEntryPoint()) // 미인증 예외 처리기
+                                .accessDeniedHandler(new MyAccessDeniedHandler()) // 권한 없음 예외 처리기
                 )
 
-                // 禁用默认的 Spring Security 特性，适用于前后端分离架构
+                // 기본 Spring Security 기능 비활성화, 프론트엔드-백엔드 분리 아키텍처에 적합
                 .sessionManagement(configurer ->
-                        configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 无状态认证，不使用 Session
+                        configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 무상태 인증, Session 사용 안 함
                 )
-                .csrf(AbstractHttpConfigurer::disable)      // 禁用 CSRF 防护，前后端分离无需此防护机制
-                .formLogin(AbstractHttpConfigurer::disable) // 禁用默认的表单登录功能，前后端分离采用 Token 认证方式
-                .httpBasic(AbstractHttpConfigurer::disable) // 禁用 HTTP Basic 认证，避免弹窗式登录
-                // 禁用 X-Frame-Options 响应头，允许页面被嵌套到 iframe 中
+                .csrf(AbstractHttpConfigurer::disable)      // CSRF 방어 비활성화, 프론트엔드-백엔드 분리에서는 이 방어 메커니즘 불필요
+                .formLogin(AbstractHttpConfigurer::disable) // 기본 폼 로그인 기능 비활성화, 프론트엔드-백엔드 분리는 Token 인증 방식 사용
+                .httpBasic(AbstractHttpConfigurer::disable) // HTTP Basic 인증 비활성화, 팝업 로그인 방지
+                // X-Frame-Options 응답 헤더 비활성화, 페이지를 iframe에 포함 가능
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                // 限流过滤器
+                // 속도 제한 필터
                 .addFilterBefore(new RateLimiterFilter(redisTemplate, configService), UsernamePasswordAuthenticationFilter.class)
-                // 验证码校验过滤器
+                // 인증 코드 검증 필터
                 .addFilterBefore(new CaptchaValidationFilter(redisTemplate, codeGenerator), UsernamePasswordAuthenticationFilter.class)
-                // 验证和解析过滤器
+                // 검증 및 파싱 필터
                 .addFilterBefore(new TokenAuthenticationFilter(tokenManager), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
     /**
-     * 配置Web安全自定义器，以忽略特定请求路径的安全性检查。
+     * 웹 보안 커스터마이저를 설정하여 특정 요청 경로의 보안 검사를 무시합니다.
      * <p>
-     * 该配置用于指定哪些请求路径不经过Spring Security过滤器链。通常用于静态资源文件。
+     * 이 설정은 어떤 요청 경로가 Spring Security 필터 체인을 거치지 않을지 지정하는 데 사용됩니다. 일반적으로 정적 리소스 파일에 사용됩니다.
      */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -115,7 +115,7 @@ public class SecurityConfig {
     }
 
     /**
-     * 默认密码认证的 Provider
+     * 기본 비밀번호 인증 Provider
      */
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
@@ -125,7 +125,7 @@ public class SecurityConfig {
     }
 
     /**
-     * 微信小程序Code认证Provider
+     * 위챗 미니프로그램 Code 인증 Provider
      */
     @Bean
     public WxMiniAppCodeAuthenticationProvider wxMiniAppCodeAuthenticationProvider() {
@@ -133,7 +133,7 @@ public class SecurityConfig {
     }
 
     /**
-     * 微信小程序手机号认证Provider
+     * 위챗 미니프로그램 전화번호 인증 Provider
      */
     @Bean
     public WxMiniAppPhoneAuthenticationProvider wxMiniAppPhoneAuthenticationProvider() {
@@ -141,7 +141,7 @@ public class SecurityConfig {
     }
 
     /**
-     * 短信验证码认证 Provider
+     * SMS 인증 코드 인증 Provider
      */
     @Bean
     public SmsAuthenticationProvider smsAuthenticationProvider() {
@@ -149,7 +149,7 @@ public class SecurityConfig {
     }
 
     /**
-     * 认证管理器
+     * 인증 관리자
      */
     @Bean
     public AuthenticationManager authenticationManager(

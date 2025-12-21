@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
 import java.util.List;
 
 /**
- * 字典项对象转换器
+ * 사전 항목 객체 변환기
  *
  * @author Ray.Hao
  * @since 2022/6/8

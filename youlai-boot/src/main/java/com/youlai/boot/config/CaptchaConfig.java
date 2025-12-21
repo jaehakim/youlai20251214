@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import java.awt.*;
 
 /**
- * 验证码自动装配配置
+ * 인증 코드 자동 설정
  *
  * @author haoxr
  * @since 2023/11/24
@@ -23,7 +23,7 @@ public class CaptchaConfig {
     private CaptchaProperties captchaProperties;
 
     /**
-     * 验证码文字生成器
+     * 인증 코드 텍스트 생성기
      *
      * @return CodeGenerator
      */
@@ -41,7 +41,7 @@ public class CaptchaConfig {
     }
 
     /**
-     * 验证码字体
+     * 인증 코드 폰트
      */
     @Bean
     public Font captchaFont() {

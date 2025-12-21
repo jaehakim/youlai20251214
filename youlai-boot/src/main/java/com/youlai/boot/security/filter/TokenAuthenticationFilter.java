@@ -17,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 /**
- * Token 认证校验过滤器
+ * 토큰 인증 검증 필터
  *
  * @author wangtao
  * @since 2025/3/6 16:50
@@ -25,7 +25,7 @@ import java.io.IOException;
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     /**
-     * Token 管理器
+     * 토큰 관리자
      */
     private final TokenManager tokenManager;
 
@@ -34,8 +34,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     /**
-     * 校验 Token ，包括验签和是否过期
-     * 如果 Token 有效，将 Token 解析为 Authentication 对象，并设置到 Spring Security 上下文中
+     * 토큰 검증, 서명 검증 및 만료 여부 확인 포함
+     * 토큰이 유효하면 토큰을 Authentication 객체로 파싱하고 Spring Security 컨텍스트에 설정
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -46,28 +46,28 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             if (StrUtil.isNotBlank(authorizationHeader)
                     && authorizationHeader.startsWith(SecurityConstants.BEARER_TOKEN_PREFIX)) {
 
-                // 剥离Bearer前缀获取原始令牌
+                // Bearer 접두사를 제거하여 원본 토큰 획득
                 String rawToken = authorizationHeader.substring(SecurityConstants.BEARER_TOKEN_PREFIX.length());
 
-                // 执行令牌有效性检查（包含密码学验签和过期时间验证）
+                // 토큰 유효성 검사 수행 (암호화 서명 검증 및 만료 시간 검증 포함)
                 boolean isValidToken = tokenManager.validateToken(rawToken);
                 if (!isValidToken) {
                     WebResponseHelper.writeError(response, ResultCode.ACCESS_TOKEN_INVALID);
                     return;
                 }
 
-                // 将令牌解析为 Spring Security 上下文认证对象
+                // 토큰을 Spring Security 컨텍스트 인증 객체로 파싱
                 Authentication authentication = tokenManager.parseToken(rawToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {
-            // 安全上下文清除保障（防止上下文残留）
+            // 보안 컨텍스트 클리어 보장 (컨텍스트 잔류 방지)
             SecurityContextHolder.clearContext();
             WebResponseHelper.writeError(response, ResultCode.ACCESS_TOKEN_INVALID);
             return;
         }
 
-        // 继续后续过滤器链执行
+        // 후속 필터 체인 실행 계속
         filterChain.doFilter(request, response);
     }
 }

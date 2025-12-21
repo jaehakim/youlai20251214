@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 代码生成配置属性
+ * 코드 생성 설정 속성
  *
  * @author Ray
  * @since 2.11.0
@@ -22,71 +22,71 @@ public class CodegenProperties {
 
 
     /**
-     * 默认配置
+     * 기본 설정
      */
     private DefaultConfig defaultConfig ;
 
     /**
-     * 模板配置
+     * 템플릿 설정
      */
     private Map<String, TemplateConfig> templateConfigs = MapUtil.newHashMap(true);
 
     /**
-     * 后端应用名
+     * 백엔드 애플리케이션 이름
      */
     private String backendAppName;
 
     /**
-     * 前端应用名
+     * 프론트엔드 애플리케이션 이름
      */
     private String frontendAppName;
 
     /**
-     * 下载文件名
+     * 다운로드 파일명
      */
     private String downloadFileName;
 
     /**
-     * 排除数据表
+     * 제외할 데이터 테이블
      */
     private List<String> excludeTables;
 
     /**
-     * 模板配置
+     * 템플릿 설정
      */
     @Data
     public static class TemplateConfig {
 
         /**
-         * 模板路径 (e.g. /templates/codegen/controller.java.vm)
+         * 템플릿 경로 (예: /templates/codegen/controller.java.vm)
          */
         private String templatePath;
 
         /**
-         * 子包名 (e.g. controller/service/mapper/model)
+         * 서브 패키지명 (예: controller/service/mapper/model)
          */
         private String subpackageName;
 
         /**
-         * 文件扩展名，如 .java
+         * 파일 확장자, 예: .java
          */
         private String extension = FileNameUtil.EXT_JAVA;
 
     }
 
     /**
-     * 默认配置
+     * 기본 설정
      */
     @Data
     public static class DefaultConfig {
 
         /**
-         * 作者 (e.g. Ray)
+         * 작성자 (예: Ray)
          */
         private String author;
 
         /**
-         * 默认模块名(e.g. system)
+         * 기본 모듈명 (예: system)
          */
         private String moduleName;
 

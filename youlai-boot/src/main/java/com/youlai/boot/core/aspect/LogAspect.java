@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 日志切面
+ * 로그 Aspect
  *
  * @author Ray.Hao
  * @since 2024/6/25
@@ -47,20 +47,20 @@ public class LogAspect {
     private final CacheManager cacheManager;
 
     /**
-     * 切点
+     * Pointcut
      */
     @Pointcut("@annotation(com.youlai.boot.common.annotation.Log)")
     public void logPointcut() {
     }
 
     /**
-     * 处理完请求后执行
+     * 요청 처리 완료 후 실행
      *
-     * @param joinPoint 切点
+     * @param joinPoint Pointcut
      */
     @Around("logPointcut() && @annotation(logAnnotation)")
     public Object doAround(ProceedingJoinPoint joinPoint, com.youlai.boot.common.annotation.Log logAnnotation) throws Throwable {
-        // 在方法执行前获取用户ID，避免在方法执行过程中清除上下文导致获取不到用户ID
+        // 메서드 실행 전에 사용자 ID를 가져옴, 메서드 실행 중 컨텍스트가 지워져서 사용자 ID를 가져올 수 없는 것을 방지
         Long userId = SecurityUtils.getUserId();
         
         TimeInterval timer = DateUtil.timer();
@@ -73,7 +73,7 @@ public class LogAspect {
             exception = e;
             throw e;
         } finally {
-            long executionTime = timer.interval(); // 执行时长
+            long executionTime = timer.interval(); // 실행 시간
             this.saveLog(joinPoint, exception, result, logAnnotation, executionTime, userId);
         }
         return result;
@@ -81,32 +81,32 @@ public class LogAspect {
 
 
     /**
-     * 保存日志
+     * 로그 저장
      *
-     * @param joinPoint     切点
-     * @param e             异常
-     * @param jsonResult    响应结果
-     * @param logAnnotation 日志注解
-     * @param userId        用户ID
+     * @param joinPoint     Pointcut
+     * @param e             예외
+     * @param jsonResult    응답 결과
+     * @param logAnnotation 로그 어노테이션
+     * @param userId        사용자 ID
      */
     private void saveLog(final JoinPoint joinPoint, final Exception e, Object jsonResult, com.youlai.boot.common.annotation.Log logAnnotation, long executionTime, Long userId) {
         String requestURI = request.getRequestURI();
-        // 创建日志记录
+        // 로그 레코드 생성
         Log log = new Log();
         log.setExecutionTime(executionTime);
         if (logAnnotation == null && e != null) {
             log.setModule(LogModuleEnum.EXCEPTION);
-            log.setContent("系统发生异常");
+            log.setContent("시스템 예외 발생");
             this.setRequestParameters(joinPoint, log);
             log.setResponseContent(JSONUtil.toJsonStr(e.getStackTrace()));
         } else {
             log.setModule(logAnnotation.module());
             log.setContent(logAnnotation.value());
-            // 请求参数
+            // 요청 파라미터
             if (logAnnotation.params()) {
                 this.setRequestParameters(joinPoint, log);
             }
-            // 响应结果
+            // 응답 결과
             if (logAnnotation.result() && jsonResult != null) {
                 log.setResponseContent(JSONUtil.toJsonStr(jsonResult));
             }
@@ -117,7 +117,7 @@ public class LogAspect {
         if (StrUtil.isNotBlank(ipAddr)) {
             log.setIp(ipAddr);
             String region = IPUtils.getRegion(ipAddr);
-            // 中国|0|四川省|成都市|电信 解析省和市
+            // 중국|0|사천성|성도시|전신 - 성과 시 파싱
             if (StrUtil.isNotBlank(region)) {
                 String[] regionArray = region.split("\\|");
                 if (regionArray.length > 2) {
@@ -128,28 +128,28 @@ public class LogAspect {
         }
 
 
-        // 获取浏览器和终端系统信息
+        // 브라우저 및 터미널 시스템 정보 가져오기
         String userAgentString = request.getHeader("User-Agent");
         UserAgent userAgent = resolveUserAgent(userAgentString);
         if (Objects.nonNull(userAgent)) {
-            // 系统信息
+            // 시스템 정보
             log.setOs(userAgent.getOs().getName());
-            // 浏览器信息
+            // 브라우저 정보
             log.setBrowser(userAgent.getBrowser().getName());
             log.setBrowserVersion(userAgent.getBrowser().getVersion(userAgentString));
         }
-        //获取方法名
+        // 메서드명 가져오기
         String methodName = joinPoint.getSignature().getName();
         log.setMethod(methodName);
-        // 保存日志到数据库
+        // 로그를 데이터베이스에 저장
         logService.save(log);
     }
 
     /**
-     * 设置请求参数到日志对象中
+     * 로그 객체에 요청 파라미터 설정
      *
-     * @param joinPoint 切点
-     * @param log       操作日志
+     * @param joinPoint Pointcut
+     * @param log       작업 로그
      */
     private void setRequestParameters(JoinPoint joinPoint, Log log) {
         String requestMethod = request.getMethod();
@@ -169,10 +169,10 @@ public class LogAspect {
     }
 
     /**
-     * 将参数数组转换为字符串
+     * 파라미터 배열을 문자열로 변환
      *
-     * @param paramsArray 参数数组
-     * @return 参数字符串
+     * @param paramsArray 파라미터 배열
+     * @return 파라미터 문자열
      */
     private String convertArgumentsToString(Object[] paramsArray) {
         StringBuilder params = new StringBuilder();
@@ -187,10 +187,10 @@ public class LogAspect {
     }
 
     /**
-     * 判断是否需要过滤的对象。
+     * 필터링이 필요한 객체인지 판단
      *
-     * @param obj 对象信息。
-     * @return 如果是需要过滤的对象，则返回true；否则返回false。
+     * @param obj 객체 정보
+     * @return 필터링이 필요한 객체이면 true 반환, 그렇지 않으면 false 반환
      */
     private boolean shouldFilterObject(Object obj) {
         Class<?> clazz = obj.getClass();
@@ -208,18 +208,18 @@ public class LogAspect {
 
 
     /**
-     * 解析UserAgent
+     * UserAgent 파싱
      *
-     * @param userAgentString UserAgent字符串
+     * @param userAgentString UserAgent 문자열
      * @return UserAgent
      */
     public UserAgent resolveUserAgent(String userAgentString) {
         if (StrUtil.isBlank(userAgentString)) {
             return null;
         }
-        // 给userAgentStringMD5加密一次防止过长
+        // userAgentString을 MD5로 암호화하여 너무 길어지는 것을 방지
         String userAgentStringMD5 = DigestUtil.md5Hex(userAgentString);
-        //判断是否命中缓存
+        // 캐시 히트 여부 확인
         UserAgent userAgent = Objects.requireNonNull(cacheManager.getCache("userAgent")).get(userAgentStringMD5, UserAgent.class);
         if (userAgent != null) {
             return userAgent;

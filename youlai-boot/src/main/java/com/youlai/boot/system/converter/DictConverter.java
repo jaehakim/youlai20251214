@@ -7,7 +7,7 @@ import com.youlai.boot.system.model.form.DictForm;
 import org.mapstruct.Mapper;
 
 /**
- * 字典 对象转换器
+ * 사전 객체 변환기
  *
  * @author Ray Hao
  * @since 2022/6/8

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Excel导出响应结构体
+ * Excel 내보내기 응답 구조체
  *
  * @author Theo
  * @since 2025/1/14 11:46:08
@@ -15,22 +15,22 @@ import java.util.List;
 public class ExcelResult {
 
     /**
-     * 响应码，来确定是否导入成功
+     * 응답 코드, 가져오기 성공 여부를 확인
      */
     private String code;
 
     /**
-     * 有效条数
+     * 유효한 항목 수
      */
     private Integer validCount;
 
     /**
-     * 无效条数
+     * 무효한 항목 수
      */
     private Integer invalidCount;
 
     /**
-     * 错误提示信息
+     * 오류 메시지 정보
      */
     private List<String> messageList;
 

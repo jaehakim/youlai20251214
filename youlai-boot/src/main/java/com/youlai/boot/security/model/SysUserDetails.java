@@ -14,10 +14,10 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 /**
- * Spring Security 用户认证对象
+ * Spring Security 사용자 인증 객체
  * <p>
- * 封装了用户的基本信息和权限信息，供 Spring Security 进行用户认证与授权。
- * 实现了 {@link UserDetails} 接口，提供用户的核心信息。
+ * 사용자의 기본 정보와 권한 정보를 캡슐화하여 Spring Security의 사용자 인증 및 권한 부여에 사용됩니다.
+ * {@link UserDetails} 인터페이스를 구현하여 사용자의 핵심 정보를 제공합니다.
  *
  * @author Ray.Hao
  * @version 3.0.0
@@ -27,44 +27,44 @@ import java.util.stream.Collectors;
 public class SysUserDetails implements UserDetails {
 
     /**
-     * 用户ID
+     * 사용자 ID
      */
     private Long userId;
 
     /**
-     * 用户名
+     * 사용자명
      */
     private String username;
 
     /**
-     * 密码
+     * 비밀번호
      */
     private String password;
 
     /**
-     * 账号是否启用(true:启用 false:禁用)
+     * 계정 활성화 여부(true:활성화 false:비활성화)
      */
     private Boolean enabled;
 
     /**
-     * 部门ID
+     * 부서 ID
      */
     private Long deptId;
 
     /**
-     * 数据权限范围
+     * 데이터 권한 범위
      */
     private Integer dataScope;
 
     /**
-     * 用户角色权限集合
+     * 사용자 역할 권한 집합
      */
     private Collection<SimpleGrantedAuthority> authorities;
 
     /**
-     * 构造函数：根据用户认证信息初始化用户详情对象
+     * 생성자: 사용자 인증 정보를 기반으로 사용자 세부 정보 객체 초기화
      *
-     * @param user 用户认证信息对象 {@link UserAuthCredentials}
+     * @param user 사용자 인증 정보 객체 {@link UserAuthCredentials}
      */
     public SysUserDetails(UserAuthCredentials user) {
         this.userId = user.getUserId();
@@ -74,10 +74,10 @@ public class SysUserDetails implements UserDetails {
         this.deptId = user.getDeptId();
         this.dataScope = user.getDataScope();
 
-        // 初始化角色权限集合
+        // 역할 권한 집합 초기화
         this.authorities = CollectionUtil.isNotEmpty(user.getRoles())
                 ? user.getRoles().stream()
-                // 角色名加上前缀 "ROLE_"，用于区分角色 (ROLE_ADMIN) 和权限 (user:add)
+                // 역할명에 "ROLE_" 접두사 추가, 역할(ROLE_ADMIN)과 권한(user:add) 구분용
                 .map(role -> new SimpleGrantedAuthority(SecurityConstants.ROLE_PREFIX + role))
                 .collect(Collectors.toSet())
                 : Collections.emptySet();

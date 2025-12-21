@@ -3,7 +3,7 @@ package com.youlai.boot.common.annotation;
 import java.lang.annotation.*;
 
 /**
- * 数据权限注解
+ * 데이터 권한 어노테이션
  *
  * @author zc
  * @since 2.0.0

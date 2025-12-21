@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 부서 비즈니스구현类
+ * 부서 비즈니스 구현 클래스
  *
  * @author Ray
  * @since 2021/08/22
@@ -159,10 +159,10 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 
 
     /**
-     * 조회부서폼
+     * 부서 폼 조회
      *
-     * @param deptId 부서ID
-     * @return 부서폼객체
+     * @param deptId 부서 ID
+     * @return 부서 폼 객체
      */
     @Override
     public DeptForm getDeptForm(Long deptId) {
@@ -205,11 +205,11 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     }
 
     /**
-     * 递归생성부서表格层级목록
+     * 재귀적으로 부서 테이블 계층 목록 생성
      *
-     * @param parentId 父ID
+     * @param parentId 부모 ID
      * @param deptList 부서 목록
-     * @return 부서表格层级목록
+     * @return 부서 테이블 계층 목록
      */
     public static List<Option<Long>> recurDeptTreeOptions(long parentId, List<Dept> deptList) {
         return CollectionUtil.emptyIfNull(deptList).stream()
@@ -227,14 +227,14 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 
 
     /**
-     * 삭제부서
+     * 부서 삭제
      *
-     * @param ids 부서ID，여러 개는영문쉼표,로 연결字符串
-     * @return 여부삭제성공
+     * @param ids 부서 ID, 여러 개는 영문 쉼표(,)로 연결된 문자열
+     * @return 삭제 성공 여부
      */
     @Override
     public boolean deleteByIds(String ids) {
-        // 삭제부서及子부서
+        // 부서 및 하위 부서 삭제
         if (StrUtil.isNotBlank(ids)) {
             String[] menuIds = ids.split(",");
             for (String deptId : menuIds) {

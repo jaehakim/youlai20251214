@@ -25,7 +25,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 防重复提交切面
+ * 중복 제출 방지 Aspect
  *
  * @author Ray.Hao
  * @since 2.3.0
@@ -39,14 +39,14 @@ public class RepeatSubmitAspect {
     private final RedissonClient redissonClient;
 
     /**
-     * 防重复提交切点
+     * 중복 제출 방지 Pointcut
      */
     @Pointcut("@annotation(repeatSubmit)")
     public void repeatSubmitPointCut(RepeatSubmit repeatSubmit) {
     }
 
     /**
-     * 环绕通知：处理防重复提交逻辑
+     * Around Advice: 중복 제출 방지 로직 처리
      */
     @Around(value = "repeatSubmitPointCut(repeatSubmit)", argNames = "pjp,repeatSubmit")
     public Object handleRepeatSubmit(ProceedingJoinPoint pjp, RepeatSubmit repeatSubmit) throws Throwable {
@@ -63,36 +63,36 @@ public class RepeatSubmitAspect {
     }
 
     /**
-     * 生成防重复提交锁的 key
-     * @return 锁的 key
+     * 중복 제출 방지 락의 key 생성
+     * @return 락의 key
      */
     private String buildLockKey() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        // 用户唯一标识
+        // 사용자 고유 식별자
         String userIdentifier = getUserIdentifier(request);
-        // 请求唯一标识 = 请求方法 + 请求路径 + 请求参数(严谨的做法)
+        // 요청 고유 식별자 = 요청 메서드 + 요청 경로 + 요청 파라미터 (엄격한 방법)
         String requestIdentifier = StrUtil.join(":", request.getMethod(), request.getRequestURI());
         return StrUtil.format(RedisConstants.Lock.RESUBMIT, userIdentifier, requestIdentifier);
     }
 
     /**
-     *  获取用户唯一标识
-     *  1. 从请求头中获取 Token，使用 SHA-256 加密 Token 作为用户唯一标识
-     *  2. 如果 Token 为空，使用 IP 作为用户唯一标识
+     * 사용자 고유 식별자 가져오기
+     * 1. 요청 헤더에서 Token을 가져와 SHA-256으로 암호화하여 사용자 고유 식별자로 사용
+     * 2. Token이 비어 있으면 IP를 사용자 고유 식별자로 사용
      *
-     * @param request 请求对象
-     * @return 用户唯一标识
+     * @param request 요청 객체
+     * @return 사용자 고유 식별자
      */
     private String getUserIdentifier(HttpServletRequest request) {
-        // 用户身份唯一标识
+        // 사용자 신원 고유 식별자
         String userIdentifier;
-        // 从请求头中获取 Token
+        // 요청 헤더에서 Token 가져오기
         String tokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (StrUtil.isNotBlank(tokenHeader) && tokenHeader.startsWith(SecurityConstants.BEARER_TOKEN_PREFIX)) {
-            String rawToken = tokenHeader.substring(SecurityConstants.BEARER_TOKEN_PREFIX.length());  // 去掉 Bearer 后的 Token
-            userIdentifier = DigestUtil.sha256Hex(rawToken); // 使用 SHA-256 加密 Token 作为用户唯一标识
+            String rawToken = tokenHeader.substring(SecurityConstants.BEARER_TOKEN_PREFIX.length());  // Bearer를 제거한 Token
+            userIdentifier = DigestUtil.sha256Hex(rawToken); // SHA-256으로 Token을 암호화하여 사용자 고유 식별자로 사용
         } else {
-            userIdentifier = IPUtils.getIpAddr(request); // 使用 IP 作为用户唯一标识
+            userIdentifier = IPUtils.getIpAddr(request); // IP를 사용자 고유 식별자로 사용
         }
         return userIdentifier;
     }

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 菜单访问层
+ * 메뉴 접근 계층
  *
  * @author Ray
  * @since 2022/1/24
@@ -18,9 +18,9 @@ import java.util.Set;
 public interface MenuMapper extends BaseMapper<Menu> {
 
     /**
-     * 获取菜单路由列表
+     * 메뉴 라우트 목록 가져오기
      *
-     * @param roleCodes 角色编码集合
+     * @param roleCodes 역할 코드 집합
      */
     List<Menu> getMenusByRoleCodes(Set<String> roleCodes);
 

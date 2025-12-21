@@ -7,7 +7,7 @@ import java.io.Serial;
 import java.util.Collection;
 
 /**
- * 微信小程序Code认证Token
+ * 위챗 미니프로그램 코드 인증 토큰
  *
  * @author 有来技术团队
  * @since 2.0.0
@@ -18,39 +18,39 @@ public class WxMiniAppCodeAuthenticationToken extends AbstractAuthenticationToke
     private final Object principal;
 
     /**
-     * 微信小程序Code认证Token (未认证)
+     * 위챗 미니프로그램 코드 인증 토큰 (미인증)
      *
-     * @param principal 微信code
+     * @param principal 위챗 코드
      */
     public WxMiniAppCodeAuthenticationToken(Object principal) {
-        // 没有授权信息时，设置为 null
+        // 권한 정보가 없을 때 null로 설정
         super(null);
         this.principal = principal;
-        // 默认未认证
+        // 기본값 미인증
         this.setAuthenticated(false);
     }
 
 
     /**
-     * 微信小程序Code认证Token (已认证)
+     * 위챗 미니프로그램 코드 인증 토큰 (인증됨)
      *
-     * @param principal   微信用户信息
-     * @param authorities 授权信息
+     * @param principal   위챗 사용자 정보
+     * @param authorities 권한 정보
      */
     public WxMiniAppCodeAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;
-        // 认证通过
+        // 인증 통과
         super.setAuthenticated(true);
     }
 
 
     /**
-     * 认证通过
+     * 인증 통과
      *
-     * @param principal   微信用户信息
-     * @param authorities 授权信息
-     * @return 已认证的Token
+     * @param principal   위챗 사용자 정보
+     * @param authorities 권한 정보
+     * @return 인증된 토큰
      */
     public static WxMiniAppCodeAuthenticationToken authenticated(Object principal, Collection<? extends GrantedAuthority> authorities) {
         return new WxMiniAppCodeAuthenticationToken(principal, authorities);
@@ -58,7 +58,7 @@ public class WxMiniAppCodeAuthenticationToken extends AbstractAuthenticationToke
 
     @Override
     public Object getCredentials() {
-        // 微信认证不需要密码
+        // 위챗 인증은 비밀번호가 필요하지 않음
         return null;
     }
 

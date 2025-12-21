@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.Set;
 
 /**
- * 角色持久层接口
+ * 역할 영속성 계층 인터페이스
  *
  * @author Ray.Hao
  * @since 2022/1/14
@@ -16,9 +16,9 @@ import java.util.Set;
 public interface RoleMapper extends BaseMapper<Role> {
 
     /**
-     * 获取最大范围的数据权限
+     * 최대 범위의 데이터 권한 가져오기
      *
-     * @param roles 角色编码集合
+     * @param roles 역할 코드 집합
      * @return
      */
     Integer getMaximumDataScope(Set<String> roles);

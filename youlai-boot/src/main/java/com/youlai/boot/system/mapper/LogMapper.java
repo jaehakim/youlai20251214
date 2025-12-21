@@ -14,7 +14,7 @@ import java.util.List;
 
 
 /**
- * 系统日志数据访问层
+ * 시스템 로그 데이터 접근 계층
  *
  * @author Ray
  * @since 2.10.0
@@ -23,33 +23,33 @@ import java.util.List;
 public interface LogMapper extends BaseMapper<Log> {
 
     /**
-     * 获取日志分页列表
+     * 로그 페이지 목록 가져오기
      */
     Page<LogPageVO> getLogPage(Page<LogPageVO> page, LogPageQuery queryParams);
 
     /**
-     * 统计浏览数(PV)
+     * 페이지뷰(PV) 통계
      *
-     * @param startDate 开始日期 yyyy-MM-dd
-     * @param endDate   结束日期 yyyy-MM-dd
+     * @param startDate 시작 날짜 yyyy-MM-dd
+     * @param endDate   종료 날짜 yyyy-MM-dd
      */
     List<VisitCount> getPvCounts(String startDate, String endDate);
 
     /**
-     * 统计IP数
+     * IP 수 통계
      *
-     * @param startDate 开始日期 yyyy-MM-dd
-     * @param endDate   结束日期 yyyy-MM-dd
+     * @param startDate 시작 날짜 yyyy-MM-dd
+     * @param endDate   종료 날짜 yyyy-MM-dd
      */
     List<VisitCount> getIpCounts(String startDate, String endDate);
 
     /**
-     * 获取浏览量(PV)统计
+     * 페이지뷰(PV) 통계 가져오기
      */
     VisitStatsBO getPvStats();
 
     /**
-     * 获取访问IP统计
+     * 방문 IP 통계 가져오기
      */
     VisitStatsBO getUvStats();
 }

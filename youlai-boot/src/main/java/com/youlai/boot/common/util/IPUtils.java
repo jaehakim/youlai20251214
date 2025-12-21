@@ -16,12 +16,12 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 /**
- * IP工具类
+ * IP 유틸리티 클래스
  * <p>
- * 获取客户端IP地址和IP地址对应的地理位置信息
+ * 클라이언트 IP 주소 및 IP 주소에 해당하는 지리적 위치 정보 가져오기
  * <p>
- * 使用Nginx等反向代理软件， 则不能通过request.getRemoteAddr()获取IP地址
- * 如果使用了多级反向代理的话，X-Forwarded-For的值并不止一个，而是一串IP地址，X-Forwarded-For中第一个非unknown的有效IP字符串，则为真实IP地址
+ * Nginx 등의 리버스 프록시 소프트웨어를 사용하는 경우, request.getRemoteAddr()로 IP 주소를 가져올 수 없음
+ * 다중 레벨 리버스 프록시를 사용하는 경우, X-Forwarded-For 값은 하나가 아니라 일련의 IP 주소이며, X-Forwarded-For에서 첫 번째 unknown이 아닌 유효한 IP 문자열이 실제 IP 주소임
  * </p>
  *
  * @author Ray
@@ -37,17 +37,17 @@ public class IPUtils {
     @PostConstruct
     public void init() {
         try {
-            // 从类路径加载资源文件
+            // 클래스 경로에서 리소스 파일 로드
             InputStream inputStream = getClass().getResourceAsStream(DB_PATH);
             if (inputStream == null) {
                 throw new FileNotFoundException("Resource not found: " + DB_PATH);
             }
 
-            // 将资源文件复制到临时文件
+            // 리소스 파일을 임시 파일로 복사
             Path tempDbPath = Files.createTempFile("ip2region", ".xdb");
             Files.copy(inputStream, tempDbPath, StandardCopyOption.REPLACE_EXISTING);
 
-            // 使用临时文件初始化 Searcher 对象
+            // 임시 파일을 사용하여 Searcher 객체 초기화
             searcher = Searcher.newWithFileOnly(tempDbPath.toString());
         } catch (Exception e) {
             log.error("IpRegionUtil initialization ERROR, {}", e.getMessage());
@@ -55,10 +55,10 @@ public class IPUtils {
     }
 
     /**
-     * 获取IP地址
+     * IP 주소 가져오기
      *
-     * @param request HttpServletRequest对象
-     * @return 客户端IP地址
+     * @param request HttpServletRequest 객체
+     * @return 클라이언트 IP 주소
      */
     public static String getIpAddr(HttpServletRequest request) {
         String ip = null;
@@ -82,7 +82,7 @@ public class IPUtils {
             if (checkIp(ip)) {
                 ip = request.getRemoteAddr();
                 if ("127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)) {
-                    // 根据网卡取本机配置的IP
+                    // 네트워크 카드를 통해 로컬 구성 IP 가져오기
                     ip = getLocalAddr();
                 }
             }
@@ -90,7 +90,7 @@ public class IPUtils {
             log.error("IPUtils ERROR, {}", e.getMessage());
         }
 
-        // 使用代理，则获取第一个IP地址
+        // 프록시를 사용하는 경우 첫 번째 IP 주소 가져오기
         if (StrUtil.isNotBlank(ip) && ip.indexOf(",") > 0) {
             ip = ip.substring(0, ip.indexOf(","));
         }
@@ -104,9 +104,9 @@ public class IPUtils {
     }
 
     /**
-     * 获取本机的IP地址
+     * 로컬 호스트의 IP 주소 가져오기
      *
-     * @return 本机IP地址
+     * @return 로컬 호스트 IP 주소
      */
     private static String getLocalAddr() {
         try {
@@ -118,10 +118,10 @@ public class IPUtils {
     }
 
     /**
-     * 根据IP地址获取地理位置信息
+     * IP 주소를 기반으로 지리적 위치 정보 가져오기
      *
-     * @param ip IP地址
-     * @return 地理位置信息
+     * @param ip IP 주소
+     * @return 지리적 위치 정보
      */
     public static String getRegion(String ip) {
         if (searcher == null) {

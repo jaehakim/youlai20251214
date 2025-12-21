@@ -6,7 +6,7 @@ import com.youlai.boot.platform.ai.model.dto.AiParseResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * AI 명령编排서비스：负责对外의解析与执行编排
+ * AI 명령 오케스트레이션 서비스: 외부 파싱 및 실행 오케스트레이션 담당
  */
 public interface AiCommandService {
 
@@ -17,11 +17,11 @@ public interface AiCommandService {
 
 	/**
 	 * 파싱된 명령 실행
-	 * 
-	 * @param request 执行请求
-	 * @param httpRequest HTTP 请求
-	 * @return 执行결과데이터（성공时返回）
-	 * @throws Exception 执行실패时抛出오류
+	 *
+	 * @param request 실행 요청
+	 * @param httpRequest HTTP 요청
+	 * @return 실행 결과 데이터 (성공 시 반환)
+	 * @throws Exception 실행 실패 시 예외 발생
 	 */
 	Object executeCommand(AiExecuteRequestDTO request, HttpServletRequest httpRequest) throws Exception;
 }
