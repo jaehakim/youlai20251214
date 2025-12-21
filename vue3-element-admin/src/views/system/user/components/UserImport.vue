@@ -3,7 +3,7 @@
     <el-dialog
       v-model="visible"
       :align-center="true"
-      title="导入数据"
+      title="데이터 가져오기"
       width="600px"
       @close="handleClose"
     >
@@ -14,7 +14,7 @@
           :model="importFormData"
           :rules="importFormRules"
         >
-          <el-form-item label="文件名" prop="files">
+          <el-form-item label="파일명" prop="files">
             <el-upload
               ref="uploadRef"
               v-model:file-list="importFormData.files"
@@ -27,8 +27,8 @@
             >
               <el-icon class="el-icon--upload"><upload-filled /></el-icon>
               <div class="el-upload__text">
-                将文件拖到此处，或
-                <em>点击上传</em>
+                파일을 여기로 드래그하거나
+                <em>클릭하여 업로드</em>
               </div>
               <template #tip>
                 <div class="el-upload__tip">
@@ -39,7 +39,7 @@
                     underline="never"
                     @click="handleDownloadTemplate"
                   >
-                    下载模板
+                    템플릿 다운로드
                   </el-link>
                 </div>
               </template>
@@ -50,7 +50,7 @@
       <template #footer>
         <div style="padding-right: var(--el-dialog-padding-primary)">
           <el-button v-if="resultData.length > 0" type="primary" @click="handleShowResult">
-            错误信息
+            오류 정보
           </el-button>
           <el-button
             type="primary"
@@ -64,15 +64,15 @@
       </template>
     </el-dialog>
 
-    <el-dialog v-model="resultVisible" title="导入结果" width="600px">
+    <el-dialog v-model="resultVisible" title="가져오기 결과" width="600px">
       <el-alert
-        :title="`导入结果：${invalidCount}条无效数据，${validCount}条有效数据`"
+        :title="`가져오기 결과：${invalidCount}개 유효하지 않은 데이터，${validCount}개 유효한 데이터`"
         type="warning"
         :closable="false"
       />
       <el-table :data="resultData" style="width: 100%; max-height: 400px">
-        <el-table-column prop="index" align="center" width="100" type="index" label="序号" />
-        <el-table-column prop="message" label="错误信息" width="400">
+        <el-table-column prop="index" align="center" width="100" type="index" label="번호" />
+        <el-table-column prop="message" label="오류 정보" width="400">
           <template #default="scope">
             {{ scope.row }}
           </template>
@@ -80,7 +80,7 @@
       </el-table>
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="handleCloseResult">关闭</el-button>
+          <el-button @click="handleCloseResult">닫기</el-button>
         </div>
       </template>
     </el-dialog>
@@ -123,12 +123,12 @@ watch(visible, (newValue) => {
 });
 
 const importFormRules = {
-  files: [{ required: true, message: "文件不能为空", trigger: "blur" }],
+  files: [{ required: true, message: "파일을 비워둘 수 없습니다", trigger: "blur" }],
 };
 
 // 文件超出个数限制
 const handleFileExceed = () => {
-  ElMessage.warning("只能上传一个文件");
+  ElMessage.warning("파일은 하나만 업로드할 수 있습니다");
 };
 
 // 下载导入模板
@@ -164,11 +164,11 @@ const handleUpload = async () => {
   try {
     const result = await UserAPI.import("1", importFormData.files[0].raw as File);
     if (result.code === ApiCodeEnum.SUCCESS && result.invalidCount === 0) {
-      ElMessage.success("导入成功，导入数据：" + result.validCount + "条");
+      ElMessage.success("导入成功，데이터 가져오기：" + result.validCount + "条");
       emit("import-success");
       handleClose();
     } else {
-      ElMessage.error("上传失败");
+      ElMessage.error("업로드 실패");
       resultVisible.value = true;
       resultData.value = result.messageList;
       invalidCount.value = result.invalidCount;
@@ -176,21 +176,21 @@ const handleUpload = async () => {
     }
   } catch (error: any) {
     console.error(error);
-    ElMessage.error("上传失败：" + error);
+    ElMessage.error("업로드 실패：" + error);
   }
 };
 
-// 显示错误信息
+// 显示오류 정보
 const handleShowResult = () => {
   resultVisible.value = true;
 };
 
-// 关闭错误信息弹窗
+// 닫기오류 정보弹窗
 const handleCloseResult = () => {
   resultVisible.value = false;
 };
 
-// 关闭弹窗
+// 닫기弹窗
 const handleClose = () => {
   importFormData.files.length = 0;
   visible.value = false;

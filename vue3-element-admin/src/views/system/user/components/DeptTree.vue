@@ -1,7 +1,7 @@
-<!-- 部门树 -->
+<!-- 부서 트리 -->
 <template>
   <el-card shadow="never">
-    <el-input v-model="deptName" placeholder="部门名称" clearable>
+    <el-input v-model="deptName" placeholder="부서명" clearable>
       <template #prefix>
         <el-icon><Search /></el-icon>
       </template>
@@ -29,9 +29,9 @@ const props = defineProps({
   },
 });
 
-const deptList = ref<OptionType[]>(); // 部门列表
-const deptTreeRef = ref(); // 部门树
-const deptName = ref(); // 部门名称
+const deptList = ref<OptionType[]>(); // 부서 목록
+const deptTreeRef = ref(); // 부서 트리
+const deptName = ref(); // 부서명
 
 const emits = defineEmits(["node-click"]);
 
@@ -47,7 +47,7 @@ watchEffect(
 );
 
 /**
- * 部门筛选
+ * 부서 필터링
  */
 function handleFilter(value: string, data: any) {
   if (!value) {
@@ -56,7 +56,7 @@ function handleFilter(value: string, data: any) {
   return data.label.indexOf(value) !== -1;
 }
 
-/** 部门树节点 Click */
+/** 부서 트리节点 Click */
 function handleNodeClick(data: { [key: string]: any }) {
   deptId.value = data.value;
   emits("node-click");
