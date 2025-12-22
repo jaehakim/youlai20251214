@@ -27,12 +27,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
- * 코드 생성器컨트롤러
+ * 코드 생성기 컨트롤러
  *
  * @author Ray
  * @since 2.10.0
  */
-@Tag(name = "11.코드 생성")
+@Tag(name = "11. 코드 생성")
 @RestController
 @RequestMapping("/api/v1/codegen")
 @RequiredArgsConstructor
@@ -45,7 +45,7 @@ public class CodegenController {
 
     @Operation(summary = "데이터 테이블 페이지 목록 조회")
     @GetMapping("/table/page")
-    @Log(value = "코드 생성페이지 목록", module = LogModuleEnum.OTHER)
+    @Log(value = "코드 생성 페이지 목록", module = LogModuleEnum.OTHER)
     public PageResult<TablePageVO> getTablePage(
             TablePageQuery queryParams
     ) {
@@ -53,7 +53,7 @@ public class CodegenController {
         return PageResult.success(result);
     }
 
-    @Operation(summary = "조회코드 생성설정")
+    @Operation(summary = "코드 생성 설정 조회")
     @GetMapping("/{tableName}/config")
     public Result<GenConfigForm> getGenConfigFormData(
             @Parameter(description = "테이블명", example = "sys_user") @PathVariable String tableName
@@ -62,15 +62,15 @@ public class CodegenController {
         return Result.success(formData);
     }
 
-    @Operation(summary = "저장코드 생성설정")
+    @Operation(summary = "코드 생성 설정 저장")
     @PostMapping("/{tableName}/config")
-    @Log(value = "생성代码", module = LogModuleEnum.OTHER)
+    @Log(value = "코드 생성", module = LogModuleEnum.OTHER)
     public Result<?> saveGenConfig(@RequestBody GenConfigForm formData) {
         genConfigService.saveGenConfig(formData);
         return Result.success();
     }
 
-    @Operation(summary = "삭제코드 생성설정")
+    @Operation(summary = "코드 생성 설정 삭제")
     @DeleteMapping("/{tableName}/config")
     public Result<?> deleteGenConfig(
             @Parameter(description = "테이블명", example = "sys_user") @PathVariable String tableName
@@ -79,9 +79,9 @@ public class CodegenController {
         return Result.success();
     }
 
-    @Operation(summary = "조회预览생성代码")
+    @Operation(summary = "생성 코드 미리보기 조회")
     @GetMapping("/{tableName}/preview")
-    @Log(value = "预览생성代码", module = LogModuleEnum.OTHER)
+    @Log(value = "생성 코드 미리보기", module = LogModuleEnum.OTHER)
     public Result<List<CodegenPreviewVO>> getTablePreviewData(@PathVariable String tableName,
                                                               @RequestParam(value = "pageType", required = false, defaultValue = "classic") String pageType) {
         List<CodegenPreviewVO> list = codegenService.getCodegenPreviewData(tableName, pageType);

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 
 /**
- * 이메일서비스구현类
+ * 이메일 서비스 구현 클래스
  *
  * @author Ray
  * @since 2024/8/17
@@ -30,11 +30,11 @@ public class MailServiceImpl implements MailService {
     private final MailProperties mailProperties;
 
     /**
-     * 발송简单텍스트이메일
+     * 간단한 텍스트 이메일 전송
      *
-     * @param to      收件人주소
-     * @param subject 이메일主题
-     * @param text    이메일내용
+     * @param to      수신자 주소
+     * @param subject 이메일 제목
+     * @param text    이메일 내용
      */
     @Override
     public void sendMail(String to, String subject, String text) {
@@ -46,17 +46,17 @@ public class MailServiceImpl implements MailService {
             message.setText(text);
             mailSender.send(message);
         } catch (Exception e) {
-            log.error("이메일 전송실패{}", e.getMessage());
+            log.error("이메일 전송 실패: {}", e.getMessage());
         }
     }
 
     /**
-     * 발송带附件의이메일
+     * 첨부 파일이 포함된 이메일 전송
      *
-     * @param to       收件人주소
-     * @param subject  이메일主题
-     * @param text     이메일내용
-     * @param filePath 附件경로
+     * @param to       수신자 주소
+     * @param subject  이메일 제목
+     * @param text     이메일 내용
+     * @param filePath 첨부 파일 경로
      */
     @Override
     public void sendMailWithAttachment(String to, String subject, String text, String filePath) {
@@ -66,14 +66,14 @@ public class MailServiceImpl implements MailService {
             helper.setFrom(mailProperties.getFrom());
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(text, true);  // true表示支持HTML내용
+            helper.setText(text, true);  // true는 HTML 내용 지원을 의미함
 
             FileSystemResource file = new FileSystemResource(new File(filePath));
             helper.addAttachment(file.getFilename(), file);
 
             mailSender.send(message);
         } catch (MessagingException e) {
-            log.error("이메일 전송실패{}", e.getMessage());
+            log.error("이메일 전송 실패: {}", e.getMessage());
         }
     }
 }

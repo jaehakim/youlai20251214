@@ -25,10 +25,10 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
   private final TokenManager tokenManager;
 
   /**
-   * 저장사용자역할
+   * 사용자 역할 저장
    *
-   * @param userId 사용자ID
-   * @param roleIds 选择의역할ID集合
+   * @param userId 사용자 ID
+   * @param roleIds 선택한 역할 ID 집합
    * @return
    */
   @Override
@@ -37,7 +37,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
       return ;
     }
 
-    // 조회现有역할
+    // 기존 역할 조회
     List<Long> userRoleIds = this.list(new LambdaQueryWrapper<UserRole>()
         .select(UserRole::getRoleId)
         .eq(UserRole::getUserId, userId))
@@ -45,11 +45,11 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
       .map(UserRole::getRoleId)
       .toList();
 
-    // 사용Set提升对比效率
+    // Set을 사용하여 비교 효율 향상
     Set<Long> oldRoles = new HashSet<>(userRoleIds);
     Set<Long> newRoles = new HashSet<>(roleIds);
 
-    // 计算变更集
+    // 변경 집합 계산
     Set<Long> addedRoles = new HashSet<>(newRoles);
     addedRoles.removeAll(oldRoles);
 
@@ -58,31 +58,31 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
 
     boolean rolesChanged = !addedRoles.isEmpty() || !removedRoles.isEmpty();
 
-    // 批量저장추가역할
+    // 추가된 역할 일괄 저장
     if (!addedRoles.isEmpty()) {
       this.saveBatch(addedRoles.stream()
         .map(roleId -> new UserRole(userId, roleId))
         .collect(Collectors.toList()));
     }
 
-    // 삭제废弃역할
+    // 폐기된 역할 삭제
     if (!removedRoles.isEmpty()) {
       this.remove(new LambdaQueryWrapper<UserRole>()
         .eq(UserRole::getUserId, userId)
         .in(UserRole::getRoleId, removedRoles));
     }
 
-    // 当권한变更时제거被사용자 수정의로그인态
+    // 권한 변경 시 사용자의 로그인 상태 무효화
     if (rolesChanged) {
       tokenManager.invalidateUserSessions(userId);
     }
   }
 
   /**
-   * 判断역할여부存에바인딩의사용자
+   * 역할에 바인딩된 사용자 존재 여부 판단
    *
-   * @param roleId 역할ID
-   * @return true：이미分配 false：미分配
+   * @param roleId 역할 ID
+   * @return true: 이미 할당됨, false: 미할당
    */
   @Override
   public boolean hasAssignedUsers(Long roleId) {

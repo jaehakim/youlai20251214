@@ -8,7 +8,7 @@ import com.youlai.boot.platform.codegen.model.vo.TablePageVO;
 import java.util.List;
 
 /**
- * 코드 생성설정인터페이스
+ * 코드 생성 설정 인터페이스
  *
  * @author Ray
  * @since 2.10.0

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 表单类型枚举
+ * Java 유형 열거형
  *
  * @author Ray
  * @since 2.10.0

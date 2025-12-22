@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 /**
- * 알리바바 클라우드SMS비즈니스类
+ * 알리바바 클라우드 SMS 서비스 클래스
  *
  * @author Ray
  * @since 2024/8/17
@@ -45,23 +45,23 @@ public class AliyunSmsService implements SmsService {
                 aliyunSmsProperties.getAccessKeyId(), aliyunSmsProperties.getAccessKeySecret());
         IAcsClient client = new DefaultAcsClient(profile);
 
-        // 생성通用의请求객체
+        // 공통 요청 객체 생성
         CommonRequest request = new CommonRequest();
-        // 지정된请求方式
+        // 요청 방식 지정
         request.setSysMethod(MethodType.POST);
-        // SMSapi의请求주소(固定)
+        // SMS API의 요청 주소 (고정)
         request.setSysDomain(aliyunSmsProperties.getDomain());
-        // 签名算法版(固定)
+        // 서명 알고리즘 버전 (고정)
         request.setSysVersion("2017-05-25");
-        // 请求 API 의이름(固定)
+        // 요청 API의 이름 (고정)
         request.setSysAction("SendSms");
-        // 지정된地域이름
+        // 지역 이름 지정
         request.putQueryParameter("RegionId", aliyunSmsProperties.getRegionId());
-        // 要给哪个휴대폰 번호발송SMS  지정된휴대폰 번호
+        // SMS를 전송할 휴대폰 번호 지정
         request.putQueryParameter("PhoneNumbers", mobile);
-        // 您의申请签名
+        // 신청한 서명
         request.putQueryParameter("SignName", aliyunSmsProperties.getSignName());
-        // 您申请의템플릿 code
+        // 신청한 템플릿 코드
         request.putQueryParameter("TemplateCode", templateCode);
 
         request.putQueryParameter("TemplateParam", JSONUtil.toJsonStr(templateParams));

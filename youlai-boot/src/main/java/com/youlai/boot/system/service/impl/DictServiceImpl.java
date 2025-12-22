@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * 사전비즈니스구현类
+ * 사전 비즈니스 구현 클래스
  *
  * @author haoxr
  * @since 2022/10/12
@@ -64,71 +64,71 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
 
     /**
-     * 추가사전
+     * 사전 추가
      *
-     * @param dictForm 사전폼데이터
+     * @param dictForm 사전 폼 데이터
      */
     @Override
     public boolean saveDict(DictForm dictForm) {
-        // 저장사전
+        // 사전 저장
         Dict entity = dictConverter.toEntity(dictForm);
 
-        // 검증 code 여부唯원
+        // code 유일성 검증
         String dictCode = entity.getDictCode();
 
         long count = this.count(new LambdaQueryWrapper<Dict>()
                 .eq(Dict::getDictCode, dictCode)
         );
 
-        Assert.isTrue(count == 0, "사전 코드이미存에");
+        Assert.isTrue(count == 0, "사전 코드가 이미 존재합니다");
 
         return this.save(entity);
     }
 
 
     /**
-     * 조회사전폼상세
+     * 사전 폼 상세 조회
      *
-     * @param id 사전ID
+     * @param id 사전 ID
      */
     @Override
     public DictForm getDictForm(Long id) {
-        // 조회사전
+        // 사전 조회
         Dict entity = this.getById(id);
         if (entity == null) {
-            throw new BusinessException("사전不存에");
+            throw new BusinessException("사전이 존재하지 않습니다");
         }
         return dictConverter.toForm(entity);
     }
 
     /**
-     * 수정사전
+     * 사전 수정
      *
-     * @param id       사전ID
-     * @param dictForm 사전폼
+     * @param id       사전 ID
+     * @param dictForm 사전 폼
      */
     @Override
     @Transactional
     public boolean updateDict(Long id, DictForm dictForm) {
-        // 조회사전
+        // 사전 조회
         Dict entity = this.getById(id);
         if (entity == null) {
-            throw new BusinessException("사전不存에");
+            throw new BusinessException("사전이 존재하지 않습니다");
         }
-        // 검증 code 여부唯원
+        // code 유일성 검증
         String dictCode = dictForm.getDictCode();
         if (!entity.getDictCode().equals(dictCode)) {
             long count = this.count(new LambdaQueryWrapper<Dict>()
                     .eq(Dict::getDictCode, dictCode)
             );
-            Assert.isTrue(count == 0, "사전 코드이미存에");
+            Assert.isTrue(count == 0, "사전 코드가 이미 존재합니다");
         }
-        // 업데이트사전
+        // 사전 업데이트
         Dict dict = dictConverter.toEntity(dictForm);
         dict.setId(id);
         boolean result = this.updateById(dict);
         if (result) {
-            // 업데이트사전 데이터
+            // 사전 데이터 업데이트
             List<DictItem> dictItemList = dictItemService.list(
                     new LambdaQueryWrapper<DictItem>()
                             .eq(DictItem::getDictCode, entity.getDictCode())
@@ -148,17 +148,17 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     }
 
     /**
-     * 삭제사전
+     * 사전 삭제
      *
-     * @param ids 사전ID，여러 개는영문쉼표(,)로 구분
+     * @param ids 사전 ID, 여러 개는 영문 쉼표(,)로 구분
      */
     @Transactional
     @Override
     public void deleteDictByIds(List<String> ids) {
-        // 삭제사전
+        // 사전 삭제
         this.removeByIds(ids);
 
-        // 삭제사전 항목
+        // 사전 항목 삭제
         List<Dict> list = this.listByIds(ids);
         if (!list.isEmpty()) {
             List<String> dictCodes = list.stream().map(Dict::getDictCode).toList();
@@ -169,10 +169,10 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     }
 
     /**
-     * 根据사전ID목록조회사전 코드목록
+     * 사전 ID 목록으로 사전 코드 목록 조회
      *
-     * @param ids 사전ID목록
-     * @return 사전 코드목록
+     * @param ids 사전 ID 목록
+     * @return 사전 코드 목록
      */
     @Override
     public List<String> getDictCodesByIds(List<String> ids) {

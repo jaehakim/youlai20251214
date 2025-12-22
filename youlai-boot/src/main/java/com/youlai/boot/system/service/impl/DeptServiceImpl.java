@@ -39,15 +39,15 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     private final DeptConverter deptConverter;
 
     /**
-     * 조회부서 목록
+     * 부서 목록 조회
      */
     @Override
     public List<DeptVO> getDeptList(DeptQuery queryParams) {
-        // 조회参수
+        // 조회 파라미터
         String keywords = queryParams.getKeywords();
         Integer status = queryParams.getStatus();
 
-        // 조회데이터
+        // 데이터 조회
         List<Dept> deptList = this.list(
                 new LambdaQueryWrapper<Dept>()
                         .like(StrUtil.isNotBlank(keywords), Dept::getName, keywords)
@@ -59,29 +59,29 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
             return Collections.EMPTY_LIST;
         }
 
-        // 조회所有부서ID
+        // 모든 부서 ID 조회
         Set<Long> deptIds = deptList.stream()
                 .map(Dept::getId)
                 .collect(Collectors.toSet());
-        // 조회父节点ID
+        // 부모 노드 ID 조회
         Set<Long> parentIds = deptList.stream()
                 .map(Dept::getParentId)
                 .collect(Collectors.toSet());
-        // 조회根节点ID（递归의起点），即父节点ID중不包含에부서ID중의节点，注意这里不能拿顶级부서 O 作값根节点，因값부서筛选의时候 O 会被过滤掉
+        // 루트 노드 ID 조회(재귀의 시작점), 즉 부모 노드 ID 중 부서 ID에 포함되지 않는 노드, 여기서 최상위 부서 0을 루트 노드로 사용할 수 없음에 주의, 부서 필터링 시 0이 제외되기 때문
         List<Long> rootIds = CollectionUtil.subtractToList(parentIds, deptIds);
 
-        // 递归생성부서树形목록
+        // 재귀적으로 부서 트리 목록 생성
         return rootIds.stream()
                 .flatMap(rootId -> recurDeptList(rootId, deptList).stream())
                 .toList();
     }
 
     /**
-     * 递归생성부서树形목록
+     * 재귀적으로 부서 트리 목록 생성
      *
-     * @param parentId 父ID
+     * @param parentId 부모 ID
      * @param deptList 부서 목록
-     * @return 부서树形목록
+     * @return 부서 트리 목록
      */
     public List<DeptVO> recurDeptList(Long parentId, List<Dept> deptList) {
         return deptList.stream()
@@ -97,7 +97,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
     /**
      * 부서 드롭다운 옵션
      *
-     * @return 부서下拉List集合
+     * @return 부서 드롭다운 목록 집합
      */
     @Override
     public List<Option<Long>> listDeptOptions() {
@@ -121,38 +121,38 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 
         List<Long> rootIds = CollectionUtil.subtractToList(parentIds, deptIds);
 
-        // 递归생성부서树形목록
+        // 재귀적으로 부서 트리 목록 생성
         return rootIds.stream()
                 .flatMap(rootId -> recurDeptTreeOptions(rootId, deptList).stream())
                 .toList();
     }
 
     /**
-     * 추가부서
+     * 부서 추가
      *
-     * @param formData 부서폼
-     * @return 부서ID
+     * @param formData 부서 폼
+     * @return 부서 ID
      */
     @Override
     public Long saveDept(DeptForm formData) {
-        // 검증부서이름여부存에
+        // 부서명 존재 여부 검증
         String code = formData.getCode();
         long count = this.count(new LambdaQueryWrapper<Dept>()
                 .eq(Dept::getCode, code)
         );
-        Assert.isTrue(count == 0, "부서번호이미存에");
+        Assert.isTrue(count == 0, "부서번호가 이미 존재합니다");
 
         // form->entity
         Dept entity = deptConverter.toEntity(formData);
 
-        // 생성부서경로(tree_path)，格式：父节点tree_path + , + 父节点ID，용도삭제부서时级联삭제子부서
+        // 부서 경로(tree_path) 생성, 형식: 부모 노드 tree_path + , + 부모 노드 ID, 부서 삭제 시 하위 부서 연쇄 삭제용
         String treePath = generateDeptTreePath(formData.getParentId());
         entity.setTreePath(treePath);
 
         entity.setCreateBy(SecurityUtils.getUserId());
-        // 저장부서并返回부서ID
+        // 부서 저장 및 부서 ID 반환
         boolean result = this.save(entity);
-        Assert.isTrue(result, "부서저장실패");
+        Assert.isTrue(result, "부서 저장 실패");
 
         return entity.getId();
     }
@@ -172,34 +172,34 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 
 
     /**
-     * 업데이트부서
+     * 부서 업데이트
      *
-     * @param deptId   부서ID
-     * @param formData 부서폼
-     * @return 부서ID
+     * @param deptId   부서 ID
+     * @param formData 부서 폼
+     * @return 부서 ID
      */
     @Override
     public Long updateDept(Long deptId, DeptForm formData) {
-        // 검증부서이름/부서번호여부存에
+        // 부서명/부서번호 존재 여부 검증
         String code = formData.getCode();
         long count = this.count(new LambdaQueryWrapper<Dept>()
                 .ne(Dept::getId, deptId)
                 .eq(Dept::getCode, code)
         );
-        Assert.isTrue(count == 0, "부서번호이미存에");
+        Assert.isTrue(count == 0, "부서번호가 이미 존재합니다");
 
 
         // form->entity
         Dept entity = deptConverter.toEntity(formData);
         entity.setId(deptId);
 
-        // 생성부서경로(tree_path)，格式：父节点tree_path + , + 父节点ID，용도삭제부서时级联삭제子부서
+        // 부서 경로(tree_path) 생성, 형식: 부모 노드 tree_path + , + 부모 노드 ID, 부서 삭제 시 하위 부서 연쇄 삭제용
         String treePath = generateDeptTreePath(formData.getParentId());
         entity.setTreePath(treePath);
 
-        // 저장부서并返回부서ID
+        // 부서 저장 및 부서 ID 반환
         boolean result = this.updateById(entity);
-        Assert.isTrue(result, "부서업데이트실패");
+        Assert.isTrue(result, "부서 업데이트 실패");
 
         return entity.getId();
     }
@@ -253,10 +253,10 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 
 
     /**
-     * 부서경로생성
+     * 부서 경로 생성
      *
-     * @param parentId 父ID
-     * @return 父节点경로는영문쉼표(, )로 구분，eg: 1,2,3
+     * @param parentId 부모 ID
+     * @return 부모 노드 경로는 영문 쉼표(,)로 구분, 예: 1,2,3
      */
     private String generateDeptTreePath(Long parentId) {
         String treePath = null;

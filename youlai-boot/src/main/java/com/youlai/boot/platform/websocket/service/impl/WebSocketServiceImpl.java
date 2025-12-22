@@ -19,12 +19,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
- * WebSocket 서비스구현类
- * 
- * 核心功能：
- * - 사용자에线상태관리（支持多设备로그인）
- * - 메시지 푸시（广播、点对点）
- * - 사전变更공지
+ * WebSocket 서비스 구현 클래스
+ *
+ * 핵심 기능:
+ * - 사용자 온라인 상태 관리 (다중 기기 로그인 지원)
+ * - 메시지 푸시 (브로드캐스트, 점대점)
+ * - 사전 변경 알림
  *
  * @author Ray.Hao
  * @since 3.0.0
@@ -33,23 +33,23 @@ import java.util.stream.Collectors;
 @Slf4j
 public class WebSocketServiceImpl implements WebSocketService {
 
-    // ==================== 온라인 사용자관리 ====================
-    
+    // ==================== 온라인 사용자 관리 ====================
+
     /**
-     * 사용자에线세션映射表
+     * 사용자 온라인 세션 매핑 테이블
      * Key: 사용자명
-     * Value: 该사용자의所有세션 ID 集合（支持多设备로그인）
+     * Value: 해당 사용자의 모든 세션 ID 집합 (다중 기기 로그인 지원)
      */
     private final Map<String, Set<String>> userSessionsMap = new ConcurrentHashMap<>();
 
     /**
-     * 세션상세映射表
+     * 세션 상세 매핑 테이블
      * Key: 세션 ID
-     * Value: 세션详细信息
+     * Value: 세션 상세 정보
      */
     private final Map<String, SessionInfo> sessionDetailsMap = new ConcurrentHashMap<>();
 
-    // ==================== 依赖注入 ====================
+    // ==================== 의존성 주입 ====================
     
     private SimpMessagingTemplate messagingTemplate;
     private final ObjectMapper objectMapper;
@@ -60,18 +60,18 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     /**
-     * 延迟注入 SimpMessagingTemplate，避免循环依赖
+     * 지연 주입 SimpMessagingTemplate, 순환 의존성 방지
      */
     @Autowired(required = false)
     public void setMessagingTemplate(SimpMessagingTemplate messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
-        log.info("✓ WebSocket 메시지템플릿이미初始化");
+        log.info("✓ WebSocket 메시지 템플릿 초기화 완료");
     }
 
-    // ==================== 사용자에线상태관리 ====================
+    // ==================== 사용자 온라인 상태 관리 ====================
 
     /**
-     * 处理사용자连接事件
+     * 사용자 연결 이벤트 처리
      *
      * @param username  사용자명
      * @param sessionId WebSocket 세션 ID
@@ -79,35 +79,35 @@ public class WebSocketServiceImpl implements WebSocketService {
     @Override
     public void userConnected(String username, String sessionId) {
         if (username == null || username.isEmpty()) {
-            log.warn("사용자连接실패：사용자명값空");
+            log.warn("사용자 연결 실패: 사용자명이 비어있음");
             return;
         }
 
         if (sessionId == null || sessionId.isEmpty()) {
-            log.warn("사용자[{}]连接실패：세션 ID 값空", username);
+            log.warn("사용자[{}] 연결 실패: 세션 ID가 비어있음", username);
             return;
         }
 
-        // 添加세션到사용자의세션集合중（支持多设备로그인）
+        // 사용자의 세션 집합에 세션 추가 (다중 기기 로그인 지원)
         userSessionsMap.computeIfAbsent(username, k -> ConcurrentHashMap.newKeySet())
                        .add(sessionId);
 
-        // 저장세션상세
+        // 세션 상세 정보 저장
         SessionInfo sessionInfo = new SessionInfo(username, sessionId, System.currentTimeMillis());
         sessionDetailsMap.put(sessionId, sessionInfo);
 
         int sessionCount = userSessionsMap.get(username).size();
         int totalOnlineUsers = userSessionsMap.size();
 
-        log.info("✓ 사용자[{}]세션[{}]上线（该사용자共 {} 个세션，시스템总온라인 사용자수：{}）",
+        log.info("✓ 사용자[{}] 세션[{}] 온라인 (해당 사용자 총 {} 개 세션, 시스템 전체 온라인 사용자 수: {})",
                 username, sessionId, sessionCount, totalOnlineUsers);
 
-        // 广播온라인 사용자수变更
+        // 온라인 사용자 수 변경 브로드캐스트
         broadcastOnlineUserCount();
     }
 
     /**
-     * 处理사용자断开连接事件
+     * 사용자 연결 해제 이벤트 처리
      *
      * @param username 사용자명
      */
@@ -117,28 +117,28 @@ public class WebSocketServiceImpl implements WebSocketService {
             return;
         }
 
-        // 조회该사용자의所有세션
+        // 해당 사용자의 모든 세션 조회
         Set<String> sessions = userSessionsMap.get(username);
         if (sessions == null || sessions.isEmpty()) {
-            log.warn("사용자[{}]下线：미找到세션기록", username);
+            log.warn("사용자[{}] 오프라인: 세션 기록을 찾을 수 없음", username);
             return;
         }
 
-        // 移除所有세션상세（通常원次만断开원个세션，但这里做全量清理）
+        // 모든 세션 상세 정보 제거 (일반적으로 한 번에 하나의 세션만 끊지만, 여기서는 전체 정리)
         sessions.forEach(sessionDetailsMap::remove);
 
-        // 移除사용자의세션기록
+        // 사용자의 세션 기록 제거
         userSessionsMap.remove(username);
 
         int totalOnlineUsers = userSessionsMap.size();
-        log.info("✓ 사용자[{}]下线（시스템总온라인 사용자수：{}）", username, totalOnlineUsers);
+        log.info("✓ 사용자[{}] 오프라인 (시스템 전체 온라인 사용자 수: {})", username, totalOnlineUsers);
 
-        // 广播온라인 사용자수变更
+        // 온라인 사용자 수 변경 브로드캐스트
         broadcastOnlineUserCount();
     }
 
     /**
-     * 移除지정된세션（单个设备下线）
+     * 지정된 세션 제거 (단일 기기 오프라인)
      *
      * @param sessionId 세션 ID
      */
@@ -154,24 +154,24 @@ public class WebSocketServiceImpl implements WebSocketService {
         if (sessions != null) {
             sessions.remove(sessionId);
 
-            // 如果该사용자没有其他세션，移除사용자기록
+            // 해당 사용자가 다른 세션이 없으면, 사용자 기록 제거
             if (sessions.isEmpty()) {
                 userSessionsMap.remove(username);
-                log.info("✓ 사용자[{}]最후원个세션[{}]下线", username, sessionId);
+                log.info("✓ 사용자[{}] 마지막 세션[{}] 오프라인", username, sessionId);
             } else {
-                log.info("✓ 사용자[{}]세션[{}]下线（还剩 {} 个세션）", 
+                log.info("✓ 사용자[{}] 세션[{}] 오프라인 (남은 세션: {}개)",
                         username, sessionId, sessions.size());
             }
 
-            // 广播온라인 사용자수变更
+            // 온라인 사용자 수 변경 브로드캐스트
             broadcastOnlineUserCount();
         }
     }
 
     /**
-     * 조회에线사용자 목록
+     * 온라인 사용자 목록 조회
      *
-     * @return 에线사용자 정보목록
+     * @return 온라인 사용자 정보 목록
      */
     public List<OnlineUserDTO> getOnlineUsers() {
         return userSessionsMap.entrySet().stream()
@@ -179,7 +179,7 @@ public class WebSocketServiceImpl implements WebSocketService {
                     String username = entry.getKey();
                     Set<String> sessions = entry.getValue();
 
-                    // 조회该사용자最早의로그인시간
+                    // 해당 사용자의 가장 빠른 로그인 시간 조회
                     long earliestLoginTime = sessions.stream()
                             .map(sessionDetailsMap::get)
                             .filter(info -> info != null)
@@ -193,9 +193,9 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     /**
-     * 조회온라인 사용자수量
+     * 온라인 사용자 수 조회
      *
-     * @return 온라인 사용자수（不是세션수）
+     * @return 온라인 사용자 수 (세션 수가 아님)
      */
     public int getOnlineUserCount() {
         return userSessionsMap.size();
@@ -211,10 +211,10 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     /**
-     * 检查사용자여부에线
+     * 사용자 온라인 여부 확인
      *
      * @param username 사용자명
-     * @return 여부에线
+     * @return 온라인 여부
      */
     public boolean isUserOnline(String username) {
         Set<String> sessions = userSessionsMap.get(username);
@@ -260,17 +260,17 @@ public class WebSocketServiceImpl implements WebSocketService {
         }
     }
 
-    // ==================== 메시지 푸시功能 ====================
+    // ==================== 메시지 푸시 기능 ====================
 
     /**
-     * 向所有客户端广播사전업데이트事件
+     * 모든 클라이언트에 사전 업데이트 이벤트 브로드캐스트
      *
      * @param dictCode 사전 코드
      */
     @Override
     public void broadcastDictChange(String dictCode) {
         if (dictCode == null || dictCode.isEmpty()) {
-            log.warn("사전 코드값空，跳过广播");
+            log.warn("사전 코드가 비어있음, 브로드캐스트 건너뜀");
             return;
         }
 
@@ -366,10 +366,10 @@ public class WebSocketServiceImpl implements WebSocketService {
         }
     }
 
-    // ==================== 内部데이터类 ====================
+    // ==================== 내부 데이터 클래스 ====================
 
     /**
-     * 세션信息
+     * 세션 정보
      */
     @Data
     @AllArgsConstructor
@@ -399,15 +399,15 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     /**
-     * 시스템메시지
+     * 시스템 메시지
      */
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     public static class SystemMessage {
-        /** 발송者 */
+        /** 발송자 */
         private String sender;
-        /** 메시지내용 */
+        /** 메시지 내용 */
         private String content;
         /** 타임스탬프 */
         private long timestamp;

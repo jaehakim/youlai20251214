@@ -40,7 +40,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 공지사항서비스구현类
+ * 공지사항 서비스 구현 클래스
  *
  * @author Theo
  * @since 2024-08-27 10:31
@@ -73,8 +73,8 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     /**
      * 공지사항 폼 데이터 조회
      *
-     * @param id 공지사항ID
-     * @return {@link NoticeForm} 공지사항폼객체
+     * @param id 공지사항 ID
+     * @return {@link NoticeForm} 공지사항 폼 객체
      */
     @Override
     public NoticeForm getNoticeFormData(Long id) {
@@ -83,10 +83,10 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     /**
-     * 추가공지사항
+     * 공지사항 추가
      *
-     * @param formData 공지사항폼객체
-     * @return {@link Boolean} 여부추가성공
+     * @param formData 공지사항 폼 객체
+     * @return {@link Boolean} 추가 성공 여부
      */
     @Override
     public boolean saveNotice(NoticeForm formData) {
@@ -94,7 +94,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         if (NoticeTargetEnum.SPECIFIED.getValue().equals(formData.getTargetType())) {
             List<String> targetUserIdList = formData.getTargetUserIds();
             if (CollectionUtil.isEmpty(targetUserIdList)) {
-                throw new BusinessException("推送지정된사용자不能값空");
+                throw new BusinessException("지정된 사용자에게 푸시할 수 없습니다");
             }
         }
         Notice entity = noticeConverter.toEntity(formData);
@@ -103,18 +103,18 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     /**
-     * 업데이트공지사항
+     * 공지사항 업데이트
      *
-     * @param id       공지사항ID
-     * @param formData 공지사항폼객체
-     * @return {@link Boolean} 여부업데이트성공
+     * @param id       공지사항 ID
+     * @param formData 공지사항 폼 객체
+     * @return {@link Boolean} 업데이트 성공 여부
      */
     @Override
     public boolean updateNotice(Long id, NoticeForm formData) {
         if (NoticeTargetEnum.SPECIFIED.getValue().equals(formData.getTargetType())) {
             List<String> targetUserIdList = formData.getTargetUserIds();
             if (CollectionUtil.isEmpty(targetUserIdList)) {
-                throw new BusinessException("推送지정된사용자不能값空");
+                throw new BusinessException("지정된 사용자에게 푸시할 수 없습니다");
             }
         }
 
@@ -123,53 +123,53 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     /**
-     * 삭제공지사항
+     * 공지사항 삭제
      *
-     * @param ids 공지사항ID，여러 개는영문쉼표(,)로 구분
-     * @return {@link Boolean} 여부삭제성공
+     * @param ids 공지사항 ID, 여러 개는 영문 쉼표(,)로 구분
+     * @return {@link Boolean} 삭제 성공 여부
      */
     @Override
     @Transactional
     public boolean deleteNotices(String ids) {
         if (StrUtil.isBlank(ids)) {
-            throw new BusinessException("삭제의공지사항데이터값空");
+            throw new BusinessException("삭제할 공지사항 데이터가 비어 있습니다");
         }
 
-        // 逻辑삭제
+        // 논리 삭제
         List<Long> idList = Arrays.stream(ids.split(","))
                 .map(Long::parseLong)
                 .toList();
         boolean isRemoved = this.removeByIds(idList);
         if (isRemoved) {
-            // 삭제공지사항의同时，需要삭제공지사항对应의사용자공지상태
+            // 공지사항 삭제 시 해당 공지사항에 대응하는 사용자 공지 상태도 삭제 필요
             userNoticeService.remove(new LambdaQueryWrapper<UserNotice>().in(UserNotice::getNoticeId, idList));
         }
         return isRemoved;
     }
 
     /**
-     * 발행공지사항
+     * 공지사항 발행
      *
-     * @param id 공지사항ID
-     * @return 여부발행성공
+     * @param id 공지사항 ID
+     * @return 발행 성공 여부
      */
     @Override
     @Transactional
     public boolean publishNotice(Long id) {
         Notice notice = this.getById(id);
         if (notice == null) {
-            throw new BusinessException("공지사항不存에");
+            throw new BusinessException("공지사항이 존재하지 않습니다");
         }
 
         if (NoticePublishStatusEnum.PUBLISHED.getValue().equals(notice.getPublishStatus())) {
-            throw new BusinessException("공지사항이미발행");
+            throw new BusinessException("공지사항이 이미 발행되었습니다");
         }
 
         Integer targetType = notice.getTargetType();
         String targetUserIds = notice.getTargetUserIds();
         if (NoticeTargetEnum.SPECIFIED.getValue().equals(targetType)
                 && StrUtil.isBlank(targetUserIds)) {
-            throw new BusinessException("推送지정된사용자不能값空");
+            throw new BusinessException("지정된 사용자에게 푸시할 수 없습니다");
         }
 
         notice.setPublishStatus(NoticePublishStatusEnum.PUBLISHED.getValue());
@@ -232,21 +232,21 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     /**
-     * 회수공지사항
+     * 공지사항 회수
      *
-     * @param id 공지사항ID
-     * @return 여부회수성공
+     * @param id 공지사항 ID
+     * @return 회수 성공 여부
      */
     @Override
     @Transactional
     public boolean revokeNotice(Long id) {
         Notice notice = this.getById(id);
         if (notice == null) {
-            throw new BusinessException("공지사항不存에");
+            throw new BusinessException("공지사항이 존재하지 않습니다");
         }
 
         if (!NoticePublishStatusEnum.PUBLISHED.getValue().equals(notice.getPublishStatus())) {
-            throw new BusinessException("공지사항미발행또는이미회수");
+            throw new BusinessException("공지사항이 미발행이거나 이미 회수되었습니다");
         }
 
         notice.setPublishStatus(NoticePublishStatusEnum.REVOKED.getValue());
@@ -256,7 +256,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         boolean revokeResult = this.updateById(notice);
 
         if (revokeResult) {
-            // 회수공지사항의同时，需要삭제공지사항对应의사용자공지상태
+            // 공지사항 회수 시 해당 공지사항에 대응하는 사용자 공지 상태도 삭제 필요
             userNoticeService.remove(new LambdaQueryWrapper<UserNotice>()
                     .eq(UserNotice::getNoticeId, id)
             );
@@ -266,13 +266,13 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
 
     /**
      *
-     * @param id 공지사항ID
-     * @return NoticeDetailVO 공지사항상세
+     * @param id 공지사항 ID
+     * @return NoticeDetailVO 공지사항 상세
      */
     @Override
     public NoticeDetailVO getNoticeDetail(Long id) {
         NoticeBO noticeBO = this.baseMapper.getNoticeDetail(id);
-        // 업데이트사용자공지사항의읽기상태
+        // 사용자 공지사항의 읽기 상태 업데이트
         Long userId = SecurityUtils.getUserId();
         userNoticeService.update(new LambdaUpdateWrapper<UserNotice>()
                 .eq(UserNotice::getNoticeId, id)

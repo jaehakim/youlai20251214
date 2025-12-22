@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * 시스템로그 서비스구현类
+ * 시스템 로그 서비스 구현 클래스
  *
  * @author Ray.Hao
  * @since 2.10.0

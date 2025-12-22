@@ -39,7 +39,7 @@ import java.util.Optional;
 public class AiCommandServiceImpl implements AiCommandService {
 
   private static final String SYSTEM_PROMPT = """
-    당신은 지능형 엔터프라이즈 운영 도우미입니다，需要을사용자의自然语言명령解析成标准의函수调用。
+    당신은 지능형 엔터프라이즈 운영 도우미입니다，사용자의 자연어 명령을 표준 함수 호출로 파싱해야 합니다을사용자의自然语言명령解析成标准의函수调用。
     엄격한 JSON 형식으로 반환해주세요. 포함할 필드:
     - success: boolean
     - explanation: string
@@ -48,7 +48,7 @@ public class AiCommandServiceImpl implements AiCommandService {
     - provider: string
     - model: string
     - functionCalls: 배열, 각 요소는 name, description, arguments(객체) 포함
-    명령을 인식할 수 없을 때는 success=false로 설정하고 error를 제공하세요。
+    명령을 인식할 수 없을 때는 success=false로 설정하고 error를 제공하세요.
     """;
 
   private final AiCommandRecordService recordService;
@@ -151,7 +151,7 @@ public class AiCommandServiceImpl implements AiCommandService {
       .set("availableFunctions", availableFunctions());
 
     return StrUtil.format("""
-      请根据는下컨텍스트识别사용자意图，并输出符合시스템提示要求의 JSON：
+      아래 컨텍스트를 바탕으로 사용자 의도를 식별하고, 시스템 프롬프트 요구사항에 맞는 JSON을 출력하세요:
       {}
       """, JSONUtil.toJsonPrettyStr(payload));
   }
@@ -244,7 +244,7 @@ public class AiCommandServiceImpl implements AiCommandService {
         throw new IllegalStateException("해당 파싱 기록을 찾을 수 없습니다, ID: " + request.getParseLogId());
       }
     } else {
-      // 파싱 로그 ID가 없으면，생성새기록（兼容直接执行의情况）
+      // 파싱 로그 ID가 없으면 새 기록 생성 (직접 실행 상황 호환)
       record = new AiCommandRecord();
       record.setUserId(userId);
       record.setUsername(username);
@@ -274,12 +274,12 @@ public class AiCommandServiceImpl implements AiCommandService {
             .ne(AiCommandRecord::getId, record.getId()) // 현재 기록 제외
         );
         if (existing != null) {
-          log.warn("⚠️ 중복 실행 감지됨，幂等性토큰: {}", request.getIdempotencyKey());
-          throw new IllegalStateException("해당 작업이 이미 실행되었습니다，请勿重复제출");
+          log.warn("⚠️ 중복 실행 감지됨, 멱등성 토큰: {}", request.getIdempotencyKey());
+          throw new IllegalStateException("해당 작업이 이미 실행되었습니다. 중복 제출하지 마세요");
         }
       }
 
-      // 🎯 执行具体의函수调用
+      // 🎯 구체적인 함수 호출 실행
       Object result = executeFunctionCall(functionCall);
 
       // 실행 성공 업데이트
@@ -295,7 +295,7 @@ public class AiCommandServiceImpl implements AiCommandService {
       return result;
 
     } catch (Exception e) {
-      // 업데이트执行실패
+      // 실행 실패 업데이트
       record.setExecuteStatus("failed");
       record.setExecuteErrorMessage(e.getMessage());
       record.setExecutionTime(System.currentTimeMillis() - startTime);
@@ -305,7 +305,7 @@ public class AiCommandServiceImpl implements AiCommandService {
 
       log.error("❌ 명령 실행 실패, 감사 기록 ID: {}", record.getId(), e);
 
-      // 抛出오류，由 Controller 统원处理
+      // 오류 발생, Controller에서 통합 처리
       throw e;
     }
   }
@@ -325,7 +325,7 @@ public class AiCommandServiceImpl implements AiCommandService {
   }
 
   /**
-   * 执行具体의函수调用
+   * 구체적인 함수 호출 실행의函수调用
    */
   private Object executeFunctionCall(AiFunctionCallDTO functionCall) {
     String functionName = functionCall.getName();
@@ -349,12 +349,12 @@ public class AiCommandServiceImpl implements AiCommandService {
     String username = (String) arguments.get("username");
     String nickname = (String) arguments.get("nickname");
 
-    log.info("🔧 [Tool] 업데이트사용자닉네임: username={}, nickname={}", username, nickname);
+    log.info("🔧 [Tool] 사용자 닉네임 업데이트: username={}, nickname={}", username, nickname);
     String resultMsg = userTools.updateUserNickname(username, nickname);
 
     boolean success = resultMsg != null && resultMsg.contains("성공");
     if (!success) {
-      throw new RuntimeException(resultMsg != null ? resultMsg : "업데이트사용자닉네임실패");
+      throw new RuntimeException(resultMsg != null ? resultMsg : "사용자 닉네임 업데이트 실패");
     }
 
     return Map.of("username", username, "nickname", nickname, "message", resultMsg);

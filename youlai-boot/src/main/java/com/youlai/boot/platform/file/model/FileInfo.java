@@ -5,19 +5,19 @@ import lombok.Data;
 
 
 /**
- * 文件信息对象
+ * 파일 정보 객체
  *
  * @author Ray.Hao
  * @since 1.0.0
  */
-@Schema(description = "文件对象")
+@Schema(description = "파일 객체")
 @Data
 public class FileInfo {
 
-    @Schema(description = "文件名称")
+    @Schema(description = "파일 이름")
     private String name;
 
-    @Schema(description = "文件URL")
+    @Schema(description = "파일 URL")
     private String url;
 
 }

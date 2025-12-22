@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 系统消息体
+ * 시스템 메시지 모델
  */
 @Data
 @AllArgsConstructor
@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 public class ChatMessage {
 
     /**
-     * 发送者
+     * 발송자
      */
     private String sender;
 
     /**
-     * 消息内容
+     * 메시지 내용
      */
     private String content;
 

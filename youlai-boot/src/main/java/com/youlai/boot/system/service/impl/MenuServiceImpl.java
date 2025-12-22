@@ -35,7 +35,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 메뉴서비스구현类
+ * 메뉴 서비스 구현 클래스
  *
  * @author Ray.Hao
  * @since 2020/11/06
@@ -60,31 +60,31 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
                 .like(StrUtil.isNotBlank(queryParams.getKeywords()), Menu::getName, queryParams.getKeywords())
                 .orderByAsc(Menu::getSort)
         );
-        // 조회所有메뉴ID
+        // 모든 메뉴 ID 조회
         Set<Long> menuIds = menus.stream()
                 .map(Menu::getId)
                 .collect(Collectors.toSet());
 
-        // 조회所有부모ID
+        // 모든 부모 ID 조회
         Set<Long> parentIds = menus.stream()
                 .map(Menu::getParentId)
                 .collect(Collectors.toSet());
 
-        // 조회根节点ID（递归의起点），即父节点ID중不包含에부서ID중의节点，注意这里不能拿顶级메뉴 O 作값根节点，因값메뉴筛选의时候 O 会被过滤掉
+        // 루트 노드 ID 조회 (재귀의 시작점), 즉 부모 노드 ID 중 메뉴 ID에 포함되지 않는 노드, 주의: 최상위 메뉴 0을 루트 노드로 사용할 수 없음, 메뉴 필터링 시 0이 제외되기 때문
         List<Long> rootIds = parentIds.stream()
                 .filter(id -> !menuIds.contains(id))
                 .toList();
 
-        // 사용递归函수来构建메뉴树
+        // 재귀 함수를 사용하여 메뉴 트리 구성
         return rootIds.stream()
                 .flatMap(rootId -> buildMenuTree(rootId, menus).stream())
                 .collect(Collectors.toList());
     }
 
     /**
-     * 递归생성메뉴 목록
+     * 재귀적으로 메뉴 목록 생성
      *
-     * @param parentId 부모ID
+     * @param parentId 부모 ID
      * @param menuList 메뉴 목록
      * @return 메뉴 목록
      */
@@ -101,9 +101,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     /**
-     * 메뉴下拉데이터
+     * 메뉴 드롭다운 데이터
      *
-     * @param onlyParent 부모 메뉴만 조회 여부 如果값true，排除按钮
+     * @param onlyParent 부모 메뉴만 조회 여부, true인 경우 버튼 제외
      */
     @Override
     public List<Option<Long>> listMenuOptions(boolean onlyParent) {
@@ -115,9 +115,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     /**
-     * 递归생성메뉴下拉层级목록
+     * 재귀적으로 메뉴 드롭다운 계층 목록 생성
      *
-     * @param parentId 부모ID
+     * @param parentId 부모 ID
      * @param menuList 메뉴 목록
      * @return 메뉴 드롭다운 목록
      */
@@ -139,7 +139,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     /**
-     * 조회현재사용자의메뉴라우트 목록
+     * 현재 사용자의 메뉴 라우트 목록 조회
      */
     @Override
     public List<RouteVO> listCurrentUserRoutes() {
@@ -151,7 +151,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
         List<Menu> menuList;
         if (SecurityUtils.isRoot()) {
-            // 超级관리员조회所有메뉴
+            // 슈퍼 관리자는 모든 메뉴 조회
             menuList = this.list(new LambdaQueryWrapper<Menu>()
                     .ne(Menu::getType, MenuTypeEnum.BUTTON.getValue())
                     .orderByAsc(Menu::getSort)
@@ -163,12 +163,12 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     /**
-     * 조회현재사용자의메뉴라우트 목록（지정된데이터源）
-     * 
-     * @param datasource 데이터源이름
-     *                   - master: 主库메뉴데이터
-     *                   - naiveui: NaiveUI项目메뉴데이터  
-     *                   - template: 템플릿项目메뉴데이터
+     * 현재 사용자의 메뉴 라우트 목록 조회 (지정된 데이터 소스)
+     *
+     * @param datasource 데이터 소스 이름
+     *                   - master: 메인 데이터베이스 메뉴 데이터
+     *                   - naiveui: NaiveUI 프로젝트 메뉴 데이터
+     *                   - template: 템플릿 프로젝트 메뉴 데이터
      */
     @Override
     public List<RouteVO> listCurrentUserRoutes(String datasource) {
@@ -177,11 +177,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
 
     /**
-     * 递归생성메뉴路由层级목록
+     * 재귀적으로 메뉴 라우트 계층 목록 생성
      *
-     * @param parentId 부모ID
+     * @param parentId 부모 ID
      * @param menuList 메뉴 목록
-     * @return 路由层级목록
+     * @return 라우트 계층 목록
      */
     private List<RouteVO> buildRoutes(Long parentId, List<Menu> menuList) {
         List<RouteVO> routeList = new ArrayList<>();
@@ -201,20 +201,20 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     /**
-     * 根据RouteBO생성RouteVO
+     * Menu 엔티티로 RouteVO 생성
      */
     private RouteVO toRouteVo(Menu menu) {
         RouteVO routeVO = new RouteVO();
-        // 조회路由이름
+        // 라우트 이름 조회
         String routeName = menu.getRouteName();
         if (StrUtil.isBlank(routeName)) {
-            // 路由 name 需要驼峰，首字母大写
+            // 라우트 name은 카멜케이스 필요, 첫 글자는 대문자
             routeName = StringUtils.capitalize(StrUtil.toCamelCase(menu.getRoutePath(), '-'));
         }
-        // 根据name路由跳转 this.$router.push({name:xxx})
+        // name으로 라우트 이동: this.$router.push({name:xxx})
         routeVO.setName(routeName);
 
-        // 根据path路由跳转 this.$router.push({path:xxx})
+        // path로 라우트 이동: this.$router.push({path:xxx})
         routeVO.setPath(menu.getRoutePath());
         routeVO.setRedirect(menu.getRedirect());
         routeVO.setComponent(menu.getComponent());
@@ -223,7 +223,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         meta.setTitle(menu.getName());
         meta.setIcon(menu.getIcon());
         meta.setHidden(StatusEnum.DISABLE.getValue().equals(menu.getVisible()));
-        // 【메뉴】여부开启页面캐시
+        // 【메뉴】페이지 캐시 활성화 여부
         if (MenuTypeEnum.MENU.getValue().equals(menu.getType())
                 && ObjectUtil.equals(menu.getKeepAlive(), 1)) {
             meta.setKeepAlive(true);
@@ -231,7 +231,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         meta.setAlwaysShow(ObjectUtil.equals(menu.getAlwaysShow(), 1));
 
         String paramsJson = menu.getParams();
-        // 을 JSON 字符串转换값 Map<String, String>
+        // JSON 문자열을 Map<String, String>로 변환
         if (StrUtil.isNotBlank(paramsJson)) {
             ObjectMapper objectMapper = new ObjectMapper();
             try {
@@ -239,7 +239,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
                 });
                 meta.setParams(paramMap);
             } catch (Exception e) {
-                throw new RuntimeException("解析参수실패", e);
+                throw new RuntimeException("파라미터 파싱 실패", e);
             }
         }
         routeVO.setMeta(meta);
@@ -247,7 +247,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     /**
-     * 추가/수정메뉴
+     * 메뉴 추가/수정
      */
     @Override
     @CacheEvict(cacheNames = "menu", key = "'routes'")
@@ -255,81 +255,81 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
         Integer menuType = menuForm.getType();
 
-        if (MenuTypeEnum.CATALOG.getValue().equals(menuType)) {  // 如果是目录
+        if (MenuTypeEnum.CATALOG.getValue().equals(menuType)) {  // 디렉토리인 경우
             String path = menuForm.getRoutePath();
             if (menuForm.getParentId() == 0 && !path.startsWith("/")) {
-                menuForm.setRoutePath("/" + path); // 원级目录需는 / 开头
+                menuForm.setRoutePath("/" + path); // 최상위 디렉토리는 /로 시작 필요
             }
             menuForm.setComponent("Layout");
         } else if (MenuTypeEnum.EXTLINK.getValue().equals(menuType)) {
-            // 外链메뉴컴포넌트设置값 null
+            // 외부 링크 메뉴 컴포넌트를 null로 설정
             menuForm.setComponent(null);
         }
         if (Objects.equals(menuForm.getParentId(), menuForm.getId())) {
-            throw new RuntimeException("부모메뉴不能값현재메뉴");
+            throw new RuntimeException("부모 메뉴는 현재 메뉴가 될 수 없습니다");
         }
         Menu entity = menuConverter.toEntity(menuForm);
         String treePath = generateMenuTreePath(menuForm.getParentId());
         entity.setTreePath(treePath);
 
         List<KeyValue> params = menuForm.getParams();
-        // 路由参수 [{key:"id",value:"1"}，{key:"name",value:"张三"}] 转换값 [{"id":"1"},{"name":"张三"}]
+        // 라우트 파라미터 [{key:"id",value:"1"}, {key:"name",value:"장삼"}]를 [{"id":"1"},{"name":"장삼"}]로 변환
         if (CollectionUtil.isNotEmpty(params)) {
             entity.setParams(JSONUtil.toJsonStr(params.stream()
                     .collect(Collectors.toMap(KeyValue::getKey, KeyValue::getValue))));
         } else {
             entity.setParams(null);
         }
-        // 추가유형값메뉴时候 路由이름唯원
+        // 메뉴 타입 추가 시 라우트 이름은 고유해야 함
         if (MenuTypeEnum.MENU.getValue().equals(menuType)) {
             Assert.isFalse(this.exists(new LambdaQueryWrapper<Menu>()
                     .eq(Menu::getRouteName, entity.getRouteName())
                     .ne(menuForm.getId() != null, Menu::getId, menuForm.getId())
-            ), "路由이름이미存에");
+            ), "라우트 이름이 이미 존재합니다");
         } else {
-            // 其他유형时 给路由이름赋值값空
+            // 다른 타입인 경우 라우트 이름을 null로 설정
             entity.setRouteName(null);
         }
 
         boolean result = this.saveOrUpdate(entity);
         if (result) {
-            // 编辑새로고침역할 권한캐시
+            // 편집 시 역할 권한 캐시 새로고침
             if (menuForm.getId() != null) {
                 roleMenuService.refreshRolePermsCache();
             }
         }
-        // 수정메뉴如果有子메뉴，则업데이트子메뉴의树경로
+        // 메뉴 수정 시 하위 메뉴가 있으면 하위 메뉴의 트리 경로 업데이트
         updateChildrenTreePath(entity.getId(), treePath);
         return result;
     }
 
     /**
-     * 업데이트子메뉴树경로
+     * 하위 메뉴 트리 경로 업데이트
      *
-     * @param id       현재메뉴ID
-     * @param treePath 현재메뉴树경로
+     * @param id       현재 메뉴 ID
+     * @param treePath 현재 메뉴 트리 경로
      */
     private void updateChildrenTreePath(Long id, String treePath) {
         List<Menu> children = this.list(new LambdaQueryWrapper<Menu>().eq(Menu::getParentId, id));
         if (CollectionUtil.isNotEmpty(children)) {
-            // 子메뉴의树경로等于父메뉴의树경로加上父메뉴ID
+            // 하위 메뉴의 트리 경로는 부모 메뉴의 트리 경로에 부모 메뉴 ID를 더한 값
             String childTreePath = treePath + "," + id;
             this.update(new LambdaUpdateWrapper<Menu>()
                     .eq(Menu::getParentId, id)
                     .set(Menu::getTreePath, childTreePath)
             );
             for (Menu child : children) {
-                // 递归업데이트子메뉴
+                // 재귀적으로 하위 메뉴 업데이트
                 updateChildrenTreePath(child.getId(), childTreePath);
             }
         }
     }
 
     /**
-     * 부서경로생성
+     * 메뉴 경로 생성
      *
-     * @param parentId 父ID
-     * @return 父节点경로는영문쉼표(, )로 구분，eg: 1,2,3
+     * @param parentId 부모 ID
+     * @return 부모 노드 경로는 영문 쉼표(,)로 구분, 예: 1,2,3
      */
     private String generateMenuTreePath(Long parentId) {
         if (SystemConstants.ROOT_NODE_ID.equals(parentId)) {
@@ -344,9 +344,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     /**
      * 메뉴 표시 상태 수정
      *
-     * @param menuId  메뉴ID
-     * @param visible 여부표시(1->표시；2->숨김)
-     * @return 여부수정성공
+     * @param menuId  메뉴 ID
+     * @param visible 표시 여부 (1->표시, 2->숨김)
+     * @return 수정 성공 여부
      */
     @Override
     @CacheEvict(cacheNames = "menu", key = "'routes'")
@@ -358,34 +358,34 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     /**
-     * 조회메뉴 폼 데이터
+     * 메뉴 폼 데이터 조회
      *
-     * @param id 메뉴ID
+     * @param id 메뉴 ID
      * @return 메뉴 폼 데이터
      */
     @Override
     public MenuForm getMenuForm(Long id) {
         Menu entity = this.getById(id);
-        Assert.isTrue(entity != null, "메뉴不存에");
+        Assert.isTrue(entity != null, "메뉴가 존재하지 않습니다");
         MenuForm formData = menuConverter.toForm(entity);
-        // 路由参수字符串 {"id":"1","name":"张三"} 转换값 [{key:"id", value:"1"}, {key:"name", value:"张三"}]
+        // 라우트 파라미터 문자열 {"id":"1","name":"장삼"}를 [{key:"id", value:"1"}, {key:"name", value:"장삼"}]로 변환
         String params = entity.getParams();
         if (StrUtil.isNotBlank(params)) {
             ObjectMapper objectMapper = new ObjectMapper();
             try {
-                // 解析 JSON 字符串값 Map<String, String>
+                // JSON 문자열을 Map<String, String>로 파싱
                 Map<String, String> paramMap = objectMapper.readValue(params, new TypeReference<>() {
                 });
 
-                // 转换값 List<KeyValue> 格式 [{key:"id", value:"1"}, {key:"name", value:"张三"}]
+                // List<KeyValue> 형식으로 변환: [{key:"id", value:"1"}, {key:"name", value:"장삼"}]
                 List<KeyValue> transformedList = paramMap.entrySet().stream()
                         .map(entry -> new KeyValue(entry.getKey(), entry.getValue()))
                         .toList();
 
-                // 을转换후의목록저장 MenuForm
+                // 변환된 목록을 MenuForm에 저장
                 formData.setParams(transformedList);
             } catch (Exception e) {
-                throw new RuntimeException("解析参수실패", e);
+                throw new RuntimeException("파라미터 파싱 실패", e);
             }
         }
 
@@ -393,10 +393,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     /**
-     * 삭제메뉴
+     * 메뉴 삭제
      *
-     * @param id 메뉴ID
-     * @return 여부삭제성공
+     * @param id 메뉴 ID
+     * @return 삭제 성공 여부
      */
     @Override
     @CacheEvict(cacheNames = "menu", key = "'routes'")
@@ -407,7 +407,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
                 .apply("CONCAT (',',tree_path,',') LIKE CONCAT('%,',{0},',%')", id));
 
 
-        // 새로고침역할 권한캐시
+        // 역할 권한 캐시 새로고침
         if (result) {
             roleMenuService.refreshRolePermsCache();
         }
@@ -416,15 +416,15 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     }
 
     /**
-     * 코드 생성时添加메뉴
+     * 코드 생성 시 메뉴 추가
      *
-     * @param parentMenuId 父메뉴ID
-     * @param genConfig    实体이름
+     * @param parentMenuId 부모 메뉴 ID
+     * @param genConfig    엔티티 정보
      */
     @Override
     public void addMenuForCodegen(Long parentMenuId, GenConfig genConfig) {
         Menu parentMenu = this.getById(parentMenuId);
-        Assert.notNull(parentMenu, "上级메뉴不存에");
+        Assert.notNull(parentMenu, "상위 메뉴가 존재하지 않습니다");
 
         String entityName = genConfig.getEntityName();
 
@@ -433,7 +433,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
             return;
         }
 
-        // 조회부모메뉴子메뉴最带의정렬
+        // 부모 메뉴의 하위 메뉴 중 최대 정렬 값 조회
         Menu maxSortMenu = this.getOne(new LambdaQueryWrapper<Menu>().eq(Menu::getParentId, parentMenuId)
                 .orderByDesc(Menu::getSort)
                 .last("limit 1")
@@ -456,14 +456,14 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         boolean result = this.save(menu);
 
         if (result) {
-            // 생성treePath
+            // treePath 생성
             String treePath = generateMenuTreePath(parentMenuId);
             menu.setTreePath(treePath);
             this.updateById(menu);
 
-            // 생성CURD버튼 권한
+            // CRUD 버튼 권한 생성
             String permPrefix = genConfig.getModuleName() + ":" + genConfig.getTableName().replace("_", "-") + ":";
-            String[] actions = {"조회", "추가", "编辑", "삭제"};
+            String[] actions = {"조회", "추가", "편집", "삭제"};
             String[] perms = {"query", "add", "edit", "delete"};
 
             for (int i = 0; i < actions.length; i++) {
@@ -475,7 +475,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
                 button.setSort(i + 1);
                 this.save(button);
 
-                // 생성treePath
+                // treePath 생성
                 button.setTreePath(treePath + "," + button.getId());
                 this.updateById(button);
             }

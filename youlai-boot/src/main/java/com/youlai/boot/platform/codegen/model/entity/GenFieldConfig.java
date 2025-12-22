@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 字段生成설정实体
+ * 필드 생성 설정 엔티티
  *
  * @author Ray
  * @since 2.10.0
@@ -23,7 +23,7 @@ public class GenFieldConfig extends BaseEntity {
 
 
     /**
-     * 关联的설정ID
+     * 연관된 설정 ID
      */
     private Long configId;
 
@@ -33,37 +33,37 @@ public class GenFieldConfig extends BaseEntity {
     private String columnName;
 
     /**
-     * 列유형
+     * 컬럼 유형
      */
     private String columnType;
 
     /**
-     * 字段长度
+     * 필드 길이
      */
     private Long maxLength;
 
     /**
-     * 字段이름
+     * 필드 이름
      */
     private String fieldName;
 
     /**
-     * 字段排序
+     * 필드 정렬
      */
     private Integer fieldSort;
 
     /**
-     * 字段유형
+     * 필드 유형
      */
     private String fieldType;
 
     /**
-     * 字段설명
+     * 필드 설명
      */
     private String fieldComment;
 
     /**
-     * 表单유형
+     * 폼 유형
      */
     private FormTypeEnum formType;
 
@@ -73,34 +73,34 @@ public class GenFieldConfig extends BaseEntity {
     private QueryTypeEnum queryType;
 
     /**
-     * 是否在列表显示
+     * 목록에 표시 여부
      */
     private Integer isShowInList;
 
     /**
-     * 是否在表单显示
+     * 폼에 표시 여부
      */
     private Integer isShowInForm;
 
     /**
-     * 是否在查询条件显示
+     * 조회 조건에 표시 여부
      */
     private Integer isShowInQuery;
 
     /**
-     * 是否必填
+     * 필수 여부
      */
     private Integer isRequired;
 
     /**
-     * TypeScript유형
+     * TypeScript 유형
      */
     @TableField(exist = false)
     @JsonIgnore
     private String tsType;
 
     /**
-     * 字典유형
+     * 사전 유형
      */
     private String dictType;
 }

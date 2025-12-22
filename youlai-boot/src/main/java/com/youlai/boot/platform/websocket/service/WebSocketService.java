@@ -1,12 +1,12 @@
 package com.youlai.boot.platform.websocket.service;
 
 /**
- * WebSocket서비스인터페이스
+ * WebSocket 서비스 인터페이스
  * <p>
- * 提용与WebSocket연결 관리관련의功能，包括：
- * - 사용자连接/断开事件处理
- * - 사전 데이터变更공지
- * - 시스템메시지 푸시
+ * WebSocket 연결 관리와 관련된 기능을 제공합니다:
+ * - 사용자 연결/해제 이벤트 처리
+ * - 사전 데이터 변경 알림
+ * - 시스템 메시지 푸시
  * </p>
  *
  * @author Ray.Hao
@@ -15,32 +15,32 @@ package com.youlai.boot.platform.websocket.service;
 public interface WebSocketService {
 
     /**
-     * 处理사용자连接事件
+     * 사용자 연결 이벤트 처리
      *
      * @param username  사용자명
-     * @param sessionId WebSocket세션ID
+     * @param sessionId WebSocket 세션 ID
      */
     void userConnected(String username, String sessionId);
 
     /**
-     * 处理사용자断开连接事件
+     * 사용자 연결 해제 이벤트 처리
      *
      * @param username 사용자명
      */
     void userDisconnected(String username);
 
     /**
-     * 广播사전 데이터变更공지
+     * 사전 데이터 변경 알림 브로드캐스트
      *
      * @param dictCode 사전 코드
      */
     void broadcastDictChange(String dictCode);
 
     /**
-     * 발송시스템공지给特定사용자
+     * 특정 사용자에게 시스템 알림 전송
      *
-     * @param username 目标사용자명
-     * @param message  공지메시지내용
+     * @param username 대상 사용자명
+     * @param message  알림 메시지 내용
      */
     void sendNotification(String username, Object message);
 } 

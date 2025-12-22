@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
- * 사용자비즈니스구현类
+ * 사용자 비즈니스 구현 클래스
  *
  * @author Ray.Hao
  * @since 2022/1/14
@@ -77,15 +77,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private final UserConverter userConverter;
 
     /**
-     * 조회사용자 페이지 목록
+     * 사용자 페이지 목록 조회
      *
-     * @param queryParams 조회参수
+     * @param queryParams 조회 파라미터
      * @return {@link IPage<UserPageVO>} 사용자 페이지 목록
      */
     @Override
     public IPage<UserPageVO> getUserPage(UserPageQuery queryParams) {
 
-        // 参수构建
+        // 파라미터 구성
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
         Page<UserBO> page = new Page<>(pageNum, pageSize);
@@ -93,18 +93,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         boolean isRoot = SecurityUtils.isRoot();
         queryParams.setIsRoot(isRoot);
 
-        // 조회데이터
+        // 데이터 조회
         Page<UserBO> userPage = this.baseMapper.getUserPage(page, queryParams);
 
-        // 实体转换
+        // 엔티티 변환
         return userConverter.toPageVo(userPage);
     }
 
     /**
      * 사용자 폼 데이터 조회
      *
-     * @param userId 사용자ID
-     * @return {@link UserForm} 사용자폼데이터
+     * @param userId 사용자 ID
+     * @return {@link UserForm} 사용자 폼 데이터
      */
     @Override
     public UserForm getUserFormData(Long userId) {
@@ -114,7 +114,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 사용자 추가
      *
-     * @param userForm 사용자폼객체
+     * @param userForm 사용자 폼 객체
      * @return true|false
      */
     @Override
@@ -123,12 +123,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String username = userForm.getUsername();
 
         long count = this.count(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
-        Assert.isTrue(count == 0, "사용자명이미存에");
+        Assert.isTrue(count == 0, "사용자명이 이미 존재합니다");
 
-        // 实体转换 form->entity
+        // 엔티티 변환 form->entity
         User entity = userConverter.toEntity(userForm);
 
-        // 设置默认加密비밀번호
+        // 기본 암호화 비밀번호 설정
         String defaultEncryptPwd = passwordEncoder.encode(SystemConstants.DEFAULT_PASSWORD);
         entity.setPassword(defaultEncryptPwd);
         entity.setCreateBy(SecurityUtils.getUserId());
@@ -137,17 +137,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         boolean result = this.save(entity);
 
         if (result) {
-            // 저장사용자역할
+            // 사용자 역할 저장
             userRoleService.saveUserRoles(entity.getId(), userForm.getRoleIds());
         }
         return result;
     }
 
     /**
-     * 업데이트사용자
+     * 사용자 업데이트
      *
-     * @param userId   사용자ID
-     * @param userForm 사용자폼객체
+     * @param userId   사용자 ID
+     * @param userForm 사용자 폼 객체
      * @return true|false
      */
     @Override
@@ -160,7 +160,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .eq(User::getUsername, username)
                 .ne(User::getId, userId)
         );
-        Assert.isTrue(count == 0, "사용자명이미存에");
+        Assert.isTrue(count == 0, "사용자명이 이미 존재합니다");
 
         // form -> entity
         User entity = userConverter.toEntity(userForm);
@@ -170,7 +170,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         boolean result = this.updateById(entity);
 
         if (result) {
-            // 저장사용자역할
+            // 사용자 역할 저장
             userRoleService.saveUserRoles(entity.getId(), userForm.getRoleIds());
         }
         return result;
@@ -179,13 +179,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 사용자 삭제
      *
-     * @param idsStr 사용자ID，여러 개는영문쉼표(,)로 구분
+     * @param idsStr 사용자 ID, 여러 개는 영문 쉼표(,)로 구분
      * @return true|false
      */
     @Override
     public boolean deleteUsers(String idsStr) {
-        Assert.isTrue(StrUtil.isNotBlank(idsStr), "삭제의사용자데이터값空");
-        // 逻辑삭제
+        Assert.isTrue(StrUtil.isNotBlank(idsStr), "삭제할 사용자 데이터가 비어있습니다");
+        // 논리적 삭제
         List<Long> ids = Arrays.stream(idsStr.split(","))
                 .map(Long::parseLong)
                 .collect(Collectors.toList());
@@ -194,17 +194,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 根据사용자명조회인증凭证信息
+     * 사용자명으로 인증 자격 정보 조회
      *
      * @param username 사용자명
-     * @return 사용자인증凭证信息 {@link UserAuthCredentials}
+     * @return 사용자 인증 자격 정보 {@link UserAuthCredentials}
      */
     @Override
     public UserAuthCredentials getAuthCredentialsByUsername(String username) {
         UserAuthCredentials userAuthCredentials = this.baseMapper.getAuthCredentialsByUsername(username);
         if (userAuthCredentials != null) {
             Set<String> roles = userAuthCredentials.getRoles();
-            // 조회最大范围의데이터권한
+            // 최대 범위의 데이터 권한 조회
             Integer dataScope = roleService.getMaximumDataScope(roles);
             userAuthCredentials.setDataScope(dataScope);
         }
@@ -212,10 +212,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 根据OpenID조회사용자인증信息
+     * OpenID로 사용자 인증 정보 조회
      *
-     * @param openId 위챗OpenID
-     * @return 사용자인증信息
+     * @param openId 위챗 OpenID
+     * @return 사용자 인증 정보
      */
     @Override
     public UserAuthCredentials getAuthCredentialsByOpenId(String openId) {
@@ -225,7 +225,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         UserAuthCredentials userAuthCredentials = this.baseMapper.getAuthCredentialsByOpenId(openId);
         if (userAuthCredentials != null) {
             Set<String> roles = userAuthCredentials.getRoles();
-            // 조회最大范围의데이터권한
+            // 최대 범위의 데이터 권한 조회
             Integer dataScope = roleService.getMaximumDataScope(roles);
             userAuthCredentials.setDataScope(dataScope);
         }
@@ -233,10 +233,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 根据휴대폰 번호조회사용자인증信息
+     * 휴대폰 번호로 사용자 인증 정보 조회
      *
      * @param mobile 휴대폰 번호
-     * @return 사용자인증信息
+     * @return 사용자 인증 정보
      */
     @Override
     public UserAuthCredentials getAuthCredentialsByMobile(String mobile) {
@@ -246,7 +246,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         UserAuthCredentials userAuthCredentials = this.baseMapper.getAuthCredentialsByMobile(mobile);
         if (userAuthCredentials != null) {
             Set<String> roles = userAuthCredentials.getRoles();
-            // 조회最大范围의데이터권한
+            // 최대 범위의 데이터 권한 조회
             Integer dataScope = roleService.getMaximumDataScope(roles);
             userAuthCredentials.setDataScope(dataScope);
         }
@@ -254,10 +254,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 注册또는바인딩위챗사용자
+     * 위챗 사용자 등록 또는 바인딩
      *
-     * @param openId 위챗OpenID
-     * @return 여부성공
+     * @param openId 위챗 OpenID
+     * @return 성공 여부
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -266,42 +266,42 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return false;
         }
 
-        // 조회여부이미存에该openId의사용자
+        // 해당 openId의 사용자가 이미 존재하는지 조회
         User existUser = this.getOne(
                 new LambdaQueryWrapper<User>()
                         .eq(User::getOpenid, openId)
         );
 
         if (existUser != null) {
-            // 사용자이미存에，不需要注册
+            // 사용자가 이미 존재하면 등록 불필요
             return true;
         }
 
-        // 생성새사용자
+        // 새 사용자 생성
         User newUser = new User();
-        newUser.setNickname("위챗사용자");  // 默认닉네임
-        newUser.setUsername(openId);      // TODO 후续替换값휴대폰 번호
+        newUser.setNickname("위챗사용자");  // 기본 닉네임
+        newUser.setUsername(openId);      // TODO 추후 휴대폰 번호로 대체
         newUser.setOpenid(openId);
-        newUser.setGender(0); // 保密
+        newUser.setGender(0); // 비공개
         newUser.setUpdateBy(SecurityUtils.getUserId());
         newUser.setPassword(SystemConstants.DEFAULT_PASSWORD);
         newUser.setCreateTime(LocalDateTime.now());
         newUser.setUpdateTime(LocalDateTime.now());
         this.save(newUser);
-        // 위해默认시스템관리员역할，这里按需调整，실제情况바인딩이미存에의시스템사용자，另원种情况是给默认游客역할，然후由시스템관리员设置사용자의역할
+        // 기본 시스템 관리자 역할 부여, 여기서 필요에 따라 조정, 실제 상황에서는 기존 시스템 사용자에 바인딩하거나 기본 게스트 역할을 부여한 후 시스템 관리자가 사용자 역할을 설정
         UserRole userRole = new UserRole();
         userRole.setUserId(newUser.getId());
-        userRole.setRoleId(1L);  // TODO 시스템관리员
+        userRole.setRoleId(1L);  // TODO 시스템 관리자
         userRoleService.save(userRole);
         return true;
     }
 
     /**
-     * 根据휴대폰 번호和OpenID注册사용자
+     * 휴대폰 번호와 OpenID로 사용자 등록
      *
      * @param mobile 휴대폰 번호
-     * @param openId 위챗OpenID
-     * @return 여부성공
+     * @param openId 위챗 OpenID
+     * @return 성공 여부
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -310,50 +310,50 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return false;
         }
 
-        // 先조회여부이미存에휴대폰 번호对应의사용자
+        // 먼저 휴대폰 번호에 해당하는 사용자가 이미 존재하는지 조회
         User existingUser = this.getOne(
                 new LambdaQueryWrapper<User>()
                         .eq(User::getMobile, mobile)
         );
 
         if (existingUser != null) {
-            // 如果存에사용자但没바인딩openId，则바인딩openId
+            // 사용자가 존재하지만 openId가 바인딩되지 않은 경우, openId 바인딩
             if (StrUtil.isBlank(existingUser.getOpenid())) {
                 return bindUserOpenId(existingUser.getId(), openId);
             }
-            // 如果이미经바인딩其他openId，则判断여부需要업데이트
+            // 이미 다른 openId가 바인딩된 경우, 업데이트 필요 여부 판단
             else if (!openId.equals(existingUser.getOpenid())) {
                 return bindUserOpenId(existingUser.getId(), openId);
             }
-            // 如果이미经바인딩相同의openId，则不需要任何操作
+            // 이미 동일한 openId가 바인딩된 경우, 작업 불필요
             return true;
         }
 
-        // 不存에사용자，생성새사용자
+        // 사용자가 존재하지 않으면 새 사용자 생성
         User newUser = new User();
         newUser.setMobile(mobile);
         newUser.setOpenid(openId);
-        newUser.setUsername(mobile); // 사용휴대폰 번호作값사용자명
-        newUser.setNickname("위챗사용자_" + mobile.substring(mobile.length() - 4)); // 사용휴대폰 번호후4자리作값닉네임
-        newUser.setPassword(SystemConstants.DEFAULT_PASSWORD); // 사용加密의openId作값初始비밀번호
-        newUser.setGender(0); // 保密
+        newUser.setUsername(mobile); // 휴대폰 번호를 사용자명으로 사용
+        newUser.setNickname("위챗사용자_" + mobile.substring(mobile.length() - 4)); // 휴대폰 번호 뒤 4자리를 닉네임으로 사용
+        newUser.setPassword(SystemConstants.DEFAULT_PASSWORD); // 암호화된 openId를 초기 비밀번호로 사용
+        newUser.setGender(0); // 비공개
         newUser.setCreateTime(LocalDateTime.now());
         newUser.setUpdateTime(LocalDateTime.now());
         this.save(newUser);
-        // 위해默认시스템관리员역할，这里按需调整，실제情况바인딩이미存에의시스템사용자，另원种情况是给默认游客역할，然후由시스템관리员设置사용자의역할
+        // 기본 시스템 관리자 역할 부여, 여기서 필요에 따라 조정, 실제 상황에서는 기존 시스템 사용자에 바인딩하거나 기본 게스트 역할을 부여한 후 시스템 관리자가 사용자 역할을 설정
         UserRole userRole = new UserRole();
         userRole.setUserId(newUser.getId());
-        userRole.setRoleId(1L);  // TODO 시스템관리员
+        userRole.setRoleId(1L);  // TODO 시스템 관리자
         userRoleService.save(userRole);
         return true;
     }
 
     /**
-     * 바인딩사용자위챗OpenID
+     * 사용자 위챗 OpenID 바인딩
      *
-     * @param userId 사용자ID
-     * @param openId 위챗OpenID
-     * @return 여부성공
+     * @param userId 사용자 ID
+     * @param openId 위챗 OpenID
+     * @return 성공 여부
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -362,7 +362,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return false;
         }
 
-        // 检查여부이미有其他사용자바인딩此openId
+        // 다른 사용자가 이미 이 openId를 바인딩했는지 확인
         User existingUser = this.getOne(
                 new LambdaQueryWrapper<User>()
                         .eq(User::getOpenid, openId)
@@ -370,11 +370,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         );
 
         if (existingUser != null) {
-            log.warn("OpenID {} 이미被사용자 {} 바인딩，无法값사용자 {} 바인딩", openId, existingUser.getId(), userId);
+            log.warn("OpenID {}가 이미 사용자 {}에게 바인딩되어 있어 사용자 {}에게 바인딩할 수 없습니다", openId, existingUser.getId(), userId);
             return false;
         }
 
-        // 업데이트사용자openId
+        // 사용자 openId 업데이트
         boolean updated = this.update(
                 new LambdaUpdateWrapper<User>()
                         .eq(User::getId, userId)
@@ -385,9 +385,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 조회사용자 내보내기 목록
+     * 사용자 내보내기 목록 조회
      *
-     * @param queryParams 조회参수
+     * @param queryParams 조회 파라미터
      * @return {@link List<UserExportDTO>} 사용자 내보내기 목록
      */
     @Override
@@ -398,7 +398,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         List<UserExportDTO> exportUsers = this.baseMapper.listExportUsers(queryParams);
         if (CollectionUtil.isNotEmpty(exportUsers)) {
-            //조회성별의사전 항목
+            // 성별 사전 항목 조회
             Map<String, String> genderMap = dictItemService.list(
                             new LambdaQueryWrapper<DictItem>().eq(DictItem::getDictCode,
                                     DictCodeEnum.GENDER.getValue())
@@ -412,7 +412,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                     return;
                 }
 
-                // 判断map여부값空
+                // map이 비어있는지 확인
                 if (genderMap.isEmpty()) {
                     return;
                 }
@@ -424,7 +424,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 조회로그인사용자 정보
+     * 로그인 사용자 정보 조회
      *
      * @return {@link CurrentUserDTO}   사용자 정보
      */
@@ -433,7 +433,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         String username = SecurityUtils.getUsername();
 
-        // 조회로그인사용자基础信息
+        // 로그인 사용자 기본 정보 조회
         User user = this.getOne(new LambdaQueryWrapper<User>()
                 .eq(User::getUsername, username)
                 .select(
@@ -446,11 +446,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // entity->VO
         CurrentUserDTO userInfoVO = userConverter.toCurrentUserDto(user);
 
-        // 사용자역할集合
+        // 사용자 역할 집합
         Set<String> roles = SecurityUtils.getRoles();
         userInfoVO.setRoles(roles);
 
-        // 사용자권한集合
+        // 사용자 권한 집합
         if (CollectionUtil.isNotEmpty(roles)) {
             Set<String> perms = permissionService.getRolePermsFormCache(roles);
             userInfoVO.setPerms(perms);
@@ -461,8 +461,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 개인센터 사용자 정보 조회
      *
-     * @param userId 사용자ID
-     * @return {@link UserProfileVO} 개인센터사용자 정보
+     * @param userId 사용자 ID
+     * @return {@link UserProfileVO} 개인센터 사용자 정보
      */
     @Override
     public UserProfileVO getUserProfile(Long userId) {
@@ -471,9 +471,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 수정개인센터사용자 정보
+     * 개인센터 사용자 정보 수정
      *
-     * @param formData 폼데이터
+     * @param formData 폼 데이터
      * @return true|false
      */
     @Override
@@ -485,10 +485,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 수정지정된사용자비밀번호
+     * 지정된 사용자 비밀번호 수정
      *
-     * @param userId 사용자ID
-     * @param data   비밀번호수정폼데이터
+     * @param userId 사용자 ID
+     * @param data   비밀번호 수정 폼 데이터
      * @return true|false
      */
     @Override
@@ -496,23 +496,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         User user = this.getById(userId);
         if (user == null) {
-            throw new BusinessException("사용자不存에");
+            throw new BusinessException("사용자가 존재하지 않습니다");
         }
 
         String oldPassword = data.getOldPassword();
 
-        // 검증原비밀번호
+        // 기존 비밀번호 검증
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
-            throw new BusinessException("原비밀번호错误");
+            throw new BusinessException("기존 비밀번호가 올바르지 않습니다");
         }
-        // 새旧비밀번호不能相同
+        // 새 비밀번호와 기존 비밀번호가 같으면 안됨
         if (passwordEncoder.matches(data.getNewPassword(), user.getPassword())) {
-            throw new BusinessException("새비밀번호不能与原비밀번호相同");
+            throw new BusinessException("새 비밀번호는 기존 비밀번호와 같을 수 없습니다");
         }
 
-        // 判断새비밀번호和确认비밀번호여부원致
+        // 새 비밀번호와 확인 비밀번호가 일치하는지 확인
         if (passwordEncoder.matches(data.getNewPassword(), data.getConfirmPassword())) {
-            throw new BusinessException("새비밀번호和确认비밀번호不원致");
+            throw new BusinessException("새 비밀번호와 확인 비밀번호가 일치하지 않습니다");
         }
 
         String newPassword = data.getNewPassword();
@@ -522,7 +522,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         );
 
         if (result) {
-            // 비밀번호变更후，使현재사용자의所有세션失效，强制重새로그인
+            // 비밀번호 변경 후 현재 사용자의 모든 세션을 무효화하고 강제로 다시 로그인
             tokenManager.invalidateUserSessions(userId);
         }
         return result;
@@ -531,8 +531,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 지정된 사용자 비밀번호 재설정
      *
-     * @param userId   사용자ID
-     * @param password 비밀번호재설정폼데이터
+     * @param userId   사용자 ID
+     * @param password 비밀번호 재설정 폼 데이터
      * @return true|false
      */
     @Override
@@ -542,7 +542,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .set(User::getPassword, passwordEncoder.encode(password))
         );
         if (result) {
-            // 관리员재설정사용자비밀번호후，使该사용자의所有세션失效
+            // 관리자가 사용자 비밀번호 재설정 후 해당 사용자의 모든 세션 무효화
             tokenManager.invalidateUserSessions(userId);
         }
         return result;
@@ -558,14 +558,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public boolean sendMobileCode(String mobile) {
 
         // String code = String.valueOf((int) ((Math.random() * 9 + 1) * 1000));
-        // TODO 위해편의테스트，인증코드固定값 1234，실제개발중에SMS 서비스 설정 후，가는사용上面의랜덤인증코드
+        // TODO 테스트 편의를 위해 인증코드를 1234로 고정, 실제 개발 시 SMS 서비스 설정 후 위의 랜덤 인증코드 사용 가능
         String code = "1234";
 
         Map<String, String> templateParams = new HashMap<>();
         templateParams.put("code", code);
         boolean result = smsService.sendSms(mobile, SmsTypeEnum.CHANGE_MOBILE, templateParams);
         if (result) {
-            // 캐시인증코드，5分钟有效，용도변경휴대폰 번호검증
+            // 인증코드 캐시, 5분간 유효, 휴대폰 번호 변경 검증용
             String redisCacheKey = StrUtil.format(RedisConstants.Captcha.MOBILE_CODE, mobile);
             redisTemplate.opsForValue().set(redisCacheKey, code, 5, TimeUnit.MINUTES);
         }
@@ -575,7 +575,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 휴대폰 번호 바인딩 또는 변경
      *
-     * @param form 폼데이터
+     * @param form 폼 데이터
      * @return true|false
      */
     @Override
@@ -585,10 +585,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User currentUser = this.getById(currentUserId);
 
         if (currentUser == null) {
-            throw new BusinessException("사용자不存에");
+            throw new BusinessException("사용자가 존재하지 않습니다");
         }
 
-        // 검증인증코드
+        // 인증코드 검증
         String inputVerifyCode = form.getCode();
         String mobile = form.getMobile();
 
@@ -597,15 +597,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String cachedVerifyCode = redisTemplate.opsForValue().get(cacheKey);
 
         if (StrUtil.isBlank(cachedVerifyCode)) {
-            throw new BusinessException("인증코드이미过期");
+            throw new BusinessException("인증코드가 만료되었습니다");
         }
         if (!inputVerifyCode.equals(cachedVerifyCode)) {
-            throw new BusinessException("인증코드错误");
+            throw new BusinessException("인증코드가 올바르지 않습니다");
         }
-        // 验证完成삭제인증코드
+        // 검증 완료 후 인증코드 삭제
         redisTemplate.delete(cacheKey);
 
-        // 업데이트휴대폰 번호
+        // 휴대폰 번호 업데이트
         return this.update(
                 new LambdaUpdateWrapper<User>()
                         .eq(User::getId, currentUserId)
@@ -622,19 +622,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public void sendEmailCode(String email) {
 
         // String code = String.valueOf((int) ((Math.random() * 9 + 1) * 1000));
-        // TODO 위해편의테스트，인증코드固定값 1234，실제개발중에설정이메일서비스후，가는사용上面의랜덤인증코드
+        // TODO 테스트 편의를 위해 인증코드를 1234로 고정, 실제 개발 시 이메일 서비스 설정 후 위의 랜덤 인증코드 사용 가능
         String code = "1234";
 
-        mailService.sendMail(email, "이메일인증코드", "您의인증코드값：" + code + "，请에5分钟内사용");
-        // 캐시인증코드，5分钟有效，용도변경이메일검증
+        mailService.sendMail(email, "이메일 인증코드", "귀하의 인증코드: " + code + ", 5분 내에 사용해주세요");
+        // 인증코드 캐시, 5분간 유효, 이메일 변경 검증용
         String redisCacheKey = StrUtil.format(RedisConstants.Captcha.EMAIL_CODE, email);
         redisTemplate.opsForValue().set(redisCacheKey, code, 5, TimeUnit.MINUTES);
     }
 
     /**
-     * 수정현재사용자이메일
+     * 현재 사용자 이메일 수정
      *
-     * @param form 폼데이터
+     * @param form 폼 데이터
      * @return true|false
      */
     @Override
@@ -644,28 +644,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         User currentUser = this.getById(currentUserId);
         if (currentUser == null) {
-            throw new BusinessException("사용자不存에");
+            throw new BusinessException("사용자가 존재하지 않습니다");
         }
 
-        // 조회前端输入의인증코드
+        // 프론트엔드에서 입력한 인증코드 조회
         String inputVerifyCode = form.getCode();
 
-        // 조회캐시의인증코드
+        // 캐시된 인증코드 조회
         String email = form.getEmail();
         String redisCacheKey = StrUtil.format(RedisConstants.Captcha.EMAIL_CODE, email);
         String cachedVerifyCode = redisTemplate.opsForValue().get(redisCacheKey);
 
         if (StrUtil.isBlank(cachedVerifyCode)) {
-            throw new BusinessException("인증코드이미过期");
+            throw new BusinessException("인증코드가 만료되었습니다");
         }
 
         if (!inputVerifyCode.equals(cachedVerifyCode)) {
-            throw new BusinessException("인증코드错误");
+            throw new BusinessException("인증코드가 올바르지 않습니다");
         }
-        // 验证完成삭제인증코드
+        // 검증 완료 후 인증코드 삭제
         redisTemplate.delete(redisCacheKey);
 
-        // 업데이트이메일 주소
+        // 이메일 주소 업데이트
         return this.update(
                 new LambdaUpdateWrapper<User>()
                         .eq(User::getId, currentUserId)
@@ -674,9 +674,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     /**
-     * 조회사용자옵션목록
+     * 사용자 옵션 목록 조회
      *
-     * @return {@link List<Option<String>>} 사용자옵션목록
+     * @return {@link List<Option<String>>} 사용자 옵션 목록
      */
     @Override
     public List<Option<String>> listUserOptions() {

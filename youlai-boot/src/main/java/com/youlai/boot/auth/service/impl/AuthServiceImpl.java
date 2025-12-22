@@ -57,22 +57,22 @@ public class AuthServiceImpl implements AuthService {
     private final RedisTemplate<String, Object> redisTemplate;
 
     /**
-     * 사용자명비밀번호로그인
+     * 사용자명 비밀번호 로그인
      *
      * @param username 사용자명
      * @param password 비밀번호
-     * @return 접근토큰
+     * @return 접근 토큰
      */
     @Override
     public AuthenticationToken login(String username, String password) {
-        // 1. 생성용도비밀번호 인증 토큰（인증 안 됨）
+        // 1. 사용자명/비밀번호 인증 토큰 생성 (인증 안 됨)
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username.trim(), password);
 
-        // 2. 인증 실행（인증 중）
+        // 2. 인증 실행 (인증 중)
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-        // 3. 인증성공 후생성 JWT 토큰，및 저장 Security 컨텍스트，로그인 로그용 AOP 사용（인증 완료）
+        // 3. 인증 성공 후 JWT 토큰 생성 및 Security 컨텍스트 저장, 로그인 로그는 AOP 사용 (인증 완료)
         AuthenticationToken authenticationTokenResponse =
                 tokenManager.generateToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -80,20 +80,20 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * 위챗원클릭 인증 로그인
+     * 위챗 원클릭 인증 로그인
      *
-     * @param code 위챗 로그인code
-     * @return 접근토큰
+     * @param code 위챗 로그인 code
+     * @return 접근 토큰
      */
     @Override
     public AuthenticationToken loginByWechat(String code) {
-        // 1. 사용자 생성 위챗 인증 토큰（인증 안 됨）
+        // 1. 위챗 인증 토큰 생성 (인증 안 됨)
         WxMiniAppCodeAuthenticationToken authenticationToken = new WxMiniAppCodeAuthenticationToken(code);
 
-        // 2. 인증 실행（인증 중）
+        // 2. 인증 실행 (인증 중)
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-        // 3. 인증성공 후생성 JWT 토큰，및 저장 Security 컨텍스트，로그인 로그용 AOP 사용（인증 완료）
+        // 3. 인증 성공 후 JWT 토큰 생성 및 Security 컨텍스트 저장, 로그인 로그는 AOP 사용 (인증 완료)
         AuthenticationToken token = tokenManager.generateToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -108,20 +108,20 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void sendSmsLoginCode(String mobile) {
 
-        // 랜덤생성4자리인증코드
+        // 랜덤 4자리 인증코드 생성
         // String code = String.valueOf((int) ((Math.random() * 9 + 1) * 1000));
-        // TODO 위해편의테스트，인증코드固定값 1234，실제개발중에SMS 서비스 설정 후，가는사용上面의랜덤인증코드
+        // TODO 테스트 편의를 위해 인증코드 고정값 1234 사용, 실제 개발 시 SMS 서비스 설정 후 위 랜덤 인증코드 사용
         String code = "1234";
 
-        // 발송SMS인증코드
+        // SMS 인증코드 발송
         Map<String, String> templateParams = new HashMap<>();
         templateParams.put("code", code);
         try {
             smsService.sendSms(mobile, SmsTypeEnum.LOGIN, templateParams);
         } catch (Exception e) {
-            log.error("발송SMS인증코드실패", e);
+            log.error("SMS 인증코드 발송 실패", e);
         }
-        // 인증코드를 캐시에 저장Redis，로그인 검증용
+        // 인증코드를 Redis 캐시에 저장, 로그인 검증용
         redisTemplate.opsForValue().set(StrUtil.format(RedisConstants.Captcha.SMS_LOGIN_CODE, mobile), code, 5, TimeUnit.MINUTES);
     }
 
@@ -130,17 +130,17 @@ public class AuthServiceImpl implements AuthService {
      *
      * @param mobile 휴대폰 번호
      * @param code   인증코드
-     * @return 접근토큰
+     * @return 접근 토큰
      */
     @Override
     public AuthenticationToken loginBySms(String mobile, String code) {
-        // 1. 사용자 생성 SMS 인증코드 인증 토큰（인증 안 됨）
+        // 1. SMS 인증코드 인증 토큰 생성 (인증 안 됨)
         SmsAuthenticationToken smsAuthenticationToken = new SmsAuthenticationToken(mobile, code);
 
-        // 2. 인증 실행（인증 중）
+        // 2. 인증 실행 (인증 중)
         Authentication authentication = authenticationManager.authenticate(smsAuthenticationToken);
 
-        // 3. 인증성공 후생성 JWT 토큰，및 저장 Security 컨텍스트，로그인 로그용 AOP 사용（인증 완료）
+        // 3. 인증 성공 후 JWT 토큰 생성 및 Security 컨텍스트 저장, 로그인 로그는 AOP 사용 (인증 완료)
         AuthenticationToken authenticationToken = tokenManager.generateToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -148,16 +148,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * 로그아웃로그인
+     * 로그아웃
      */
     @Override
     public void logout() {
         String token = SecurityUtils.getTokenFromRequest();
         if (StrUtil.isNotBlank(token) && token.startsWith(SecurityConstants.BEARER_TOKEN_PREFIX )) {
             token = token.substring(SecurityConstants.BEARER_TOKEN_PREFIX .length());
-            // 을JWT토큰추가黑名单
+            // JWT 토큰을 블랙리스트에 추가
             tokenManager.invalidateToken(token);
-            // 제거Security컨텍스트
+            // Security 컨텍스트 제거
             SecurityContextHolder.clearContext();
         }
     }
@@ -195,7 +195,7 @@ public class AuthServiceImpl implements AuthService {
         String captchaCode = captcha.getCode();
         String imageBase64Data = captcha.getImageBase64Data();
 
-        // 인증코드 텍스트를 캐시에 저장Redis，로그인 검증용
+        // 인증코드 텍스트를 Redis 캐시에 저장, 로그인 검증용
         String captchaKey = IdUtil.fastSimpleUUID();
         redisTemplate.opsForValue().set(
                 StrUtil.format(RedisConstants.Captcha.IMAGE_CODE, captchaKey),
@@ -211,9 +211,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * 새로고침token
+     * 토큰 갱신
      *
-     * @param refreshToken 토큰 갱신
+     * @param refreshToken 갱신 토큰
      * @return 새로운 접근 토큰
      */
     @Override
@@ -222,20 +222,20 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * 위챗미니 프로그램Code로그인
+     * 위챗 미니 프로그램 Code 로그인
      *
-     * @param loginDTO 로그인参수
-     * @return 접근토큰
+     * @param loginDTO 로그인 파라미터
+     * @return 접근 토큰
      */
     @Override
     public AuthenticationToken loginByWxMiniAppCode(WxMiniAppCodeLoginDTO loginDTO) {
-        // 1. 위챗 미니 프로그램 인증 토큰 생성（인증 안 됨）
+        // 1. 위챗 미니 프로그램 인증 토큰 생성 (인증 안 됨)
         WxMiniAppCodeAuthenticationToken authenticationToken = new WxMiniAppCodeAuthenticationToken(loginDTO.getCode());
 
-        // 2. 인증 실행（인증 중）
+        // 2. 인증 실행 (인증 중)
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-        // 3. 인증성공 후생성 JWT 토큰，및 저장 Security 컨텍스트，로그인 로그용 AOP 사용（인증 완료）
+        // 3. 인증 성공 후 JWT 토큰 생성 및 Security 컨텍스트 저장, 로그인 로그는 AOP 사용 (인증 완료)
         AuthenticationToken token = tokenManager.generateToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -246,11 +246,11 @@ public class AuthServiceImpl implements AuthService {
      * 위챗미니 프로그램휴대폰 번호로그인
      *
      * @param loginDTO 로그인参수
-     * @return 접근토큰
+     * @return 접근 토큰
      */
     @Override
     public AuthenticationToken loginByWxMiniAppPhone(WxMiniAppPhoneLoginDTO loginDTO) {
-        // 위챗 미니 프로그램 휴대폰 번호 인증 생성Token
+        // 위챗 미니 프로그램 휴대폰 번호 인증 토큰 생성
         WxMiniAppPhoneAuthenticationToken authenticationToken = new WxMiniAppPhoneAuthenticationToken(
                 loginDTO.getCode(),
                 loginDTO.getEncryptedData(),
@@ -260,7 +260,7 @@ public class AuthServiceImpl implements AuthService {
         // 인증 실행
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-        // 인증성공 후생성JWT토큰，및 저장Security컨텍스트
+        // 인증 성공 후 JWT 토큰 생성 및 Security 컨텍스트 저장
         AuthenticationToken token = tokenManager.generateToken(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

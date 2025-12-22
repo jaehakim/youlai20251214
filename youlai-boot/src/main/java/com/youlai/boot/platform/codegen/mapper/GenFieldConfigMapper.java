@@ -5,7 +5,7 @@ import com.youlai.boot.platform.codegen.model.entity.GenFieldConfig;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 代码生成字段配置访问层
+ * 코드 생성 필드 설정 데이터 접근 계층
  *
  * @author Ray
  * @since 2.10.0

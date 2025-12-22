@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 사전 항목구현类
+ * 사전 항목 구현 클래스
  *
  * @author Ray.Hao
  * @since 2022/10/12
@@ -46,7 +46,7 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> i
 
 
     /**
-     * 조회사전 항목목록
+     * 사전 항목 목록 조회
      *
      * @param dictCode 사전 코드
      */
@@ -70,10 +70,10 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> i
 
 
     /**
-     * 조회사전 항목폼
+     * 사전 항목 폼 조회
      *
-     * @param itemId 사전 항목ID
-     * @return 사전 항목폼
+     * @param itemId 사전 항목 ID
+     * @return 사전 항목 폼
      */
     @Override
     public DictItemForm getDictItemForm( Long itemId) {
@@ -82,10 +82,10 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> i
     }
 
     /**
-     * 저장사전 항목
+     * 사전 항목 저장
      *
-     * @param formData 사전 항목폼
-     * @return 여부성공
+     * @param formData 사전 항목 폼
+     * @return 성공 여부
      */
     @Override
     public boolean saveDictItem(DictItemForm formData) {
@@ -94,10 +94,10 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> i
     }
 
     /**
-     * 업데이트사전 항목
+     * 사전 항목 업데이트
      *
-     * @param formData 사전 항목폼
-     * @return 여부성공
+     * @param formData 사전 항목 폼
+     * @return 성공 여부
      */
     @Override
     public boolean updateDictItem(DictItemForm formData) {
@@ -106,9 +106,9 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> i
     }
 
     /**
-     * 삭제사전 항목
+     * 사전 항목 삭제
      *
-     * @param ids 사전 항목ID集合
+     * @param ids 사전 항목 ID 집합
      */
     @Override
     public void deleteDictItemByIds(String ids) {

@@ -5,7 +5,7 @@ import com.youlai.boot.platform.sms.enums.SmsTypeEnum;
 import java.util.Map;
 
 /**
- * SMS서비스인터페이스层
+ * SMS 서비스 인터페이스
  *
  * @author Ray.Hao
  * @since 2024/8/17

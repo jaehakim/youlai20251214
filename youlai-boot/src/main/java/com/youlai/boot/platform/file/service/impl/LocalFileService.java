@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 
 /**
- * 로컬 저장서비스类
+ * 로컬 저장 서비스 클래스
  *
  * @author Theo
  * @since 2024-12-09 17:11
@@ -37,31 +37,31 @@ public class LocalFileService implements FileService {
     private String storagePath;
 
     /**
-     * 업로드파일方法
+     * 파일 업로드 메서드
      *
      * @param file 폼 파일 객체
-     * @return 파일信息
+     * @return 파일 정보
      */
     @Override
     public FileInfo uploadFile(MultipartFile file) {
-        // 조회파일名
+        // 파일 이름 조회
         String originalFilename = file.getOriginalFilename();
-        // 조회파일후缀
+        // 파일 확장자 조회
         String suffix = FileUtil.getSuffix(originalFilename);
-        // 생성uuid
+        // uuid 생성
         String fileName = IdUtil.simpleUUID()+ "." + suffix;;
-        // 생성파일名(日期파일夹)
+        // 파일 이름 생성(날짜 폴더)
         String folder = DateUtil.format(LocalDateTime.now(), DatePattern.PURE_DATE_PATTERN);
         String filePrefix = storagePath.endsWith(File.separator) ? storagePath : storagePath + File.separator;
-        //  try-with-resource 语法糖自动释放流
+        //  try-with-resource 문법으로 스트림 자동 해제
         try (InputStream inputStream = file.getInputStream()) {
-            // 업로드파일
+            // 파일 업로드
             FileUtil.writeFromStream(inputStream, filePrefix + folder + File.separator + fileName);
         } catch (Exception e) {
-            log.error("파일 업로드실패", e);
-            throw new RuntimeException("파일 업로드실패");
+            log.error("파일 업로드 실패", e);
+            throw new RuntimeException("파일 업로드 실패");
         }
-        // 조회파일접근경로，因값这里是로컬 저장，所는直接返回파일의相对경로，需要前端自行处理접근前缀
+        // 파일 접근 경로 조회, 여기는 로컬 저장이므로 파일의 상대 경로를 직접 반환하며 프론트엔드에서 접근 접두사를 직접 처리해야 함
         String fileUrl = File.separator + folder + File.separator + fileName;
         FileInfo fileInfo = new FileInfo();
         fileInfo.setName(originalFilename);
@@ -71,22 +71,22 @@ public class LocalFileService implements FileService {
 
 
     /**
-     * 삭제파일
-     * @param filePath 파일完整URL
-     * @return 여부삭제성공
+     * 파일 삭제
+     * @param filePath 파일 전체 URL
+     * @return 삭제 성공 여부
      */
     @Override
     public boolean deleteFile(String filePath) {
-        //判断파일여부값空
+        // 파일이 비어있는지 판단
         if (filePath == null || filePath.isEmpty()) {
             return false;
         }
-        // 判断filepath여부값파일夹
+        // filepath가 폴더인지 판단
         if (FileUtil.isDirectory(storagePath + filePath)) {
-            // 禁止삭제파일夹
+            // 폴더 삭제 금지
             return false;
         }
-        // 삭제파일
+        // 파일 삭제
         return FileUtil.del(storagePath + filePath);
     }
 }

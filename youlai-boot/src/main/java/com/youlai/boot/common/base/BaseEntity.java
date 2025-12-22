@@ -24,13 +24,13 @@ public class BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键ID
+     * 기본키 ID
      */
     @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
-     * 创建时间
+     * 생성 시간
      */
     @TableField(fill = FieldFill.INSERT)
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
@@ -38,7 +38,7 @@ public class BaseEntity implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 업데이트 시간
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @JsonInclude(value = JsonInclude.Include.NON_NULL)

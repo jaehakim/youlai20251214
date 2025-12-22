@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 代码生成基础설정
+ * 코드 생성 기본 설정
  *
  * @author Ray
  * @since 2.10.0
@@ -18,47 +18,47 @@ import lombok.Setter;
 public class GenConfig extends BaseEntity {
 
     /**
-     * 表名
+     * 테이블명
      */
     private String tableName;
 
     /**
-     * 包名
+     * 패키지명
      */
     private String packageName;
 
     /**
-     * 模块名
+     * 모듈명
      */
     private String moduleName;
 
     /**
-     * 实体类名
+     * 엔티티 클래스명
      */
     private String entityName;
 
     /**
-     * 业务名
+     * 비즈니스명
      */
     private String businessName;
 
     /**
-     * 父菜单ID
+     * 상위 메뉴 ID
      */
     private Long parentMenuId;
 
     /**
-     * 作者
+     * 작성자
      */
     private String author;
 
     /**
-     * 页面유형 classic|curd
+     * 페이지 유형 classic|curd
      */
     private String pageType;
 
     /**
-     * 要移除的表前缀，如: sys_
+     * 제거할 테이블 접두사, 예: sys_
      */
     private String removeTablePrefix;
 }

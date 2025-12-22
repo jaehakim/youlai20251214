@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 public @interface DataPermission {
 
     /**
-     * 数据权限 {@link com.baomidou.mybatisplus.extension.plugins.inner.DataPermissionInterceptor}
+     * 데이터 권한 {@link com.baomidou.mybatisplus.extension.plugins.inner.DataPermissionInterceptor}
      */
     String deptAlias() default "";
 

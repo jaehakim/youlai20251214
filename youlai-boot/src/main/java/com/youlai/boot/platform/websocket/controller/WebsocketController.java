@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 
 /**
- * WebSocket 테스트用例컨트롤러
+ * WebSocket 테스트 컨트롤러
  * <p>
- * 包含点对点/广播발송메시지
+ * 점대점/브로드캐스트 메시지 전송 기능 포함
  *
  * @author Ray.Hao
  * @since 2.3.0
@@ -30,34 +30,34 @@ public class WebsocketController {
 
 
     /**
-     * 广播발송메시지
+     * 브로드캐스트 메시지 전송
      *
-     * @param message 메시지내용
+     * @param message 메시지 내용
      */
     @MessageMapping("/sendToAll")
     @SendTo("/topic/notice")
     public String sendToAll(String message) {
-        return "서비스端공지: " + message;
+        return "서버 알림: " + message;
     }
 
     /**
-     * 点对点발송메시지
+     * 점대점 메시지 전송
      * <p>
-     * 模拟 张三 给 李四 발송메시지场景
+     * 사용자 A가 사용자 B에게 메시지를 전송하는 시나리오 시뮬레이션
      *
-     * @param principal 현재사용자
-     * @param username  接收메시지의사용자
-     * @param message   메시지내용
+     * @param principal 현재 사용자
+     * @param username  메시지를 수신할 사용자
+     * @param message   메시지 내용
      */
     @MessageMapping("/sendToUser/{username}")
     public void sendToUser(Principal principal, @DestinationVariable String username, String message) {
-        // 발송人
+        // 발송자
         String sender = principal.getName();
-        // 接收人
+        // 수신자
         String receiver = username;
 
-        log.info("발송人:{}; 接收人:{}", sender, receiver);
-        // 발송메시지给지정된사용자，로 연결후경로 /user/{receiver}/queue/greeting
+        log.info("발송자: {}; 수신자: {}", sender, receiver);
+        // 지정된 사용자에게 메시지 전송, 최종 경로: /user/{receiver}/queue/greeting
         messagingTemplate.convertAndSendToUser(receiver, "/queue/greeting", new ChatMessage(sender, message));
     }
 

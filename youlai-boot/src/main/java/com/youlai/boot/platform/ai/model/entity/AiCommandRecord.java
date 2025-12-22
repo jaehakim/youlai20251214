@@ -47,7 +47,7 @@ public class AiCommandRecord extends BaseEntity {
     /** 신뢰도 (0.00-1.00) */
     private BigDecimal confidence;
 
-    /** 解析오류 정보 */
+    /** 파싱 오류 정보 */
     private String parseErrorMessage;
 
     /** 입력 토큰 수 */
@@ -64,7 +64,7 @@ public class AiCommandRecord extends BaseEntity {
 
     // ==================== 실행 관련 필드 ====================
 
-    /** 执行的함수 이름 */
+    /** 실행된 함수 이름 */
     private String functionName;
 
     /** 함수 파라미터 (JSON) */
@@ -76,7 +76,7 @@ public class AiCommandRecord extends BaseEntity {
     /** 실행 결과 (JSON) */
     private String executeResult;
 
-    /** 执行오류 정보 */
+    /** 실행 오류 정보 */
     private String executeErrorMessage;
 
     /** 영향받은 레코드 수 */
