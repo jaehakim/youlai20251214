@@ -51,7 +51,7 @@ spring:
             enable: true
     # 이메일 발신자
     from: youlaitech@163.com
-  #  Spring AI 配置
+  # Spring AI 설정
   ai:
     openai:
       # API Key
@@ -60,7 +60,7 @@ spring:
       # Base URL
       base-url: https://dashscope.aliyuncs.com/compatible-mode
 
-      # Chat 模型配置
+      # Chat 모델 설정
       chat:
         enabled: true
         options:
@@ -191,7 +191,7 @@ knife4j:
   # 프로덕션 환경 설정
   production: false # true로 설정하면 프로덕션 환경에서 문서를 표시하지 않음, false는 문서 표시(일반적으로 개발 환경에서 사용)
   setting:
-    language: zh_cn
+    language: zh_CN
 
 # xxl-job 정기 작업 설정
 xxl:
