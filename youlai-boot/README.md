@@ -7,7 +7,7 @@
 </a>
 
 <p>
-  <strong>一票就够，不用每天投 🙏 您的支持是我们持续更新的最大动力！</strong>
+  <strong>한 표면 충분하고, 매일 투표할 필요 없습니다 🙏 당신의 지원이 우리의 지속적인 업데이트의 가장 큰 동력입니다!</strong>
 </p>
 
 <p>
@@ -50,13 +50,13 @@
 
 ## 📢 프로젝트 소개
 
-JDK 17, Spring Boot 3, Spring Security 6, JWT, Redis, Mybatis-Plus, Vue 3, Element-Plus를 기반으로 구축된 프론트엔드-백엔드 분리 단일체 권한 관리 시스템. [Mybatis-Flex 版本](https://gitee.com/youlaiorg/youlai-boot-flex)
+JDK 17, Spring Boot 3, Spring Security 6, JWT, Redis, Mybatis-Plus, Vue 3, Element-Plus를 기반으로 구축된 프론트엔드-백엔드 분리 단일체 권한 관리 시스템. [Mybatis-Flex 버전](https://gitee.com/youlaiorg/youlai-boot-flex)
 
-- **🚀 개발 프레임워크**: 使用 Spring Boot 3 和 Vue 3，以及 Element-Plus 等主流技术栈，实时更新。
+- **🚀 개발 프레임워크**: Spring Boot 3, Vue 3, Element-Plus 등 주류 기술 스택을 사용하며, 실시간으로 업데이트합니다.
 
-- **🔐 보안 인증**: 基于 Spring Security 6 原生架构，集成 JWT 令牌自动续期（无状态）和 Redis 会话多端互斥管理（实时强制离线）双重认证机制，构建企业级身份安全中枢。
+- **🔐 보안 인증**: Spring Security 6 원본 아키텍처 기반으로, JWT 토큰 자동 갱신 (무상태) 및 Redis 세션 다중 기기 상호 배제 관리 (실시간 강제 로그아웃) 이중 인증 메커니즘을 통합하여 엔터프라이즈급 신원 보안 허브를 구축합니다.
 
-- **🔑 권한 관리**: 基于 RBAC 模型，实现细粒度的权限控制，涵盖接口方法和按钮级别。
+- **🔑 권한 관리**: RBAC 모델 기반으로, 세밀한 권한 제어를 구현하며, 인터페이스 메소드와 버튼 레벨을 포함합니다.
 
 - **🛠️ 기능 모듈**: 사용자 관리, 역할 관리, 메뉴 관리, 부서 관리, 사전 관리 등 기능 포함.
 
@@ -75,7 +75,7 @@ JDK 17, Spring Boot 3, Spring Security 6, JWT, Redis, Mybatis-Plus, Vue 3, Eleme
 | 문서명          | 접속 주소                                                                                   |
 |---------------|-------------------------------------------------------------------------------------------|
 | 온라인 인터페이스 문서        | [https://www.apifox.cn/apidoc](https://www.apifox.cn/apidoc/shared-195e783f-4d85-4235-a038-eec696de4ea5) |
-| 项目介绍与使用指南     | [https://www.youlai.tech/youlai-boot/](https://www.youlai.tech/youlai-boot/)              |
+| 프로젝트 소개 및 사용 가이드 | [https://www.youlai.tech/youlai-boot/](https://www.youlai.tech/youlai-boot/)              |
 | 기능 상세 설명 및 운영 매뉴얼     | [https://youlai.blog.csdn.net/article/details/145178880](https://youlai.blog.csdn.net/article/details/145178880) |
 | 초보자 입문 가이드(프로젝트 0부터 1까지) | [https://youlai.blog.csdn.net/article/details/145177011](https://youlai.blog.csdn.net/article/details/145177011) |
 
@@ -168,13 +168,13 @@ youlai-boot
 
 3. **설정 수정**
 
-   기본적으로`有来`线上 MySQL/Redis（仅读权限），本地开发时请修改 [application-dev.yml](src/main/resources/application-dev.yml) 의 MySQL 및 Redis 연결 정보를 수정하세요.
+   기본적으로 온라인 MySQL/Redis (읽기 전용)를 사용하므로, 로컬 개발 시 [application-dev.yml](src/main/resources/application-dev.yml) 파일의 MySQL 및 Redis 연결 정보를 수정하세요.
 
-4. **启动项目**
+4. **프로젝트 시작**
 
-   실행 [YoulaiBootApplication.java](src/main/java/com/youlai/boot/YoulaiBootApplication.java) 的 main 方法完成后端프로젝트 시작；
+   [YoulaiBootApplication.java](src/main/java/com/youlai/boot/YoulaiBootApplication.java)의 main 메소드를 실행하여 백엔드 프로젝트를 시작합니다.
 
-   인터페이스 문서 주소 [http://localhost:8989/doc.html](http://localhost:8989/doc.html) 验证프로젝트 시작是否成功。
+   인터페이스 문서 주소 [http://localhost:8989/doc.html](http://localhost:8989/doc.html)에서 프로젝트 시작 성공 여부를 확인할 수 있습니다.
 
 
 ## 🚀 프로젝트 배포
@@ -193,8 +193,8 @@ Thanks to all the contributors!
 
 ## 💖 커뮤니티 참여
 
-① 关注「有来技术」公众号，点击菜单 **교류 그룹** 获取加群二维码（此举防止广告进群，感谢理解和支持）。
+① "유라이 기술(Youlai Technology)" 공식 계정을 팔로우하고 메뉴에서 **커뮤니티**를 클릭하여 그룹 초대 QR 코드를 받으세요 (광고 스팸 방지를 위한 조치입니다).
 
-② 위챗 **`haoxianrui`** 을 직접 추가하고 「프론트엔드/백엔드/풀스택」으로 비고하세요.
+② 위챗에서 **`haoxianrui`**를 직접 추가하고 비고에 「프론트엔드/백엔드/풀스택」을 입력하세요.
 
 ![유라이 기술 공식 계정](https://foruda.gitee.com/images/1737108820762592766/3390ed0d_716974.png)  

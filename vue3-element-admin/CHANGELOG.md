@@ -3,11 +3,11 @@
 
 ## ✨ feat
 
-- 支持后端文件导入([#142](https://github.com/youlaitech/vue3-element-admin/pull/142)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 백엔드 파일 임포트 지원([#142](https://github.com/youlaitech/vue3-element-admin/pull/142)) [@cshaptx4869](https://github.com/cshaptx4869)
 
 
 ## 🐛 fix
-- vue-dev-tools 插件导致菜单路由切换卡死，暂时关闭 ([28349e](https://github.com/youlaitech/vue3-element-admin/commit/28349efe147afab36531ba148eaac3a448fe6c71)) [@haoxianrui](https://github.com/haoxianrui)
+- vue-dev-tools 플러그인으로 인한 메뉴 라우팅 전환 프리징, 임시 비활성화 ([28349e](https://github.com/youlaitech/vue3-element-admin/commit/28349efe147afab36531ba148eaac3a448fe6c71)) [@haoxianrui](https://github.com/haoxianrui)
 
 
 
@@ -15,11 +15,11 @@
 
 ## ✨ feat
 
-- 操作栏增加render配置参数([#138](https://github.com/youlaitech/vue3-element-admin/pull/140)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 左侧工具栏增加type配置参数([#141](https://github.com/youlaitech/vue3-element-admin/pull/141)) [@diamont1001](https://github.com/diamont1001)
+- 작업 바에 render 구성 파라미터 추가([#138](https://github.com/youlaitech/vue3-element-admin/pull/140)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 왼쪽 도구 모음에 type 구성 파라미터 추가([#141](https://github.com/youlaitech/vue3-element-admin/pull/141)) [@diamont1001](https://github.com/diamont1001)
 
 ## ♻️ refactor
-- 更换权限分配弹窗类型为 drawer 并추가父子联动开关([2d9193](https://github.com/youlaitech/vue3-element-admin/commit/2d9193c47fd224f01f82b9c0b2bbeb5e7cb33584)) [@haoxianrui](https://github.com/haoxianrui)
+- 권한 배분 팝업 유형을 drawer로 변경하고 부모-자식 연동 토글 추가([2d9193](https://github.com/youlaitech/vue3-element-admin/commit/2d9193c47fd224f01f82b9c0b2bbeb5e7cb33584)) [@haoxianrui](https://github.com/haoxianrui)
 
 
 
@@ -27,92 +27,92 @@
 
 ## ✨ feat
 
-- 支持默认工具栏의导入([#138](https://github.com/youlaitech/vue3-element-admin/pull/138)) [@cshaptx4869](https://github.com/cshaptx4869)
--  추가CURD导入示例([19e7bb](https://github.com/youlaitech/vue3-element-admin/commit/eab91effd6a01d5a3d9257249c8d06aa252b3bf8)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 기본 도구 모음 임포트 지원([#138](https://github.com/youlaitech/vue3-element-admin/pull/138)) [@cshaptx4869](https://github.com/cshaptx4869)
+- CURD 임포트 예제 추가([19e7bb](https://github.com/youlaitech/vue3-element-admin/commit/eab91effd6a01d5a3d9257249c8d06aa252b3bf8)) [@cshaptx4869](https://github.com/cshaptx4869)
 
 ## ♻️ refactor
-- 修改导出全量数据选项文本([904fec](https://github.com/youlaitech/vue3-element-admin/commit/904fecad65217650482fcdbb10ffb7f3d27eb9ea)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 전체 데이터 내보내기 옵션 텍스트 변경([904fec](https://github.com/youlaitech/vue3-element-admin/commit/904fecad65217650482fcdbb10ffb7f3d27eb9ea)) [@cshaptx4869](https://github.com/cshaptx4869)
 
 ## 🐛 fix
-- 菜单列表未适配el-icon导致图标不显示问题修复([e72b68](https://github.com/youlaitech/vue3-element-admin/commit/e72b68337562b5a7ea24ad55bbe00023e1266b40)) [@haoxianrui](https://github.com/haoxianrui)
+- 메뉴 목록 el-icon 미적응으로 인한 아이콘 미표시 문제 수정([e72b68](https://github.com/youlaitech/vue3-element-admin/commit/e72b68337562b5a7ea24ad55bbe00023e1266b40)) [@haoxianrui](https://github.com/haoxianrui)
 
 # 2.11.2 (2024/6/8)
 
 ## ✨ feat
 
-- 支持表格远程筛选([#131](https://github.com/youlaitech/vue3-element-admin/pull/131)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 支持태그 제거输入框([#132](https://github.com/youlaitech/vue3-element-admin/pull/132)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 表单项支持tips配置([#133](https://github.com/youlaitech/vue3-element-admin/pull/133)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 前端导出支持全量数据([#134](https://github.com/youlaitech/vue3-element-admin/pull/134)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 支持选中数据导出([#135](https://github.com/youlaitech/vue3-element-admin/pull/135)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 表格默认工具栏의导出、搜索按钮增加权限点控制([883128](https://github.com/youlaitech/vue3-element-admin/commit/8831289b655f2cc086ecdababaa89f8d8a087c42)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 页签title支持动态设置([23876a](https://github.com/youlaitech/vue3-element-admin/commit/23876aa396143bf77cb5c86af8d6023d9ff6555a)) [@haoxianrui](https://github.com/haoxianrui)
+- 테이블 원격 필터링 지원([#131](https://github.com/youlaitech/vue3-element-admin/pull/131)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 태그 제거 입력 창 지원([#132](https://github.com/youlaitech/vue3-element-admin/pull/132)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 폼 항목 팁 구성 지원([#133](https://github.com/youlaitech/vue3-element-admin/pull/133)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 프론트엔드 내보내기 전체 데이터 지원([#134](https://github.com/youlaitech/vue3-element-admin/pull/134)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 선택한 데이터 내보내기 지원([#135](https://github.com/youlaitech/vue3-element-admin/pull/135)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 테이블 기본 도구 모음의 내보내기, 검색 버튼에 권한 포인트 제어 추가([883128](https://github.com/youlaitech/vue3-element-admin/commit/8831289b655f2cc086ecdababaa89f8d8a087c42)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 탭 제목 동적 설정 지원([23876a](https://github.com/youlaitech/vue3-element-admin/commit/23876aa396143bf77cb5c86af8d6023d9ff6555a)) [@haoxianrui](https://github.com/haoxianrui)
 
 ## ♻️ refactor
-- 默认工具栏支持自定义([#136](https://github.com/youlaitech/vue3-element-admin/pull/136)) [@cshaptx4869](https://github.com/cshaptx4869)
--  未配置全量导出接口时选项隐藏([eab91ef](https://github.com/youlaitech/vue3-element-admin/commit/eab91effd6a01d5a3d9257249c8d06aa252b3bf8)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 기본 도구 모음 커스텀 지원([#136](https://github.com/youlaitech/vue3-element-admin/pull/136)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 전체 내보내기 인터페이스가 구성되지 않았을 때 옵션 숨김([eab91ef](https://github.com/youlaitech/vue3-element-admin/commit/eab91effd6a01d5a3d9257249c8d06aa252b3bf8)) [@cshaptx4869](https://github.com/cshaptx4869)
 
 ## 🐛 fix
-- 修复注销登出后redirect跳转路由参数丢失([5626017](https://github.com/youlaitech/vue3-element-admin/commit/562601736731afd20bb1a5140d856f6515720159)) [@haoxianrui](https://github.com/haoxianrui)
+- 로그아웃 후 redirect 라우팅 파라미터 손실 문제 수정([5626017](https://github.com/youlaitech/vue3-element-admin/commit/562601736731afd20bb1a5140d856f6515720159)) [@haoxianrui](https://github.com/haoxianrui)
 
 # 2.11.1 (2024/6/6)
 
 ## ✨ feat
 
-- 增加pagination、request、parseData配置参数([#119](https://github.com/youlaitech/vue3-element-admin/pull/119)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 增加返回顶部功能([#120](https://github.com/youlaitech/vue3-element-admin/pull/120)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 支持前端导出([#126](https://github.com/youlaitech/vue3-element-admin/pull/126)) [@cshaptx4869](https://github.com/cshaptx4869)
+- pagination, request, parseData 구성 파라미터 추가([#119](https://github.com/youlaitech/vue3-element-admin/pull/119)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 맨 위로 돌아가기 기능 추가([#120](https://github.com/youlaitech/vue3-element-admin/pull/120)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 프론트엔드 내보내기 지원([#126](https://github.com/youlaitech/vue3-element-admin/pull/126)) [@cshaptx4869](https://github.com/cshaptx4869)
 
 ## ♻️ refactor
-- 重构布局样式(解决页面抖动问题)([#116](https://github.com/youlaitech/vue3-element-admin/pull/116)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 修改CURD示例编辑弹窗尺寸([#121](https://github.com/youlaitech/vue3-element-admin/pull/121)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 统一注册vue插件([#122](https://github.com/youlaitech/vue3-element-admin/pull/122)) [@cshaptx4869](https://github.com/cshaptx4869)
+- 레이아웃 스타일 리팩토링 (페이지 떨림 문제 해결)([#116](https://github.com/youlaitech/vue3-element-admin/pull/116)) [@cshaptx4869](https://github.com/cshaptx4869)
+- CURD 예제 편집 팝업 크기 변경([#121](https://github.com/youlaitech/vue3-element-admin/pull/121)) [@cshaptx4869](https://github.com/cshaptx4869)
+- Vue 플러그인 일일이 등록([#122](https://github.com/youlaitech/vue3-element-admin/pull/122)) [@cshaptx4869](https://github.com/cshaptx4869)
 - 기본 테마 시스템 따라가기([#128](https://github.com/youlaitech/vue3-element-admin/pull/128)) [@cshaptx4869](https://github.com/cshaptx4869)
-- 增加"scss.lint.unknownAtRules": "ignore"代码，解决style中使用@apply提示unknow at rules@apply提示问题([Gitee#22](https://gitee.com/youlaiorg/vue3-element-admin/pulls/22))  [@zjsy521](https://gitee.com/zjsy521)
+- "scss.lint.unknownAtRules": "ignore" 코드 추가, style에서 @apply 사용 시 unknow at rules 문제 해결([Gitee#22](https://gitee.com/youlaiorg/vue3-element-admin/pulls/22))  [@zjsy521](https://gitee.com/zjsy521)
 
 ## 🐛 fix
-- 修复左侧布局移动端菜单弹出样式 ([#117](https://github.com/youlaitech/vue3-element-admin/pull/117))  [@cshaptx4869](https://github.com/cshaptx4869)
+- 왼쪽 레이아웃 모바일 메뉴 팝업 스타일 수정 ([#117](https://github.com/youlaitech/vue3-element-admin/pull/117))  [@cshaptx4869](https://github.com/cshaptx4869)
 
-- 修复编辑后未清空id再新增菜单覆盖의问题([0e78eeb](https://github.com/youlaitech/vue3-element-admin/commit/0e78eeb75008fa8e9732b1b4e7d7a1ea345c7a1b)) [@haoxianrui](https://github.com/haoxianrui)
-- 修复水印层级问题([#123](https://github.com/youlaitech/vue3-element-admin/pull/123))  [@cshaptx4869](https://github.com/cshaptx4869)
-- 修复混合布局样式问题([#124](https://github.com/youlaitech/vue3-element-admin/pull/124))  [@cshaptx4869](https://github.com/cshaptx4869)
-- 修复关闭弹窗时没有clearValidate问题([#125](https://github.com/youlaitech/vue3-element-admin/pull/125))  [@andm31](https://github.com/andm31)
+- 편집 후 ID를 비우지 않고 새 메뉴 추가 시 덮어쓰기 문제 수정([0e78eeb](https://github.com/youlaitech/vue3-element-admin/commit/0e78eeb75008fa8e9732b1b4e7d7a1ea345c7a1b)) [@haoxianrui](https://github.com/haoxianrui)
+- 워터마크 계층 문제 수정([#123](https://github.com/youlaitech/vue3-element-admin/pull/123))  [@cshaptx4869](https://github.com/cshaptx4869)
+- 혼합 레이아웃 스타일 문제 수정([#124](https://github.com/youlaitech/vue3-element-admin/pull/124))  [@cshaptx4869](https://github.com/cshaptx4869)
+- 팝업 창 닫기 시 clearValidate 미적용 문제 수정([#125](https://github.com/youlaitech/vue3-element-admin/pull/125))  [@andm31](https://github.com/andm31)
 
 
 
 # 2.11.0 (2024/5/27)
 
 ## ✨ feat
-- 菜单추가路由参数设置（author by [haoxianrui](https://github.com/haoxianrui)）
-- 增加列表选择组件（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 增加列表选择组件使用示例（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 增加defaultToolbar配置参数（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 表单弹窗支持drawer모드（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 表单项增加computed和watchEffect配置（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 支持switch属性修改（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 表单项增加文本类型支持（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 列表列增加show配置项（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 支持搜索表单显隐控制（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 支持input属性修改（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- search配置新增函数能力拓展（author by [xiudaozhe](https://github.com/xiudaozhe)）
-- 表格新增列设置控制（author by [haoxianrui](https://github.com/haoxianrui)）
-- 搜索추가展开和收缩（author by [haoxianrui](https://github.com/haoxianrui)）
-- watch函数增加配置项参数返回（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 메뉴 라우팅 파라미터 설정 추가（author by [haoxianrui](https://github.com/haoxianrui)）
+- 목록 선택 컴포넌트 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 목록 선택 컴포넌트 사용 예제 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- defaultToolbar 구성 파라미터 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 폼 팝업 drawer 모드 지원（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 폼 항목 computed 및 watchEffect 구성 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- switch 속성 수정 지원（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 폼 항목 텍스트 유형 지원 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 목록 열에 show 구성 항목 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 검색 폼 표시/숨김 제어 지원（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- input 속성 수정 지원（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- search 구성 새로운 함수 기능 확장（author by [xiudaozhe](https://github.com/xiudaozhe)）
+- 테이블 새 열 설정 제어（author by [haoxianrui](https://github.com/haoxianrui)）
+- 검색 확장 및 축소 추가（author by [haoxianrui](https://github.com/haoxianrui)）
+- watch 함수 구성 항목 파라미터 반환 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
 
 ## ♻️ refactor
-- 重构图标选择组件（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 重构列表选择组件默认样式 （author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 加强对话框表单组件和列表选择组件（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- routeMeta增加alwaysShow字段声明（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 分页组件增加溢出滚动效果（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 修正登录表单의Ref类型（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 点击表格刷新按钮不重置页码（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 筛选列超出一定高度滚动（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 优化加强initFn函数，表单项增加initFn函数（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 重构watch、computed、watchEffect调用（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 修改操作成功提示（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- PageSearch 改用card作为容器,样式改用unocss写法（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 优化首页 loading 动画效果author by [haoxianrui](https://github.com/haoxianrui)）
+- 아이콘 선택 컴포넌트 리팩토링（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 목록 선택 컴포넌트 기본 스타일 리팩토링（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 대화 폼 컴포넌트 및 목록 선택 컴포넌트 강화（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- routeMeta에 alwaysShow 필드 선언 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 페이지 매김 컴포넌트 오버플로우 스크롤 효과 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 로그인 폼 Ref 유형 수정（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 테이블 새로 고침 버튼 클릭 시 페이지 번호 리셋 안 함（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 필터 열이 특정 높이를 초과하면 스크롤（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- initFn 함수 최적화 강화, 폼 항목에 initFn 함수 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- watch, computed, watchEffect 호출 리팩토링（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 작업 성공 알림 수정（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- PageSearch를 card를 컨테이너로 변경, 스타일을 unocss로 변경（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 홈 페이지 로딩 애니메이션 효과 최적화（author by [haoxianrui](https://github.com/haoxianrui)）
 
 
 ## 🐛 fix
