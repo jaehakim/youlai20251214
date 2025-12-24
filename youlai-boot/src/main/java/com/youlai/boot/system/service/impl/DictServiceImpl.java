@@ -41,7 +41,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
      */
     @Override
     public Page<DictPageVO> getDictPage(DictPageQuery queryParams) {
-        // 조회参수
+        // 조회파라미터수
         int pageNum = queryParams.getPageNum();
         int pageSize = queryParams.getPageSize();
 

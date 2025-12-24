@@ -33,7 +33,7 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
     /**
      * 조회로그페이지 목록
      *
-     * @param queryParams 조회参수
+     * @param queryParams 조회파라미터수
      * @return 로그페이지 목록
      */
     @Override
@@ -54,22 +54,22 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
         VisitTrendVO visitTrend = new VisitTrendVO();
         List<String> dates = new ArrayList<>();
 
-        // 조회日期范围内의日期
+        // 조회날짜 범위 내의날짜
         while (!startDate.isAfter(endDate)) {
             dates.add(startDate.toString());
             startDate = startDate.plusDays(1);
         }
         visitTrend.setDates(dates);
 
-        // 조회접근量和접근 IP 수의통계데이터
+        // 조회접근수량 및접근 IP 수의통계데이터
         List<VisitCount> pvCounts = this.baseMapper.getPvCounts(dates.get(0) + " 00:00:00", dates.get(dates.size() - 1) + " 23:59:59");
         List<VisitCount> ipCounts = this.baseMapper.getIpCounts(dates.get(0) + " 00:00:00", dates.get(dates.size() - 1) + " 23:59:59");
 
-        // 을통계데이터转换값 Map
+        // 을통계데이터변환값 Map
         Map<String, Integer> pvMap = pvCounts.stream().collect(Collectors.toMap(VisitCount::getDate, VisitCount::getCount));
         Map<String, Integer> ipMap = ipCounts.stream().collect(Collectors.toMap(VisitCount::getDate, VisitCount::getCount));
 
-        // 匹配日期和접근量/접근 IP 수
+        // 날짜 일치 및접근수량/접근 IP 수
         List<Integer> pvList = new ArrayList<>();
         List<Integer> ipList = new ArrayList<>();
 
@@ -85,13 +85,13 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
     }
 
     /**
-     * 접근量통계
+     * 접근수량통계
      */
     @Override
     public VisitStatsVO getVisitStats() {
         VisitStatsVO result = new VisitStatsVO();
 
-        // 访客수통계(UV)
+        // 방문자수통계(UV)
         VisitStatsBO uvStats = this.baseMapper.getUvStats();
         if(uvStats!=null){
             result.setTodayUvCount(uvStats.getTodayCount());
@@ -99,7 +99,7 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
             result.setUvGrowthRate(uvStats.getGrowthRate());
         }
 
-        // 浏览量통계(PV)
+        // 조회 수통계(PV)
         VisitStatsBO pvStats = this.baseMapper.getPvStats();
         if(pvStats!=null){
             result.setTodayPvCount(pvStats.getTodayCount());

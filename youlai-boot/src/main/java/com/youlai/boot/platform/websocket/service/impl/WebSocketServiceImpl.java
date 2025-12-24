@@ -3,7 +3,7 @@ package com.youlai.boot.platform.websocket.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youlai.boot.system.model.dto.DictEventDTO;
-import com.youlai.boot.platform.websocket.service.WebSocketService;
+import com.youlai.boot.platform.websocket.service.웹소켓Service;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
- * WebSocket 서비스 구현 클래스
+ * 웹소켓 서비스 구현 클래스
  *
  * 핵심 기능:
  * - 사용자 온라인 상태 관리 (다중 기기 로그인 지원)
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class WebSocketServiceImpl implements WebSocketService {
+public class 웹소켓ServiceImpl implements 웹소켓Service {
 
     // ==================== 온라인 사용자 관리 ====================
 
@@ -55,7 +55,7 @@ public class WebSocketServiceImpl implements WebSocketService {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public WebSocketServiceImpl(ObjectMapper objectMapper) {
+    public 웹소켓ServiceImpl(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
@@ -65,7 +65,7 @@ public class WebSocketServiceImpl implements WebSocketService {
     @Autowired(required = false)
     public void setMessagingTemplate(SimpMessagingTemplate messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
-        log.info("✓ WebSocket 메시지 템플릿 초기화 완료");
+        log.info("✓ 웹소켓 메시지 템플릿 초기화 완료");
     }
 
     // ==================== 사용자 온라인 상태 관리 ====================
@@ -74,7 +74,7 @@ public class WebSocketServiceImpl implements WebSocketService {
      * 사용자 연결 이벤트 처리
      *
      * @param username  사용자명
-     * @param sessionId WebSocket 세션 ID
+     * @param sessionId 웹소켓 세션 ID
      */
     @Override
     public void userConnected(String username, String sessionId) {
@@ -202,9 +202,9 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     /**
-     * 조회에线세션总수
+     * 조회에스레드세션총수
      *
-     * @return 所有에线세션의总수
+     * @return 모든에스레드세션의총수
      */
     public int getTotalSessionCount() {
         return sessionDetailsMap.size();
@@ -222,10 +222,10 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     /**
-     * 조회지정된사용자의세션수量
+     * 조회지정된사용자의세션수수량
      *
      * @param username 사용자명
-     * @return 세션수量
+     * @return 세션수수량
      */
     public int getUserSessionCount(String username) {
         Set<String> sessions = userSessionsMap.get(username);
@@ -233,30 +233,30 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     /**
-     * 手动触发온라인 사용자수量广播
+     * 수동 트리거온라인 사용자수수량브로드캐스트
      * 
-     * 용外部서비스（如定时任务）调用
+     * 용외부서비스（정시 작업처럼）호출
      */
     public void notifyOnlineUsersChange() {
-        log.info("手动触发온라인 사용자수量공지，현재온라인 사용자수：{}", getOnlineUserCount());
+        log.info("수동 트리거온라인 사용자수수량공지，현재온라인 사용자수：{}", getOnlineUserCount());
         broadcastOnlineUserCount();
     }
 
     /**
-     * 广播온라인 사용자수量变更（内部方法）
+     * 브로드캐스트온라인 사용자수수량 변경（내부메서드）
      */
     private void broadcastOnlineUserCount() {
         if (messagingTemplate == null) {
-            log.warn("메시지템플릿尚미初始化，无法발송온라인 사용자수量");
+            log.warn("메시지템플릿아직미초기화，불가능발송온라인 사용자수수량");
             return;
         }
 
         try {
             int count = getOnlineUserCount();
             messagingTemplate.convertAndSend("/topic/online-count", count);
-            log.debug("✓ 이미广播온라인 사용자수量: {}", count);
+            log.debug("✓ 이미브로드캐스트온라인 사용자수수량: {}", count);
         } catch (Exception e) {
-            log.error("广播온라인 사용자수量실패", e);
+            log.error("브로드캐스트온라인 사용자수수량실패", e);
         }
     }
 
@@ -279,74 +279,74 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     /**
-     * 발송사전变更事件
+     * 발송사전변경이벤트
      *
-     * @param event 사전事件
+     * @param event 사전이벤트
      */
     private void sendDictChangeEvent(DictEventDTO event) {
         if (messagingTemplate == null) {
-            log.warn("메시지템플릿尚미初始化，无法발송사전업데이트공지");
+            log.warn("메시지템플릿아직미초기화，불가능발송사전업데이트공지");
             return;
         }
 
         try {
             String message = objectMapper.writeValueAsString(event);
             messagingTemplate.convertAndSend("/topic/dict", message);
-            log.info("✓ 이미广播사전变更공지: dictCode={}", event.getDictCode());
+            log.info("✓ 이미브로드캐스트사전변경공지: dictCode={}", event.getDictCode());
         } catch (JsonProcessingException e) {
-            log.error("사전事件序列化실패: dictCode={}", event.getDictCode(), e);
+            log.error("사전이벤트직렬화실패: dictCode={}", event.getDictCode(), e);
         } catch (Exception e) {
-            log.error("발송사전变更공지실패: dictCode={}", event.getDictCode(), e);
+            log.error("발송사전변경공지실패: dictCode={}", event.getDictCode(), e);
         }
     }
 
     /**
-     * 向特定사용자발송공지메시지
+     * 특정으로사용자발송공지메시지
      *
-     * @param username 目标사용자명
+     * @param username 대상사용자명
      * @param message  메시지내용
      */
     @Override
     public void sendNotification(String username, Object message) {
         if (username == null || username.isEmpty()) {
-            log.warn("사용자명값空，无法발송공지");
+            log.warn("사용자명값비어있음，불가능발송공지");
             return;
         }
 
         if (message == null) {
-            log.warn("메시지내용값空，无法발송给사용자[{}]", username);
+            log.warn("메시지내용값비어있음，불가능발송에게사용자[{}]", username);
             return;
         }
 
         if (messagingTemplate == null) {
-            log.warn("메시지템플릿尚미初始化，无法발송사용자메시지");
+            log.warn("메시지템플릿아직미초기화，불가능발송사용자메시지");
             return;
         }
 
         try {
             String messageJson = objectMapper.writeValueAsString(message);
             messagingTemplate.convertAndSendToUser(username, "/queue/messages", messageJson);
-            log.info("✓ 이미向사용자[{}]발송공지", username);
+            log.info("✓ 이미에사용자[{}]발송공지", username);
         } catch (JsonProcessingException e) {
-            log.error("메시지序列化실패: username={}", username, e);
+            log.error("메시지직렬화실패: username={}", username, e);
         } catch (Exception e) {
-            log.error("向사용자[{}]발송공지실패", username, e);
+            log.error("에사용자[{}]발송공지실패", username, e);
         }
     }
 
     /**
-     * 广播시스템메시지给所有사용자
+     * 브로드캐스트시스템메시지모두에게사용자
      *
      * @param message 메시지내용
      */
     public void broadcastSystemMessage(String message) {
         if (message == null || message.isEmpty()) {
-            log.warn("메시지내용값空，无法广播");
+            log.warn("메시지내용값비어있음，불가능브로드캐스트");
             return;
         }
 
         if (messagingTemplate == null) {
-            log.warn("메시지템플릿尚미初始化，无法발송广播메시지");
+            log.warn("메시지템플릿아직미초기화，불가능발송브로드캐스트메시지");
             return;
         }
 
@@ -358,11 +358,11 @@ public class WebSocketServiceImpl implements WebSocketService {
             );
             String messageJson = objectMapper.writeValueAsString(systemMessage);
             messagingTemplate.convertAndSend("/topic/public", messageJson);
-            log.info("✓ 이미广播시스템메시지: {}", message);
+            log.info("✓ 이미브로드캐스트시스템메시지: {}", message);
         } catch (JsonProcessingException e) {
-            log.error("시스템메시지序列化실패", e);
+            log.error("시스템메시지직렬화실패", e);
         } catch (Exception e) {
-            log.error("广播시스템메시지실패", e);
+            log.error("브로드캐스트시스템메시지실패", e);
         }
     }
 
@@ -392,7 +392,7 @@ public class WebSocketServiceImpl implements WebSocketService {
     public static class OnlineUserDTO {
         /** 사용자명 */
         private String username;
-        /** 세션수量 */
+        /** 세션수수량 */
         private int sessionCount;
         /** 최초 로그인 시간 */
         private long loginTime;

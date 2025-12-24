@@ -54,7 +54,7 @@ public class CodegenServiceImpl implements CodegenService {
     /**
      * 데이터 테이블페이지 목록
      *
-     * @param queryParams 조회参수
+     * @param queryParams 조회파라미터수
      * @return 페이지 결과
      */
     public Page<TablePageVO> getTablePage(TablePageQuery queryParams) {
@@ -125,7 +125,7 @@ public class CodegenServiceImpl implements CodegenService {
 
             /* 3. 파일 내용 생성 */
             // 템플릿 파일의 변수를 구체적인 값으로 치환하여 코드 내용 생성
-            // 优先사용저장의 ui，没有则사용请求参수
+            // 우선사용저장의 ui，없음그러면사용요청 파라미터수
             String finalType = StrUtil.blankToDefault(genConfig.getPageType(), pageType);
             String content = getCodeContent(templateConfig, genConfig, fieldConfigs, finalType);
             previewVO.setContent(content);
@@ -138,8 +138,8 @@ public class CodegenServiceImpl implements CodegenService {
     /**
      * 파일명 생성
      *
-     * @param entityName   实体类名 UserController
-     * @param templateName 템플릿名 Entity
+     * @param entityName   엔티티클래스이름 UserController
+     * @param templateName 템플릿이름 Entity
      * @param extension    파일 확장자 .java
      * @return 파일명
      */
@@ -160,11 +160,11 @@ public class CodegenServiceImpl implements CodegenService {
     /**
      * 파일 경로 생성
      *
-     * @param templateName   템플릿名 Entity
+     * @param templateName   템플릿이름 Entity
      * @param moduleName     모듈명 system
      * @param packageName    패키지명 com.youlai
      * @param subPackageName 서브패키지명 controller
-     * @param entityName     实体类名 UserController
+     * @param entityName     엔티티클래스이름 UserController
      * @return 파일 경로 src/main/java/com/youlai/system/controller
      */
     private String getFilePath(String templateName, String moduleName, String packageName, String subPackageName, String entityName) {
@@ -269,7 +269,7 @@ public class CodegenServiceImpl implements CodegenService {
     /**
      * 코드 다운로드
      *
-     * @param tableNames 테이블명수组，支持多张表。
+     * @param tableNames 테이블명수그룹，여러 개 지원테이블。
      * @return 압축 파일 바이트 배열
      */
     @Override

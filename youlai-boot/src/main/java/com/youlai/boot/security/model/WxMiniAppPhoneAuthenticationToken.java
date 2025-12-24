@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * 위챗 미니프로그램 휴대폰 번호 인증 토큰
  *
- * @author 有来技术团队
+ * @author YouLai Tech Team
  * @since 2.0.0
  */
 public class WxMiniAppPhoneAuthenticationToken extends AbstractAuthenticationToken {

@@ -28,7 +28,7 @@ public class GenFieldConfig extends BaseEntity {
     private Long configId;
 
     /**
-     * 列名
+     * 컬럼명
      */
     private String columnName;
 
@@ -68,7 +68,7 @@ public class GenFieldConfig extends BaseEntity {
     private FormTypeEnum formType;
 
     /**
-     * 查询方式
+     * 조회 방식
      */
     private QueryTypeEnum queryType;
 

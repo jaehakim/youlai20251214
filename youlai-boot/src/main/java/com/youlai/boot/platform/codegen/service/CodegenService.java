@@ -18,13 +18,13 @@ public interface CodegenService {
     /**
      * 데이터 테이블 페이지 목록 조회
      *
-     * @param queryParams 조회参수
+     * @param queryParams 조회파라미터수
      * @return
      */
     Page<TablePageVO> getTablePage(TablePageQuery queryParams);
 
     /**
-     * 조회预览생성代码
+     * 조회미리보기생성코드
      *
      * @param tableName 테이블명
      * @return

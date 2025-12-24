@@ -58,7 +58,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     /**
      * 조회공지사항페이지 목록
      *
-     * @param queryParams 조회参수
+     * @param queryParams 조회파라미터수
      * @return {@link IPage< NoticePageVO >} 공지사항페이지 목록
      */
     @Override
@@ -178,12 +178,12 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         boolean publishResult = this.updateById(notice);
 
         if (publishResult) {
-            // 발행공지사항의同时，삭제该通告之前의사용자공지데이터，因값가能是重새발행
+            // 발행공지사항의동시에，삭제해당 공지사항 이전의사용자공지데이터，때문에값가수 있음예중요새발행
             userNoticeService.remove(
                     new LambdaQueryWrapper<UserNotice>().eq(UserNotice::getNoticeId, id)
             );
 
-            // 添加새의사용자공지데이터
+            // 추가새의사용자공지데이터
             List<String> targetUserIdList = null;
             if (NoticeTargetEnum.SPECIFIED.getValue().equals(targetType)) {
                 targetUserIdList = Arrays.asList(targetUserIds.split(","));
@@ -191,7 +191,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
 
             List<User> targetUserList = userService.list(
                     new LambdaQueryWrapper<User>()
-                            // 如果是지정된사용자，则筛选出지정된사용자
+                            // 만약예지정된사용자，그러면필터링지정된사용자
                             .in(
                                     NoticeTargetEnum.SPECIFIED.getValue().equals(targetType),
                                     User::getId,
@@ -217,7 +217,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
               .map(UserOnlineService.UserOnlineDTO::getUsername)
               .collect(Collectors.toSet());
 
-            // 找出온라인 사용자의공지接收者
+            // 찾기온라인 사용자의공지수신자
             Set<String> onlineReceivers = new HashSet<>(CollectionUtil.intersection(receivers, allOnlineUsers));
 
             NoticeDTO noticeDTO = new NoticeDTO();
@@ -286,7 +286,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     /**
      * 조회현재로그인사용자의공지사항목록
      *
-     * @param queryParams 조회参수
+     * @param queryParams 조회파라미터수
      * @return 공지사항페이지 목록
      */
     @Override

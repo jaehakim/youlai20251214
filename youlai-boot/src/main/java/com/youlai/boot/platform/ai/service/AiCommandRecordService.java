@@ -14,7 +14,7 @@ public interface AiCommandRecordService extends IService<AiCommandRecord> {
     /**
      * 명령 기록 페이지 목록 조회
      *
-     * @param queryParams 조회参수
+     * @param queryParams 조회파라미터수
      * @return 명령 기록 페이지 목록
      */
     IPage<AiCommandRecordVO> getRecordPage(AiCommandPageQuery queryParams);

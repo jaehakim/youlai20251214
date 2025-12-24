@@ -245,7 +245,7 @@ public class AuthServiceImpl implements AuthService {
     /**
      * 위챗미니 프로그램휴대폰 번호로그인
      *
-     * @param loginDTO 로그인参수
+     * @param loginDTO 로그인파라미터수
      * @return 접근 토큰
      */
     @Override

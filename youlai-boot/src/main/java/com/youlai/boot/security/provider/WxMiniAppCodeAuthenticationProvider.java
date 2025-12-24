@@ -21,7 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 /**
  * 위챗 미니프로그램 코드 인증 Provider
  *
- * @author 有来技术团队
+ * @author YouLai Tech Team
  * @since 2.0.0
  */
 @Slf4j

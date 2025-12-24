@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 /**
  * 위챗 미니 프로그램 Code 로그인 요청 파라미터
  *
- * @author 有来技术团队
+ * @author YouLai Tech Team
  * @since 2.0.0
  */
 @Schema(description = "위챗 미니 프로그램 Code 로그인 요청 파라미터")

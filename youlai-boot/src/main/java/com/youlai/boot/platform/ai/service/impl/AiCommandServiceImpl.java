@@ -39,7 +39,7 @@ import java.util.Optional;
 public class AiCommandServiceImpl implements AiCommandService {
 
   private static final String SYSTEM_PROMPT = """
-    당신은 지능형 엔터프라이즈 운영 도우미입니다，사용자의 자연어 명령을 표준 함수 호출로 파싱해야 합니다을사용자의自然语言명령解析成标准의函수调用。
+    당신은 지능형 엔터프라이즈 운영 도우미입니다，사용자의 자연어 명령을 표준 함수 호출로 파싱해야 합니다을사용자의자연어명령파싱표준으로의함수수호출。
     엄격한 JSON 형식으로 반환해주세요. 포함할 필드:
     - success: boolean
     - explanation: string
@@ -325,20 +325,20 @@ public class AiCommandServiceImpl implements AiCommandService {
   }
 
   /**
-   * 구체적인 함수 호출 실행의函수调用
+   * 구체적인 함수 호출 실행의함수수호출
    */
   private Object executeFunctionCall(AiFunctionCallDTO functionCall) {
     String functionName = functionCall.getName();
     Map<String, Object> arguments = functionCall.getArguments();
 
-    log.info("🎯 执行函수: {}, 参수: {}", functionName, arguments);
+    log.info("🎯 실행함수수: {}, 파라미터수: {}", functionName, arguments);
 
-    // 根据函수이름路由到不同의处理器
+    // 함수에 따라수이름라우팅다양한으로의핸들러
     switch (functionName) {
       case "updateUserNickname":
         return executeUpdateUserNickname(arguments);
       default:
-        throw new UnsupportedOperationException("不支持의函수: " + functionName);
+        throw new UnsupportedOperationException("지원하지 않음의함수수: " + functionName);
     }
   }
 

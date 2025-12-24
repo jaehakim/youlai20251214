@@ -78,10 +78,10 @@ public class GenConfigServiceImpl extends ServiceImpl<GenConfigMapper, GenConfig
             genConfig = new GenConfig();
             genConfig.setTableName(tableName);
 
-            // 테이블 주석을 비즈니스 이름으로 사용, '表' 제거 예: 사용자表 -> 사용자
+            // 테이블 주석을 비즈니스 이름으로 사용, '테이블' 제거 예: 사용자테이블 -> 사용자
             String tableComment = tableMetadata.getTableComment();
             if (StrUtil.isNotBlank(tableComment)) {
-                genConfig.setBusinessName(tableComment.replace("表", "").trim());
+                genConfig.setBusinessName(tableComment.replace("테이블", "").trim());
             }
             // 테이블명으로 엔티티 클래스명 생성, 접두사 제거 지원 예: sys_user -> SysUser
             String removePrefix = genConfig.getRemoveTablePrefix();

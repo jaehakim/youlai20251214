@@ -32,7 +32,7 @@ public class DictItemServiceImpl extends ServiceImpl<DictItemMapper, DictItem> i
     /**
      * 조회사전 항목페이지 목록
      *
-     * @param queryParams 조회参수
+     * @param queryParams 조회파라미터수
      * @return 사전 항목페이지 목록
      */
     @Override

@@ -33,7 +33,7 @@ public class AliyunSmsService implements SmsService {
      *
      * @param mobile         휴대폰 번호 13388886666
      * @param smsType        SMS템플릿 SMS_194640010
-     * @param templateParams 템플릿参수 [{"code":"123456"}]
+     * @param templateParams 템플릿파라미터수 [{"code":"123456"}]
      * @return boolean 여부발송성공
      */
     @Override
