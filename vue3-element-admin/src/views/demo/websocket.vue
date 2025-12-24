@@ -218,7 +218,7 @@ onBeforeUnmount(() => {
   &__content {
     display: flex;
     flex-direction: column;
-    color: var(--el-text-color-primary); // 使用主题文本颜色
+    color: var(--el-text-color-primary); // 사용테마文本颜色
   }
   &__sender {
     margin-bottom: 5px;

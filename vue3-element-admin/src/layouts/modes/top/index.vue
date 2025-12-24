@@ -1,20 +1,20 @@
 <template>
   <BaseLayout>
-    <!-- 顶部菜单栏 -->
+    <!-- 상단메뉴열 -->
     <div class="layout__header">
       <div class="layout__header-left">
         <!-- Logo -->
         <AppLogo v-if="isShowLogo" :collapse="isLogoCollapsed" />
-        <!-- 菜单 -->
+        <!-- 메뉴 -->
         <BasicMenu :data="routes" menu-mode="horizontal" base-path="" />
       </div>
-      <!-- 操作按钮 -->
+      <!-- 작업버튼 -->
       <div class="layout__header-right">
         <NavbarActions />
       </div>
     </div>
 
-    <!-- 主内容区 -->
+    <!-- 주요내용영역 -->
     <div :class="{ hasTagsView: isShowTagsView }" class="layout__main">
       <TagsView v-if="isShowTagsView" />
       <AppMain />
@@ -32,16 +32,16 @@ import NavbarActions from "../../components/NavBar/components/NavbarActions.vue"
 import TagsView from "../../components/TagsView/index.vue";
 import AppMain from "../../components/AppMain/index.vue";
 
-// 布局相关参数
+// 레이아웃 관련파라미터
 const { isShowTagsView, isShowLogo } = useLayout();
 
-// 菜单相关
+// 메뉴관련
 const { routes } = useLayoutMenu();
 
-// 响应式窗口尺寸
+// 반응형 창 크기
 const { width } = useWindowSize();
 
-// 只有在小屏设备（移动设备）时才折叠Logo（只显示图标，隐藏文字）
+// 소형 스크린 기기에서만（모바일 기기）일 때만 접기Logo（오직표시아이콘，숨기기텍스트）
 const isLogoCollapsed = computed(() => width.value < 768);
 </script>
 
@@ -62,30 +62,30 @@ const isLogoCollapsed = computed(() => width.value < 768);
       display: flex;
       flex: 1;
       align-items: center;
-      min-width: 0; // 允许flex收缩
+      min-width: 0; // 허용flex축소
       height: 100%;
 
-      // Logo样式由AppLogo组件的全局样式控制
+      // Logo스타일由AppLogo그룹개의全局스타일控制
       :deep(.logo) {
-        flex-shrink: 0; // 防止Logo被压缩
+        flex-shrink: 0; // 방지Logo被压缩
         height: $navbar-height;
       }
     }
 
     &-right {
       display: flex;
-      flex-shrink: 0; // 防止操作按钮被压缩
+      flex-shrink: 0; // 방지작업버튼被压缩
       align-items: center;
       height: 100%;
       padding-left: 12px;
     }
 
-    // 菜单样式
+    // 메뉴스타일
     :deep(.el-menu--horizontal) {
       flex: 1;
-      min-width: 0; // 允许菜单收缩
+      min-width: 0; // 허용메뉴축소
       height: $navbar-height;
-      overflow: hidden; // 防止菜单溢出
+      overflow: hidden; // 방지메뉴溢出
       line-height: $navbar-height;
       background-color: transparent;
       border: none;
@@ -101,7 +101,7 @@ const isLogoCollapsed = computed(() => width.value < 768);
           line-height: $navbar-height;
         }
 
-        // 父菜单激活状态 - 水平布局专用
+        // 父메뉴激活상태 - 水平布局专用
         &.has-active-child {
           .el-sub-menu__title {
             color: var(--el-color-primary) !important;
@@ -114,7 +114,7 @@ const isLogoCollapsed = computed(() => width.value < 768);
         }
       }
 
-      // 修复子菜单弹出位置
+      // 修复子메뉴弹出位置
       .el-menu--popup {
         min-width: 160px;
       }
@@ -127,7 +127,7 @@ const isLogoCollapsed = computed(() => width.value < 768);
   }
 }
 
-// 当存在TagsView时的样式调整
+// 当存在TagsView시의스타일调整
 .hasTagsView {
   :deep(.app-main) {
     height: calc(100vh - $navbar-height - $tags-view-height) !important;

@@ -204,7 +204,7 @@ watch(
   () => props.text,
   () => {
     if (props.typewriter) {
-      // 清除现有定时器
+      // 清除现有定시器
       if (typewriterTimer) {
         clearTimeout(typewriterTimer);
       }
@@ -299,7 +299,7 @@ watch(
     }
   }
 
-  // 添加类型样式
+  // 추가유형스타일
   &.text-scroll--default {
     background-color: var(--el-color-primary-light-9) !important;
     border-color: var(--el-color-primary);
@@ -383,7 +383,7 @@ watch(
   }
 }
 
-// 添加打字机效果的光标样式
+// 추가打字机效果의커서스타일
 .text-scroll-content .scroll-item {
   &::after {
     content: "";
@@ -392,7 +392,7 @@ watch(
   }
 }
 
-// 仅在启用打字机效果时显示光标
+// 오직在활성화打字机效果시표시커서
 .text-scroll-container[typewriter] .text-scroll-content .scroll-item::after {
   content: "|";
   opacity: 0;

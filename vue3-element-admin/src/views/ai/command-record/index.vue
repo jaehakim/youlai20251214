@@ -169,13 +169,13 @@
       />
     </el-card>
 
-    <!-- 详情对话框 -->
-    <el-dialog v-model="detailDialogVisible" title="AI 命令记录详情" width="880px" append-to-body>
+    <!-- 상세다이얼로그 -->
+    <el-dialog v-model="detailDialogVisible" title="AI 명령레코드상세" width="880px" append-to-body>
       <el-descriptions v-if="currentRow" :column="2" border>
-        <el-descriptions-item label="记录ID">
+        <el-descriptions-item label="레코드ID">
           {{ currentRow.id }}
         </el-descriptions-item>
-        <el-descriptions-item label="用户名">
+        <el-descriptions-item label="사용자명">
           {{ currentRow.username }}
         </el-descriptions-item>
 
@@ -186,9 +186,9 @@
           {{ currentRow.model || "-" }}
         </el-descriptions-item>
 
-        <el-descriptions-item label="解析状态">
+        <el-descriptions-item label="파싱상태">
           <el-tag :type="currentRow.parseSuccess ? 'success' : 'danger'" size="small">
-            {{ currentRow.parseSuccess ? "成功" : "失败" }}
+            {{ currentRow.parseSuccess ? "성공" : "실패" }}
           </el-tag>
         </el-descriptions-item>
         <el-descriptions-item label="置信度">
@@ -198,15 +198,15 @@
           <span v-else>-</span>
         </el-descriptions-item>
 
-        <el-descriptions-item label="解析耗时">
+        <el-descriptions-item label="파싱耗시">
           {{ formatNumber(currentRow.parseTime) }} ms
         </el-descriptions-item>
         <el-descriptions-item label="Token统计">
-          输入 {{ currentRow.inputTokens || 0 }} / 输出 {{ currentRow.outputTokens || 0 }} / 总计
+          输입 {{ currentRow.inputTokens || 0 }} / 输出 {{ currentRow.outputTokens || 0 }} / 총计
           {{ currentRow.totalTokens || 0 }}
         </el-descriptions-item>
 
-        <el-descriptions-item label="原始命令" :span="2">
+        <el-descriptions-item label="원본명령" :span="2">
           <el-input :model-value="currentRow.originalCommand" type="textarea" :rows="2" readonly />
         </el-descriptions-item>
 
@@ -214,7 +214,7 @@
           {{ currentRow.explanation }}
         </el-descriptions-item>
 
-        <el-descriptions-item v-if="currentRow.functionCalls" label="函数调用" :span="2">
+        <el-descriptions-item v-if="currentRow.functionCalls" label="함수개호출" :span="2">
           <el-input
             :model-value="formatJson(currentRow.functionCalls)"
             type="textarea"
@@ -223,14 +223,14 @@
           />
         </el-descriptions-item>
 
-        <el-descriptions-item v-if="currentRow.parseErrorMessage" label="解析错误" :span="2">
+        <el-descriptions-item v-if="currentRow.parseErrorMessage" label="파싱오류" :span="2">
           <el-alert :title="currentRow.parseErrorMessage" type="error" :closable="false" />
         </el-descriptions-item>
 
-        <el-descriptions-item label="函数名称">
+        <el-descriptions-item label="함수개이름">
           {{ currentRow.functionName || "-" }}
         </el-descriptions-item>
-        <el-descriptions-item label="执行状态">
+        <el-descriptions-item label="실행 상태">
           <el-tag
             v-if="currentRow.executeStatus"
             :type="statusTagType[currentRow.executeStatus]"
@@ -241,14 +241,14 @@
           <span v-else>-</span>
         </el-descriptions-item>
 
-        <el-descriptions-item label="执行耗时">
+        <el-descriptions-item label="실행耗시">
           {{ formatNumber(currentRow.executionTime) }} ms
         </el-descriptions-item>
-        <el-descriptions-item label="影响行数">
+        <el-descriptions-item label="影响행개">
           {{ formatNumber(currentRow.affectedRows) }}
         </el-descriptions-item>
 
-        <el-descriptions-item v-if="currentRow.functionArguments" label="执行参数" :span="2">
+        <el-descriptions-item v-if="currentRow.functionArguments" label="실행파라미터" :span="2">
           <el-input
             :model-value="formatJson(currentRow.functionArguments)"
             type="textarea"
@@ -257,7 +257,7 @@
           />
         </el-descriptions-item>
 
-        <el-descriptions-item v-if="currentRow.executeResult" label="执行结果" :span="2">
+        <el-descriptions-item v-if="currentRow.executeResult" label="실행 결과" :span="2">
           <el-input
             :model-value="formatJson(currentRow.executeResult)"
             type="textarea"
@@ -266,44 +266,44 @@
           />
         </el-descriptions-item>
 
-        <el-descriptions-item v-if="currentRow.executeErrorMessage" label="执行错误" :span="2">
+        <el-descriptions-item v-if="currentRow.executeErrorMessage" label="실행오류" :span="2">
           <el-alert :title="currentRow.executeErrorMessage" type="error" :closable="false" />
         </el-descriptions-item>
 
-        <el-descriptions-item label="风险操作">
-          <el-tag v-if="currentRow.isDangerous" type="warning" size="small">风险操作</el-tag>
+        <el-descriptions-item label="위험작업">
+          <el-tag v-if="currentRow.isDangerous" type="warning" size="small">위험작업</el-tag>
           <span v-else>-</span>
         </el-descriptions-item>
-        <el-descriptions-item label="是否确认">
+        <el-descriptions-item label="여부确认">
           <span v-if="currentRow.requiresConfirmation">
             {{ currentRow.userConfirmed ? "已确认" : "待确认" }}
           </span>
           <span v-else>-</span>
         </el-descriptions-item>
 
-        <el-descriptions-item label="IP地址">
+        <el-descriptions-item label="IP주소">
           {{ currentRow.ipAddress || "-" }}
         </el-descriptions-item>
-        <el-descriptions-item label="页面路由">
+        <el-descriptions-item label="페이지路由">
           {{ currentRow.currentRoute || "-" }}
         </el-descriptions-item>
         <el-descriptions-item label="User-Agent" :span="2">
           {{ currentRow.userAgent || "-" }}
         </el-descriptions-item>
 
-        <el-descriptions-item label="创建时间">
+        <el-descriptions-item label="생성 시간">
           {{ currentRow.createTime }}
         </el-descriptions-item>
-        <el-descriptions-item label="更新时间">
+        <el-descriptions-item label="업데이트시간">
           {{ currentRow.updateTime || "-" }}
         </el-descriptions-item>
-        <el-descriptions-item label="备注" :span="2">
+        <el-descriptions-item label="비고" :span="2">
           {{ currentRow.remark || "-" }}
         </el-descriptions-item>
       </el-descriptions>
 
       <template #footer>
-        <el-button @click="detailDialogVisible = false">关闭</el-button>
+        <el-button @click="detailDialogVisible = false">닫기</el-button>
       </template>
     </el-dialog>
   </div>
@@ -341,9 +341,9 @@ const detailDialogVisible = ref(false);
 const currentRow = ref<AiCommandRecordVO>();
 
 const statusText: Record<string, string> = {
-  pending: "待执行",
-  success: "成功",
-  failed: "失败",
+  pending: "待실행",
+  success: "성공",
+  failed: "실패",
 };
 
 const statusTagType: Record<string, "info" | "success" | "danger"> = {

@@ -118,38 +118,38 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
   autoResize: true,
   // 테이블 바닥글 표시 여부
   showFooter: true,
-  // 表尾数据（优先级比 footerMethod 高）
+  // 테이블 푸터데이터（우선级比 footerMethod 高）
   // footerData: [
   //   {
   //     username: "-",
   //     roles: "-",
   //     phone: "-",
   //     email: "-",
-  //     status: "启用：7条",
+  //     status: "활성화：7개",
   //     createTime: "-",
   //   },
   // ],
-  // 表尾的数据获取方法，返回一个二维数组
+  // 테이블 푸터의데이터조회메서드，돌아가기하나개二维개그룹
   footerMethod({ columns, data }) {
     return [
       columns.map((column, columnIndex) => {
         if (columnIndex === 0 || column.field === undefined) {
           return "";
         } else if (column.field === "status") {
-          return `启用：${data.reduce((sum, row) => sum + (row.status ? 1 : 0), 0)}条`;
+          return `활성화：${data.reduce((sum, row) => sum + (row.status ? 1 : 0), 0)}개`;
         }
         return "-";
       }),
     ];
   },
-  // 列配置
+  // 열설정
   columns: [
     { type: "checkbox", width: 60 },
     {
       type: "expand",
       width: 60,
       slots: {
-        // 只对 type=expand 有效，自定义展开后的内容模板
+        // 오직 type=expand 유효，사용자 정의펼치기후의내용템플릿
         content: "column-expand",
       },
     },
@@ -167,7 +167,7 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
         { label: "활성화", value: true },
         { label: "비활성화", value: false },
       ],
-      // 数据筛选，只对 filters 有效，筛选是否允许多选
+      // 데이터필터，오직 filters 유효，필터여부허용다중 선택
       filterMultiple: false,
       formatter({ cellValue }) {
         return cellValue === true ? "활성화" : "비활성화";
@@ -184,55 +184,55 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
       },
     },
   ],
-  // 列配置信息
+  // 열설정정보
   columnConfig: {
-    // 每一列是否启用列宽调整
+    // 每하나열여부활성화열宽调整
     resizable: true,
   },
-  // 自定义列配置项
+  // 사용자 정의열설정항목
   customConfig: {
-    // 是否允许列选中
+    // 여부허용열选내
     checkMethod: ({ column }) => !["username"].includes(column.field),
   },
-  // 复选框配置项
+  // 复选框설정항목
   checkboxConfig: {
-    // 是否保留勾选状态（需要有 row-config.keyField）
+    // 여부보유선택상태（需해야有 row-config.keyField）
     // reserve: true,
   },
-  // 展开行配置项（不支持虚拟滚动）
+  // 펼치기행설정항목（지원하지 않음虚拟스크롤）
   expandConfig: {
-    // 展开列显示的字段名，可以直接显示在单元格中
+    // 펼치기열표시의필드명，可以直接표시在단일元格내
     // labelField: "username",
-    // 每次只能展开一行
+    // 每次오직能펼치기하나행
     accordion: true,
   },
-  // 行配置信息
+  // 행설정정보
   rowConfig: {
-    // 自定义行数据唯一主键的字段名
+    // 사용자 정의행데이터唯하나주요키의필드명
     keyField: "id",
-    // 当鼠标点击行时，是否要高亮当前行
+    // 当鼠标点击행시，여부해야高亮当前행
     isCurrent: true,
   },
-  // 表单配置项
+  // 양식설정항목
   formConfig: {
-    // 项配置
+    // 항목설정
     items: [
       {
         span: 4,
         field: "username",
         title: "사용자명",
-        // 前缀配置项
+        // 前缀설정항목
         titlePrefix: {
           useHTML: true,
           content:
             '点击链接：<a class="link" href="https://vxetable.cn" target="_blank">vxe-table官网</a>',
           icon: "vxe-icon-question-circle-fill",
         },
-        // 项渲染器配置项
+        // 항목렌더러설정항목
         itemRender: {
-          // 渲染器名称
+          // 렌더러이름
           name: "VxeInput",
-          // 渲染的参数
+          // 渲染의파라미터
           props: {
             type: "text",
             clearable: true,
@@ -244,7 +244,7 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
         span: 4,
         field: "roles",
         title: "역할",
-        // 默认收起
+        // 기본값접기
         folding: true,
         itemRender: {
           name: "VxeSelect",
@@ -261,12 +261,12 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
       // {
       //   span: 4,
       //   field: "roles",
-      //   title: "角色",
-      //   // 默认收起
+      //   title: "역할",
+      //   // 기본값접기
       //   folding: true,
-      //   // 插槽
+      //   // 슬롯
       //   slots: {
-      //     // 自定义表单项
+      //     // 사용자 정의양식항목
       //     default: "form-roles",
       //   },
       // },
@@ -287,71 +287,71 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
       },
     ],
   },
-  // 工具栏配置
+  // 工具열설정
   toolbarConfig: {
-    // 导入按钮配置（需要设置 "import-config"）
+    // 가져오기버튼 설정（설정 필요 "import-config"）
     import: true,
-    // 导出按钮配置（需要设置 "export-config"）
+    // 내보내기버튼 설정（설정 필요 "export-config"）
     export: true,
-    // 打印按钮配置（需要设置 "print-config"）
+    // 인쇄버튼 설정（설정 필요 "print-config"）
     print: true,
-    // 刷新按钮配置
+    // 새로고침버튼 설정
     refresh: true,
-    // 是否允许最大化显示
+    // 여부허용最大化표시
     zoom: true,
-    // 自定义列配置
+    // 사용자 정의열설정
     custom: true,
-    //插槽
+    //슬롯
     slots: {
-      // 按钮列表
+      // 버튼목록
       buttons: "toolbar-btns",
     },
   },
-  // 导入配置项
+  // 가져오기설정항목
   importConfig: {},
-  // 导出配置项
+  // 내보내기설정항목
   exportConfig: {
-    // 指定列
+    // 指定열
     columns: [{ field: "phone" }, { field: "email" }, { field: "status" }, { field: "createTime" }],
   },
-  // 打印配置项
+  // 인쇄설정항목
   printConfig: {},
-  // 筛选配置项
+  // 필터설정항목
   filterConfig: {
-    // 所有列是否使用服务端筛选
+    // 모든열여부사용서버 측필터
     remote: false,
   },
-  // 排序配置项
+  // 정렬설정항목
   sortConfig: {
-    // 所有列是否使用服务端排序
+    // 모든열여부사용서버 측정렬
     remote: false,
-    // 是否启用多列组合筛选
+    // 여부활성화多열그룹合필터
     multiple: false,
-    // 只对 multiple 有效，是否按照先后触发顺序进行排序
+    // 오직 multiple 유효，여부按照先후触发顺序进행정렬
     chronological: true,
   },
-  // 分页配置项
+  // 페이지네이션설정항목
   pagerConfig: {
     enabled: true,
     pageSize: 10,
   },
-  // 数据代理配置项
+  // 데이터프록시설정항목
   proxyConfig: {
-    // 是否自动加载查询数据
+    // 여부自动로딩조회데이터
     autoLoad: true,
-    // 启用动态序号代理（分页之后索引自动计算为当前页的起始序号）
+    // 활성화动态序号프록시（페이지네이션之후索引自动计算为当前页의起始序号）
     seq: true,
-    // 表单代理
+    // 양식프록시
     form: true,
-    // 是否代理筛选（只对 filter-config.remote=true 时有效）
+    // 여부프록시필터（오직 filter-config.remote=true 시유효）
     filter: true,
-    // 是否代理排序（只对 sort-config.remote=true 时有效）
+    // 여부프록시정렬（오직 sort-config.remote=true 시유효）
     sort: true,
-    // 获取响应的值配置
+    // 조회响应의값설정
     response: {
-      // 只对 pager-config 配置了有效，响应结果中获取数据列表的属性（分页场景）
+      // 오직 pager-config 설정됨유효，응답 결과내조회데이터목록의속성（페이지네이션 시나리오）
       result: "result",
-      // 只对 pager-config 配置了有效，响应结果中获取分页的属性（分页场景）
+      // 오직 pager-config 설정됨유효，응답 결과내조회페이지네이션의속성（페이지네이션 시나리오）
       total: "total",
     },
     ajax: {
@@ -472,7 +472,7 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
   },
 });
 const gridEvents: VxeGridListeners<RowMeta> = {
-  // 只对 form-config 配置时有效，表单重置时会触发该事件
+  // 오직 form-config 설정시유효，양식초기화시会触发该事개
   formReset() {
     console.log("Form Reset");
   },
@@ -482,13 +482,13 @@ const gridEvents: VxeGridListeners<RowMeta> = {
 // #region vxe-modal
 const xModal = ref<VxeModalInstance>();
 const modalOptions = reactive<VxeModalProps>({
-  // 窗口的标题
+  // 창의제목
   title: "",
-  // 是否允许点击遮罩层关闭窗口
+  // 여부허용点击遮罩层닫기창
   maskClosable: true,
-  // 是否允许按 Esc 键关闭窗口
+  // 여부허용按 Esc 키닫기창
   escClosable: true,
-  // 在窗口隐藏之前执行
+  // 在창숨기기之前실행
   beforeHideMethod: () => {
     xForm.value?.clearValidate();
     return Promise.resolve();
@@ -499,16 +499,16 @@ const modalOptions = reactive<VxeModalProps>({
 // #region vxe-form
 const xForm = ref<VxeFormInstance>();
 const formOptions = reactive<VxeFormProps>({
-  // 所有项的栅格占据的列数
+  // 모든항목의栅格占据의열개
   span: 24,
-  // 所有项的标题宽度
+  // 모든항목의제목宽度
   titleWidth: 100,
-  // 表单数据
+  // 양식데이터
   data: {
     username: "",
     password: "",
   },
-  // 项列表
+  // 항목목록
   items: [
     {
       field: "username",
@@ -526,7 +526,7 @@ const formOptions = reactive<VxeFormProps>({
       itemRender: {
         name: "VxeInput",
         props: {
-          placeholder: "请输入",
+          placeholder: "입력해주세요",
         },
       },
     },

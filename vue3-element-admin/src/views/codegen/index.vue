@@ -241,59 +241,59 @@
               </el-icon>
             </el-table-column>
 
-            <el-table-column label="列名" width="110">
+            <el-table-column label="컬럼명" width="110">
               <template #default="scope">
                 {{ scope.row.columnName }}
               </template>
             </el-table-column>
 
-            <el-table-column label="列类型" width="80">
+            <el-table-column label="열유형" width="80">
               <template #default="scope">
                 {{ scope.row.columnType }}
               </template>
             </el-table-column>
-            <el-table-column label="字段名" width="120">
+            <el-table-column label="필드명" width="120">
               <template #default="scope">
                 <el-input v-model="scope.row.fieldName" />
               </template>
             </el-table-column>
-            <el-table-column label="字段类型" width="80">
+            <el-table-column label="필드 유형" width="80">
               <template #default="scope">
                 {{ scope.row.fieldType }}
               </template>
             </el-table-column>
 
-            <el-table-column label="字段注释" min-width="100">
+            <el-table-column label="필드 설명" min-width="100">
               <template #default="scope">
                 <el-input v-model="scope.row.fieldComment" />
               </template>
             </el-table-column>
 
-            <el-table-column label="最大长度" width="80">
+            <el-table-column label="최대 길이" width="80">
               <template #default="scope">
                 <el-input v-model="scope.row.maxLength" />
               </template>
             </el-table-column>
 
-            <el-table-column width="70" label="查询">
+            <el-table-column width="70" label="조회">
               <template #default="scope">
                 <el-checkbox v-model="scope.row.isShowInQuery" :true-value="1" :false-value="0" />
               </template>
             </el-table-column>
 
-            <el-table-column width="70" label="列表">
+            <el-table-column width="70" label="목록">
               <template #default="scope">
                 <el-checkbox v-model="scope.row.isShowInList" :true-value="1" :false-value="0" />
               </template>
             </el-table-column>
 
-            <el-table-column width="70" label="表单">
+            <el-table-column width="70" label="양식">
               <template #default="scope">
                 <el-checkbox v-model="scope.row.isShowInForm" :true-value="1" :false-value="0" />
               </template>
             </el-table-column>
 
-            <el-table-column label="必填" width="70">
+            <el-table-column label="필수" width="70">
               <template #default="scope">
                 <el-checkbox
                   v-if="scope.row.isShowInForm == 1"
@@ -305,12 +305,12 @@
               </template>
             </el-table-column>
 
-            <el-table-column label="查询方式" min-width="120">
+            <el-table-column label="조회 방식" min-width="120">
               <template #default="scope">
                 <el-select
                   v-if="scope.row.isShowInQuery === 1"
                   v-model="scope.row.queryType"
-                  placeholder="请选择"
+                  placeholder="선택해주세요"
                 >
                   <el-option
                     v-for="(item, key) in queryTypeOptions"
@@ -323,12 +323,12 @@
               </template>
             </el-table-column>
 
-            <el-table-column label="表单类型" min-width="120">
+            <el-table-column label="폼 유형" min-width="120">
               <template #default="scope">
                 <el-select
                   v-if="scope.row.isShowInQuery === 1 || scope.row.isShowInForm === 1"
                   v-model="scope.row.formType"
-                  placeholder="请选择"
+                  placeholder="선택해주세요"
                 >
                   <el-option
                     v-for="(item, key) in formTypeOptions"
@@ -341,12 +341,12 @@
               </template>
             </el-table-column>
 
-            <el-table-column label="字典类型" min-width="100">
+            <el-table-column label="사전 유형" min-width="100">
               <template #default="scope">
                 <el-select
                   v-if="scope.row.formType === FormTypeEnum.SELECT.value"
                   v-model="scope.row.dictType"
-                  placeholder="请选择"
+                  placeholder="선택해주세요"
                   clearable
                 >
                   <el-option
@@ -365,13 +365,13 @@
         <el-row v-show="active == 2">
           <el-col :span="24" class="mb-2">
             <div class="flex-y-center gap-3">
-              <span class="text-sm color-#909399">预览范围</span>
+              <span class="text-sm color-#909399">미리보기범위</span>
               <el-radio-group v-model="previewScope" size="small">
-                <el-radio-button label="all">全部</el-radio-button>
-                <el-radio-button label="frontend">前端</el-radio-button>
-                <el-radio-button label="backend">后端</el-radio-button>
+                <el-radio-button label="all">모두</el-radio-button>
+                <el-radio-button label="frontend">프론트엔드</el-radio-button>
+                <el-radio-button label="backend">백엔드</el-radio-button>
               </el-radio-group>
-              <span class="ml-3 text-sm color-#909399">类型</span>
+              <span class="ml-3 text-sm color-#909399">유형</span>
               <el-checkbox-group v-model="previewTypes" size="small">
                 <el-checkbox-button v-for="t in previewTypeOptions" :key="t" :label="t">
                   {{ t }}
@@ -401,7 +401,7 @@
                   <el-icon>
                     <CopyDocument />
                   </el-icon>
-                  一键复制
+                  원클릭복사
                 </el-link>
               </div>
 
@@ -445,46 +445,46 @@
           <template #icon>
             <el-icon><FolderOpened /></el-icon>
           </template>
-          写入本地
+          로컬에 저장
         </el-button>
       </template>
     </el-drawer>
-    <!-- 写入本地对话框 -->
-    <el-dialog v-model="writeDialog.visible" title="写入本地" width="820px">
+    <!-- 로컬에 저장다이얼로그 -->
+    <el-dialog v-model="writeDialog.visible" title="로컬에 저장" width="820px">
       <div class="space-y-3">
         <el-alert
           v-if="!supportsFSAccess"
-          title="当前浏览器不支持 File System Access API，建议使用 Chrome/Edge 最新版"
+          title="현재 브라우저지원하지 않음 File System Access API，제안사용 Chrome/Edge 최신 버전"
           type="warning"
           show-icon
           :closable="false"
         />
 
         <el-form :label-width="110">
-          <el-form-item label="前端根目录">
+          <el-form-item label="프론트엔드 루트 디렉토리">
             <div class="flex-y-center gap-2">
-              <el-input v-model="frontendDirPath" placeholder="请选择前端根目录" readonly />
-              <el-button :disabled="!supportsFSAccess" @click="pickFrontendDir">选择</el-button>
+              <el-input v-model="frontendDirPath" placeholder="선택해주세요프론트엔드 루트 디렉토리" readonly />
+              <el-button :disabled="!supportsFSAccess" @click="pickFrontendDir">선택</el-button>
             </div>
           </el-form-item>
-          <el-form-item label="后端根目录">
+          <el-form-item label="백엔드 루트 디렉토리">
             <div class="flex-y-center gap-2">
-              <el-input v-model="backendDirPath" placeholder="请选择后端根目录" readonly />
-              <el-button :disabled="!supportsFSAccess" @click="pickBackendDir">选择</el-button>
+              <el-input v-model="backendDirPath" placeholder="선택해주세요백엔드 루트 디렉토리" readonly />
+              <el-button :disabled="!supportsFSAccess" @click="pickBackendDir">선택</el-button>
             </div>
           </el-form-item>
-          <el-form-item label="写入范围">
+          <el-form-item label="쓰기 범위">
             <el-radio-group v-model="writeScope">
-              <el-radio-button label="all">全部</el-radio-button>
-              <el-radio-button label="frontend">仅前端</el-radio-button>
-              <el-radio-button label="backend">仅后端</el-radio-button>
+              <el-radio-button label="all">모두</el-radio-button>
+              <el-radio-button label="frontend">오직프론트엔드</el-radio-button>
+              <el-radio-button label="backend">오직백엔드</el-radio-button>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="覆盖策略">
+          <el-form-item label="덮어쓰기정책">
             <el-radio-group v-model="overwriteMode">
-              <el-radio-button label="overwrite">覆盖</el-radio-button>
-              <el-radio-button label="skip">跳过已存在</el-radio-button>
-              <el-radio-button label="ifChanged">仅变更覆盖</el-radio-button>
+              <el-radio-button label="overwrite">덮어쓰기</el-radio-button>
+              <el-radio-button label="skip">기존 항목 건너뛰기</el-radio-button>
+              <el-radio-button label="ifChanged">오직변경덮어쓰기</el-radio-button>
             </el-radio-group>
           </el-form-item>
         </el-form>
@@ -498,13 +498,13 @@
       </div>
 
       <template #footer>
-        <el-button @click="writeDialog.visible = false">取 消</el-button>
+        <el-button @click="writeDialog.visible = false">취 소</el-button>
         <el-button
           type="primary"
           :disabled="!canWriteToLocal || writeRunning"
           @click="confirmWrite"
         >
-          写 入
+          쓰 입
         </el-button>
       </template>
     </el-dialog>
@@ -548,16 +548,16 @@ const previewTypes = ref<string[]>([...previewTypeOptions]);
 
 const filteredTreeData = computed<TreeNode[]>(() => {
   if (!treeData.value.length) return [];
-  // 基于原树按 scope/types 过滤叶子节点
+  // 원본 트리 기반 scope/types 필터리프 노드
   const match = (label: string, parentPath: string[]): boolean => {
-    // scope 过滤：根据路径初步判断
+    // scope 필터：에 따라경로초기 판단
     const pathStr = parentPath.join("/");
     if (previewScope.value !== "all") {
       const isBackend = /(^|\/)src\/main\//.test(pathStr) || /(^|\/)java\//.test(pathStr);
       const scopeOfNode = isBackend ? "backend" : "frontend";
       if (scopeOfNode !== previewScope.value) return false;
     }
-    // 类型过滤：根据后缀
+    // 유형필터：에 따라접미사
     const ext = label.split(".").pop() || "";
     return previewTypes.value.includes(ext);
   };
@@ -600,11 +600,11 @@ const genConfigFormData = ref<GenConfigForm>({
 });
 
 const genConfigFormRules = {
-  tableName: [{ required: true, message: "请输入表名", trigger: "blur" }],
-  businessName: [{ required: true, message: "请输入业务名", trigger: "blur" }],
-  packageName: [{ required: true, message: "请输入主包名", trigger: "blur" }],
-  moduleName: [{ required: true, message: "请输入模块名", trigger: "blur" }],
-  entityName: [{ required: true, message: "请输入实体名", trigger: "blur" }],
+  tableName: [{ required: true, message: "입력해주세요테이블명", trigger: "blur" }],
+  businessName: [{ required: true, message: "입력해주세요비즈니스이름", trigger: "blur" }],
+  packageName: [{ required: true, message: "입력해주세요주요패키지이름", trigger: "blur" }],
+  moduleName: [{ required: true, message: "입력해주세요모듈이름", trigger: "blur" }],
+  entityName: [{ required: true, message: "입력해주세요엔티티이름", trigger: "blur" }],
 };
 
 const dialog = reactive({
@@ -612,7 +612,7 @@ const dialog = reactive({
   title: "",
 });
 
-// 页面风格使用后端持久化字段 genConfigFormData.ui
+// 페이지스타일사용백엔드지속성 필드 genConfigFormData.ui
 watch(
   () => genConfigFormData.value.removeTablePrefix,
   (prefix) => {
@@ -620,7 +620,7 @@ watch(
     if (!table) return;
     const p = prefix || "";
     const base = table.startsWith(p) ? table.slice(p.length) : table;
-    // 将下划线分隔的表名转为帕斯卡命名
+    // 로언더스코어스레드구분의테이블명파스칼 케이스로 변환이름
     const camel = base
       .split("_")
       .filter(Boolean)
@@ -638,19 +638,19 @@ const cmOptions: EditorConfiguration = {
 };
 
 const prevBtnText = ref("");
-const nextBtnText = ref("下一步，字段配置");
+const nextBtnText = ref("다음 단계，필드 설정");
 const active = ref(0);
 const currentTableName = ref("");
 const sortFlag = ref<object>();
 
-// ================= 本地写盘（可选） =================
+// ================= 로컬 디스크 쓰기（선택사항） =================
 const supportsFSAccess = typeof (window as any).showDirectoryPicker === "function";
 const outputMode = ref<"zip" | "local">("zip");
 const frontendDirHandle = ref<any>(null);
 const backendDirHandle = ref<any>(null);
 const frontendDirName = ref("");
 const backendDirName = ref("");
-// 预览的原始文件列表（用于写盘）
+// 미리보기의원본파일목록（디스크 쓰기용）
 const lastPreviewFiles = ref<{ path: string; fileName: string; content: string }[]>([]);
 const needFrontend = computed(() =>
   lastPreviewFiles.value.some((f) => resolveRootForPath(f.path) === "frontend")
@@ -665,28 +665,28 @@ const canWriteToLocal = computed(() => {
   return frontOk && backOk;
 });
 
-// 查询是否全选
+// 조회여부모두 선택
 const isCheckAllQuery = ref(false);
-// 列表是否全选
+// 목록여부모두 선택
 const isCheckAllList = ref(false);
-// 表单是否全选
+// 양식여부모두 선택
 const isCheckAllForm = ref(false);
 
 watch(active, (val) => {
   if (val === 0) {
-    nextBtnText.value = "下一步，字段配置";
+    nextBtnText.value = "다음 단계，필드 설정";
   } else if (val === 1) {
-    prevBtnText.value = "上一步，基础配置";
-    nextBtnText.value = "下一步，确认生成";
+    prevBtnText.value = "이전 단계，기본설정";
+    nextBtnText.value = "다음 단계，생성 확인";
   } else if (val === 2) {
-    prevBtnText.value = "上一步，字段配置";
-    nextBtnText.value = "下载代码";
+    prevBtnText.value = "이전 단계，필드 설정";
+    nextBtnText.value = "다운로드코드";
   }
 });
 
 watch(copied, () => {
   if (copied.value) {
-    ElMessage.success("复制成功");
+    ElMessage.success("복사 성공");
   }
 });
 
@@ -714,11 +714,11 @@ const initSort = () => {
   sortFlag.value = Sortable.create(<HTMLElement>table, {
     group: "shared",
     animation: 150,
-    ghostClass: "sortable-ghost", //拖拽样式
-    handle: ".sortable-handle", //拖拽区域
+    ghostClass: "sortable-ghost", //드래그스타일
+    handle: ".sortable-handle", //드래그영역
     easing: "cubic-bezier(1, 0, 0, 1)",
 
-    // 结束拖动事件
+    // 드래그 종료 이벤트개
     onEnd: (item: any) => {
       setNodeSort(item.oldIndex, item.newIndex);
     },
@@ -726,7 +726,7 @@ const initSort = () => {
 };
 
 const setNodeSort = (oldIndex: number, newIndex: number) => {
-  // 使用arr复制一份表格数组数据
+  // 사용arr복사하나테이블개그룹데이터
   const arr = Object.assign([], genConfigFormData.value.fieldConfigs);
   const currentRow = arr.splice(oldIndex, 1)[0];
   arr.splice(newIndex, 0, currentRow);
@@ -739,10 +739,10 @@ const setNodeSort = (oldIndex: number, newIndex: number) => {
   });
 };
 
-/** 上一步 */
+/** 이전 단계 */
 function handlePrevClick() {
   if (active.value === 2) {
-    //这里需要重新获取一次数据，如果第一次生成代码后，再次点击上一步，数据不重新获取，再次点击下一步，会再次插入数据，导致索引重复报错
+    //여기서 재조회한 번데이터，처음이면코드 생성후，다시 클릭이전 단계，데이터재구성 안함조회，다시 클릭다음 단계，다시 삽입됨데이터，导致索引重复报错
     genConfigFormData.value = {
       fieldConfigs: [],
     };
@@ -761,27 +761,27 @@ function handlePrevClick() {
   if (active.value-- <= 0) active.value = 0;
 }
 
-/** 下一步 */
+/** 다음 단계 */
 function handleNextClick() {
   if (active.value === 0) {
-    //这里需要校验基础配置
+    //여기서 기본 검증 필요설정
     const { tableName, packageName, businessName, moduleName, entityName } =
       genConfigFormData.value;
     if (!tableName || !packageName || !businessName || !moduleName || !entityName) {
-      ElMessage.error("表名、业务名、包名、模块名、实体名不能为空");
+      ElMessage.error("테이블명、비즈니스이름、패키지이름、모듈이름、엔티티이름비어있을 수 없음비어있음");
       return;
     }
     initSort();
   }
   if (active.value === 1) {
-    // 保存生成配置
+    // 저장생성 설정
     const tableName = genConfigFormData.value.tableName;
     if (!tableName) {
-      ElMessage.error("表名不能为空");
+      ElMessage.error("테이블명비어있을 수 없음비어있음");
       return;
     }
     loading.value = true;
-    loadingText.value = "代码生成中，请稍后...";
+    loadingText.value = "코드 생성내，요청나중에...";
     GeneratorAPI.saveGenConfig(tableName, genConfigFormData.value)
       .then(() => {
         handlePreview(tableName);
@@ -800,7 +800,7 @@ function handleNextClick() {
     if (active.value === 2) {
       const tableName = genConfigFormData.value.tableName;
       if (!tableName) {
-        ElMessage.error("表名不能为空");
+        ElMessage.error("테이블명비어있을 수 없음비어있음");
         return;
       }
       if (outputMode.value === "zip" || !supportsFSAccess) {
@@ -810,7 +810,7 @@ function handleNextClick() {
   }
 }
 
-/** 查询 */
+/** 조회 */
 function handleQuery() {
   loading.value = true;
   GeneratorAPI.getTablePage(queryParams)
@@ -823,14 +823,14 @@ function handleQuery() {
     });
 }
 
-/** 重置查询 */
+/** 초기화조회 */
 function handleResetQuery() {
   queryFormRef.value.resetFields();
   queryParams.pageNum = 1;
   handleQuery();
 }
 
-/** 打开弹窗 */
+/** 열기팝업 */
 async function handleOpenDialog(tableName: string) {
   dialog.visible = true;
   active.value = 0;
@@ -838,25 +838,25 @@ async function handleOpenDialog(tableName: string) {
   menuOptions.value = await MenuAPI.getOptions(true);
 
   currentTableName.value = tableName;
-  // 获取字典数据
+  // 조회사전데이터
   DictAPI.getList().then((data) => {
     dictOptions.value = data;
     loading.value = true;
     GeneratorAPI.getGenConfig(tableName)
       .then((data) => {
-        dialog.title = `${tableName} 代码生成`;
+        dialog.title = `${tableName} 코드 생성`;
         genConfigFormData.value = data;
 
         checkAllSelected("isShowInQuery", isCheckAllQuery);
         checkAllSelected("isShowInList", isCheckAllList);
         checkAllSelected("isShowInForm", isCheckAllForm);
 
-        // 如果已经配置过，直接跳转到预览页面
+        // 이미설정거치，직접 이동미리보기페이지
         if (genConfigFormData.value.id) {
           active.value = 2;
           handlePreview(tableName);
         } else {
-          // 如果没有配置过，跳转到基础配置页面
+          // 만약없음설정거치，기본으로 이동설정페이지
           active.value = 0;
         }
       })
@@ -866,13 +866,13 @@ async function handleOpenDialog(tableName: string) {
   });
 }
 
-/** 重置配置 */
+/** 초기화설정 */
 function handleResetConfig(tableName: string) {
-  ElMessageBox.confirm("确定要重置配置吗？", "提示", {
+  ElMessageBox.confirm("확인해야초기화설정하나？", "알림", {
     type: "warning",
   }).then(() => {
     GeneratorAPI.resetGenConfig(tableName).then(() => {
-      ElMessage.success("重置成功");
+      ElMessage.success("초기화성공");
       handleQuery();
     });
   });
@@ -880,13 +880,13 @@ function handleResetConfig(tableName: string) {
 
 type FieldConfigKey = "isShowInQuery" | "isShowInList" | "isShowInForm";
 
-/** 全选 */
-// 单列全选开关已移除，改为顶部“批量设置”入口；保留方法时会触发未使用告警，故删除。
+/** 모두 선택 */
+// 단일열모두 선택스위치 제거됨，변경상단“일괄수량설정”입구；보유 방법 시 미 트리거사용경보，그러므로삭제。
 
 function bulkSet(key: FieldConfigKey, value: 0 | 1) {
   const list = genConfigFormData.value?.fieldConfigs || [];
   list.forEach((row: any) => {
-    // 只改已有字段，保持响应式
+    // 기존 필드만 변경，保持响应式
     row[key] = value;
   });
 }
@@ -896,20 +896,20 @@ const checkAllSelected = (key: keyof FieldConfig, isCheckAllRef: any) => {
   isCheckAllRef.value = fieldConfigs.every((row: FieldConfig) => row[key] === 1);
 };
 
-/** 获取生成预览 */
+/** 조회生成미리보기 */
 function handlePreview(tableName: string) {
   treeData.value = [];
   GeneratorAPI.getPreviewData(tableName, (genConfigFormData.value.pageType as any) || "classic")
     .then((data) => {
-      dialog.title = `代码生成 ${tableName}`;
-      // 组装树形结构完善代码
+      dialog.title = `코드 생성 ${tableName}`;
+      // 그룹装树形结构完善코드
       const tree = buildTree(data);
-      // 缓存原始数据用于写盘
+      // 缓存원본데이터디스크 쓰기용
       lastPreviewFiles.value = data || [];
-      // 去掉根节点“前后端代码”，直接展示其 children 作为一级目录
+      // 去掉根节点“프론트/백엔드 코드”，直接展示其 children 作为하나级디렉토리
       treeData.value = tree?.children ? [...tree.children] : [];
 
-      // 默认选中第一个叶子节点并设置 code 值
+      // 기본값选내첫 번째개리프 노드并설정 code 값
       const firstLeafNode = findFirstLeafNode(tree);
       if (firstLeafNode) {
         code.value = firstLeafNode.content || "";
@@ -923,19 +923,19 @@ function handlePreview(tableName: string) {
 /**
  * 递归构建树形结构
  *
- * @param data - 数据数组
+ * @param data - 데이터개그룹
  * @returns 树形结构根节点
  */
 function buildTree(data: { path: string; fileName: string; content: string }[]): TreeNode {
-  // 动态获取根节点
-  const root: TreeNode = { label: "前后端代码", children: [] };
+  // 动态조회根节点
+  const root: TreeNode = { label: "프론트/백엔드 코드", children: [] };
 
   data.forEach((item) => {
-    // 将路径分成数组
+    // 로경로分成개그룹
     const separator = item.path.includes("/") ? "/" : "\\";
     const parts = item.path.split(separator);
 
-    // 定义特殊路径
+    // 定义特殊경로
     const specialPaths = [
       "src" + separator + "main",
       "java",
@@ -947,7 +947,7 @@ function buildTree(data: { path: string; fileName: string; content: string }[]):
       ),
     ];
 
-    // 检查路径中的特殊部分并合并它们
+    // 检查경로의特殊部分并合并它们
     const mergedParts: string[] = [];
     let buffer: string[] = [];
 
@@ -960,7 +960,7 @@ function buildTree(data: { path: string; fileName: string; content: string }[]):
       }
     });
 
-    // 将 mergedParts 路径中的分隔符\替换为/
+    // 로 mergedParts 경로의구분符\치환为/
     mergedParts.forEach((part, index) => {
       mergedParts[index] = part.replace(/\\/g, "/");
     });
@@ -972,7 +972,7 @@ function buildTree(data: { path: string; fileName: string; content: string }[]):
     let currentNode = root;
 
     mergedParts.forEach((part) => {
-      // 查找或创建当前部分的子节点
+      // 查找或创建当前部分의子节点
       let node = currentNode.children?.find((child) => child.label === part);
       if (!node) {
         node = { label: part, children: [] };
@@ -981,7 +981,7 @@ function buildTree(data: { path: string; fileName: string; content: string }[]):
       currentNode = node;
     });
 
-    // 添加文件节点
+    // 추가파일节点
     currentNode.children?.push({
       label: item.fileName,
       content: item?.content,
@@ -992,9 +992,9 @@ function buildTree(data: { path: string; fileName: string; content: string }[]):
 }
 
 /**
- * 递归查找第一个叶子节点
+ * 递归查找첫 번째개리프 노드
  * @param node - 树形节点
- * @returns 第一个叶子节点
+ * @returns 첫 번째개리프 노드
  */
 function findFirstLeafNode(node: TreeNode): TreeNode | null {
   if (!node.children || node.children.length === 0) {
@@ -1009,14 +1009,14 @@ function findFirstLeafNode(node: TreeNode): TreeNode | null {
   return null;
 }
 
-/** 文件树节点 Click */
+/** 파일树节点 Click */
 function handleFileTreeNodeClick(data: TreeNode) {
   if (!data.children || data.children.length === 0) {
     code.value = data.content || "";
   }
 }
 
-/** 获取文件树节点图标 */
+/** 조회파일树节点아이콘 */
 function getFileTreeNodeIcon(label: string) {
   if (label.endsWith(".java")) {
     return "java";
@@ -1036,22 +1036,22 @@ function getFileTreeNodeIcon(label: string) {
   return "file";
 }
 
-/** 一键复制 */
+/** 원클릭복사 */
 const handleCopyCode = () => {
   if (code.value) {
     copy(code.value);
   }
 };
 
-// =============== 目录选择与写入 ===============
+// =============== 디렉토리선택与쓰기 ===============
 const pickFrontendDir = async () => {
   try {
     // @ts-ignore
     frontendDirHandle.value = await (window as any).showDirectoryPicker();
     frontendDirName.value = frontendDirHandle.value?.name || "";
-    ElMessage.success("前端目录选择成功");
+    ElMessage.success("프론트엔드디렉토리선택성공");
   } catch {
-    // 用户取消或浏览器不支持
+    // 사용자취소또는 브라우저지원하지 않음
   }
 };
 
@@ -1060,9 +1060,9 @@ const pickBackendDir = async () => {
     // @ts-ignore
     backendDirHandle.value = await (window as any).showDirectoryPicker();
     backendDirName.value = backendDirHandle.value?.name || "";
-    ElMessage.success("后端目录选择成功");
+    ElMessage.success("백엔드디렉토리선택성공");
   } catch {
-    // 用户取消或浏览器不支持
+    // 사용자취소또는 브라우저지원하지 않음
   }
 };
 
@@ -1073,7 +1073,7 @@ async function ensureDir(root: any, path: string[], force = true) {
       // @ts-ignore
       current = await current.getDirectoryHandle(segment, { create: true });
     } catch (err: any) {
-      // 若同名文件阻塞目录创建，尝试强制删除后重建
+      // 若同이름파일阻塞디렉토리创建，尝试强制삭제후 재구성
       if (force && err?.name === "TypeMismatchError") {
         try {
           // @ts-ignore
@@ -1104,7 +1104,7 @@ async function writeFile(dirHandle: any, filePath: string, content: string) {
     fileHandle = await targetDir.getFileHandle(fileName, { create: true });
   } catch (err: any) {
     if (err?.name === "TypeMismatchError") {
-      // 存在同名目录，尝试删除后重建文件
+      // 存在同이름디렉토리，尝试삭제후 재구성파일
       try {
         // @ts-ignore
         await targetDir.removeEntry(fileName, { recursive: true });
@@ -1154,7 +1154,7 @@ async function isSameFile(dirHandle: any, filePath: string, content: string): Pr
   }
 }
 
-// 将模板中的 path 映射到前端/后端根目录
+// 로템플릿의 path 映射到프론트엔드/백엔드 루트 디렉토리
 function resolveRootForPath(p: string) {
   const normalized = p.replace(/\\/g, "/");
   const frontApp = genConfigFormData.value.frontendAppName;
@@ -1170,7 +1170,7 @@ function resolveRootForPath(p: string) {
   if ((frontApp && normalized.startsWith(`${frontApp}/`)) || normalized.startsWith("src/")) {
     return "frontend" as const;
   }
-  // 默认前端
+  // 기본값프론트엔드
   return "frontend" as const;
 }
 
@@ -1186,7 +1186,7 @@ function stripProjectRoot(p: string) {
   } else {
     const idx = normalized.indexOf("/src/");
     if (idx > -1) {
-      rel = normalized.slice(idx + 1); // 保留 'src/...'
+      rel = normalized.slice(idx + 1); // 보유 'src/...'
     } else if (normalized.startsWith("src/")) {
       rel = normalized;
     }
@@ -1196,24 +1196,24 @@ function stripProjectRoot(p: string) {
 
 const writeGeneratedCode = async () => {
   if (!supportsFSAccess) {
-    ElMessage.warning("当前浏览器不支持本地写入，请选择下载ZIP");
+    ElMessage.warning("현재 브라우저지원하지 않음本地쓰기，선택해주세요다운로드ZIP");
     return;
   }
   if (
     (needFrontend.value && !frontendDirHandle.value) ||
     (needBackend.value && !backendDirHandle.value)
   ) {
-    ElMessage.warning("请先选择所需的前端/后端目录");
+    ElMessage.warning("요청先선택所需의프론트엔드/백엔드디렉토리");
     return;
   }
   if (!lastPreviewFiles.value.length) {
-    ElMessage.warning("请先生成预览");
+    ElMessage.warning("요청先生成미리보기");
     return;
   }
   loading.value = true;
   const loadingSvc = ElLoading.service({
     lock: true,
-    text: "正在写入代码...",
+    text: "正在쓰기코드...",
   });
   writeRunning.value = true;
   let frontCount = 0;
@@ -1240,12 +1240,12 @@ const writeGeneratedCode = async () => {
         const relativePath = stripProjectRoot(`${item.path}/${item.fileName}`);
         writeProgress.current = relativePath;
         if (overwriteMode.value === "ifChanged") {
-          // 简单差异：已有文件内容与待写内容相同则跳过
+          // 简단일差异：已有파일내용与待쓰내용相同그러면跳거치
           // @ts-ignore
           const targetRoot = root === "frontend" ? frontendDirHandle.value : backendDirHandle.value;
           const existsSame = await isSameFile(targetRoot, relativePath, item.content || "");
           if (existsSame) {
-            // 视作成功但不写
+            // 视作성공但不쓰
             writeProgress.done++;
             writeProgress.percent = Math.round((writeProgress.done / writeProgress.total) * 100);
             continue;
@@ -1269,7 +1269,7 @@ const writeGeneratedCode = async () => {
           backCount++;
         }
       } catch (err) {
-        console.error("写入失败:", item.path, err);
+        console.error("쓰기실패:", item.path, err);
         failed.push(item.path);
       } finally {
         writeProgress.done++;
@@ -1287,10 +1287,10 @@ const writeGeneratedCode = async () => {
   writeRunning.value = false;
   if (failed.length) {
     ElMessage.warning(
-      `部分文件写入失败：${failed.length} 个，成功 前端 ${frontCount} 个/后端 ${backCount} 个。打开控制台查看详情`
+      `部分파일쓰기실패：${failed.length} 개，성공 프론트엔드 ${frontCount} 개/백엔드 ${backCount} 개。열기控制台보기상세`
     );
   } else {
-    ElMessage.success(`写入完成：前端 ${frontCount} 个文件，后端 ${backCount} 个文件`);
+    ElMessage.success(`쓰기完成：프론트엔드 ${frontCount} 개파일，백엔드 ${backCount} 개파일`);
   }
 };
 
@@ -1302,13 +1302,13 @@ const overwriteMode = ref<"overwrite" | "skip" | "ifChanged">("overwrite");
 const writeProgress = reactive({ total: 0, done: 0, percent: 0, current: "" });
 const writeRunning = ref(false);
 
-// 提示文本已取消展示，保留逻辑意义不大，移除。
+// 알림文本已취소展示，보유逻辑意义不大，移除。
 
 function openWriteDialog() {
   writeDialog.visible = true;
 }
 
-// 同步展示路径
+// 同步展示경로
 watch(frontendDirName, (v) => (frontendDirPath.value = v));
 watch(backendDirName, (v) => (backendDirPath.value = v));
 
@@ -1317,7 +1317,7 @@ async function confirmWrite() {
   writeDialog.visible = false;
 }
 
-/** 组件挂载后执行 */
+/** 그룹개挂载후실행 */
 onMounted(() => {
   handleQuery();
   cmRef.value?.destroy();

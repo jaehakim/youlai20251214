@@ -85,7 +85,7 @@
 
     <el-dialog
       v-model="noticeDialogVisible"
-      :title="noticeDetail?.title ?? '通知详情'"
+      :title="noticeDetail?.title ?? '알림상세'"
       width="800px"
       custom-class="notice-detail"
     >
@@ -131,7 +131,7 @@ const queryParams = reactive<NoticePageQuery>({
 const noticeDialogVisible = ref(false);
 const noticeDetail = ref<NoticeDetailVO | null>(null);
 
-// 查询通知公告
+// 조회알림공지사항
 function handleQuery() {
   loading.value = true;
   NoticeAPI.getMyNoticePage(queryParams)
@@ -144,14 +144,14 @@ function handleQuery() {
     });
 }
 
-// 重置通知公告查询
+// 초기화알림공지사항조회
 function handleResetQuery() {
   queryFormRef.value!.resetFields();
   queryParams.pageNum = 1;
   handleQuery();
 }
 
-// 阅读通知公告
+// 阅读알림공지사항
 function handleReadNotice(id: string) {
   NoticeAPI.getDetail(id).then((data) => {
     noticeDialogVisible.value = true;

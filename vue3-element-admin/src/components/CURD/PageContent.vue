@@ -470,7 +470,7 @@ const pagination = reactive(
     ? { ...defaultPagination, ...props.contentConfig.pagination }
     : defaultPagination
 );
-// 分页相关的请求参数
+// 페이지네이션관련의요청 파라미터
 const request = props.contentConfig.request ?? {
   pageName: "pageNum",
   limitName: "pageSize",
@@ -753,7 +753,7 @@ function handleImports() {
   };
 }
 
-// 操作栏
+// 작업열
 function handleToolbar(name: string) {
   switch (name) {
     case "refresh":
@@ -786,7 +786,7 @@ function handleToolbar(name: string) {
   }
 }
 
-// 操作列
+// 작업 열
 function handleOperate(data: IOperateData) {
   switch (data.name) {
     case "delete":
@@ -802,7 +802,7 @@ function handleOperate(data: IOperateData) {
   }
 }
 
-// 属性修改
+// 속성수정
 function handleModify(field: string, value: boolean | string | number, row: Record<string, any>) {
   if (props.contentConfig.modifyAction) {
     props.contentConfig.modifyAction({
@@ -811,11 +811,11 @@ function handleModify(field: string, value: boolean | string | number, row: Reco
       value,
     });
   } else {
-    ElMessage.error("未配置modifyAction");
+    ElMessage.error("미설정modifyAction");
   }
 }
 
-// 分页切换
+// 페이지네이션切换
 function handleSizeChange(value: number) {
   pagination.pageSize = value;
   handleRefresh();
@@ -825,7 +825,7 @@ function handleCurrentChange(value: number) {
   handleRefresh();
 }
 
-// 远程数据筛选
+// 远程데이터필터
 let filterParams: IObject = {};
 function handleFilterChange(newFilters: any) {
   const filters: IObject = {};
@@ -843,18 +843,18 @@ function handleFilterChange(newFilters: any) {
   emit("filterChange", filterParams);
 }
 
-// 获取筛选条件
+// 조회필터조건
 function getFilterParams() {
   return filterParams;
 }
 
-// 获取分页数据
+// 조회페이지네이션데이터
 let lastFormData = {};
 function fetchPageData(formData: IObject = {}, isRestart = false) {
   loading.value = true;
-  // 上一次搜索条件
+  // 上한 번검색 조건
   lastFormData = formData;
-  // 重置页码
+  // 초기화페이지
   if (isRestart) {
     pagination.currentPage = 1;
   }
@@ -885,7 +885,7 @@ function fetchPageData(formData: IObject = {}, isRestart = false) {
 }
 fetchPageData();
 
-// 导出Excel
+// 내보내기Excel
 function exportPageData(formData: IObject = {}) {
   if (props.contentConfig.exportAction) {
     props.contentConfig.exportAction(formData).then((response) => {
@@ -896,11 +896,11 @@ function exportPageData(formData: IObject = {}) {
       saveXlsx(fileData, fileName);
     });
   } else {
-    ElMessage.error("未配置exportAction");
+    ElMessage.error("미설정exportAction");
   }
 }
 
-// 浏览器保存文件
+// 浏览器저장파일
 function saveXlsx(fileData: any, fileName: string) {
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8";
@@ -919,7 +919,7 @@ function saveXlsx(fileData: any, fileName: string) {
   window.URL.revokeObjectURL(downloadUrl);
 }
 
-// 暴露的属性和方法
+// 暴露의속성및메서드
 defineExpose({ fetchPageData, exportPageData, getFilterParams, getSelectionData, handleRefresh });
 </script>
 

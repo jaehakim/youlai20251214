@@ -1,28 +1,28 @@
 <template>
   <BaseLayout>
-    <!-- 顶部菜单栏 -->
+    <!-- 상단메뉴열 -->
     <div class="layout__header">
       <div class="layout__header-content">
-        <!-- Logo区域 -->
+        <!-- Logo영역 -->
         <div v-if="isShowLogo" class="layout__header-logo">
           <AppLogo :collapse="isLogoCollapsed" />
         </div>
 
-        <!-- 顶部菜单区域 -->
+        <!-- 상단메뉴영역 -->
         <div class="layout__header-menu">
           <MixTopMenu />
         </div>
 
-        <!-- 右侧操作区域 -->
+        <!-- 右侧작업영역 -->
         <div class="layout__header-actions">
           <NavbarActions />
         </div>
       </div>
     </div>
 
-    <!-- 主内容区容器 -->
+    <!-- 주요내용영역容器 -->
     <div class="layout__container">
-      <!-- 左侧菜单栏 -->
+      <!-- 왼쪽메뉴열 -->
       <div class="layout__sidebar--left" :class="{ 'layout__sidebar--collapsed': !isSidebarOpen }">
         <el-scrollbar>
           <el-menu
@@ -42,13 +42,13 @@
             />
           </el-menu>
         </el-scrollbar>
-        <!-- 侧边栏切换按钮 -->
+        <!-- 侧边열切换버튼 -->
         <div class="layout__sidebar-toggle">
           <Hamburger :is-active="isSidebarOpen" @toggle-click="toggleSidebar" />
         </div>
       </div>
 
-      <!-- 主内容区 -->
+      <!-- 주요내용영역 -->
       <div :class="{ hasTagsView: isShowTagsView }" class="layout__main">
         <TagsView v-if="isShowTagsView" />
         <AppMain />
@@ -75,22 +75,22 @@ import { useAppStore, usePermissionStore } from "@/store";
 
 const route = useRoute();
 
-// 布局相关参数
+// 레이아웃 관련파라미터
 const { isShowTagsView, isShowLogo, isSidebarOpen, toggleSidebar } = useLayout();
 
-// 菜单相关
+// 메뉴관련
 const { sideMenuRoutes, activeTopMenuPath } = useLayoutMenu();
 
-// 响应式窗口尺寸
+// 반응형 창 크기
 const { width } = useWindowSize();
 
-// 只有在小屏设备（移动设备）时才折叠Logo（只显示图标，隐藏文字）
+// 소형 스크린 기기에서만（모바일 기기）일 때만 접기Logo（오직표시아이콘，숨기기텍스트）
 const isLogoCollapsed = computed(() => width.value < 768);
 
-// 当前激活的菜单
+// 当前激活의메뉴
 const activeLeftMenuPath = computed(() => {
   const { meta, path } = route;
-  // 如果设置了activeMenu，则使用
+  // 만약설정됨activeMenu，그러면사용
   if ((meta?.activeMenu as unknown as string) && typeof meta.activeMenu === "string") {
     return meta.activeMenu as unknown as string;
   }
@@ -98,8 +98,8 @@ const activeLeftMenuPath = computed(() => {
 });
 
 /**
- * 解析路径 - 混合模式下，左侧菜单是从顶级菜单下的子菜单开始的
- * 所以需要拼接顶级菜单路径
+ * 파싱경로 - 混合模式下，왼쪽메뉴예从顶级메뉴下의子메뉴开始의
+ * 所以需해야拼接顶级메뉴경로
  */
 function resolvePath(routePath: string) {
   if (isExternal(routePath)) {
@@ -112,19 +112,19 @@ function resolvePath(routePath: string) {
   return `${activeTopMenuPath.value}/${routePath}`;
 }
 
-// 监听路由变化，确保左侧菜单能随TagsView切换而正确激活
+// 监听路由变化，보장왼쪽메뉴能随TagsView切换而正确激活
 watch(
   () => route.path,
   (newPath: string) => {
-    // 获取顶级路径
+    // 조회顶级경로
     const topMenuPath =
       newPath.split("/").filter(Boolean).length > 1 ? newPath.match(/^\/[^/]+/)?.[0] || "/" : "/";
 
-    // 如果当前路径属于当前激活的顶部菜单
+    // 만약当前경로属于当前激活의상단메뉴
     if (newPath.startsWith(activeTopMenuPath.value)) {
       // no-op
     }
-    // 如果路径改变了顶级菜单，确保顶部菜单和左侧菜单都更新
+    // 만약경로改变됨顶级메뉴，보장상단메뉴및왼쪽메뉴都업데이트
     else if (topMenuPath !== activeTopMenuPath.value) {
       const appStore = useAppStore();
       const permissionStore = usePermissionStore();
@@ -253,7 +253,7 @@ watch(
   }
 }
 
-/* 移动端样式 */
+/* 모바일스타일 */
 :deep(.mobile) {
   .layout__container {
     .layout__sidebar--left {

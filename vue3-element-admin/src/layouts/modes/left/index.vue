@@ -1,18 +1,18 @@
 <template>
   <BaseLayout>
-    <!-- 左侧菜单栏 -->
+    <!-- 왼쪽메뉴열 -->
     <div class="layout__sidebar" :class="{ 'layout__sidebar--collapsed': !isSidebarOpen }">
       <div :class="{ 'has-logo': isShowLogo }" class="layout-sidebar">
         <!-- Logo -->
         <AppLogo v-if="isShowLogo" :collapse="!isSidebarOpen" />
-        <!-- 主菜单内容 -->
+        <!-- 주요메뉴내용 -->
         <el-scrollbar>
           <BasicMenu :data="routes" base-path="" />
         </el-scrollbar>
       </div>
     </div>
 
-    <!-- 主内容区 -->
+    <!-- 주요내용영역 -->
     <div
       :class="{
         hasTagsView: isShowTagsView,
@@ -37,10 +37,10 @@ import TagsView from "../../components/TagsView/index.vue";
 import AppMain from "../../components/AppMain/index.vue";
 import BasicMenu from "../../components/Menu/BasicMenu.vue";
 
-// 布局相关参数
+// 레이아웃 관련파라미터
 const { isShowTagsView, isShowLogo, isSidebarOpen } = useLayout();
 
-// 菜单相关
+// 메뉴관련
 const { routes } = useLayoutMenu();
 </script>
 
@@ -98,7 +98,7 @@ const { routes } = useLayoutMenu();
   }
 }
 
-/* 移动端样式 */
+/* 모바일스타일 */
 .mobile {
   .layout__sidebar {
     width: $sidebar-width !important;
