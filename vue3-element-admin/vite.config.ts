@@ -11,7 +11,7 @@ import UnoCSS from "unocss/vite";
 import { resolve } from "path";
 import { name, version, engines, dependencies, devDependencies } from "./package.json";
 
-// 平台的名称、版本、运行所需的 node 版本、依赖、构建时间的类型提示
+// 플랫폼의 이름, 버전, 실행에 필요한 node 버전, 의존성, 빌드 시간의 타입 힌트
 const __APP_INFO__ = {
   pkg: { name, version, engines, dependencies, devDependencies },
   buildTimestamp: Date.now(),
@@ -19,7 +19,7 @@ const __APP_INFO__ = {
 
 const pathSrc = resolve(__dirname, "src");
 
-// Vite配置  https://cn.vitejs.dev/config
+// Vite 설정  https://cn.vitejs.dev/config
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   const env = loadEnv(mode, process.cwd());
   const isProduction = mode === "production";
@@ -32,7 +32,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     },
     css: {
       preprocessorOptions: {
-        // 定义全局 SCSS 变量
+        // 전역 SCSS 변수 정의
         scss: {
           additionalData: `@use "@/styles/variables.scss" as *;`,
         },
@@ -43,10 +43,10 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       port: +env.VITE_APP_PORT,
       open: true,
       proxy: {
-        // 代理 /dev-api 的请求
+        // /dev-api 요청 프록시
         [env.VITE_APP_BASE_API]: {
           changeOrigin: true,
-          // 代理目标地址：https://api.youlai.tech
+          // 프록시 대상 주소: https://api.youlai.tech
           target: env.VITE_APP_API_URL,
           rewrite: (path: string) => path.replace(new RegExp("^" + env.VITE_APP_BASE_API), ""),
         },
@@ -56,12 +56,12 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       vue(),
       ...(env.VITE_MOCK_DEV_SERVER === "true" ? [mockDevServerPlugin()] : []),
       UnoCSS(),
-      // API 自动导入
+      // API 자동 가져오기
       AutoImport({
-        // 导入 Vue 函数，如：ref, reactive, toRef 等
+        // Vue 함수 가져오기, 예: ref, reactive, toRef 등
         imports: ["vue", "@vueuse/core", "pinia", "vue-router", "vue-i18n"],
         resolvers: [
-          // 导入 Element Plus函数，如：ElMessage, ElMessageBox 等
+          // Element Plus 함수 가져오기, 예: ElMessage, ElMessageBox 등
           ElementPlusResolver({ importStyle: "sass" }),
         ],
         eslintrc: {
@@ -70,24 +70,24 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           globalsPropValue: true,
         },
         vueTemplate: true,
-        // 导入函数类型声明文件路径 (false:关闭自动生成)
+        // 함수 타입 선언 파일 경로 가져오기 (false: 자동 생성 비활성화)
         dts: false,
         // dts: "src/types/auto-imports.d.ts",
       }),
-      // 组件自动导入
+      // 컴포넌트 자동 가져오기
       Components({
         resolvers: [
-          // 导入 Element Plus 组件
+          // Element Plus 컴포넌트 가져오기
           ElementPlusResolver({ importStyle: "sass" }),
         ],
-        // 指定自定义组件位置(默认:src/components)
+        // 사용자 지정 컴포넌트 위치 지정 (기본값: src/components)
         dirs: ["src/components", "src/**/components"],
-        // 导入组件类型声明文件路径 (false:关闭自动生成)
+        // 컴포넌트 타입 선언 파일 경로 가져오기 (false: 자동 생성 비활성화)
         dts: false,
         // dts: "src/types/components.d.ts",
       }),
     ] as PluginOption[],
-    // 预加载项目必需的组件
+    // 프로젝트에 필요한 컴포넌트 사전 로드
     optimizeDeps: {
       include: [
         "vue",
@@ -189,20 +189,20 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         "element-plus/es/components/space/style/index",
       ],
     },
-    // 构建配置
+    // 빌드 설정
     build: {
-      chunkSizeWarningLimit: 2000, // 消除打包大小超过500kb警告
-      minify: isProduction ? "terser" : false, // 只在生产环境启用压缩
+      chunkSizeWarningLimit: 2000, // 패킹 크기 500kb 초과 경고 제거
+      minify: isProduction ? "terser" : false, // 프로덕션 환경에서만 압축 활성화
       terserOptions: isProduction
         ? {
             compress: {
-              keep_infinity: true, // 防止 Infinity 被压缩成 1/0，这可能会导致 Chrome 上的性能问题
-              drop_console: true, // 生产环境去除 console.log, console.warn, console.error 等
-              drop_debugger: true, // 生产环境去除 debugger
-              pure_funcs: ["console.log", "console.info"], // 移除指定的函数调用
+              keep_infinity: true, // Infinity가 1/0으로 압축되는 것을 방지합니다. 이는 Chrome에서 성능 문제를 야기할 수 있습니다.
+              drop_console: true, // 프로덕션 환경에서 console.log, console.warn, console.error 등 제거
+              drop_debugger: true, // 프로덕션 환경에서 debugger 제거
+              pure_funcs: ["console.log", "console.info"], // 지정된 함수 호출 제거
             },
             format: {
-              comments: false, // 删除注释
+              comments: false, // 주석 삭제
             },
           }
         : {},
@@ -211,15 +211,15 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           // manualChunks: {
           //   "vue-i18n": ["vue-i18n"],
           // },
-          // 用于从入口点创建的块的打包输出格式[name]表示文件名,[hash]表示该文件内容hash值
+          // 진입점에서 생성된 청크의 패킹 출력 형식 [name]은 파일명, [hash]는 파일 콘텐츠 해시값을 나타냅니다.
           entryFileNames: "js/[name].[hash].js",
-          // 用于命名代码拆分时创建的共享块的输出命名
+          // 코드 분할 시 생성된 공유 청크의 출력 명명 사용
           chunkFileNames: "js/[name].[hash].js",
-          // 用于输出静态资源的命名，[ext]表示文件扩展名
+          // 정적 자산 출력 명명 사용, [ext]은 파일 확장명을 나타냅니다.
           assetFileNames: (assetInfo: any) => {
             const info = assetInfo.name.split(".");
             let extType = info[info.length - 1];
-            // console.log('文件信息', assetInfo.name)
+            // console.log('파일 정보', assetInfo.name)
             if (/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/i.test(assetInfo.name)) {
               extType = "media";
             } else if (/\.(png|jpe?g|gif|svg)(\?.*)?$/.test(assetInfo.name)) {

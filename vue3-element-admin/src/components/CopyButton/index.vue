@@ -1,4 +1,4 @@
-<!-- 复制组件 -->
+<!-- 복사 컴포넌트 -->
 <template>
   <el-button link :style="style" @click="handleClipboard">
     <slot>
@@ -26,7 +26,7 @@ const props = defineProps({
 
 function handleClipboard() {
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    // 使用 Clipboard API
+    // Clipboard API 사용
     navigator.clipboard
       .writeText(props.text)
       .then(() => {
@@ -37,7 +37,7 @@ function handleClipboard() {
         console.log("[CopyButton] Copy failed", error);
       });
   } else {
-    // 兼容性处理（useClipboard 有兼容性问题）
+    // 호환성 처리 (useClipboard 호환성 문제 있음)
     const input = document.createElement("input");
     input.style.position = "absolute";
     input.style.left = "-9999px";

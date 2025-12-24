@@ -2,15 +2,15 @@ import request from "@/utils/request";
 const MENU_BASE_URL = "/api/v1/menus";
 
 const MenuAPI = {
-  /** 获取当前用户的路由列表 */
+  /** 현재 사용자의 라우트 목록 조회 */
   getRoutes() {
     return request<any, RouteVO[]>({ url: `${MENU_BASE_URL}/routes`, method: "get" });
   },
-  /** 获取菜单树形列表 */
+  /** 메뉴 트리 목록 조회 */
   getList(queryParams: MenuQuery) {
     return request<any, MenuVO[]>({ url: `${MENU_BASE_URL}`, method: "get", params: queryParams });
   },
-  /** 获取菜单下拉数据源 */
+  /** 메뉴 드롭다운 데이터 조회 */
   getOptions(onlyParent?: boolean) {
     return request<any, OptionType[]>({
       url: `${MENU_BASE_URL}/options`,
@@ -18,19 +18,19 @@ const MenuAPI = {
       params: { onlyParent },
     });
   },
-  /** 获取菜单表单数据 */
+  /** 메뉴 폼 데이터 조회 */
   getFormData(id: string) {
     return request<any, MenuForm>({ url: `${MENU_BASE_URL}/${id}/form`, method: "get" });
   },
-  /** 新增菜单 */
+  /** 메뉴 추가 */
   create(data: MenuForm) {
     return request({ url: `${MENU_BASE_URL}`, method: "post", data });
   },
-  /** 修改菜单 */
+  /** 메뉴 수정 */
   update(id: string, data: MenuForm) {
     return request({ url: `${MENU_BASE_URL}/${id}`, method: "put", data });
   },
-  /** 删除菜单 */
+  /** 메뉴 삭제 */
   deleteById(id: string) {
     return request({ url: `${MENU_BASE_URL}/${id}`, method: "delete" });
   },
@@ -39,68 +39,68 @@ const MenuAPI = {
 export default MenuAPI;
 
 export interface MenuQuery {
-  /** 搜索关键字 */
+  /** 검색 키워드 */
   keywords?: string;
 }
 import type { MenuTypeEnum } from "@/enums/system/menu-enum";
 export interface MenuVO {
-  /** 子菜单 */
+  /** 하위 메뉴 */
   children?: MenuVO[];
-  /** 组件路径 */
+  /** 컴포넌트 경로 */
   component?: string;
-  /** ICON */
+  /** 아이콘 */
   icon?: string;
-  /** 菜单ID */
+  /** 메뉴 ID */
   id?: string;
-  /** 菜单名称 */
+  /** 메뉴명 */
   name?: string;
-  /** 父菜单ID */
+  /** 상위 메뉴 ID */
   parentId?: string;
-  /** 按钮权限标识 */
+  /** 버튼 권한 식별자 */
   perm?: string;
-  /** 跳转路径 */
+  /** 리다이렉트 경로 */
   redirect?: string;
-  /** 路由名称 */
+  /** 라우트명 */
   routeName?: string;
-  /** 路由相对路径 */
+  /** 라우트 상대 경로 */
   routePath?: string;
-  /** 菜单排序(数字越小排名越靠前) */
+  /** 메뉴 정렬(숫자가 작을수록 앞에 표시) */
   sort?: number;
-  /** 菜单类型 */
+  /** 메뉴 타입 */
   type?: MenuTypeEnum;
-  /** 是否可见(1:显示;0:隐藏) */
+  /** 표시 여부(1:표시;0:숨김) */
   visible?: number;
 }
 export interface MenuForm {
-  /** 菜单ID */
+  /** 메뉴 ID */
   id?: string;
-  /** 父菜单ID */
+  /** 상위 메뉴 ID */
   parentId?: string;
-  /** 菜单名称 */
+  /** 메뉴명 */
   name?: string;
-  /** 是否可见(1-是 0-否) */
+  /** 표시 여부(1-예 0-아니오) */
   visible: number;
-  /** ICON */
+  /** 아이콘 */
   icon?: string;
-  /** 排序 */
+  /** 정렬 */
   sort?: number;
-  /** 路由名称 */
+  /** 라우트명 */
   routeName?: string;
-  /** 路由路径 */
+  /** 라우트 경로 */
   routePath?: string;
-  /** 组件路径 */
+  /** 컴포넌트 경로 */
   component?: string;
-  /** 跳转路由路径 */
+  /** 리다이렉트 라우트 경로 */
   redirect?: string;
-  /** 菜单类型 */
+  /** 메뉴 타입 */
   type?: MenuTypeEnum;
-  /** 权限标识 */
+  /** 권한 식별자 */
   perm?: string;
-  /** 【菜单】是否开启页面缓存 */
+  /** 【메뉴】페이지 캐시 활성화 여부 */
   keepAlive?: number;
-  /** 【目录】只有一个子路由是否始终显示 */
+  /** 【디렉토리】하위 라우트가 하나만 있어도 항상 표시 */
   alwaysShow?: number;
-  /** 其他参数 */
+  /** 기타 파라미터 */
   params?: KeyValue[];
 }
 interface KeyValue {
@@ -108,28 +108,28 @@ interface KeyValue {
   value: string;
 }
 export interface RouteVO {
-  /** 子路由列表 */
+  /** 하위 라우트 목록 */
   children: RouteVO[];
-  /** 组件路径 */
+  /** 컴포넌트 경로 */
   component?: string;
-  /** 路由属性 */
+  /** 라우트 속성 */
   meta?: Meta;
-  /** 路由名称 */
+  /** 라우트명 */
   name?: string;
-  /** 路由路径 */
+  /** 라우트 경로 */
   path?: string;
-  /** 跳转链接 */
+  /** 리다이렉트 링크 */
   redirect?: string;
 }
 export interface Meta {
-  /** 【目录】只有一个子路由是否始终显示 */
+  /** 【디렉토리】하위 라우트가 하나만 있어도 항상 표시 */
   alwaysShow?: boolean;
-  /** 是否隐藏(true-是 false-否) */
+  /** 숨김 여부(true-예 false-아니오) */
   hidden?: boolean;
-  /** ICON */
+  /** 아이콘 */
   icon?: string;
-  /** 【菜单】是否开启页面缓存 */
+  /** 【메뉴】페이지 캐시 활성화 여부 */
   keepAlive?: boolean;
-  /** 路由title */
+  /** 라우트 제목 */
   title?: string;
 }

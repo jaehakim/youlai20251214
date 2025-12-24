@@ -5,11 +5,11 @@ import { AuthStorage, redirectToLogin } from "@/utils/auth";
 import { useTokenRefresh } from "@/composables/auth/useTokenRefresh";
 import { authConfig } from "@/settings";
 
-// 初始化token刷新组合式函数
+// 토큰 새로 고침 합성 함수 초기화
 const { refreshTokenAndRetry } = useTokenRefresh();
 
 /**
- * 创建 HTTP 请求实例
+ * HTTP 요청 인스턴스 생성
  */
 const httpRequest = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
@@ -19,13 +19,13 @@ const httpRequest = axios.create({
 });
 
 /**
- * 请求拦截器 - 添加 Authorization 头
+ * 요청 인터셉터 - Authorization 헤더 추가
  */
 httpRequest.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const accessToken = AuthStorage.getAccessToken();
 
-    // 如果 Authorization 设置为 no-auth，则不携带 Token
+    // Authorization이 no-auth로 설정되면 토큰을 전달하지 않습니다.
     if (config.headers.Authorization !== "no-auth" && accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     } else {
@@ -41,24 +41,24 @@ httpRequest.interceptors.request.use(
 );
 
 /**
- * 响应拦截器 - 统一处理响应和错误
+ * 응답 인터셉터 - 응답 및 오류 통합 처리
  */
 httpRequest.interceptors.response.use(
   (response: AxiosResponse<ApiResponse>) => {
-    // 如果响应是二进制数据，则直接返回response对象（用于文件下载、Excel导出、图片显示等）
+    // 응답이 이진 데이터이면 response 객체를 직접 반환합니다. (파일 다운로드, Excel 내보내기, 이미지 표시 등용)
     if (response.config.responseType === "blob" || response.config.responseType === "arraybuffer") {
       return response;
     }
 
     const { code, data, msg } = response.data;
 
-    // 请求成功
+    // 요청 성공
     if (code === ApiCodeEnum.SUCCESS) {
       return data;
     }
 
-    // 业务错误
-    ElMessage.error(msg || "系统出错");
+    // 비즈니스 오류
+    ElMessage.error(msg || "시스템 오류");
     return Promise.reject(new Error(msg || "Business Error"));
   },
   async (error) => {
@@ -66,9 +66,9 @@ httpRequest.interceptors.response.use(
 
     const { config, response } = error;
 
-    // 网络错误或服务器无响应
+    // 네트워크 오류 또는 서버 응답 없음
     if (!response) {
-      ElMessage.error("网络连接失败，请检查网络设置");
+      ElMessage.error("네트워크 연결 실패, 네트워크 설정을 확인하세요.");
       return Promise.reject(error);
     }
 
@@ -76,23 +76,23 @@ httpRequest.interceptors.response.use(
 
     switch (code) {
       case ApiCodeEnum.ACCESS_TOKEN_INVALID:
-        // Access Token 过期
+        // Access Token 만료됨
         if (authConfig.enableTokenRefresh) {
-          // 启用了token刷新，尝试刷新
+          // 토큰 새로 고침 활성화, 새로 고침 시도
           return refreshTokenAndRetry(config, httpRequest);
         } else {
-          // 未启用token刷新，直接跳转登录页
-          await redirectToLogin("登录已过期，请重新登录");
+          // 토큰 새로 고침 비활성화, 로그인 페이지로 직접 이동
+          await redirectToLogin("로그인이 만료되었습니다. 다시 로그인하세요.");
           return Promise.reject(new Error(msg || "Access Token Invalid"));
         }
 
       case ApiCodeEnum.REFRESH_TOKEN_INVALID:
-        // Refresh Token 过期，跳转登录页
-        await redirectToLogin("登录已过期，请重新登录");
+        // Refresh Token 만료됨, 로그인 페이지로 이동
+        await redirectToLogin("로그인이 만료되었습니다. 다시 로그인하세요.");
         return Promise.reject(new Error(msg || "Refresh Token Invalid"));
 
       default:
-        ElMessage.error(msg || "请求失败");
+        ElMessage.error(msg || "요청 실패");
         return Promise.reject(new Error(msg || "Request Error"));
     }
   }

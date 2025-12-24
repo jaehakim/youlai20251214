@@ -8,7 +8,7 @@
       size="large"
       :validate-on-rule-change="false"
     >
-      <!-- 用户名 -->
+      <!-- 사용자명 -->
       <el-form-item prop="username">
         <el-input v-model.trim="loginFormData.username" :placeholder="t('login.username')">
           <template #prefix>
@@ -17,7 +17,7 @@
         </el-input>
       </el-form-item>
 
-      <!-- 密码 -->
+      <!-- 비밀번호 -->
       <el-tooltip :visible="isCapsLock" :content="t('login.capsLock')" placement="right">
         <el-form-item prop="password">
           <el-input
@@ -35,7 +35,7 @@
         </el-form-item>
       </el-tooltip>
 
-      <!-- 验证码 -->
+      <!-- 인증번호 -->
       <el-form-item prop="captchaCode">
         <div flex items-center gap-10px>
           <el-input
@@ -59,7 +59,7 @@
               :src="captchaBase64"
               alt="captchaCode"
             />
-            <el-text v-else type="info" size="small">点击获取验证码</el-text>
+            <el-text v-else type="info" size="small">클릭하여 인증번호 받기</el-text>
           </div>
         </div>
       </el-form-item>
@@ -71,7 +71,7 @@
         </el-link>
       </div>
 
-      <!-- 登录按钮 -->
+      <!-- 로그인 버튼 -->
       <el-form-item>
         <el-button :loading="loading" type="primary" class="w-full" @click="handleLoginSubmit">
           {{ t("login.login") }}
@@ -86,7 +86,7 @@
       </el-link>
     </div>
 
-    <!-- 第三方登录 -->
+    <!-- 제3자 로그인 -->
     <div class="third-party-login">
       <div class="divider-container">
         <div class="divider-line"></div>
@@ -126,11 +126,11 @@ onMounted(() => getCaptcha());
 
 const loginFormRef = ref<FormInstance>();
 const loading = ref(false);
-// 是否大写锁定
+// Caps Lock 여부
 const isCapsLock = ref(false);
-// 验证码图片Base64字符串
+// 인증번호 이미지 Base64 문자열
 const captchaBase64 = ref();
-// 记住我
+// 로그인 유지
 const rememberMe = AuthStorage.getRememberMe();
 
 const loginFormData = ref<LoginFormData>({
@@ -172,7 +172,7 @@ const loginRules = computed(() => {
   };
 });
 
-// 获取验证码
+// 인증번호 가져오기
 const codeLoading = ref(false);
 function getCaptcha() {
   codeLoading.value = true;
@@ -185,34 +185,34 @@ function getCaptcha() {
 }
 
 /**
- * 登录提交
+ * 로그인 제출
  */
 async function handleLoginSubmit() {
   try {
-    // 1. 表单验证
+    // 1. 폼 검증
     const valid = await loginFormRef.value?.validate();
     if (!valid) return;
 
     loading.value = true;
 
-    // 2. 执行登录
+    // 2. 로그인 실행
     await userStore.login(loginFormData.value);
 
     const redirectPath = (route.query.redirect as string) || "/";
 
     await router.push(decodeURIComponent(redirectPath));
   } catch (error) {
-    // 4. 统一错误处理
-    getCaptcha(); // 刷新验证码
-    console.error("登录失败:", error);
+    // 4. 통합 오류 처리
+    getCaptcha(); // 인증번호 새로고침
+    console.error("로그인 실패:", error);
   } finally {
     loading.value = false;
   }
 }
 
-// 检查输入大小写
+// 입력 대소문자 확인
 function checkCapsLock(event: KeyboardEvent) {
-  // 防止浏览器密码自动填充时报错
+  // 브라우저 비밀번호 자동완성 시 오류 방지
   if (event instanceof KeyboardEvent) {
     isCapsLock.value = event.getModifierState("CapsLock");
   }

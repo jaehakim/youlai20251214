@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 
 const FileAPI = {
-  /** 上传文件 （传入 FormData，上传进度回调） */
+  /** 파일 업로드 (FormData 전달, 업로드 진행률 콜백) */
   upload(formData: FormData, onProgress?: (percent: number) => void) {
     return request<any, FileInfo>({
       url: "/api/v1/files",
@@ -17,7 +17,7 @@ const FileAPI = {
     });
   },
 
-  /** 上传文件（传入 File） */
+  /** 파일 업로드 (File 전달) */
   uploadFile(file: File) {
     const formData = new FormData();
     formData.append("file", file);
@@ -29,7 +29,7 @@ const FileAPI = {
     });
   },
 
-  /** 删除文件 */
+  /** 파일 삭제 */
   delete(filePath?: string) {
     return request({
       url: "/api/v1/files",
@@ -38,7 +38,7 @@ const FileAPI = {
     });
   },
 
-  /** 下载文件 */
+  /** 파일 다운로드 */
   download(url: string, fileName?: string) {
     return request({
       url,
@@ -49,7 +49,7 @@ const FileAPI = {
       const a = document.createElement("a");
       const urlObject = window.URL.createObjectURL(blob);
       a.href = urlObject;
-      a.download = fileName || "下载文件";
+      a.download = fileName || "다운로드 파일";
       a.click();
       window.URL.revokeObjectURL(urlObject);
     });

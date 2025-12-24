@@ -10,7 +10,7 @@
       </template>
     </router-view>
 
-    <!-- 返回顶部按钮 -->
+    <!-- 맨 위로 돌아가기 버튼 -->
     <el-backtop target=".app-main">
       <div class="i-svg:backtop w-6 h-6" />
     </el-backtop>
@@ -25,12 +25,12 @@ import Error404 from "@/views/error/404.vue";
 
 const { cachedViews } = toRefs(useTagsViewStore());
 
-// 当前组件
+// 현재 구성 요소
 const wrapperMap = new Map<string, Component>();
 const currentComponent = (component: Component, route: RouteLocationNormalized) => {
   if (!component) return;
 
-  const { fullPath: componentName } = route; // 使用路由路径作为组件名称
+  const { fullPath: componentName } = route; // 라우트 경로를 구성 요소 이름으로 사용
   let wrapper = wrapperMap.get(componentName);
 
   if (!wrapper) {
@@ -48,7 +48,7 @@ const currentComponent = (component: Component, route: RouteLocationNormalized) 
     wrapperMap.set(componentName, wrapper);
   }
 
-  // 添加组件数量限制
+  // 구성 요소 수 제한 추가
   if (wrapperMap.size > 100) {
     const firstKey = wrapperMap.keys().next().value;
     if (firstKey) {
@@ -74,7 +74,7 @@ const appMainHeight = computed(() => {
   overflow-y: auto;
   background-color: var(--el-bg-color-page);
 
-  /* 布局切换动画优化 */
+  /* 레이아웃 전환 애니메이션 최적화 */
   &.animate__animated {
     animation-duration: 0.4s;
     animation-fill-mode: forwards;

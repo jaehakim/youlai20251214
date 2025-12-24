@@ -1,5 +1,5 @@
 <template>
-  <!-- 布局大小 -->
+  <!-- 레이아웃 크기 -->
   <el-tooltip :content="t('sizeSelect.tooltip')" effect="dark" placement="bottom">
     <el-dropdown trigger="click" @command="handleSizeChange">
       <div class="i-svg:size" />

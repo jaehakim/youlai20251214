@@ -1,15 +1,15 @@
 <template>
   <div class="app-container">
-    <!-- 表格 -->
+    <!-- 테이블 -->
     <vxe-grid ref="xGrid" v-bind="gridOptions" v-on="gridEvents">
-      <!-- 搜索 -->
+      <!-- 검색 -->
       <!-- <template #form-roles="{ data }">
         <el-select
           v-model="data.roles"
           multiple
           collapse-tags
           collapse-tags-tooltip
-          placeholder="请选择角色"
+          placeholder="역할 선택"
           filterable
           clearable
         >
@@ -21,16 +21,16 @@
           />
         </el-select>
       </template> -->
-      <!-- 左侧按钮列表 -->
+      <!-- 왼쪽 버튼 목록 -->
       <template #toolbar-btns>
         <vxe-button status="primary" icon="vxe-icon-add" @click="curd.onShowModal()">
-          新增用户
+          사용자 추가
         </vxe-button>
         <vxe-button status="danger" icon="vxe-icon-delete" @click="curd.onDelete()">
-          批量删除
+          일괄 삭제
         </vxe-button>
       </template>
-      <!-- 展开列 -->
+      <!-- 확장 열 -->
       <template #column-expand="{ row }">
         <div style="padding: 20px">
           <ul>
@@ -49,7 +49,7 @@
           </ul>
         </div>
       </template>
-      <!-- 角色列 -->
+      <!-- 역할 열 -->
       <template #column-roles="{ row, column }">
         <el-tag
           v-for="(role, index) in row[column.field].split(',')"
@@ -60,15 +60,15 @@
           {{ role }}
         </el-tag>
       </template>
-      <!-- 操作列 -->
+      <!-- 작업 열 -->
       <template #column-operate="{ row }">
-        <el-button link type="primary" @click="curd.onShowModal(row)">修改</el-button>
-        <el-button link type="danger" @click="curd.onDelete(row)">删除</el-button>
+        <el-button link type="primary" @click="curd.onShowModal(row)">수정</el-button>
+        <el-button link type="danger" @click="curd.onDelete(row)">삭제</el-button>
       </template>
     </vxe-grid>
-    <!-- 弹窗 -->
+    <!-- 팝업 -->
     <vxe-modal ref="xModal" v-bind="modalOptions">
-      <!-- 表单 -->
+      <!-- 양식 -->
       <vxe-form ref="xForm" v-bind="formOptions" />
     </vxe-modal>
   </div>
@@ -88,9 +88,9 @@ import type {
 import { VXETable } from "vxe-table";
 
 const options = [
-  { label: "管理员", value: "admin" },
-  { label: "用户", value: "user" },
-  { label: "访客", value: "guest" },
+  { label: "관리자", value: "admin" },
+  { label: "사용자", value: "user" },
+  { label: "게스트", value: "guest" },
 ];
 onMounted(() => {
   setTimeout(() => {
@@ -114,9 +114,9 @@ interface RowMeta {
 }
 const xGrid = ref<VxeGridInstance<RowMeta>>();
 const gridOptions = reactive<VxeGridProps<RowMeta>>({
-  // 自动监听父元素的变化去重新计算表格
+  // 부모 요소의 변화를 자동으로 감시하여 테이블을 다시 계산합니다
   autoResize: true,
-  // 是否显示表尾
+  // 테이블 바닥글 표시 여부
   showFooter: true,
   // 表尾数据（优先级比 footerMethod 高）
   // footerData: [
@@ -155,27 +155,27 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
     },
     { type: "seq", width: 60 },
     { field: "id", title: "ID", visible: false },
-    { field: "username", title: "用户名" },
-    { field: "roles", title: "角色", slots: { default: "column-roles" } },
-    { field: "phone", title: "手机号" },
-    { field: "email", title: "邮箱" },
+    { field: "username", title: "사용자명" },
+    { field: "roles", title: "역할", slots: { default: "column-roles" } },
+    { field: "phone", title: "휴대폰 번호" },
+    { field: "email", title: "이메일" },
     {
       field: "status",
-      title: "状态",
+      title: "상태",
       sortable: true,
       filters: [
-        { label: "启用", value: true },
-        { label: "禁用", value: false },
+        { label: "활성화", value: true },
+        { label: "비활성화", value: false },
       ],
       // 数据筛选，只对 filters 有效，筛选是否允许多选
       filterMultiple: false,
       formatter({ cellValue }) {
-        return cellValue === true ? "启用" : "禁用";
+        return cellValue === true ? "활성화" : "비활성화";
       },
     },
-    { field: "createTime", title: "创建时间", sortable: true },
+    { field: "createTime", title: "생성 시간", sortable: true },
     {
-      title: "操作",
+      title: "작업",
       width: "150px",
       fixed: "right",
       showOverflow: false,
@@ -220,7 +220,7 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
       {
         span: 4,
         field: "username",
-        title: "用户名",
+        title: "사용자명",
         // 前缀配置项
         titlePrefix: {
           useHTML: true,
@@ -236,14 +236,14 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
           props: {
             type: "text",
             clearable: true,
-            placeholder: "请输入用户名",
+            placeholder: "사용자명을 입력하세요",
           },
         },
       },
       {
         span: 4,
         field: "roles",
-        title: "角色",
+        title: "역할",
         // 默认收起
         folding: true,
         itemRender: {
@@ -254,7 +254,7 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
             filterable: true,
             clearable: true,
             options: [],
-            placeholder: "请选择角色",
+            placeholder: "역할 선택",
           },
         },
       },
@@ -279,9 +279,9 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
               type: "submit",
               status: "primary",
               icon: "vxe-icon-search",
-              content: "搜索",
+              content: "검색",
             },
-            { type: "reset", icon: "vxe-icon-refresh", content: "重置" },
+            { type: "reset", icon: "vxe-icon-refresh", content: "재설정" },
           ],
         },
       },
@@ -512,17 +512,17 @@ const formOptions = reactive<VxeFormProps>({
   items: [
     {
       field: "username",
-      title: "用户名",
+      title: "사용자명",
       itemRender: {
         name: "VxeInput",
         props: {
-          placeholder: "请输入",
+          placeholder: "입력하세요",
         },
       },
     },
     {
       field: "password",
-      title: "密码",
+      title: "비밀번호",
       itemRender: {
         name: "VxeInput",
         props: {
@@ -537,7 +537,7 @@ const formOptions = reactive<VxeFormProps>({
         children: [
           {
             props: {
-              content: "取消",
+              content: "취소",
             },
             events: {
               click: () => xModal.value?.close(),
@@ -546,7 +546,7 @@ const formOptions = reactive<VxeFormProps>({
           {
             props: {
               type: "submit",
-              content: "确定",
+              content: "확인",
               status: "primary",
             },
             events: {
@@ -557,7 +557,7 @@ const formOptions = reactive<VxeFormProps>({
       },
     },
   ],
-  /** 校验规则 */
+  /** 검증 규칙 */
   rules: {
     username: [
       {
@@ -565,9 +565,9 @@ const formOptions = reactive<VxeFormProps>({
         validator: ({ itemValue }) => {
           switch (true) {
             case !itemValue:
-              return new Error("请输入");
+              return new Error("입력하세요");
             case !itemValue.trim():
-              return new Error("空格无效");
+              return new Error("공백은 유효하지 않습니다");
           }
         },
       },
@@ -578,9 +578,9 @@ const formOptions = reactive<VxeFormProps>({
         validator: ({ itemValue }) => {
           switch (true) {
             case !itemValue:
-              return new Error("请输入");
+              return new Error("입력하세요");
             case !itemValue.trim():
-              return new Error("空格无效");
+              return new Error("공백은 유효하지 않습니다");
           }
         },
       },
@@ -593,24 +593,24 @@ const curd = {
   commitQuery: () => xGrid.value?.commitProxy("query"),
   onShowModal: (row?: RowMeta) => {
     if (row) {
-      modalOptions.title = "修改用户";
+      modalOptions.title = "사용자 수정";
     } else {
-      modalOptions.title = "新增用户";
+      modalOptions.title = "사용자 추가";
     }
     xModal.value?.open();
   },
-  /** 确定并保存 */
+  /** 확인 및 저장 */
   onSubmitForm: () => {
-    console.log("提交表单");
+    console.log("양식 제출");
   },
   onDelete: (row?: RowMeta) => {
     let ids = [];
     if (row === undefined) {
-      // 获取当前已选中的行数据
+      // 현재 선택된 행 데이터 가져오기
       const selected = xGrid.value?.getCheckboxRecords();
       if (!selected || selected.length === 0) {
         VXETable.modal.message({
-          content: "请至少选择一条数据",
+          content: "최소 1개 데이터를 선택하세요",
           status: "warning",
         });
         return;
@@ -619,10 +619,10 @@ const curd = {
     } else {
       ids = [row.id];
     }
-    VXETable.modal.confirm("确定要删除吗？").then((type) => {
+    VXETable.modal.confirm("삭제하시겠습니까?").then((type) => {
       if (type === "confirm") {
-        // 执行删除操作
-        console.log("删除的ID：", ids);
+        // 삭제 작업 실행
+        console.log("삭제된 ID:", ids);
       }
     });
   },

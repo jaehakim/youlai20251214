@@ -23,7 +23,7 @@
                     </span>
                   </template>
 
-                  <!-- components -->
+                  <!-- 구성 요소 -->
                   <template v-if="item.type === 'custom'">
                     <slot
                       :name="item.slotName ?? item.prop"
@@ -59,8 +59,8 @@
         </el-form>
 
         <template #footer>
-          <el-button v-if="!formDisable" type="primary" @click="handleSubmit">确 定</el-button>
-          <el-button @click="handleClose">{{ !formDisable ? "取 消" : "关闭" }}</el-button>
+          <el-button v-if="!formDisable" type="primary" @click="handleSubmit">확 인</el-button>
+          <el-button @click="handleClose">{{ !formDisable ? "취 소" : "닫기" }}</el-button>
         </template>
       </el-drawer>
     </template>
@@ -124,8 +124,8 @@
         </el-form>
 
         <template #footer>
-          <el-button v-if="!formDisable" type="primary" @click="handleSubmit">确 定</el-button>
-          <el-button @click="handleClose">{{ !formDisable ? "取 消" : "关闭" }}</el-button>
+          <el-button v-if="!formDisable" type="primary" @click="handleSubmit">확 인</el-button>
+          <el-button @click="handleClose">{{ !formDisable ? "취 소" : "닫기" }}</el-button>
         </template>
       </el-dialog>
     </template>
@@ -140,11 +140,11 @@ import InputTag from "@/components/InputTag/index.vue";
 import IconSelect from "@/components/IconSelect/index.vue";
 
 defineSlots<{ [key: string]: (_args: any) => any }>();
-// 定义接收的属性
+// 수신 속성 정의
 const props = defineProps<{ modalConfig: IModalConfig }>();
-// 自定义事件
+// 사용자 정의 이벤트
 const emit = defineEmits<{ submitClick: []; customSubmit: [queryParams: IObject] }>();
-// 组件映射表
+// 컴포넌트 매핑 테이블
 
 const componentMap = new Map<IComponentType, any>([
   // @ts-ignore
@@ -172,24 +172,24 @@ const childrenMap = new Map<IComponentType, any>([
   ["checkbox", markRaw(ElCheckbox)],
 ]);
 
-const pk = props.modalConfig.pk ?? "id"; // 主键名，用于表单数据处理
-const modalVisible = ref(false); // 弹窗显示状态
-const formRef = ref<FormInstance>(); // 表单实例
-const formItems = reactive(props.modalConfig.formItems ?? []); // 表单配置项
-const formData = reactive<IObject>({}); // 表单数据
-const formRules: FormRules = {}; // 表单验证规则
-const formDisable = ref(false); // 表单禁用状态
+const pk = props.modalConfig.pk ?? "id"; // 기본 키 이름, 폼 데이터 처리에 사용
+const modalVisible = ref(false); // 모달 표시 상태
+const formRef = ref<FormInstance>(); // 폼 인스턴스
+const formItems = reactive(props.modalConfig.formItems ?? []); // 폼 구성 항목
+const formData = reactive<IObject>({}); // 폼 데이터
+const formRules: FormRules = {}; // 폼 검증 규칙
+const formDisable = ref(false); // 폼 비활성화 상태
 
-// 获取tooltip提示框属性
+// 도구 설명 프롬프트 상자 속성 가져오기
 const getTooltipProps = (tips: string | IObject) => {
   return typeof tips === "string" ? { content: tips } : tips;
 };
-// 隐藏弹窗
+// 모달 숨기기
 const handleClose = () => {
   modalVisible.value = false;
   formRef.value?.resetFields();
 };
-// 设置表单值
+// 폼 값 설정
 const setFormData = (data: IObject) => {
   for (const key in formData) {
     if (Object.prototype.hasOwnProperty.call(formData, key) && key in data) {
@@ -200,7 +200,7 @@ const setFormData = (data: IObject) => {
     formData[pk] = data[pk];
   }
 };
-// 表单提交
+// 폼 제출
 const handleSubmit = useThrottleFn(() => {
   formRef.value?.validate((valid: boolean) => {
     if (!valid) return;
@@ -214,9 +214,9 @@ const handleSubmit = useThrottleFn(() => {
     }
     props.modalConfig.formAction(formData).then(() => {
       if (props.modalConfig.component === "drawer") {
-        ElMessage.success(`${props.modalConfig.drawer?.title}成功`);
+        ElMessage.success(`${props.modalConfig.drawer?.title}성공`);
       } else {
-        ElMessage.success(`${props.modalConfig.dialog?.title}成功`);
+        ElMessage.success(`${props.modalConfig.dialog?.title}성공`);
       }
       emit("submitClick");
       handleClose();
@@ -242,16 +242,16 @@ onMounted(() => {
   });
 });
 
-// 暴露的属性和方法
+// 노출된 속성 및 메서드
 defineExpose({
   setFormData,
-  // 展示/因此 modal
+  // 모달 표시/숨기기
   setModalVisible: (visible: boolean = true) => (modalVisible.value = visible),
-  // 获取表单数据
+  // 폼 데이터 가져오기
   getFormData: (key: string) => formData[key] ?? formData,
-  // 设置表单项值
+  // 폼 항목 값 설정
   setFormItemData: (key: string, value: any) => (formData[key] = value),
-  // 禁用表单
+  // 폼 비활성화
   handleDisabled: (disable: boolean) => {
     formDisable.value = disable;
     props.modalConfig.form = {

@@ -40,7 +40,7 @@ defineProps({
 </style>
 
 <style lang="scss">
-// 顶部布局和混合布局的特殊处理
+// 상단 레이아웃 및 혼합 레이아웃의 특별 처리
 .layout-top,
 .layout-mix {
   .logo {
@@ -52,22 +52,22 @@ defineProps({
   }
 }
 
-// 宽屏时：openSidebar 状态下显示完整Logo+文字
+// 넓은 화면: openSidebar 상태에서 전체 Logo + 텍스트 표시
 .openSidebar {
   &.layout-top .layout__header-left .logo,
   &.layout-mix .layout__header-logo .logo {
-    width: $sidebar-width; // 210px，显示logo+文字
+    width: $sidebar-width; // 210px, logo + 텍스트 표시
   }
 }
 
-// 窄屏时：hideSidebar 状态下只显示Logo图标
+// 좁은 화면: hideSidebar 상태에서 Logo 아이콘만 표시
 .hideSidebar {
   &.layout-top .layout__header-left .logo,
   &.layout-mix .layout__header-logo .logo {
-    width: $sidebar-width-collapsed; // 54px，只显示logo
+    width: $sidebar-width-collapsed; // 54px, logo만 표시
   }
 
-  // 隐藏文字，只显示图标
+  // 텍스트 숨기기, 아이콘만 표시
   .logo .title {
     display: none;
   }

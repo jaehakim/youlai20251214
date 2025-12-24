@@ -1,12 +1,12 @@
 <!--
- * 基于 ECharts 的 Vue3 图表组件
- * 版权所有 © 2021-present 有来开源组织
+ * ECharts 기반 Vue3 차트 컴포넌트
+ * 저작권 © 2021-present 유래 오픈소스 조직
  *
- * 开源协议：https://opensource.org/licenses/MIT
- * 项目地址：https://gitee.com/youlaiorg/vue3-element-admin
- * 参考：https://echarts.apache.org/handbook/zh/basics/import/#%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5-echarts-%E5%9B%BE%E8%A1%A8%E5%92%8C%E7%BB%84%E4%BB%B6
+ * 오픈소스 라이센스: https://opensource.org/licenses/MIT
+ * 프로젝트 주소: https://gitee.com/youlaiorg/vue3-element-admin
+ * 참고: https://echarts.apache.org/handbook/zh/basics/import/#%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5-echarts-%E5%9B%BE%E8%A1%A8%E5%92%8C%E7%BB%84%E4%BB%B6
  *
- * 在使用时，请保留此注释，感谢您对开源的支持！
+ * 사용 시 본 주석을 유지해 주세요. 오픈소스를 지원해주셔서 감사합니다!
  -->
 
 <template>
@@ -14,18 +14,18 @@
 </template>
 
 <script setup lang="ts">
-// 引入 echarts 核心模块，核心模块提供了 echarts 使用必须要的接口。
+// echarts 핵심 모듈 가져오기, 핵심 모듈은 echarts 사용에 필요한 인터페이스를 제공합니다.
 import * as echarts from "echarts/core";
-// 引入柱状、折线和饼图常用图表
+// 열, 선, 원형 등 자주 사용하는 차트 가져오기
 import { BarChart, LineChart, PieChart } from "echarts/charts";
-// 引入标题，提示框，直角坐标系，数据集，内置数据转换器组件，
+// 제목, 도움말 상자, 직각 좌표계, 데이터 세트, 기본 제공 데이터 변환 컴포넌트 가져오기
 import { GridComponent, TooltipComponent, LegendComponent } from "echarts/components";
-// 引入 Canvas 渲染器，注意引入 CanvasRenderer 或者 SVGRenderer 是必须的一步
+// Canvas 렌더러 가져오기, CanvasRenderer 또는 SVGRenderer 가져오기는 필수 단계입니다.
 import { CanvasRenderer } from "echarts/renderers";
 
 import { useResizeObserver } from "@vueuse/core";
 
-// 按需注册组件
+// 필요에 따라 컴포넌트 등록
 echarts.use([
   CanvasRenderer,
   BarChart,
@@ -45,7 +45,7 @@ const props = defineProps<{
 const chartRef = ref<HTMLDivElement | null>(null);
 let chartInstance: echarts.ECharts | null = null;
 
-// 初始化图表
+// 차트 초기화
 const initChart = () => {
   if (chartRef.value) {
     chartInstance = echarts.init(chartRef.value);
@@ -55,12 +55,12 @@ const initChart = () => {
   }
 };
 
-// 监听尺寸变化，自动调整
+// 크기 변경 감시, 자동 조정
 useResizeObserver(chartRef, () => {
   chartInstance?.resize();
 });
 
-// 监听 options 变化，更新图表
+// options 변경 감시, 차트 업데이트
 watch(
   () => props.options,
   (newOptions) => {

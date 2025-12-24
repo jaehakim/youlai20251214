@@ -30,13 +30,13 @@
           </slot>
         </div>
       </template>
-      <!-- 弹出框内容 -->
+      <!-- 팝업 내용 -->
       <div ref="popoverContentRef">
-        <!-- 表单 -->
+        <!-- 폼 -->
         <el-form ref="formRef" :model="queryParams" :inline="true">
           <template v-for="item in selectConfig.formItems" :key="item.prop">
             <el-form-item :label="item.label" :prop="item.prop">
-              <!-- Input 输入框 -->
+              <!-- Input 입력 상자 -->
               <template v-if="item.type === 'input'">
                 <template v-if="item.attrs?.type === 'number'">
                   <el-input
@@ -53,7 +53,7 @@
                   />
                 </template>
               </template>
-              <!-- Select 选择器 -->
+              <!-- Select 선택기 -->
               <template v-else-if="item.type === 'select'">
                 <el-select v-model="queryParams[item.prop]" v-bind="item.attrs">
                   <template v-for="option in item.options" :key="option.value">
@@ -61,15 +61,15 @@
                   </template>
                 </el-select>
               </template>
-              <!-- TreeSelect 树形选择 -->
+              <!-- TreeSelect 트리 선택 -->
               <template v-else-if="item.type === 'tree-select'">
                 <el-tree-select v-model="queryParams[item.prop]" v-bind="item.attrs" />
               </template>
-              <!-- DatePicker 日期选择器 -->
+              <!-- DatePicker 날짜 선택기 -->
               <template v-else-if="item.type === 'date-picker'">
                 <el-date-picker v-model="queryParams[item.prop]" v-bind="item.attrs" />
               </template>
-              <!-- Input 输入框 -->
+              <!-- Input 입력 상자 -->
               <template v-else>
                 <template v-if="item.attrs?.type === 'number'">
                   <el-input
@@ -89,11 +89,11 @@
             </el-form-item>
           </template>
           <el-form-item>
-            <el-button type="primary" icon="search" @click="handleQuery">搜索</el-button>
-            <el-button icon="refresh" @click="handleReset">重置</el-button>
+            <el-button type="primary" icon="search" @click="handleQuery">검색</el-button>
+            <el-button icon="refresh" @click="handleReset">초기화</el-button>
           </el-form-item>
         </el-form>
-        <!-- 列表 -->
+        <!-- 목록 -->
         <el-table
           ref="tableRef"
           v-loading="loading"
@@ -107,7 +107,7 @@
           @select-all="handleSelectAll"
         >
           <template v-for="col in selectConfig.tableColumns" :key="col.prop">
-            <!-- 自定义 -->
+            <!-- 사용자 정의 -->
             <template v-if="col.templet === 'custom'">
               <el-table-column v-bind="col">
                 <template #default="scope">
@@ -115,13 +115,13 @@
                 </template>
               </el-table-column>
             </template>
-            <!-- 其他 -->
+            <!-- 기타 -->
             <template v-else>
               <el-table-column v-bind="col" />
             </template>
           </template>
         </el-table>
-        <!-- 分页 -->
+        <!-- 페이지네이션 -->
         <pagination
           v-if="total > 0"
           v-model:total="total"
@@ -133,8 +133,8 @@
           <el-button type="primary" size="small" @click="handleConfirm">
             {{ confirmText }}
           </el-button>
-          <el-button size="small" @click="handleClear">清 空</el-button>
-          <el-button size="small" @click="handleClose">关 闭</el-button>
+          <el-button size="small" @click="handleClear">비우기</el-button>
+          <el-button size="small" @click="handleClose">닫기</el-button>
         </div>
       </div>
     </el-popover>
@@ -146,38 +146,38 @@ import { ref, reactive, computed } from "vue";
 import { useResizeObserver } from "@vueuse/core";
 import type { FormInstance, PopoverProps, TableInstance } from "element-plus";
 
-// 对象类型
+// 객체 타입
 export type IObject = Record<string, any>;
-// 定义接收的属性
+// 수신할 속성 정의
 export interface ISelectConfig<T = any> {
-  // 宽度
+  // 너비
   width?: string;
-  // 占位符
+  // 플레이스홀더
   placeholder?: string;
-  // popover组件属性
+  // popover 컴포넌트 속성
   popover?: Partial<Omit<PopoverProps, "visible" | "v-model:visible">>;
-  // 列表的网络请求函数(需返回promise)
+  // 목록의 네트워크 요청 함수 (promise 반환 필요)
   indexAction: (_queryParams: T) => Promise<any>;
-  // 主键名(跨页选择必填,默认为id)
+  // 주 키 이름 (페이지 간 선택 필수, 기본값: id)
   pk?: string;
-  // 多选
+  // 다중 선택
   multiple?: boolean;
-  // 表单项
+  // 폼 항목
   formItems: Array<{
-    // 组件类型(如input,select等)
+    // 컴포넌트 타입 (input, select 등)
     type?: "input" | "select" | "tree-select" | "date-picker";
-    // 标签文本
+    // 레이블 텍스트
     label: string;
-    // 键名
+    // 키 이름
     prop: string;
-    // 组件属性
+    // 컴포넌트 속성
     attrs?: IObject;
-    // 初始值
+    // 초기값
     initialValue?: any;
-    // 可选项(适用于select组件)
+    // 옵션 (select 컴포넌트에 적용)
     options?: { label: string; value: any }[];
   }>;
-  // 列选项
+  // 열 옵션
   tableColumns: Array<{
     type?: "default" | "selection" | "index" | "expand";
     label?: string;
@@ -196,30 +196,30 @@ const props = withDefaults(
   }
 );
 
-// 自定义事件
+// 사용자 정의 이벤트
 const emit = defineEmits<{
   confirmClick: [selection: any[]];
 }>();
 
-// 主键
+// 주 키
 const pk = props.selectConfig.pk ?? "id";
-// 是否多选
+// 다중 선택 여부
 const isMultiple = props.selectConfig.multiple === true;
-// 宽度
+// 너비
 const width = props.selectConfig.width ?? "100%";
-// 占位符
-const placeholder = props.selectConfig.placeholder ?? "请选择";
-// 是否显示弹出框
+// 플레이스홀더
+const placeholder = props.selectConfig.placeholder ?? "선택하세요";
+// 팝업 표시 여부
 const popoverVisible = ref(false);
-// 加载状态
+// 로드 상태
 const loading = ref(false);
-// 数据总数
+// 데이터 총 개수
 const total = ref(0);
-// 列表数据
+// 목록 데이터
 const pageData = ref<IObject[]>([]);
-// 每页条数
+// 페이지당 항목 수
 const pageSize = 10;
-// 搜索参数
+// 검색 매개변수
 const queryParams = reactive<{
   pageNum: number;
   pageSize: number;
@@ -229,30 +229,30 @@ const queryParams = reactive<{
   pageSize,
 });
 
-// 计算popover的宽度
+// popover 너비 계산
 const tableSelectRef = ref();
 const popoverWidth = ref(width);
 useResizeObserver(tableSelectRef, (entries) => {
   popoverWidth.value = `${entries[0].contentRect.width}px`;
 });
 
-// 表单操作
+// 폼 작업
 const formRef = ref<FormInstance>();
-// 初始化搜索条件
+// 검색 조건 초기화
 for (const item of props.selectConfig.formItems) {
   queryParams[item.prop] = item.initialValue ?? "";
 }
-// 重置操作
+// 초기화 작업
 function handleReset() {
   formRef.value?.resetFields();
   fetchPageData(true);
 }
-// 查询操作
+// 검색 작업
 function handleQuery() {
   fetchPageData(true);
 }
 
-// 获取分页数据
+// 페이지네이션 데이터 획득
 function fetchPageData(isRestart = false) {
   loading.value = true;
   if (isRestart) {
@@ -270,26 +270,26 @@ function fetchPageData(isRestart = false) {
     });
 }
 
-// 列表操作
+// 목록 작업
 const tableRef = ref<TableInstance>();
-// 数据刷新后是否保留选项
+// 데이터 새로 고침 후 선택 항목 유지 여부
 for (const item of props.selectConfig.tableColumns) {
   if (item.type === "selection") {
     item.reserveSelection = true;
     break;
   }
 }
-// 选择
+// 선택
 const selectedItems = ref<IObject[]>([]);
 const confirmText = computed(() => {
-  return selectedItems.value.length > 0 ? `已选(${selectedItems.value.length})` : "确 定";
+  return selectedItems.value.length > 0 ? `선택됨(${selectedItems.value.length})` : "확 인";
 });
 function handleSelect(selection: any[]) {
   if (isMultiple || selection.length === 0) {
-    // 多选
+    // 다중 선택
     selectedItems.value = selection;
   } else {
-    // 单选
+    // 단일 선택
     selectedItems.value = [selection[selection.length - 1]];
     tableRef.value?.clearSelection();
     tableRef.value?.toggleRowSelection(selectedItems.value[0], true);
@@ -301,35 +301,35 @@ function handleSelectAll(selection: any[]) {
     selectedItems.value = selection;
   }
 }
-// 分页
+// 페이지네이션
 function handlePagination() {
   fetchPageData();
 }
 
-// 弹出框
+// 팝업
 const isInit = ref(false);
-// 显示
+// 표시
 function handleShow() {
   if (isInit.value === false) {
     isInit.value = true;
     fetchPageData();
   }
 }
-// 确定
+// 확인
 function handleConfirm() {
   if (selectedItems.value.length === 0) {
-    ElMessage.error("请选择数据");
+    ElMessage.error("데이터를 선택하세요");
     return;
   }
   popoverVisible.value = false;
   emit("confirmClick", selectedItems.value);
 }
-// 清空
+// 비우기
 function handleClear() {
   tableRef.value?.clearSelection();
   selectedItems.value = [];
 }
-// 关闭
+// 닫기
 function handleClose() {
   popoverVisible.value = false;
 }
@@ -350,7 +350,7 @@ const popoverContentRef = ref();
   justify-content: flex-end;
   margin-top: 6px;
 }
-// 隐藏全选按钮
+// 모두 선택 버튼 숨기기
 .radio :deep(.el-table__header th.el-table__cell:nth-child(1) .el-checkbox) {
   visibility: hidden;
 }

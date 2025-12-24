@@ -13,7 +13,7 @@
           ref="searchInputRef"
           v-model="searchKeyword"
           size="large"
-          placeholder="输入菜单名称关键字搜索"
+          placeholder="메뉴 이름 키워드 검색 입력"
           clearable
           @keyup.enter="selectActiveResult"
           @input="updateSearchResults"
@@ -28,11 +28,11 @@
       </template>
 
       <div class="search-result">
-        <!-- 搜索历史 -->
+        <!-- 검색 기록 -->
         <template v-if="searchKeyword === '' && searchHistory.length > 0">
           <div class="search-history">
             <div class="search-history__title">
-              搜索历史
+              검색 기록
               <el-button
                 type="primary"
                 text
@@ -62,7 +62,7 @@
           </div>
         </template>
 
-        <!-- 搜索结果 -->
+        <!-- 검색 결과 -->
         <template v-else>
           <ul v-if="displayResults.length > 0">
             <li
@@ -86,20 +86,20 @@
           </ul>
         </template>
 
-        <!-- 无搜索历史显示 -->
+        <!-- 검색 기록 없음 표시 -->
         <div v-if="searchKeyword === '' && searchHistory.length === 0" class="no-history">
-          <p class="no-history__text">没有搜索历史</p>
+          <p class="no-history__text">검색 기록이 없습니다</p>
         </div>
       </div>
 
       <template #footer>
         <div class="dialog-footer">
           <div class="ctrl-k-hint">
-            <span class="ctrl-k-text">Ctrl+K 快速打开</span>
+            <span class="ctrl-k-text">Ctrl+K 빠른 열기</span>
           </div>
           <div class="shortcuts-group">
             <div class="key-box">
-              <div class="key-btn">选择</div>
+              <div class="key-btn">선택</div>
             </div>
             <div class="arrow-box">
               <div class="arrow-up-down">
@@ -110,11 +110,11 @@
                   <div class="i-svg:down" />
                 </div>
               </div>
-              <span class="key-text">切换</span>
+              <span class="key-text">전환</span>
             </div>
             <div class="key-box">
               <div class="key-btn esc-btn">ESC</div>
-              <span class="key-text">关闭</span>
+              <span class="key-text">닫기</span>
             </div>
           </div>
         </div>
@@ -152,7 +152,7 @@ interface SearchItem {
   params?: LocationQueryRaw;
 }
 
-// 从本地存储加载搜索历史
+// 로컬 저장소에서 검색 기록 로드
 function loadSearchHistory() {
   const historyStr = localStorage.getItem(HISTORY_KEY);
   if (historyStr) {
@@ -164,67 +164,67 @@ function loadSearchHistory() {
   }
 }
 
-// 保存搜索历史到本地存储
+// 검색 기록을 로컬 저장소에 저장
 function saveSearchHistory() {
   localStorage.setItem(HISTORY_KEY, JSON.stringify(searchHistory.value));
 }
 
-// 添加项目到搜索历史
+// 검색 기록에 항목 추가
 function addToHistory(item: SearchItem) {
-  // 检查是否已存在
+  // 이미 존재하는지 확인
   const index = searchHistory.value.findIndex((i) => i.path === item.path);
 
-  // 如果存在则移除
+  // 존재하면 제거
   if (index !== -1) {
     searchHistory.value.splice(index, 1);
   }
 
-  // 添加到历史开头
+  // 기록의 시작 부분에 추가
   searchHistory.value.unshift(item);
 
-  // 限制历史记录数量
+  // 기록 수량 제한
   if (searchHistory.value.length > MAX_HISTORY) {
     searchHistory.value = searchHistory.value.slice(0, MAX_HISTORY);
   }
 
-  // 保存到本地存储
+  // 로컬 저장소에 저장
   saveSearchHistory();
 }
 
-// 移除历史记录项
+// 기록 항목 제거
 function removeHistoryItem(index: number) {
   searchHistory.value.splice(index, 1);
   saveSearchHistory();
 }
 
-// 清空历史记录
+// 기록 비우기
 function clearHistory() {
   searchHistory.value = [];
   localStorage.removeItem(HISTORY_KEY);
 }
 
-// 注册全局快捷键
+// 전역 바로 가기 키 등록
 function handleKeyDown(e: KeyboardEvent) {
-  // 判断是否为Ctrl+K组合键
+  // Ctrl+K 조합 키 여부 확인
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
-    e.preventDefault(); // 阻止默认行为
+    e.preventDefault(); // 기본 동작 방지
     openSearchModal();
   }
 }
 
-// 添加键盘事件监听
+// 키보드 이벤트 리스너 추가
 onMounted(() => {
   loadRoutes(permissionStore.routes);
   loadSearchHistory();
   document.addEventListener("keydown", handleKeyDown);
 });
 
-// 移除键盘事件监听
+// 키보드 이벤트 리스너 제거
 onBeforeUnmount(() => {
   document.removeEventListener("keydown", handleKeyDown);
 });
 
-// 打开搜索模态框
+// 검색 모달 열기
 function openSearchModal() {
   searchKeyword.value = "";
   activeIndex.value = -1;
@@ -234,12 +234,12 @@ function openSearchModal() {
   }, 100);
 }
 
-// 关闭搜索模态框
+// 검색 모달 닫기
 function closeSearchModal() {
   isModalVisible.value = false;
 }
 
-// 更新搜索结果
+// 검색 결과 업데이트
 function updateSearchResults() {
   activeIndex.value = -1;
   if (searchKeyword.value) {
@@ -252,17 +252,17 @@ function updateSearchResults() {
   }
 }
 
-// 显示搜索结果
+// 검색 결과 표시
 const displayResults = computed(() => searchResults.value);
 
-// 执行搜索
+// 검색 실행
 function selectActiveResult() {
   if (displayResults.value.length > 0 && activeIndex.value >= 0) {
     navigateToRoute(displayResults.value[activeIndex.value]);
   }
 }
 
-// 导航搜索结果
+// 검색 결과 탐색
 function navigateResults(direction: string) {
   if (displayResults.value.length === 0) return;
 
@@ -275,10 +275,10 @@ function navigateResults(direction: string) {
   }
 }
 
-// 跳转到
+// 다음으로 이동
 function navigateToRoute(item: SearchItem) {
   closeSearchModal();
-  // 添加到历史记录
+  // 기록에 추가
   addToHistory(item);
 
   if (isExternal(item.path)) {
@@ -298,7 +298,7 @@ function loadRoutes(routes: RouteRecordRaw[], parentPath = "") {
     if (route.children) {
       loadRoutes(route.children, path);
     } else if (route.meta?.title) {
-      const title = route.meta.title === "dashboard" ? "首页" : route.meta.title;
+      const title = route.meta.title === "dashboard" ? "홈" : route.meta.title;
       menuItems.value.push({
         title,
         path,
@@ -339,7 +339,7 @@ function loadRoutes(routes: RouteRecordRaw[], parentPath = "") {
   }
 }
 
-/* 搜索历史样式 */
+/* 검색 기록 스타일 */
 .search-history {
   &__title {
     display: flex;
@@ -412,7 +412,7 @@ function loadRoutes(routes: RouteRecordRaw[], parentPath = "") {
   }
 }
 
-/* 没有搜索历史时的样式 */
+/* 검색 기록이 없을 때의 스타일 */
 .no-history {
   display: flex;
   align-items: center;
@@ -507,14 +507,14 @@ function loadRoutes(routes: RouteRecordRaw[], parentPath = "") {
   color: var(--el-text-color-secondary);
 }
 
-// 适配Element Plus对话框
+// Element Plus 대화 상자 적응
 :deep(.el-dialog__footer) {
   box-sizing: border-box;
   padding-top: 10px;
   text-align: right;
 }
 
-// 暗黑模式适配
+// 어두운 모드 적응
 html.dark {
   .key-btn::before {
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));

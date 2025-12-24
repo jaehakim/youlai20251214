@@ -1,20 +1,20 @@
 <template>
   <div class="app-container">
-    <!-- 搜索区域 -->
+    <!-- 검색 영역 -->
     <div class="search-container">
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
-        <el-form-item prop="keywords" label="关键字">
+        <el-form-item prop="keywords" label="키워드">
           <el-input
             v-model="queryParams.keywords"
-            placeholder="角色名称"
+            placeholder="역할명"
             clearable
             @keyup.enter="handleQuery"
           />
         </el-form-item>
 
         <el-form-item class="search-buttons">
-          <el-button type="primary" icon="search" @click="handleQuery">搜索</el-button>
-          <el-button icon="refresh" @click="handleResetQuery">重置</el-button>
+          <el-button type="primary" icon="search" @click="handleQuery">검색</el-button>
+          <el-button icon="refresh" @click="handleResetQuery">초기화</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -22,14 +22,14 @@
     <el-card shadow="hover" class="data-table">
       <div class="data-table__toolbar">
         <div class="data-table__toolbar--actions">
-          <el-button type="success" icon="plus" @click="handleOpenDialog()">新增</el-button>
+          <el-button type="success" icon="plus" @click="handleOpenDialog()">추가</el-button>
           <el-button
             type="danger"
             :disabled="ids.length === 0"
             icon="delete"
             @click="handleDelete()"
           >
-            删除
+            삭제
           </el-button>
         </div>
       </div>
@@ -44,19 +44,19 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="角色名称" prop="name" min-width="100" />
-        <el-table-column label="角色编码" prop="code" width="150" />
+        <el-table-column label="역할명" prop="name" min-width="100" />
+        <el-table-column label="역할 코드" prop="code" width="150" />
 
-        <el-table-column label="状态" align="center" width="100">
+        <el-table-column label="상태" align="center" width="100">
           <template #default="scope">
-            <el-tag v-if="scope.row.status === 1" type="success">正常</el-tag>
-            <el-tag v-else type="info">禁用</el-tag>
+            <el-tag v-if="scope.row.status === 1" type="success">정상</el-tag>
+            <el-tag v-else type="info">비활성</el-tag>
           </template>
         </el-table-column>
 
-        <el-table-column label="排序" align="center" width="80" prop="sort" />
+        <el-table-column label="정렬" align="center" width="80" prop="sort" />
 
-        <el-table-column fixed="right" label="操作" width="220">
+        <el-table-column fixed="right" label="작업" width="220">
           <template #default="scope">
             <el-button
               type="primary"
@@ -65,7 +65,7 @@
               icon="position"
               @click="handleOpenAssignPermDialog(scope.row)"
             >
-              分配权限
+              권한 할당
             </el-button>
             <el-button
               type="primary"
@@ -74,7 +74,7 @@
               icon="edit"
               @click="handleOpenDialog(scope.row.id)"
             >
-              编辑
+              수정
             </el-button>
             <el-button
               type="danger"
@@ -83,7 +83,7 @@
               icon="delete"
               @click="handleDelete(scope.row.id)"
             >
-              删除
+              삭제
             </el-button>
           </template>
         </el-table-column>
@@ -98,7 +98,7 @@
       />
     </el-card>
 
-    <!-- 角色表单弹窗 -->
+    <!-- 역할 양식 팝업 -->
     <el-dialog
       v-model="dialog.visible"
       :title="dialog.title"
@@ -106,31 +106,31 @@
       @close="handleCloseDialog"
     >
       <el-form ref="roleFormRef" :model="formData" :rules="rules" label-width="100px">
-        <el-form-item label="角色名称" prop="name">
-          <el-input v-model="formData.name" placeholder="请输入角色名称" />
+        <el-form-item label="역할명" prop="name">
+          <el-input v-model="formData.name" placeholder="역할명을 입력하세요" />
         </el-form-item>
 
-        <el-form-item label="角色编码" prop="code">
-          <el-input v-model="formData.code" placeholder="请输入角色编码" />
+        <el-form-item label="역할 코드" prop="code">
+          <el-input v-model="formData.code" placeholder="역할 코드를 입력하세요" />
         </el-form-item>
 
-        <el-form-item label="数据权限" prop="dataScope">
+        <el-form-item label="데이터 권한" prop="dataScope">
           <el-select v-model="formData.dataScope">
-            <el-option :key="1" label="全部数据" :value="1" />
-            <el-option :key="2" label="部门及子部门数据" :value="2" />
-            <el-option :key="3" label="本部门数据" :value="3" />
-            <el-option :key="4" label="本人数据" :value="4" />
+            <el-option :key="1" label="전체 데이터" :value="1" />
+            <el-option :key="2" label="부서 및 하위 부서 데이터" :value="2" />
+            <el-option :key="3" label="본 부서 데이터" :value="3" />
+            <el-option :key="4" label="본인 데이터" :value="4" />
           </el-select>
         </el-form-item>
 
-        <el-form-item label="状态" prop="status">
+        <el-form-item label="상태" prop="status">
           <el-radio-group v-model="formData.status">
-            <el-radio :value="1">正常</el-radio>
-            <el-radio :value="0">停用</el-radio>
+            <el-radio :value="1">정상</el-radio>
+            <el-radio :value="0">중지</el-radio>
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="排序" prop="sort">
+        <el-form-item label="정렬" prop="sort">
           <el-input-number
             v-model="formData.sort"
             controls-position="right"
@@ -142,20 +142,20 @@
 
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="handleSubmit">确 定</el-button>
-          <el-button @click="handleCloseDialog">取 消</el-button>
+          <el-button type="primary" @click="handleSubmit">확인</el-button>
+          <el-button @click="handleCloseDialog">취소</el-button>
         </div>
       </template>
     </el-dialog>
 
-    <!-- 分配权限弹窗 -->
+    <!-- 권한 할당 팝업 -->
     <el-drawer
       v-model="assignPermDialogVisible"
-      :title="'【' + checkedRole.name + '】权限分配'"
+      :title="'【' + checkedRole.name + '】권한 할당'"
       :size="drawerSize"
     >
       <div class="flex-x-between">
-        <el-input v-model="permKeywords" clearable class="w-[150px]" placeholder="菜单权限名称">
+        <el-input v-model="permKeywords" clearable class="w-[150px]" placeholder="메뉴 권한명">
           <template #prefix>
             <Search />
           </template>
@@ -166,19 +166,19 @@
             <template #icon>
               <Switch />
             </template>
-            {{ isExpanded ? "收缩" : "展开" }}
+            {{ isExpanded ? "축소" : "확장" }}
           </el-button>
           <el-checkbox
             v-model="parentChildLinked"
             class="ml-5"
             @change="handleparentChildLinkedChange"
           >
-            父子联动
+            부모-자식 연동
           </el-checkbox>
 
           <el-tooltip placement="bottom">
             <template #content>
-              如果只需勾选菜单权限，不需要勾选子菜单或者按钮权限，请关闭父子联动
+              메뉴 권한만 선택하고 하위 메뉴나 버튼 권한을 선택하지 않으려면 부모-자식 연동을 끄세요
             </template>
             <el-icon class="ml-1 color-[--el-color-primary] inline-block cursor-pointer">
               <QuestionFilled />
@@ -203,8 +203,8 @@
       </el-tree>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="handleAssignPermSubmit">确 定</el-button>
-          <el-button @click="assignPermDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="handleAssignPermSubmit">확인</el-button>
+          <el-button @click="assignPermDialogVisible = false">취소</el-button>
         </div>
       </template>
     </el-drawer>
@@ -238,12 +238,12 @@ const queryParams = reactive<RolePageQuery>({
   pageSize: 10,
 });
 
-// 角色表格数据
+// 역할 테이블 데이터
 const roleList = ref<RolePageVO[]>();
-// 菜单权限下拉
+// 메뉴 권한 드롭다운
 const menuPermOptions = ref<OptionType[]>([]);
 
-// 弹窗
+// 팝업
 const dialog = reactive({
   title: "",
   visible: false,
@@ -251,20 +251,20 @@ const dialog = reactive({
 
 const drawerSize = computed(() => (appStore.device === DeviceEnum.DESKTOP ? "600px" : "90%"));
 
-// 角色表单
+// 역할 양식
 const formData = reactive<RoleForm>({
   sort: 1,
   status: 1,
 });
 
 const rules = reactive({
-  name: [{ required: true, message: "请输入角色名称", trigger: "blur" }],
-  code: [{ required: true, message: "请输入角色编码", trigger: "blur" }],
-  dataScope: [{ required: true, message: "请选择数据权限", trigger: "blur" }],
-  status: [{ required: true, message: "请选择状态", trigger: "blur" }],
+  name: [{ required: true, message: "역할명을 입력하세요", trigger: "blur" }],
+  code: [{ required: true, message: "역할 코드를 입력하세요", trigger: "blur" }],
+  dataScope: [{ required: true, message: "데이터 권한을 선택하세요", trigger: "blur" }],
+  status: [{ required: true, message: "상태를 선택하세요", trigger: "blur" }],
 });
 
-// 选中的角色
+// 선택된 역할
 interface CheckedRole {
   id?: string;
   name?: string;
@@ -277,7 +277,7 @@ const isExpanded = ref(true);
 
 const parentChildLinked = ref(true);
 
-// 获取数据
+// 데이터 가져오기
 function fetchData() {
   loading.value = true;
   RoleAPI.getPage(queryParams)
@@ -290,38 +290,38 @@ function fetchData() {
     });
 }
 
-// 查询（重置页码后获取数据）
+// 조회(페이지 초기화 후 데이터 가져오기)
 function handleQuery() {
   queryParams.pageNum = 1;
   fetchData();
 }
 
-// 重置查询
+// 조회 초기화
 function handleResetQuery() {
   queryFormRef.value.resetFields();
   queryParams.pageNum = 1;
   fetchData();
 }
 
-// 行复选框选中
+// 행 체크박스 선택
 function handleSelectionChange(selection: any) {
   ids.value = selection.map((item: any) => item.id);
 }
 
-// 打开角色弹窗
+// 역할 팝업 열기
 function handleOpenDialog(roleId?: string) {
   dialog.visible = true;
   if (roleId) {
-    dialog.title = "修改角色";
+    dialog.title = "역할 수정";
     RoleAPI.getFormData(roleId).then((data) => {
       Object.assign(formData, data);
     });
   } else {
-    dialog.title = "新增角色";
+    dialog.title = "역할 추가";
   }
 }
 
-// 提交角色表单
+// 역할 양식 제출
 function handleSubmit() {
   roleFormRef.value.validate((valid: any) => {
     if (valid) {
@@ -330,7 +330,7 @@ function handleSubmit() {
       if (roleId) {
         RoleAPI.update(roleId, formData)
           .then(() => {
-            ElMessage.success("修改成功");
+            ElMessage.success("수정 성공");
             handleCloseDialog();
             handleResetQuery();
           })
@@ -338,7 +338,7 @@ function handleSubmit() {
       } else {
         RoleAPI.create(formData)
           .then(() => {
-            ElMessage.success("新增成功");
+            ElMessage.success("추가 성공");
             handleCloseDialog();
             handleResetQuery();
           })
@@ -348,7 +348,7 @@ function handleSubmit() {
   });
 }
 
-// 关闭弹窗
+// 팝업 닫기
 function handleCloseDialog() {
   dialog.visible = false;
 
@@ -360,35 +360,35 @@ function handleCloseDialog() {
   formData.status = 1;
 }
 
-// 删除角色
+// 역할 삭제
 function handleDelete(roleId?: number) {
   const roleIds = [roleId || ids.value].join(",");
   if (!roleIds) {
-    ElMessage.warning("请勾选删除项");
+    ElMessage.warning("삭제할 항목을 선택하세요");
     return;
   }
 
-  ElMessageBox.confirm("确认删除已选中的数据项?", "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm("선택한 데이터 항목을 삭제하시겠습니까?", "경고", {
+    confirmButtonText: "확인",
+    cancelButtonText: "취소",
     type: "warning",
   }).then(
     () => {
       loading.value = true;
       RoleAPI.deleteByIds(roleIds)
         .then(() => {
-          ElMessage.success("删除成功");
+          ElMessage.success("삭제 성공");
           handleResetQuery();
         })
         .finally(() => (loading.value = false));
     },
     () => {
-      ElMessage.info("已取消删除");
+      ElMessage.info("삭제 취소됨");
     }
   );
 }
 
-// 打开分配菜单权限弹窗
+// 메뉴 권한 할당 팝업 열기
 async function handleOpenAssignPermDialog(row: RolePageVO) {
   const roleId = row.id;
   if (roleId) {
@@ -398,10 +398,10 @@ async function handleOpenAssignPermDialog(row: RolePageVO) {
     checkedRole.value.id = roleId;
     checkedRole.value.name = row.name;
 
-    // 获取所有的菜单
+    // 모든 메뉴 가져오기
     menuPermOptions.value = await MenuAPI.getOptions();
 
-    // 回显角色已拥有的菜单
+    // 역할이 이미 소유한 메뉴 표시
     RoleAPI.getRoleMenuIds(roleId)
       .then((data) => {
         const checkedMenuIds = data;
@@ -413,7 +413,7 @@ async function handleOpenAssignPermDialog(row: RolePageVO) {
   }
 }
 
-// 分配菜单权限提交
+// 메뉴 권한 할당 제출
 function handleAssignPermSubmit() {
   const roleId = checkedRole.value.id;
   if (roleId) {
@@ -424,7 +424,7 @@ function handleAssignPermSubmit() {
     loading.value = true;
     RoleAPI.updateRoleMenus(roleId, checkedMenuIds)
       .then(() => {
-        ElMessage.success("分配权限成功");
+        ElMessage.success("권한 할당 성공");
         assignPermDialogVisible.value = false;
         handleResetQuery();
       })
@@ -434,7 +434,7 @@ function handleAssignPermSubmit() {
   }
 }
 
-// 展开/收缩 菜单权限树
+// 메뉴 권한 트리 확장/축소
 function togglePermTree() {
   isExpanded.value = !isExpanded.value;
   if (permTreeRef.value) {
@@ -448,7 +448,7 @@ function togglePermTree() {
   }
 }
 
-// 权限筛选
+// 권한 필터링
 watch(permKeywords, (val) => {
   permTreeRef.value!.filter(val);
 });
@@ -463,7 +463,7 @@ function handlePermFilter(
   return data.label.includes(value);
 }
 
-// 父子菜单节点是否联动
+// 부모-자식 메뉴 노드 연동 여부
 function handleparentChildLinkedChange(val: any) {
   parentChildLinked.value = val;
 }

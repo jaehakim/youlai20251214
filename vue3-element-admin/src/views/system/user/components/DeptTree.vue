@@ -42,7 +42,7 @@ watchEffect(
     deptTreeRef.value.filter(deptName.value);
   },
   {
-    flush: "post", // watchEffect会在DOM挂载或者更新之前就会触发，此属性控制在DOM元素更新后运行
+    flush: "post", // watchEffect는 DOM 마운트 또는 업데이트 전에 트리거되므로, 이 속성은 DOM 요소 업데이트 후 실행을 제어합니다
   }
 );
 
@@ -56,7 +56,7 @@ function handleFilter(value: string, data: any) {
   return data.label.indexOf(value) !== -1;
 }
 
-/** 부서 트리节点 Click */
+/** 부서 트리 노드 클릭 */
 function handleNodeClick(data: { [key: string]: any }) {
   deptId.value = data.value;
   emits("node-click");

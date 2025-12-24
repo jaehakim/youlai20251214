@@ -21,7 +21,7 @@
         </div>
       </section>
 
-      <!-- 界面设置 -->
+      <!-- 인터페이스 설정 -->
       <section class="config-section">
         <el-divider>{{ t("settings.interface") }}</el-divider>
 
@@ -61,11 +61,11 @@
         </div>
       </section>
 
-      <!-- 布局设置 -->
+      <!-- 레이아웃 설정 -->
       <section class="config-section">
         <el-divider>{{ t("settings.navigation") }}</el-divider>
 
-        <!-- 整合的布局选择器 -->
+        <!-- 통합 레이아웃 선택기 -->
         <div class="layout-select">
           <div class="layout-grid">
             <el-tooltip
@@ -87,15 +87,15 @@
                 @click="handleLayoutChange(item.value)"
                 @keydown.enter.space="handleLayoutChange(item.value)"
               >
-                <!-- 布局预览图标 -->
+                <!-- 레이아웃 미리보기 아이콘 -->
                 <div class="layout-preview">
                   <div v-if="item.value !== LayoutMode.LEFT" class="layout-header"></div>
                   <div v-if="item.value !== LayoutMode.TOP" class="layout-sidebar"></div>
                   <div class="layout-main"></div>
                 </div>
-                <!-- 布局名称 -->
+                <!-- 레이아웃 이름 -->
                 <div class="layout-name">{{ item.label }}</div>
-                <!-- 选中状态指示器 -->
+                <!-- 선택 상태 표시기 -->
                 <div v-if="settingsStore.layout === item.value" class="layout-check">
                   <el-icon><Check /></el-icon>
                 </div>
@@ -106,11 +106,11 @@
       </section>
     </div>
 
-    <!-- 操作按钮区域 - 固定到底部 -->
+    <!-- 작업 버튼 영역 - 하단 고정 -->
     <template #footer>
       <div class="action-buttons">
         <el-tooltip
-          content="复制配置将生成当前设置的代码，覆盖 src/settings.ts 下的 defaultSettings 变量"
+          content="설정 복사는 현재 설정의 코드를 생성하여 src/settings.ts의 defaultSettings 변수를 덮어씁니다"
           placement="top"
         >
           <el-button
@@ -120,10 +120,10 @@
             :loading="copyLoading"
             @click="handleCopySettings"
           >
-            {{ copyLoading ? "复制中..." : t("settings.copyConfig") }}
+            {{ copyLoading ? "복사 중..." : t("settings.copyConfig") }}
           </el-button>
         </el-tooltip>
-        <el-tooltip content="重置将恢复所有设置为默认值" placement="top">
+        <el-tooltip content="재설정하면 모든 설정이 기본값으로 복원됩니다" placement="top">
           <el-button
             type="warning"
             size="default"
@@ -131,7 +131,7 @@
             :loading="resetLoading"
             @click="handleResetSettings"
           >
-            {{ resetLoading ? "重置中..." : t("settings.resetConfig") }}
+            {{ resetLoading ? "재설정 중..." : t("settings.resetConfig") }}
           </el-button>
         </el-tooltip>
       </div>
@@ -147,15 +147,15 @@ import { LayoutMode, SidebarColor, ThemeMode } from "@/enums";
 import { useSettingsStore } from "@/store";
 import { themeColorPresets } from "@/settings";
 
-// 按钮图标
+// 버튼 아이콘
 const copyIcon = markRaw(DocumentCopy);
 const resetIcon = markRaw(RefreshLeft);
 
-// 加载状态
+// 로드 상태
 const copyLoading = ref(false);
 const resetLoading = ref(false);
 
-// 布局选项配置
+// 레이아웃 옵션 구성
 interface LayoutOption {
   value: LayoutMode;
   label: string;
@@ -168,7 +168,7 @@ const layoutOptions: LayoutOption[] = [
   { value: LayoutMode.MIX, label: t("settings.mixLayout"), className: "mix" },
 ];
 
-// 使用统一的颜色预设配置
+// 통합 색상 사전 설정 사용
 const colorPresets = themeColorPresets;
 
 const settingsStore = useSettingsStore();
@@ -187,27 +187,27 @@ const drawerVisible = computed({
 });
 
 /**
- * 处理主题切换
+ * 테마 전환 처리
  *
- * @param isDark 是否启用暗黑模式
+ * @param isDark 어두운 모드 활성화 여부
  */
 const handleThemeChange = (isDark: string | number | boolean) => {
   settingsStore.updateTheme(isDark ? ThemeMode.DARK : ThemeMode.LIGHT);
 };
 
 /**
- * 更改侧边栏颜色
+ * 사이드바 색상 변경
  *
- * @param val 颜色方案名称
+ * @param val 색상 체계 이름
  */
 const changeSidebarColor = (val: any) => {
   settingsStore.updateSidebarColorScheme(val);
 };
 
 /**
- * 切换布局
+ * 레이아웃 전환
  *
- * @param layout - 布局模式
+ * @param layout - 레이아웃 모드
  */
 const handleLayoutChange = (layout: LayoutMode) => {
   if (settingsStore.layout === layout) return;
@@ -216,32 +216,32 @@ const handleLayoutChange = (layout: LayoutMode) => {
 };
 
 /**
- * 复制当前配置
+ * 현재 설정 복사
  */
 const handleCopySettings = async () => {
   try {
     copyLoading.value = true;
 
-    // 生成配置代码
+    // 설정 코드 생성
     const configCode = generateSettingsCode();
 
-    // 复制到剪贴板
+    // 클립보드에 복사
     await navigator.clipboard.writeText(configCode);
 
-    // 显示成功消息
+    // 성공 메시지 표시
     ElMessage.success({
       message: t("settings.copySuccess"),
       duration: 3000,
     });
   } catch {
-    ElMessage.error("复制配置失败");
+    ElMessage.error("설정 복사 실패");
   } finally {
     copyLoading.value = false;
   }
 };
 
 /**
- * 重置为默认配置
+ * 기본 설정으로 재설정
  */
 const handleResetSettings = async () => {
   resetLoading.value = true;
@@ -249,20 +249,20 @@ const handleResetSettings = async () => {
   try {
     settingsStore.resetSettings();
 
-    // 同步更新本地状态
+    // 로컬 상태 동기화 업데이트
     isDark.value = settingsStore.theme === ThemeMode.DARK;
     sidebarColor.value = settingsStore.sidebarColorScheme;
 
     ElMessage.success(t("settings.resetSuccess"));
   } catch {
-    ElMessage.error("重置配置失败");
+    ElMessage.error("설정 재설정 실패");
   } finally {
     resetLoading.value = false;
   }
 };
 
 /**
- * 生成配置代码字符串
+ * 설정 코드 문자열 생성
  */
 const generateSettingsCode = (): string => {
   const settings = {
@@ -299,7 +299,7 @@ const generateSettingsCode = (): string => {
 };
 
 /**
- * 关闭抽屉前的回调
+ * 드로어 닫기 전 콜백
  */
 const handleCloseDrawer = () => {
   settingsStore.settingsVisible = false;
@@ -307,7 +307,7 @@ const handleCloseDrawer = () => {
 </script>
 
 <style lang="scss" scoped>
-/* 设置抽屉样式 */
+/* 설정 드로어 스타일 */
 .settings-drawer {
   :deep(.el-drawer__body) {
     position: relative;
@@ -317,14 +317,14 @@ const handleCloseDrawer = () => {
   }
 }
 
-/* 设置内容区域 */
+/* 설정 콘텐츠 영역 */
 .settings-content {
-  height: calc(100vh - 120px); /* 减去头部和底部按钮的高度 */
+  height: calc(100vh - 120px); /* 헤더 및 하단 버튼 높이 제외 */
   padding: 20px;
   overflow-y: auto;
 }
 
-/* 底部操作区域样式 */
+/* 하단 작업 영역 스타일 */
 .action-buttons {
   display: flex;
 
@@ -341,7 +341,7 @@ const handleCloseDrawer = () => {
   }
 }
 
-/* 主题切换器优化 */
+/* 테마 전환기 최적화 */
 .theme-switch {
   transform: scale(1.2);
   transition: all 0.3s ease;
@@ -373,7 +373,7 @@ const handleCloseDrawer = () => {
   }
 }
 
-/* 布局选择器样式优化 */
+/* 레이아웃 선택기 스타일 최적화 */
 .layout-select {
   padding: 16px 8px;
 
@@ -474,7 +474,7 @@ const handleCloseDrawer = () => {
     border-radius: 50%;
   }
 
-  // 左侧布局
+  // 왼쪽 레이아웃
   &.left {
     .layout-sidebar {
       top: 4px;
@@ -488,7 +488,7 @@ const handleCloseDrawer = () => {
     }
   }
 
-  // 顶部布局
+  // 상단 레이아웃
   &.top {
     .layout-header {
       height: 12px;
@@ -501,7 +501,7 @@ const handleCloseDrawer = () => {
     }
   }
 
-  // 混合布局
+  // 혼합 레이아웃
   &.mix {
     .layout-header {
       height: 10px;
@@ -534,7 +534,7 @@ const handleCloseDrawer = () => {
   }
 }
 
-/* 深色模式适配 */
+/* 어두운 모드 적응 */
 .dark {
   .action-footer {
     background: var(--el-bg-color);
@@ -571,7 +571,7 @@ const handleCloseDrawer = () => {
   }
 }
 
-/* 复制配置对话框样式 */
+/* 설정 복사 대화 상자 스타일 */
 :deep(.copy-config-dialog) {
   .el-message-box__content {
     max-height: 400px;

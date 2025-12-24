@@ -28,7 +28,7 @@ defineProps({
 });
 
 const langOptions = [
-  { label: "中文", value: LanguageEnum.ZH_CN },
+  { label: "중국어", value: LanguageEnum.ZH_CN },
   { label: "English", value: LanguageEnum.EN },
 ];
 
@@ -36,9 +36,9 @@ const appStore = useAppStore();
 const { locale, t } = useI18n();
 
 /**
- * 处理语言切换
+ * 언어 변경 처리
  *
- * @param lang  语言（zh-cn、en）
+ * @param lang  언어 (zh-cn, en)
  */
 function handleLanguageChange(lang: string) {
   locale.value = lang;

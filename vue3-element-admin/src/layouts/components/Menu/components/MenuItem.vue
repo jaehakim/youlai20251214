@@ -1,13 +1,13 @@
 <template>
   <div v-if="!item.meta || !item.meta.hidden">
-    <!--【叶子节点】显示叶子节点或唯一子节点且父节点未配置始终显示 -->
+    <!--【리프 노드】리프 노드 또는 유일한 자식 노드를 표시하고 부모 노드가 항상 표시하도록 구성하지 않음 -->
     <template
       v-if="
-        // 未配置始终显示，使用唯一子节点替换父节点显示为叶子节点
+        // 항상 표시하도록 구성되지 않음, 유일한 자식 노드를 사용하여 부모 노드를 리프 노드로 표시
         (hasOneShowingChild(item.children, item) &&
           !item.meta?.alwaysShow &&
           (!onlyOneChild.children || onlyOneChild.noShowingChildren)) ||
-        // 即使配置了始终显示，但无子节点，也显示为叶子节点
+        // 항상 표시하도록 구성되었더라도 자식 노드가 없으면 리프 노드로 표시
         (item.meta?.alwaysShow && !item.children)
       "
     >
@@ -31,7 +31,7 @@
       </AppLink>
     </template>
 
-    <!--【非叶子节点】显示含多个子节点的父菜单，或始终显示的单子节点 -->
+    <!--【비리프 노드】여러 자식 노드를 포함하는 부모 메뉴 또는 항상 표시되는 단일 자식 노드 표시 -->
     <el-sub-menu v-else :index="resolvePath(item.path)" :data-path="item.path" teleported>
       <template #title>
         <MenuItemContent v-if="item.meta" :icon="item.meta.icon" :title="item.meta.title" />
@@ -63,7 +63,7 @@ import { isExternal } from "@/utils";
 
 const props = defineProps({
   /**
-   * 当前路由对象
+   * 현재 라우트 객체
    */
   item: {
     type: Object as PropType<RouteRecordRaw>,
@@ -71,7 +71,7 @@ const props = defineProps({
   },
 
   /**
-   * 父级完整路径
+   * 부모 완전 경로
    */
   basePath: {
     type: String,
@@ -79,7 +79,7 @@ const props = defineProps({
   },
 
   /**
-   * 是否为嵌套路由
+   * 중첩 라우트 여부
    */
   isNest: {
     type: Boolean,
@@ -87,18 +87,18 @@ const props = defineProps({
   },
 });
 
-// 可见的唯一子节点
+// 표시 가능한 유일한 자식 노드
 const onlyOneChild = ref();
 
 /**
- * 检查是否仅有一个可见子节点
+ * 가시 자식 노드가 하나만 있는지 확인
  *
- * @param children 子路由数组
- * @param parent 父级路由
- * @returns 是否仅有一个可见子节点
+ * @param children 자식 라우트 배열
+ * @param parent 부모 라우트
+ * @returns 가시 자식 노드가 하나만 있는지 여부
  */
 function hasOneShowingChild(children: RouteRecordRaw[] = [], parent: RouteRecordRaw) {
-  // 过滤出可见子节点
+  // 표시 가능한 자식 노드 필터링
   const showingChildren = children.filter((route: RouteRecordRaw) => {
     if (!route.meta?.hidden) {
       onlyOneChild.value = route;
@@ -107,14 +107,14 @@ function hasOneShowingChild(children: RouteRecordRaw[] = [], parent: RouteRecord
     return false;
   });
 
-  // 仅有一个节点
+  // 노드 하나만 있음
   if (showingChildren.length === 1) {
     return true;
   }
 
-  // 无子节点时
+  // 자식 노드가 없을 때
   if (showingChildren.length === 0) {
-    // 父节点设置为唯一显示节点，并标记为无子节点
+    // 부모 노드를 유일한 표시 노드로 설정하고 자식 노드 없음으로 표시
     onlyOneChild.value = { ...parent, path: "", noShowingChildren: true };
     return true;
   }
@@ -122,16 +122,16 @@ function hasOneShowingChild(children: RouteRecordRaw[] = [], parent: RouteRecord
 }
 
 /**
- * 获取完整路径，适配外部链接
+ * 전체 경로 가져오기, 외부 링크 적응
  *
- * @param routePath 路由路径
- * @returns 绝对路径
+ * @param routePath 라우트 경로
+ * @returns 절대 경로
  */
 function resolvePath(routePath: string) {
   if (isExternal(routePath)) return routePath;
   if (isExternal(props.basePath)) return props.basePath;
 
-  // 拼接父路径和当前路径
+  // 부모 경로 및 현재 경로 결합
   return path.resolve(props.basePath, routePath);
 }
 </script>
@@ -191,9 +191,9 @@ html.sidebar-color-blue {
   }
 }
 
-// 父菜单激活状态样式 - 当子菜单激活时，父菜单显示激活状态
+// 부모 메뉴 활성화 상태 스타일 - 자식 메뉴 활성화시, 부모 메뉴가 활성화 상태 표시
 .el-sub-menu {
-  // 当父菜单包含激活子菜单时的样式
+  // 부모 메뉴가 활성 자식 메뉴를 포함할 때의 스타일
   &.has-active-child > .el-sub-menu__title {
     color: var(--el-color-primary) !important;
     background-color: var(--el-color-primary-light-9) !important;
@@ -203,7 +203,7 @@ html.sidebar-color-blue {
     }
   }
 
-  // 深色主题下的父菜单激活状态
+  // 어두운 테마의 부모 메뉴 활성화 상태
   html.dark & {
     &.has-active-child > .el-sub-menu__title {
       color: var(--el-color-primary-light-3) !important;
@@ -215,7 +215,7 @@ html.sidebar-color-blue {
     }
   }
 
-  // 深蓝色侧边栏配色下的父菜单激活状态
+  // 진한 파란색 사이드바 색상 구성표의 부모 메뉴 활성화 상태
   html.sidebar-color-blue & {
     &.has-active-child > .el-sub-menu__title {
       color: var(--el-color-primary-light-3) !important;

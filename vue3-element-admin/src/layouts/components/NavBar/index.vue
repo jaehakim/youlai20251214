@@ -1,12 +1,12 @@
 <template>
   <div class="navbar">
     <div class="flex-y-center">
-      <!-- 菜单折叠按钮 -->
+      <!-- 메뉴 축소 버튼 -->
       <Hamburger :is-active="isSidebarOpened" @toggle-click="toggleSideBar" />
-      <!-- 面包屑导航 -->
+      <!-- 브레드크럼 네비게이션 -->
       <Breadcrumb />
     </div>
-    <!-- 导航栏操作区域 -->
+    <!-- 네비게이션 바 작업 영역 -->
     <div class="navbar__actions">
       <NavbarActions />
     </div>
@@ -21,10 +21,10 @@ import NavbarActions from "./components/NavbarActions.vue";
 
 const appStore = useAppStore();
 
-// 侧边栏展开状态
+// 사이드바 전개 상태
 const isSidebarOpened = computed(() => appStore.sidebar.opened);
 
-// 切换侧边栏展开/折叠状态
+// 사이드바 전개/축소 상태 토글
 function toggleSideBar() {
   console.log("🔄 Hamburger clicked! Current state:", isSidebarOpened.value);
   console.log("🔄 Device type:", appStore.device);

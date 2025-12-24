@@ -3,7 +3,7 @@
     <el-card class="box-card">
       <template #header>
         <div class="card-header">
-          <span>字典WebSocket实时更新演示</span>
+          <span>사전 WebSocket 실시간 업데이트 데모</span>
           <el-tag :type="wsConnected ? 'success' : 'danger'" size="small" class="ml-2">
             WebSocket {{ wsStatusText }}
           </el-tag>
@@ -11,7 +11,7 @@
       </template>
 
       <el-alert type="info" :closable="false" class="mb-4">
-        本示例展示WebSocket实时更新字典缓存的效果。您可以编辑"男"性别字典项，保存后后端将通过WebSocket通知所有客户端刷新缓存。
+        이 예제는 WebSocket을 통한 사전 캐시 실시간 업데이트를 보여줍니다. "남" 성별 사전 항목을 편집하고 저장하면 백엔드는 WebSocket을 통해 모든 클라이언트에 캐시 새로고침을 알립니다.
       </el-alert>
 
       <el-row :gutter="16">
@@ -19,26 +19,26 @@
           <el-card shadow="hover" class="dict-card">
             <template #header>
               <div class="flex justify-between items-center">
-                <span>性别字典项 - 男</span>
-                <el-button type="warning" size="small" @click="loadMaleDict">重新加载</el-button>
+                <span>성별 사전 항목 - 남</span>
+                <el-button type="warning" size="small" @click="loadMaleDict">다시 로드</el-button>
               </div>
             </template>
             <div>
               <div v-if="dictForm" class="dict-form">
                 <el-form :model="dictForm" label-width="80px">
-                  <el-form-item label="字典编码">
+                  <el-form-item label="사전 코드">
                     <el-input v-model="dictForm.dictCode" disabled />
                   </el-form-item>
-                  <el-form-item label="字典标签">
+                  <el-form-item label="사전 레이블">
                     <el-input v-model="dictForm.label" />
                   </el-form-item>
-                  <el-form-item label="字典值">
+                  <el-form-item label="사전 값">
                     <el-input v-model="dictForm.value" disabled />
                   </el-form-item>
-                  <el-form-item label="标记颜色">
+                  <el-form-item label="태그 색상">
                     <el-select
                       v-model="dictForm.tagType"
-                      placeholder="选择标签类型"
+                      placeholder="태그 유형 선택"
                       style="width: 100%"
                     >
                       <el-option value="success" label="success">
@@ -59,29 +59,29 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item>
-                    <el-button type="primary" :loading="saving" @click="saveDict">保存</el-button>
-                    <el-button @click="loadMaleDict">重置</el-button>
+                    <el-button type="primary" :loading="saving" @click="saveDict">저장</el-button>
+                    <el-button @click="loadMaleDict">재설정</el-button>
                   </el-form-item>
                 </el-form>
               </div>
-              <el-empty v-else description="暂无字典数据" />
+              <el-empty v-else description="사전 데이터 없음" />
             </div>
           </el-card>
         </el-col>
 
-        <!-- 列2: 字典组件展示 -->
+        <!-- 열2: 사전 구성 요소 표시 -->
         <el-col :span="8">
           <el-card shadow="hover" class="dict-card">
             <template #header>
               <div class="flex justify-between items-center">
-                <span>字典组件展示</span>
+                <span>사전 구성 요소 표시</span>
                 <el-button type="primary" size="small" @click="refreshDictComponent">
-                  手动刷新
+                  수동으로 새로고침
                 </el-button>
               </div>
             </template>
             <div class="dict-component-demo">
-              <h4 class="mt-4 mb-3">性别组件</h4>
+              <h4 class="mt-4 mb-3">성별 구성 요소</h4>
               <el-radio-group v-model="selectedGender">
                 <el-radio
                   v-for="item in dictStore.getDictItems('gender')"
@@ -92,7 +92,7 @@
                 </el-radio>
               </el-radio-group>
 
-              <h4 class="mt-4 mb-3">性别标签</h4>
+              <h4 class="mt-4 mb-3">성별 태그</h4>
               <div>
                 <el-tag
                   v-for="item in dictStore.getDictItems('gender')"
@@ -105,24 +105,24 @@
               </div>
 
               <div class="mt-4 pt-3 border-top">
-                <div class="text-muted mb-2">已选择值: {{ selectedGender }}</div>
-                <div class="text-muted">最后更新: {{ lastUpdateTime }}</div>
+                <div class="text-muted mb-2">선택된 값: {{ selectedGender }}</div>
+                <div class="text-muted">마지막 업데이트: {{ lastUpdateTime }}</div>
               </div>
             </div>
           </el-card>
         </el-col>
 
-        <!-- 列3: 字典缓存数据 -->
+        <!-- 열3: 사전 캐시 데이터 -->
         <el-col :span="8">
           <el-card shadow="hover" class="dict-card">
             <template #header>
               <div class="flex justify-between items-center">
-                <span>字典缓存数据</span>
+                <span>사전 캐시 데이터</span>
                 <div>
                   <el-tag v-if="dictCacheStatus" type="success" class="ml-2" size="small">
-                    已缓存
+                    캐시됨
                   </el-tag>
-                  <el-tag v-else type="danger" class="ml-2" size="small">未缓存</el-tag>
+                  <el-tag v-else type="danger" class="ml-2" size="small">캐시되지 않음</el-tag>
                 </div>
               </div>
             </template>
@@ -144,53 +144,53 @@ import { useDateFormat } from "@vueuse/core";
 import DictAPI, { DictItemForm } from "@/api/system/dict-api";
 import { useDictSync, DictMessage } from "@/composables";
 
-// 性别字典编码
+// 성별 사전 코드
 const DICT_CODE = "gender";
-// 男性字典项ID
+// 남성 사전 항목 ID
 const MALE_ITEM_ID = "1";
 
-// 字典store
+// 사전 저장소
 const dictStore = useDictStoreHook();
-// 保存状态
+// 저장 상태
 const saving = ref(false);
-// 最后更新时间
+// 마지막 업데이트 시간
 const lastUpdateTime = ref("-");
-// 字典表单数据
+// 사전 양식 데이터
 const dictForm = ref<DictItemForm | null>(null);
-// 选中的性别
+// 선택된 성별
 const selectedGender = ref("");
 
-// 初始化WebSocket
+// WebSocket 초기화
 const dictWebSocket = useDictSync();
 
-// 获取连接状态
+// 연결 상태 가져오기
 const wsConnected = computed(() => dictWebSocket.isConnected);
 
-// WebSocket连接状态显示文本
-const wsStatusText = computed(() => (wsConnected.value ? "已连接" : "未连接"));
+// WebSocket 연결 상태 표시 텍스트
+const wsStatusText = computed(() => (wsConnected.value ? "연결됨" : "연결 안 됨"));
 
-// 保存WebSocket清理函数
+// WebSocket 정리 함수 저장
 let unregisterCallback: (() => void) | null = null;
 
-// 当前选中字典的缓存状态
+// 현재 선택한 사전의 캐시 상태
 const dictCacheStatus = computed(() => {
-  // 检查字典是否在缓存中
+  // 사전이 캐시에 있는지 확인
   return dictStore.getDictItems(DICT_CODE).length > 0;
 });
 
-// 设置WebSocket
+// WebSocket 설정
 const setupWebSocket = () => {
-  // 初始化WebSocket连接
+  // WebSocket 연결 초기화
   dictWebSocket.initWebSocket();
 
-  // 注册字典消息回调
+  // 사전 메시지 콜백 등록
   unregisterCallback = dictWebSocket.onDictMessage((message: DictMessage) => {
-    // 只有当消息是关于性别字典的更新时才处理
+    // 성별 사전 업데이트에 대한 메시지일 때만 처리
     if (message.dictCode === DICT_CODE) {
-      // 更新最后更新时间
+      // 마지막 업데이트 시간 업데이트
       lastUpdateTime.value = useDateFormat(new Date(), "YYYY-MM-DD HH:mm:ss").value;
 
-      // 触发字典组件重新加载
+      // 사전 구성 요소 다시 로드 트리거
       nextTick(() => {
         refreshDictComponent();
       });
@@ -198,53 +198,53 @@ const setupWebSocket = () => {
   });
 };
 
-// 刷新字典组件，强制重新加载字典数据
+// 사전 구성 요소 새로고침, 강제로 사전 데이터 다시 로드
 const refreshDictComponent = async () => {
-  // 这里重新获取字典数据以触发按需加载
+  // 여기서 사전 데이터를 다시 가져와 온디맨드 로드 트리거
   await dictStore.loadDictItems(DICT_CODE);
-  ElMessage.success("字典组件已刷新");
+  ElMessage.success("사전 구성 요소가 새로고쳐졌습니다");
 };
 
-// 加载男性字典表单数据
+// 남성 사전 양식 데이터 로드
 const loadMaleDict = async () => {
-  // 获取男性字典项表单数据 - 使用接口 /dicts/gender/items/1/form
+  // 남성 사전 항목 양식 데이터 가져오기 - /dicts/gender/items/1/form 인터페이스 사용
   const data = await DictAPI.getDictItemFormData(DICT_CODE, MALE_ITEM_ID);
   dictForm.value = data;
 };
 
-// 保存字典项
+// 사전 항목 저장
 const saveDict = async () => {
   if (!dictForm.value) return;
 
   saving.value = true;
   try {
-    // dictForm的类型已经是DictItemForm，直接传入
+    // dictForm의 타입은 이미 DictItemForm이므로 직접 전달
     await DictAPI.updateDictItem(DICT_CODE, MALE_ITEM_ID, dictForm.value);
 
-    // 更新时间
+    // 시간 업데이트
     lastUpdateTime.value = useDateFormat(new Date(), "YYYY-MM-DD HH:mm:ss").value;
 
-    ElMessage.success("保存成功，后端将通过WebSocket通知所有客户端");
+    ElMessage.success("저장 성공, 백엔드가 WebSocket을 통해 모든 클라이언트에 알립니다");
   } catch (error) {
-    console.error("保存字典项失败:", error);
-    ElMessage.error("保存失败");
+    console.error("사전 항목 저장 실패:", error);
+    ElMessage.error("저장 실패");
   } finally {
     saving.value = false;
   }
 };
 
-// 组件挂载时加载性别字典
+// 구성 요소 마운트 시 성별 사전 로드
 onMounted(async () => {
   await loadMaleDict();
-  // 加载初始字典数据
+  // 초기 사전 데이터 로드
   await dictStore.loadDictItems(DICT_CODE);
-  // 初始化选中性别为男
+  // 선택한 성별을 남성으로 초기화
   selectedGender.value = "1";
-  // 设置WebSocket
+  // WebSocket 설정
   setupWebSocket();
 });
 
-// 组件卸载时清理WebSocket
+// 구성 요소 언마운트 시 WebSocket 정리
 onUnmounted(() => {
   unregisterCallback?.();
 });

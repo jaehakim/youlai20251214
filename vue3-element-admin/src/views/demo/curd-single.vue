@@ -6,11 +6,11 @@
         type="primary"
         target="_blank"
       >
-        整合版示例源码 请点击>>>>
+        통합 예제 소스 코드 클릭>>>>
       </el-link>
     </div>
 
-    <!-- 搜索 -->
+    <!-- 검색 -->
     <page-search
       ref="searchRef"
       :search-config="searchConfig"
@@ -18,7 +18,7 @@
       @reset-click="handleResetClick"
     />
 
-    <!-- 列表 -->
+    <!-- 목록 -->
     <page-content
       ref="contentRef"
       :content-config="contentConfig"
@@ -31,7 +31,7 @@
     >
       <template #status="scope">
         <el-tag :type="scope.row[scope.prop] == 1 ? 'success' : 'info'">
-          {{ scope.row[scope.prop] == 1 ? "启用" : "禁用" }}
+          {{ scope.row[scope.prop] == 1 ? "활성" : "비활성" }}
         </el-tag>
       </template>
       <template #gender="scope">
@@ -47,14 +47,14 @@
       </template>
     </page-content>
 
-    <!-- 新增 -->
+    <!-- 추가 -->
     <page-modal ref="addModalRef" :modal-config="addModalConfig" @submit-click="handleSubmitClick">
       <template #gender="scope">
         <Dict v-model="scope.formData[scope.prop]" code="gender" v-bind="scope.attrs" />
       </template>
     </page-modal>
 
-    <!-- 编辑 -->
+    <!-- 편집 -->
     <page-modal
       ref="editModalRef"
       :modal-config="editModalConfig"
@@ -82,53 +82,53 @@ defineOptions({
   inheritAttrs: false,
 });
 
-// ========================= 选项数据管理 =========================
+// ========================= 옵션 데이터 관리 =========================
 interface OptionType {
   label: string;
   value: any;
   [key: string]: any;
 }
 
-// 共享选项数据
+// 공유 옵션 데이터
 const deptArr = ref<OptionType[]>([]);
 const roleArr = ref<OptionType[]>([]);
 const stateArr = ref<OptionType[]>([
-  { label: "启用", value: 1 },
-  { label: "禁用", value: 0 },
+  { label: "활성", value: 1 },
+  { label: "비활성", value: 0 },
 ]);
 
-// 初始化选项数据
+// 옵션 데이터 초기화
 const initOptions = async () => {
   try {
     const [dept, roles] = await Promise.all([DeptAPI.getOptions(), RoleAPI.getOptions()]);
     deptArr.value = dept;
     roleArr.value = roles;
   } catch (error) {
-    console.error("初始化选项失败:", error);
+    console.error("옵션 초기화 실패:", error);
   }
 };
 
-// ========================= 搜索配置 =========================
+// ========================= 검색 설정 =========================
 const searchConfig: ISearchConfig = reactive({
   permPrefix: "sys:user",
   formItems: [
     {
-      tips: "支持模糊搜索",
+      tips: "모호한 검색 지원",
       type: "input",
-      label: "关键字",
+      label: "키워드",
       prop: "keywords",
       attrs: {
-        placeholder: "用户名/昵称/手机号",
+        placeholder: "사용자명/닉네임/휴대폰 번호",
         clearable: true,
         style: { width: "200px" },
       },
     },
     {
       type: "tree-select",
-      label: "部门",
+      label: "부서",
       prop: "deptId",
       attrs: {
-        placeholder: "请选择",
+        placeholder: "선택하세요",
         data: deptArr,
         filterable: true,
         "check-strictly": true,
@@ -139,10 +139,10 @@ const searchConfig: ISearchConfig = reactive({
     },
     {
       type: "select",
-      label: "状态",
+      label: "상태",
       prop: "status",
       attrs: {
-        placeholder: "全部",
+        placeholder: "전체",
         clearable: true,
         style: { width: "200px" },
       },
@@ -150,13 +150,13 @@ const searchConfig: ISearchConfig = reactive({
     },
     {
       type: "date-picker",
-      label: "创建时间",
+      label: "생성 시간",
       prop: "createTime",
       attrs: {
         type: "daterange",
         "range-separator": "~",
-        "start-placeholder": "开始时间",
-        "end-placeholder": "截止时间",
+        "start-placeholder": "시작 시간",
+        "end-placeholder": "종료 시간",
         "value-format": "YYYY-MM-DD",
         style: { width: "200px" },
       },
@@ -164,7 +164,7 @@ const searchConfig: ISearchConfig = reactive({
   ],
 });
 
-// ========================= 内容配置 =========================
+// ========================= 내용 설정 =========================
 const contentConfig: IContentConfig<UserPageQuery> = reactive({
   permPrefix: "sys:user",
   table: {
@@ -209,7 +209,7 @@ const contentConfig: IContentConfig<UserPageQuery> = reactive({
     "export",
     {
       name: "custom1",
-      text: "自定义1",
+      text: "사용자정의1",
       perm: "add",
       attrs: { icon: "plus", color: "#626AEF" },
     },
@@ -217,21 +217,21 @@ const contentConfig: IContentConfig<UserPageQuery> = reactive({
   defaultToolbar: ["refresh", "filter", "imports", "exports", "search"],
   cols: [
     { type: "selection", width: 50, align: "center" },
-    { label: "编号", align: "center", prop: "id", width: 100, show: false },
-    { label: "用户名", align: "center", prop: "username" },
-    { label: "头像", align: "center", prop: "avatar", templet: "image" },
-    { label: "用户昵称", align: "center", prop: "nickname", width: 120 },
+    { label: "번호", align: "center", prop: "id", width: 100, show: false },
+    { label: "사용자명", align: "center", prop: "username" },
+    { label: "프로필 사진", align: "center", prop: "avatar", templet: "image" },
+    { label: "사용자 닉네임", align: "center", prop: "nickname", width: 120 },
     {
-      label: "性别",
+      label: "성별",
       align: "center",
       prop: "gender",
       width: 100,
       templet: "custom",
       slotName: "gender",
     },
-    { label: "部门", align: "center", prop: "deptName", width: 120 },
+    { label: "부서", align: "center", prop: "deptName", width: 120 },
     {
-      label: "角色",
+      label: "역할",
       align: "center",
       prop: "roleNames",
       width: 120,
@@ -247,7 +247,7 @@ const contentConfig: IContentConfig<UserPageQuery> = reactive({
       },
     },
     {
-      label: "手机号码",
+      label: "휴대폰 번호",
       align: "center",
       prop: "mobile",
       templet: "custom",
@@ -255,15 +255,15 @@ const contentConfig: IContentConfig<UserPageQuery> = reactive({
       width: 150,
     },
     {
-      label: "状态",
+      label: "상태",
       align: "center",
       prop: "status",
       templet: "custom",
       slotName: "status",
     },
-    { label: "创建时间", align: "center", prop: "createTime", width: 180 },
+    { label: "생성 시간", align: "center", prop: "createTime", width: 180 },
     {
-      label: "操作",
+      label: "작업",
       align: "center",
       fixed: "right",
       width: 280,
@@ -271,12 +271,12 @@ const contentConfig: IContentConfig<UserPageQuery> = reactive({
       operat: [
         {
           name: "detail",
-          text: "详情",
+          text: "상세정보",
           attrs: { icon: "Document", type: "primary" },
         },
         {
           name: "reset_pwd",
-          text: "重置密码",
+          text: "비밀번호 재설정",
           attrs: {
             icon: "refresh-left",
             style: {
@@ -292,11 +292,11 @@ const contentConfig: IContentConfig<UserPageQuery> = reactive({
   ],
 });
 
-// ========================= 新增配置 =========================
+// ========================= 추가 설정 =========================
 const addModalConfig: IModalConfig<UserForm> = reactive({
   permPrefix: "sys:user",
   dialog: {
-    title: "新增用户",
+    title: "사용자 추가",
     width: 800,
     draggable: true,
   },
@@ -305,16 +305,16 @@ const addModalConfig: IModalConfig<UserForm> = reactive({
   },
   formAction: UserAPI.create,
   beforeSubmit(data: any) {
-    console.log("提交之前处理", data);
+    console.log("제출 전 처리", data);
   },
   formItems: [
     {
-      label: "用户名",
+      label: "사용자명",
       prop: "username",
-      rules: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
+      rules: [{ required: true, message: "사용자명은 필수입니다", trigger: "blur" }],
       type: "input",
       attrs: {
-        placeholder: "请输入用户名",
+        placeholder: "사용자명을 입력하세요",
       },
       col: {
         xs: 24,
@@ -322,12 +322,12 @@ const addModalConfig: IModalConfig<UserForm> = reactive({
       },
     },
     {
-      label: "用户昵称",
+      label: "사용자 닉네임",
       prop: "nickname",
-      rules: [{ required: true, message: "用户昵称不能为空", trigger: "blur" }],
+      rules: [{ required: true, message: "사용자 닉네임은 필수입니다", trigger: "blur" }],
       type: "input",
       attrs: {
-        placeholder: "请输入用户昵称",
+        placeholder: "사용자 닉네임을 입력하세요",
       },
       col: {
         xs: 24,
@@ -335,12 +335,12 @@ const addModalConfig: IModalConfig<UserForm> = reactive({
       },
     },
     {
-      label: "所属部门",
+      label: "소속 부서",
       prop: "deptId",
-      rules: [{ required: true, message: "所属部门不能为空", trigger: "change" }],
+      rules: [{ required: true, message: "소속 부서는 필수입니다", trigger: "change" }],
       type: "tree-select",
       attrs: {
-        placeholder: "请选择所属部门",
+        placeholder: "소속 부서를 선택하세요",
         data: deptArr,
         filterable: true,
         "check-strictly": true,
@@ -349,18 +349,18 @@ const addModalConfig: IModalConfig<UserForm> = reactive({
     },
     {
       type: "custom",
-      label: "性别",
+      label: "성별",
       prop: "gender",
       initialValue: 1,
       attrs: { style: { width: "100%" } },
     },
     {
-      label: "角色",
+      label: "역할",
       prop: "roleIds",
-      rules: [{ required: true, message: "用户角色不能为空", trigger: "change" }],
+      rules: [{ required: true, message: "사용자 역할은 필수입니다", trigger: "change" }],
       type: "select",
       attrs: {
-        placeholder: "请选择",
+        placeholder: "선택하세요",
         multiple: true,
       },
       options: roleArr,
@@ -368,91 +368,91 @@ const addModalConfig: IModalConfig<UserForm> = reactive({
     },
     {
       type: "input",
-      label: "手机号码",
+      label: "휴대폰 번호",
       prop: "mobile",
       rules: [
         {
           pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-          message: "请输入正确的手机号码",
+          message: "올바른 휴대폰 번호를 입력하세요",
           trigger: "blur",
         },
       ],
       attrs: {
-        placeholder: "请输入手机号码",
+        placeholder: "휴대폰 번호를 입력하세요",
         maxlength: 11,
       },
     },
     {
-      label: "邮箱",
+      label: "이메일",
       prop: "email",
       rules: [
         {
           pattern: /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/,
-          message: "请输入正确的邮箱地址",
+          message: "올바른 이메일 주소를 입력하세요",
           trigger: "blur",
         },
       ],
       type: "input",
       attrs: {
-        placeholder: "请输入邮箱",
+        placeholder: "이메일을 입력하세요",
         maxlength: 50,
       },
     },
     {
-      label: "状态",
+      label: "상태",
       prop: "status",
       type: "radio",
       options: [
-        { label: "正常", value: 1 },
-        { label: "禁用", value: 0 },
+        { label: "정상", value: 1 },
+        { label: "비활성화", value: 0 },
       ],
       initialValue: 1,
     },
   ],
 });
 
-// ========================= 编辑配置 =========================
+// ========================= 수정 설정 =========================
 const editModalConfig: IModalConfig<UserForm> = reactive({
   permPrefix: "sys:user",
   component: "drawer",
   drawer: {
-    title: "修改用户",
+    title: "사용자 수정",
     size: useAppStore().device === DeviceEnum.MOBILE ? "80%" : 500,
   },
   pk: "id",
   beforeSubmit(data: any) {
-    console.log("beforeSubmit", data);
+    console.log("수정 전 처리", data);
   },
   formAction(data: any) {
     return UserAPI.update(data.id as string, data);
   },
   formItems: [
     {
-      label: "用户名",
+      label: "사용자명",
       prop: "username",
-      rules: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
+      rules: [{ required: true, message: "사용자명은 필수입니다", trigger: "blur" }],
       type: "input",
       attrs: {
-        placeholder: "请输入用户名",
+        placeholder: "사용자명을 입력하세요",
         readonly: true,
       },
     },
     {
-      label: "用户昵称",
+      label: "사용자 닉네임",
       prop: "nickname",
-      rules: [{ required: true, message: "用户昵称不能为空", trigger: "blur" }],
+      rules: [{ required: true, message: "사용자 닉네임은 필수입니다", trigger: "blur" }],
       type: "input",
       attrs: {
-        placeholder: "请输入用户昵称",
+        placeholder: "사용자 닉네임을 입력하세요",
       },
     },
     {
-      label: "所属部门",
+      label: "소속 부서",
       prop: "deptId",
-      rules: [{ required: true, message: "所属部门不能为空", trigger: "blur" }],
+      rules: [{ required: true, message: "소속 부서는 필수입니다", trigger: "blur" }],
       type: "tree-select",
       attrs: {
-        placeholder: "请选择所属部门",
+        placeholder: "소속 부서를 선택하세요",
         data: deptArr,
         filterable: true,
         "check-strictly": true,
@@ -461,18 +461,18 @@ const editModalConfig: IModalConfig<UserForm> = reactive({
     },
     {
       type: "custom",
-      label: "性别",
+      label: "성별",
       prop: "gender",
       initialValue: 1,
       attrs: { style: { width: "100%" } },
     },
     {
-      label: "角色",
+      label: "역할",
       prop: "roleIds",
-      rules: [{ required: true, message: "用户角色不能为空", trigger: "blur" }],
+      rules: [{ required: true, message: "사용자 역할은 필수입니다", trigger: "blur" }],
       type: "select",
       attrs: {
-        placeholder: "请选择",
+        placeholder: "선택하세요",
         multiple: true,
       },
       options: roleArr,
@@ -480,44 +480,44 @@ const editModalConfig: IModalConfig<UserForm> = reactive({
     },
     {
       type: "input",
-      label: "手机号码",
+      label: "휴대폰 번호",
       prop: "mobile",
       rules: [
         {
           pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-          message: "请输入正确的手机号码",
+          message: "올바른 휴대폰 번호를 입력하세요",
           trigger: "blur",
         },
       ],
       attrs: {
-        placeholder: "请输入手机号码",
+        placeholder: "휴대폰 번호를 입력하세요",
         maxlength: 11,
       },
     },
     {
-      label: "邮箱",
+      label: "이메일",
       prop: "email",
       rules: [
         {
           pattern: /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/,
-          message: "请输入正确的邮箱地址",
+          message: "올바른 이메일 주소를 입력하세요",
           trigger: "blur",
         },
       ],
       type: "input",
       attrs: {
-        placeholder: "请输入邮箱",
+        placeholder: "이메일을 입력하세요",
         maxlength: 50,
       },
     },
     {
-      label: "状态",
+      label: "상태",
       prop: "status",
       type: "switch",
       attrs: {
         inlinePrompt: true,
-        activeText: "正常",
-        inactiveText: "禁用",
+        activeText: "정상",
+        inactiveText: "비활성화",
         activeValue: 1,
         inactiveValue: 0,
       },
@@ -525,7 +525,7 @@ const editModalConfig: IModalConfig<UserForm> = reactive({
   ],
 });
 
-// ========================= 页面逻辑 =========================
+// ========================= 페이지 로직 =========================
 const {
   searchRef,
   contentRef,
@@ -542,45 +542,45 @@ const {
   handleFilterChange,
 } = usePage();
 
-// 其他工具栏
+// 기타 도구 모음
 function handleToolbarClick(name: string) {
   console.log(name);
   if (name === "custom1") {
-    ElMessage.success("点击了自定义1按钮");
+    ElMessage.success("사용자정의1 버튼을 클릭했습니다");
   }
 }
 
-// 表格工具栏
+// 테이블 도구 모음
 const handleOperateClick = (data: IObject) => {
   if (data.name === "detail") {
-    editModalConfig.drawer = { ...editModalConfig.drawer, title: "查看" };
+    editModalConfig.drawer = { ...editModalConfig.drawer, title: "보기" };
     handleViewClick(data.row, async () => {
       return await UserAPI.getFormData(data.row.id);
     });
   } else if (data.name === "edit") {
-    editModalConfig.drawer = { ...editModalConfig.drawer, title: "修改" };
+    editModalConfig.drawer = { ...editModalConfig.drawer, title: "수정" };
     handleEditClick(data.row, async () => {
       return await UserAPI.getFormData(data.row.id);
     });
   } else if (data.name === "reset_pwd") {
-    ElMessageBox.prompt("请输入用户「" + data.row.username + "」的新密码", "重置密码", {
-      confirmButtonText: "确定",
-      cancelButtonText: "取消",
+    ElMessageBox.prompt("사용자 「" + data.row.username + "」의 새 비밀번호를 입력하세요", "비밀번호 재설정", {
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
     })
       .then(({ value }: any) => {
         if (!value || value.length < 6) {
-          ElMessage.warning("密码至少需要6位字符，请重新输入");
+          ElMessage.warning("비밀번호는 최소 6자 이상이어야 합니다. 다시 입력하세요");
           return false;
         }
         UserAPI.resetPassword(data.row.id, value).then(() => {
-          ElMessage.success("密码重置成功，新密码是：" + value);
+          ElMessage.success("비밀번호 재설정 완료, 새 비밀번호는: " + value);
         });
       })
       .catch(() => {});
   }
 };
 
-// 初始化
+// 초기화
 onMounted(() => {
   initOptions();
 });

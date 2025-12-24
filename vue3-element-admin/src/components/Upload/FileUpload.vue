@@ -1,4 +1,4 @@
-<!-- 文件上传组件 -->
+<!-- 파일 업로드 컴포넌트 -->
 <template>
   <div>
     <el-upload
@@ -13,12 +13,12 @@
       :limit="props.limit"
       multiple
     >
-      <!-- 上传文件按钮 -->
+      <!-- 파일 업로드 버튼 -->
       <el-button type="primary" :disabled="fileList.length >= props.limit">
         {{ props.uploadBtnText }}
       </el-button>
 
-      <!-- 文件列表 -->
+      <!-- 파일 목록 -->
       <template #file="{ file }">
         <template v-if="file.status === 'success'">
           <div class="el-upload-list__item-info">
@@ -57,7 +57,7 @@ import FileAPI, { FileInfo } from "@/api/file-api";
 
 const props = defineProps({
   /**
-   * 请求携带的额外参数
+   * 요청에 포함된 추가 매개변수
    */
   data: {
     type: Object,
@@ -66,43 +66,43 @@ const props = defineProps({
     },
   },
   /**
-   * 上传文件的参数名
+   * 파일 업로드 매개변수 이름
    */
   name: {
     type: String,
     default: "file",
   },
   /**
-   * 文件上传数量限制
+   * 파일 업로드 수량 제한
    */
   limit: {
     type: Number,
     default: 10,
   },
   /**
-   * 单个文件上传大小限制(单位MB)
+   * 개별 파일 업로드 크기 제한(단위:MB)
    */
   maxFileSize: {
     type: Number,
     default: 10,
   },
   /**
-   * 上传文件类型
+   * 파일 업로드 유형
    */
   accept: {
     type: String,
     default: "*",
   },
   /**
-   * 上传按钮文本
+   * 업로드 버튼 텍스트
    */
   uploadBtnText: {
     type: String,
-    default: "上传文件",
+    default: "파일 업로드",
   },
 
   /**
-   * 样式
+   * 스타일
    */
   style: {
     type: Object,
@@ -121,7 +121,7 @@ const modelValue = defineModel("modelValue", {
 
 const fileList = ref([] as UploadFile[]);
 
-// 监听 modelValue 转换用于显示的 fileList
+// modelValue를 감시하고 표시할 fileList로 변환
 watch(
   modelValue,
   (value) => {
@@ -141,19 +141,19 @@ watch(
 );
 
 /**
- * 上传前校验
+ * 업로드 전 검증
  */
 function handleBeforeUpload(file: UploadRawFile) {
-  // 限制文件大小
+  // 파일 크기 제한
   if (file.size > props.maxFileSize * 1024 * 1024) {
-    ElMessage.warning("上传文件不能大于" + props.maxFileSize + "M");
+    ElMessage.warning("업로드할 파일은 " + props.maxFileSize + "MB보다 클 수 없습니다");
     return false;
   }
   return true;
 }
 
 /*
- * 上传文件
+ * 파일 업로드
  */
 function handleUpload(options: UploadRequestOptions) {
   return new Promise((resolve, reject) => {
@@ -161,7 +161,7 @@ function handleUpload(options: UploadRequestOptions) {
     const formData = new FormData();
     formData.append(props.name, file);
 
-    // 处理附加参数
+    // 추가 매개변수 처리
     Object.keys(props.data).forEach((key) => {
       formData.append(key, props.data[key]);
     });
@@ -182,18 +182,18 @@ function handleUpload(options: UploadRequestOptions) {
 }
 
 /**
- * 上传文件超出限制
+ * 업로드된 파일이 제한을 초과함
  */
 function handleExceed() {
-  ElMessage.warning(`最多只能上传${props.limit}个文件`);
+  ElMessage.warning(`최대 ${props.limit}개의 파일만 업로드할 수 있습니다`);
 }
 
 /**
- * 上传成功
+ * 업로드 성공
  */
 const handleSuccess = (response: any, uploadFile: UploadFile, files: UploadFiles) => {
-  ElMessage.success("上传成功");
-  //只有当状态为success或者fail，代表文件上传全部完成了，失败也算完成
+  ElMessage.success("업로드 성공");
+  // 상태가 success 또는 fail일 때만 파일 업로드가 완료되며, 실패도 완료로 간주됩니다
   if (
     files.every((file: UploadFile) => {
       return file.status === "success" || file.status === "fail";
@@ -202,13 +202,13 @@ const handleSuccess = (response: any, uploadFile: UploadFile, files: UploadFiles
     const fileInfos = [] as FileInfo[];
     files.map((file: UploadFile) => {
       if (file.status === "success") {
-        //只取携带response的才是刚上传的
+        // response를 포함하는 것만 방금 업로드된 파일입니다
         const res = file.response as FileInfo;
         if (res) {
           fileInfos.push({ name: res.name, url: res.url } as FileInfo);
         }
       } else {
-        //失败上传 从fileList删掉，不展示
+        // 실패한 업로드는 fileList에서 제거하고 표시하지 않음
         fileList.value.splice(
           fileList.value.findIndex((e) => e.uid === file.uid),
           1
@@ -222,15 +222,15 @@ const handleSuccess = (response: any, uploadFile: UploadFile, files: UploadFiles
 };
 
 /**
- * 上传失败
+ * 업로드 실패
  */
 const handleError = (_error: any) => {
   console.error(_error);
-  ElMessage.error("上传失败");
+  ElMessage.error("업로드 실패");
 };
 
 /**
- * 删除文件
+ * 파일 삭제
  */
 function handleRemove(fileUrl: string) {
   FileAPI.delete(fileUrl).then(() => {
@@ -239,7 +239,7 @@ function handleRemove(fileUrl: string) {
 }
 
 /**
- * 下载文件
+ * 파일 다운로드
  */
 function handleDownload(file: UploadUserFile) {
   const { url, name } = file;
@@ -248,9 +248,9 @@ function handleDownload(file: UploadUserFile) {
   }
 }
 
-/** 获取一个不重复的id */
+/** 중복되지 않는 id 가져오기 */
 function getUid(): number {
-  // 时间戳左移13位（相当于乘以8192） + 4位随机数
+  // 타임스탐프를 13비트 왼쪽으로 이동(8192를 곱하는 것과 동일) + 4비트 난수
   return (Date.now() << 13) | Math.floor(Math.random() * 8192);
 }
 </script>

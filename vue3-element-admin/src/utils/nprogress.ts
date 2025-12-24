@@ -1,17 +1,17 @@
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 
-// 进度条
+// 진행률 표시줄
 NProgress.configure({
-  // 动画方式
+  // 애니메이션 방식
   easing: "ease",
-  // 递增进度条的速度
+  // 진행률 표시줄 증가 속도
   speed: 500,
-  // 是否显示加载ico
+  // 로딩 아이콘 표시 여부
   showSpinner: false,
-  // 自动递增间隔
+  // 자동 증가 간격
   trickleSpeed: 200,
-  // 初始化时的最小百分比
+  // 초기화 시 최소 백분율
   minimum: 0.3,
 });
 

@@ -9,20 +9,20 @@ export default defineMock([
       data: [
         {
           value: 1,
-          label: "有来技术",
+          label: "유라이 기술",
           children: [
             {
               value: 2,
-              label: "研发部门",
+              label: "연구개발 부서",
             },
             {
               value: 3,
-              label: "测试部门",
+              label: "테스트 부서",
             },
           ],
         },
       ],
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
 
@@ -35,7 +35,7 @@ export default defineMock([
         {
           id: 1,
           parentId: 0,
-          name: "有来技术",
+          name: "유라이 기술",
           code: "YOULAI",
           sort: 1,
           status: 1,
@@ -43,7 +43,7 @@ export default defineMock([
             {
               id: 2,
               parentId: 1,
-              name: "研发部门",
+              name: "연구개발 부서",
               code: "RD001",
               sort: 1,
               status: 1,
@@ -54,7 +54,7 @@ export default defineMock([
             {
               id: 3,
               parentId: 1,
-              name: "测试部门",
+              name: "테스트 부서",
               code: "QA001",
               sort: 1,
               status: 1,
@@ -67,11 +67,11 @@ export default defineMock([
           updateTime: null,
         },
       ],
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
 
-  // 新增部门
+  // 부서 추가
   {
     url: "dept",
     method: ["POST"],
@@ -79,12 +79,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "新增部门" + body.name + "成功",
+        msg: "부서 추가 " + body.name + " 성공",
       };
     },
   },
 
-  // 获取部门表单数据
+  // 부서 폼 데이터 조회
   {
     url: "dept/:id/form",
     method: ["GET"],
@@ -92,12 +92,12 @@ export default defineMock([
       return {
         code: "00000",
         data: deptMap[params.id],
-        msg: "一切ok",
+        msg: "모두 정상",
       };
     },
   },
 
-  // 修改部门
+  // 부서 수정
   {
     url: "dept/:id",
     method: ["PUT"],
@@ -105,12 +105,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "修改部门" + body.name + "成功",
+        msg: "부서 수정 " + body.name + " 성공",
       };
     },
   },
 
-  // 删除部门
+  // 부서 삭제
   {
     url: "dept/:id",
     method: ["DELETE"],
@@ -118,13 +118,13 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "删除部门" + params.id + "成功",
+        msg: "부서 삭제 " + params.id + " 성공",
       };
     },
   },
 ]);
 
-// 部门映射表数据
+// 부서 매핑 테이블 데이터
 const deptMap: Record<string, any> = {
   1: {
     id: 1,

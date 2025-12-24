@@ -9,7 +9,7 @@ export default defineMock([
       data: {
         userId: 2,
         username: "admin",
-        nickname: "系统管理员",
+        nickname: "시스템 관리자",
         avatar: "https://foruda.gitee.com/images/1723603502796844527/03cdca2a_716974.gif",
         roles: ["ADMIN"],
         perms: [
@@ -61,7 +61,7 @@ export default defineMock([
           "sys:config:refresh",
         ],
       },
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
 
@@ -75,7 +75,7 @@ export default defineMock([
           {
             id: 2,
             username: "admin",
-            nickname: "系统管理员",
+            nickname: "시스템 관리자",
             mobile: "17621210366",
             gender: 1,
             avatar: "https://foruda.gitee.com/images/1723603502796844527/03cdca2a_716974.gif",
@@ -87,7 +87,7 @@ export default defineMock([
           {
             id: 3,
             username: "test",
-            nickname: "测试小用户",
+            nickname: "테스트 사용자",
             mobile: "17621210366",
             gender: 1,
             avatar: "https://foruda.gitee.com/images/1723603502796844527/03cdca2a_716974.gif",
@@ -99,11 +99,11 @@ export default defineMock([
         ],
         total: 2,
       },
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
 
-  // 新增用户
+  // 사용자 추가
   {
     url: "users",
     method: ["POST"],
@@ -111,12 +111,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "新增用户" + body.nickname + "成功",
+        msg: "사용자 추가 " + body.nickname + " 성공",
       };
     },
   },
 
-  // 获取用户表单数据
+  // 사용자 폼 데이터 조회
   {
     url: "users/:userId/form",
     method: ["GET"],
@@ -124,11 +124,11 @@ export default defineMock([
       return {
         code: "00000",
         data: userMap[params.userId],
-        msg: "一切ok",
+        msg: "모두 정상",
       };
     },
   },
-  // 修改用户
+  // 사용자 수정
   {
     url: "users/:userId",
     method: ["PUT"],
@@ -136,12 +136,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "修改用户" + body.nickname + "成功",
+        msg: "사용자 수정 " + body.nickname + " 성공",
       };
     },
   },
 
-  // 删除用户
+  // 사용자 삭제
   {
     url: "users/:userId",
     method: ["DELETE"],
@@ -149,12 +149,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "删除用户" + params.id + "成功",
+        msg: "사용자 삭제 " + params.id + " 성공",
       };
     },
   },
 
-  // 重置密码
+  // 비밀번호 재설정
   {
     url: "users/:userId/password/reset",
     method: ["PUT"],
@@ -162,12 +162,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "重置密码成功，新密码为：" + query.password,
+        msg: "비밀번호 재설정 성공, 새 비밀번호: " + query.password,
       };
     },
   },
 
-  // 导出Excel
+  // Excel 내보내기
   {
     url: "users/_export",
     method: ["GET"],
@@ -185,13 +185,13 @@ export default defineMock([
       data: {
         id: 2,
         username: "admin",
-        nickname: "系统管理员",
+        nickname: "시스템 관리자",
         avatar: "https://foruda.gitee.com/images/1723603502796844527/03cdca2a_716974.gif",
         gender: 1,
         mobile: "17621210366",
         email: null,
-        deptName: "有来技术",
-        roleNames: "系统管理员",
+        deptName: "유라이 기술",
+        roleNames: "시스템 관리자",
         createTime: "2019-10-10",
       },
     },
@@ -204,7 +204,7 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "修改个人信息成功",
+        msg: "개인 정보 수정 성공",
       };
     },
   },
@@ -216,13 +216,13 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "修改密码成功",
+        msg: "비밀번호 수정 성공",
       };
     },
   },
 ]);
 
-// 用户映射表数据
+// 사용자 매핑 테이블 데이터
 const userMap: Record<string, any> = {
   2: {
     id: 2,

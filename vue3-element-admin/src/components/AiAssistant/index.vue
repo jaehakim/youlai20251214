@@ -1,7 +1,7 @@
 <template>
-  <!-- 悬浮按钮 -->
+  <!-- 떠있는 버튼 -->
   <div class="ai-assistant">
-    <!-- AI 助手图标按钮 -->
+    <!-- AI 어시스턴트 아이콘 버튼 -->
     <el-button
       v-if="!dialogVisible"
       class="ai-fab-button"
@@ -13,10 +13,10 @@
       <div class="i-svg:ai ai-icon" />
     </el-button>
 
-    <!-- AI 对话框 -->
+    <!-- AI 대화 상자 -->
     <el-dialog
       v-model="dialogVisible"
-      title="AI 智能助手"
+      title="AI 스마트 어시스턴트"
       width="600px"
       :close-on-click-modal="false"
       draggable
@@ -25,25 +25,25 @@
       <template #header>
         <div class="dialog-header">
           <div class="i-svg:ai header-icon" />
-          <span class="title">AI 智能助手</span>
+          <span class="title">AI 스마트 어시스턴트</span>
         </div>
       </template>
 
-      <!-- 命令输入 -->
+      <!-- 명령 입력 -->
       <div class="command-input">
         <el-input
           v-model="command"
           type="textarea"
           :rows="3"
-          placeholder="试试说：修改test用户的姓名为测试人员&#10;或者：跳转到用户管理&#10;按 Ctrl+Enter 快速发送"
+          placeholder="시도해보세요: test 사용자의 이름을 테스트 사용자로 변경&#10;또는: 사용자 관리로 이동&#10;Ctrl+Enter를 눌러 빠르게 보냄"
           :disabled="loading"
           @keydown.ctrl.enter="handleExecute"
         />
       </div>
 
-      <!-- 快捷命令示例 -->
+      <!-- 빠른 명령 예제 -->
       <div class="quick-commands">
-        <div class="section-title">💡 试试这些命令：</div>
+        <div class="section-title">💡 이 명령들을 시도해보세요:</div>
         <el-tag
           v-for="example in examples"
           :key="example"
@@ -54,39 +54,39 @@
         </el-tag>
       </div>
 
-      <!-- AI 响应结果 -->
+      <!-- AI 응답 결과 -->
       <div v-if="response" class="ai-response">
         <el-alert :title="response.explanation" type="success" :closable="false" show-icon />
 
-        <!-- 将要执行的操作 -->
+        <!-- 실행할 작업 -->
         <div v-if="response.action" class="action-preview">
-          <div class="action-title">🎯 将要执行：</div>
+          <div class="action-title">🎯 실행할 예정:</div>
           <div class="action-content">
             <div v-if="response.action.type === 'navigate'">
               <el-icon><Position /></el-icon>
-              跳转到：
+              이동할 위치:
               <strong>{{ response.action.pageName }}</strong>
               <span v-if="response.action.query" class="query-info">
-                并搜索：
+                그리고 검색:
                 <el-tag type="warning" size="small">{{ response.action.query }}</el-tag>
               </span>
             </div>
             <div v-if="response.action.type === 'navigate-and-execute'">
               <el-icon><Position /></el-icon>
-              跳转至：
+              이동할 위치:
               <strong>{{ response.action.pageName }}</strong>
               <span v-if="response.action.query" class="query-info">
-                并搜索：
+                그리고 검색:
                 <el-tag type="warning" size="small">{{ response.action.query }}</el-tag>
               </span>
               <el-divider direction="vertical" />
               <el-icon><Tools /></el-icon>
-              执行：
+              실행:
               <strong>{{ response.action.functionCall.name }}</strong>
             </div>
             <div v-if="response.action.type === 'execute'">
               <el-icon><Tools /></el-icon>
-              执行：
+              실행:
               <strong>{{ response.action.functionName }}</strong>
             </div>
           </div>
@@ -95,10 +95,10 @@
 
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="handleClose">取消</el-button>
+          <el-button @click="handleClose">취소</el-button>
           <el-button type="primary" :loading="loading" @click="handleExecute">
             <el-icon><MagicStick /></el-icon>
-            执行命令
+            명령 실행
           </el-button>
         </div>
       </template>
@@ -117,7 +117,7 @@ type ToolFunctionCall = {
   arguments: Record<string, any>;
 };
 
-// 统一的动作描述（区分“跳转”、“跳转+执行”、“仅执行”三种场景）
+// 통합 동작 설명 ("이동", "이동+실행", "실행만" 세 가지 시나리오 구분)
 type AiAction =
   | {
       type: "navigate";
@@ -145,43 +145,43 @@ type AiResponse = {
 
 const router = useRouter();
 
-// 状态管理
+// 상태 관리
 const dialogVisible = ref(false);
 const command = ref("");
 const loading = ref(false);
 const response = ref<AiResponse | null>(null);
 
-// 快捷命令示例
+// 빠른 명령 예제
 const examples = [
-  "修改test用户的姓名为测试人员",
-  "获取姓名为张三的用户信息",
-  "跳转到用户管理",
-  "打开角色管理页面",
+  "test 사용자의 이름을 테스트 사용자로 변경",
+  "이름이 Zhang San인 사용자 정보 가져오기",
+  "사용자 관리로 이동",
+  "역할 관리 페이지 열기",
 ];
 
-// 打开对话框
+// 대화 상자 열기
 const handleOpen = () => {
   dialogVisible.value = true;
   command.value = "";
   response.value = null;
 };
 
-// 关闭对话框
+// 대화 상자 닫기
 const handleClose = () => {
   dialogVisible.value = false;
   command.value = "";
   response.value = null;
 };
 
-// 执行命令
+// 명령 실행
 const handleExecute = async () => {
   const rawCommand = command.value.trim();
   if (!rawCommand) {
-    ElMessage.warning("请输入命令");
+    ElMessage.warning("명령을 입력해주세요");
     return;
   }
 
-  // 优先检测无需调用 AI 的纯跳转命令
+  // AI를 호출할 필요 없는 순수 이동 명령을 먼저 감지
   const directNavigation = tryDirectNavigate(rawCommand);
   if (directNavigation && directNavigation.action) {
     response.value = directNavigation;
@@ -192,7 +192,7 @@ const handleExecute = async () => {
   loading.value = true;
 
   try {
-    // 调用 AI API 解析命令
+    // AI API를 호출하여 명령 분석
     const result = await AiCommandApi.parseCommand({
       command: rawCommand,
       currentRoute: router.currentRoute.value.path,
@@ -203,46 +203,46 @@ const handleExecute = async () => {
     });
 
     if (!result.success) {
-      ElMessage.error(result.error || "命令解析失败");
+      ElMessage.error(result.error || "명령 분석 실패");
       return;
     }
 
-    // 解析 AI 返回的操作类型
+    // AI가 반환한 작업 유형 분석
     const action = parseAction(result, rawCommand);
     response.value = {
-      explanation: result.explanation ?? "命令解析成功，准备执行操作",
+      explanation: result.explanation ?? "명령 분석 완료, 작업 실행 준비 중",
       action,
     };
 
-    // 等待用户确认后执行
+    // 사용자 확인 후 실행 대기
     if (action) {
       await executeAction(action);
     }
   } catch (error: any) {
-    console.error("AI 命令执行失败:", error);
-    ElMessage.error(error.message || "命令执行失败");
+    console.error("AI 명령 실행 실패:", error);
+    ElMessage.error(error.message || "명령 실행 실패");
   } finally {
     loading.value = false;
   }
 };
 
-// 路由配置映射表（支持扩展）
+// 라우트 구성 맵 (확장 가능)
 const routeConfig = [
-  { keywords: ["用户", "user", "user list"], path: "/system/user", name: "用户管理" },
-  { keywords: ["角色", "role"], path: "/system/role", name: "角色管理" },
-  { keywords: ["菜单", "menu"], path: "/system/menu", name: "菜单管理" },
-  { keywords: ["部门", "dept"], path: "/system/dept", name: "部门管理" },
-  { keywords: ["字典", "dict"], path: "/system/dict", name: "字典管理" },
-  { keywords: ["日志", "log"], path: "/system/log", name: "系统日志" },
+  { keywords: ["사용자", "user", "user list"], path: "/system/user", name: "사용자 관리" },
+  { keywords: ["역할", "role"], path: "/system/role", name: "역할 관리" },
+  { keywords: ["메뉴", "menu"], path: "/system/menu", name: "메뉴 관리" },
+  { keywords: ["부서", "dept"], path: "/system/dept", name: "부서 관리" },
+  { keywords: ["사전", "dict"], path: "/system/dict", name: "사전 관리" },
+  { keywords: ["로그", "log"], path: "/system/log", name: "시스템 로그" },
 ];
 
-// 根据函数名推断路由（如 getUserInfo -> /system/user）
+// 함수 이름으로 라우트 추론 (예: getUserInfo -> /system/user)
 const normalizeText = (text: string) => text.replace(/\s+/g, " ").trim().toLowerCase();
 
 const inferRouteFromFunction = (functionName: string) => {
   const fnLower = normalizeText(functionName);
   for (const config of routeConfig) {
-    // 检查函数名是否包含关键词（如 getUserInfo 包含 user）
+    // 함수 이름에 키워드가 포함되는지 확인 (예: getUserInfo는 user 포함)
     if (config.keywords.some((kw) => fnLower.includes(kw.toLowerCase()))) {
       return { path: config.path, name: config.name };
     }
@@ -250,7 +250,7 @@ const inferRouteFromFunction = (functionName: string) => {
   return null;
 };
 
-// 根据命令文本匹配路由
+// 명령 텍스트로 라우트 매칭
 const matchRouteFromCommand = (cmd: string) => {
   const normalized = normalizeText(cmd);
   for (const config of routeConfig) {
@@ -263,27 +263,27 @@ const matchRouteFromCommand = (cmd: string) => {
 
 const extractKeywordFromCommand = (cmd: string): string => {
   const normalized = normalizeText(cmd);
-  // 从 routeConfig 动态获取所有数据类型关键词
+  // routeConfig에서 동적으로 모든 데이터 타입 키워드 가져오기
   const allKeywords = routeConfig.flatMap((config) =>
     config.keywords.map((kw) => kw.toLowerCase())
   );
   const keywordsPattern = allKeywords.join("|");
 
   const patterns = [
-    new RegExp(`(?:查询|获取|搜索|查找|找).*?([^\\s，,。]+?)(?:的)?(?:${keywordsPattern})`, "i"),
-    new RegExp(`(?:${keywordsPattern}).*?([^\\s，,。]+?)(?:的|信息|详情)?`, "i"),
+    new RegExp(`(?:조회|가져오기|검색|찾기|찾음).*?([^\\s，,。]+?)(?:의)?(?:${keywordsPattern})`, "i"),
+    new RegExp(`(?:${keywordsPattern}).*?([^\\s，,。]+?)(?:의|정보|세부사항)?`, "i"),
     new RegExp(
-      `(?:姓名为|名字叫|叫做|名称为|名是|为)([^\\s，,。]+?)(?:的)?(?:${keywordsPattern})?`,
+      `(?:이름은|이름이|부르는|명칭은|이름)([^\\s，,。]+?)(?:의)?(?:${keywordsPattern})?`,
       "i"
     ),
-    new RegExp(`([^\\s，,。]+?)(?:的)?(?:${keywordsPattern})(?:信息|详情)?`, "i"),
+    new RegExp(`([^\\s，,。]+?)(?:의)?(?:${keywordsPattern})(?:정보|세부사항)?`, "i"),
   ];
 
   for (const pattern of patterns) {
     const match = normalized.match(pattern);
     if (match && match[1]) {
       let extracted = match[1].trim();
-      extracted = extracted.replace(/姓名为|名字叫|叫做|名称为|名是|为|的|信息|详情/g, "");
+      extracted = extracted.replace(/이름은|이름이|부르는|명칭은|이름|의|정보|세부사항/g, "");
       if (
         extracted &&
         !allKeywords.some((type) => extracted.toLowerCase().includes(type.toLowerCase()))
@@ -296,18 +296,18 @@ const extractKeywordFromCommand = (cmd: string): string => {
 };
 
 const tryDirectNavigate = (rawCommand: string): AiResponse | null => {
-  const navigationIntents = ["跳转", "打开", "进入", "前往", "去", "浏览", "查看"];
+  const navigationIntents = ["이동", "열기", "들어가기", "앞으로", "가기", "보기", "확인"];
   const operationIntents = [
-    "修改",
-    "更新",
-    "变更",
-    "删除",
-    "添加",
-    "创建",
-    "设置",
-    "获取",
-    "查询",
-    "搜索",
+    "수정",
+    "업데이트",
+    "변경",
+    "삭제",
+    "추가",
+    "생성",
+    "설정",
+    "가져오기",
+    "조회",
+    "검색",
   ];
 
   const hasNavigationIntent = navigationIntents.some((keyword) => rawCommand.includes(keyword));
@@ -331,18 +331,18 @@ const tryDirectNavigate = (rawCommand: string): AiResponse | null => {
   };
 
   return {
-    explanation: `检测到跳转命令，正在前往 ${routeInfo.name}`,
+    explanation: `이동 명령이 감지되었습니다. ${routeInfo.name}로 이동 중입니다.`,
     action,
   };
 };
 
-// 解析 AI 返回的操作类型
+// AI가 반환한 작업 유형 분석
 const parseAction = (result: any, rawCommand: string): AiAction | null => {
   const cmd = normalizeText(rawCommand);
   const primaryCall = result.functionCalls?.[0];
   const functionName = primaryCall?.name;
 
-  // 优先从函数名推断路由，其次从命令文本匹配
+  // 우선 함수 이름에서 라우트 추론, 다음으로 명령 텍스트에서 매칭
   let routeInfo = functionName ? inferRouteFromFunction(functionName) : null;
   if (!routeInfo) {
     routeInfo = matchRouteFromCommand(cmd);
@@ -355,7 +355,7 @@ const parseAction = (result: any, rawCommand: string): AiAction | null => {
   if (primaryCall && functionName) {
     const fnNameLower = functionName.toLowerCase();
 
-    // 1) 查询类函数（query/search/list/get）-> 跳转并执行筛选操作
+    // 1) 조회 함수 (query/search/list/get) -> 필터링 작업 수행 후 이동
     const isQueryFunction =
       fnNameLower.includes("query") ||
       fnNameLower.includes("search") ||
@@ -363,7 +363,7 @@ const parseAction = (result: any, rawCommand: string): AiAction | null => {
       fnNameLower.includes("get");
 
     if (isQueryFunction) {
-      // 统一使用 keywords 参数（约定大于配置）
+      // 통합 keywords 파라미터 사용 (규칙 > 설정)
       const args = (primaryCall.arguments || {}) as Record<string, unknown>;
       const keywords =
         typeof args.keywords === "string" && args.keywords.trim().length > 0
@@ -381,7 +381,7 @@ const parseAction = (result: any, rawCommand: string): AiAction | null => {
       }
     }
 
-    // 2) 其他操作类函数（修改/删除/创建/更新等）-> 跳转并执行
+    // 2) 다른 작업 함수 (수정/삭제/생성/업데이트 등) -> 이동 후 실행
     const isModifyFunction =
       fnNameLower.includes("update") ||
       fnNameLower.includes("modify") ||
@@ -401,7 +401,7 @@ const parseAction = (result: any, rawCommand: string): AiAction | null => {
       };
     }
 
-    // 3) 其他未匹配的函数，如果有路由则跳转，否则执行
+    // 3) 다른 매칭되지 않은 함수, 라우트가 있으면 이동, 없으면 실행만 함
     if (routePath) {
       return {
         type: "navigate-and-execute",
@@ -418,7 +418,7 @@ const parseAction = (result: any, rawCommand: string): AiAction | null => {
     };
   }
 
-  // 4) 无函数调用，仅跳转
+  // 4) 함수 호출 없음, 이동만 수행
   if (routePath) {
     return {
       type: "navigate",
@@ -431,26 +431,26 @@ const parseAction = (result: any, rawCommand: string): AiAction | null => {
   return null;
 };
 
-// 定时器引用（用于清理）
+// 타이머 참조 (정리용)
 let navigationTimer: ReturnType<typeof setTimeout> | null = null;
 let executeTimer: ReturnType<typeof setTimeout> | null = null;
 
-// 执行操作
+// 작업 실행
 const executeAction = async (action: AiAction) => {
-  // 🎯 新增：跳转并执行操作
+  // 🎯 신규: 이동 및 작업 실행
   if (action.type === "navigate-and-execute") {
-    ElMessage.success(`正在跳转到 ${action.pageName} 并执行操作...`);
+    ElMessage.success(`${action.pageName}로 이동 중이며 작업을 실행합니다...`);
 
-    // 清理之前的定时器
+    // 이전 타이머 정리
     if (navigationTimer) {
       clearTimeout(navigationTimer);
     }
 
-    // 跳转并传递待执行的操作信息
+    // 이동 및 실행할 작업 정보 전달
     navigationTimer = setTimeout(() => {
       navigationTimer = null;
       const queryParams: any = {
-        // 通过 URL 参数传递 AI 操作信息
+        // URL 파라미터를 통해 AI 작업 정보 전달
         aiAction: encodeURIComponent(
           JSON.stringify({
             functionName: action.functionCall.name,
@@ -460,7 +460,7 @@ const executeAction = async (action: AiAction) => {
         ),
       };
 
-      // 如果有查询关键字，也一并传递
+      // 검색 키워드가 있으면 함께 전달
       if (action.query) {
         queryParams.keywords = action.query;
         queryParams.autoSearch = "true";
@@ -471,76 +471,76 @@ const executeAction = async (action: AiAction) => {
         query: queryParams,
       });
 
-      // 关闭对话框
+      // 대화 상자 닫기
       handleClose();
     }, 800);
     return;
   }
 
   if (action.type === "navigate") {
-    // 检查是否已经在目标页面
+    // 이미 대상 페이지에 있는지 확인
     const currentPath = router.currentRoute.value.path;
 
     if (currentPath === action.path) {
-      // 如果已经在目标页面
+      // 이미 대상 페이지에 있는 경우
       if (action.query) {
-        // 有查询关键字，直接在当前页面执行搜索
-        ElMessage.info(`您已在 ${action.pageName} 页面，为您执行搜索：${action.query}`);
+        // 검색 키워드가 있으면 현재 페이지에서 검색 실행
+        ElMessage.info(`${action.pageName} 페이지에 있습니다. 검색을 실행합니다: ${action.query}`);
 
-        // 触发路由更新，让页面执行搜索
+        // 라우트 업데이트 트리거, 페이지가 검색을 실행하도록 함
         router.replace({
           path: action.path,
           query: {
             keywords: action.query,
             autoSearch: "true",
-            _t: Date.now().toString(), // 添加时间戳强制刷新
+            _t: Date.now().toString(), // 타임스탬프 추가하여 강제 새로 고침
           },
         });
       } else {
-        // 没有查询关键字，只是跳转，给出提示
-        ElMessage.warning(`您已经在 ${action.pageName} 页面了`);
+        // 검색 키워드가 없으면 단지 이동만 하고 알림 제공
+        ElMessage.warning(`이미 ${action.pageName} 페이지에 있습니다.`);
       }
 
-      // 关闭对话框
+      // 대화 상자 닫기
       handleClose();
       return;
     }
 
-    // 不在目标页面，正常跳转
-    ElMessage.success(`正在跳转到 ${action.pageName}...`);
+    // 대상 페이지에 없으므로 정상적으로 이동
+    ElMessage.success(`${action.pageName}로 이동 중입니다...`);
 
-    // 清理之前的定时器
+    // 이전 타이머 정리
     if (navigationTimer) {
       clearTimeout(navigationTimer);
     }
 
-    // 延迟一下让用户看到提示
+    // 사용자가 메시지를 볼 수 있도록 지연
     navigationTimer = setTimeout(() => {
       navigationTimer = null;
-      // 跳转并传递查询参数
+      // 이동 및 검색 파라미터 전달
       router.push({
         path: action.path,
         query: action.query
           ? {
-              keywords: action.query, // 传递关键字参数
-              autoSearch: "true", // 标记自动搜索
+              keywords: action.query, // 키워드 파라미터 전달
+              autoSearch: "true", // 자동 검색 표시
             }
           : undefined,
       });
 
-      // 关闭对话框
+      // 대화 상자 닫기
       handleClose();
     }, 800);
   } else if (action.type === "execute") {
-    // 执行函数调用
-    ElMessage.info("功能开发中，请前往 AI 命令助手页面体验完整功能");
+    // 함수 호출 실행
+    ElMessage.info("기능 개발 중입니다. AI 명령 어시스턴트 페이지로 이동하여 전체 기능을 체험해주세요.");
 
-    // 清理之前的定时器
+    // 이전 타이머 정리
     if (executeTimer) {
       clearTimeout(executeTimer);
     }
 
-    // 可以跳转到完整的 AI 命令页面
+    // 전체 AI 명령 페이지로 이동
     executeTimer = setTimeout(() => {
       executeTimer = null;
       router.push("/function/ai-command");
@@ -549,7 +549,7 @@ const executeAction = async (action: AiAction) => {
   }
 };
 
-// 组件卸载时清理定时器
+// 컴포넌트 언마운트 시 타이머 정리
 onBeforeUnmount(() => {
   if (navigationTimer) {
     clearTimeout(navigationTimer);

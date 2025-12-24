@@ -2,7 +2,7 @@
   <div>
     <h3 text-center m-0 mb-20px>{{ t("login.reg") }}</h3>
     <el-form ref="formRef" :model="model" :rules="rules" size="large">
-      <!-- 用户名 -->
+      <!-- 사용자명 -->
       <el-form-item prop="username">
         <el-input v-model.trim="model.username" :placeholder="t('login.username')">
           <template #prefix>
@@ -11,7 +11,7 @@
         </el-input>
       </el-form-item>
 
-      <!-- 密码 -->
+      <!-- 비밀번호 -->
       <el-tooltip :visible="isCapsLock" :content="t('login.capsLock')" placement="right">
         <el-form-item prop="password">
           <el-input
@@ -46,7 +46,7 @@
         </el-form-item>
       </el-tooltip>
 
-      <!-- 验证码 -->
+      <!-- 인증번호 -->
       <el-form-item prop="captchaCode">
         <div flex>
           <el-input
@@ -81,7 +81,7 @@
         </div>
       </el-form-item>
 
-      <!-- 注册按钮 -->
+      <!-- 회원가입 버튼 -->
       <el-form-item>
         <el-button :loading="loading" type="success" class="w-full" @click="submit">
           {{ t("login.register") }}
@@ -108,9 +108,9 @@ const toLogin = () => emit("update:modelValue", "login");
 onMounted(() => getCaptcha());
 
 const formRef = ref<FormInstance>();
-const loading = ref(false); // 按钮 loading 状态
-const isCapsLock = ref(false); // 是否大写锁定
-const captchaBase64 = ref(); // 验证码图片Base64字符串
+const loading = ref(false); // 버튼 로딩 상태
+const isCapsLock = ref(false); // Caps Lock 여부
+const captchaBase64 = ref(); // 인증번호 이미지 Base64 문자열
 const isRead = ref(false);
 
 interface Model extends LoginFormData {
@@ -176,7 +176,7 @@ const rules = computed(() => {
   };
 });
 
-// 获取验证码
+// 인증번호 가져오기
 const codeLoading = ref(false);
 function getCaptcha() {
   codeLoading.value = true;
@@ -188,9 +188,9 @@ function getCaptcha() {
     .finally(() => (codeLoading.value = false));
 }
 
-// 检查输入大小写
+// 입력 대소문자 확인
 function checkCapsLock(event: KeyboardEvent) {
-  // 防止浏览器密码自动填充时报错
+  // 브라우저 비밀번호 자동완성 시 오류 방지
   if (event instanceof KeyboardEvent) {
     isCapsLock.value = event.getModifierState("CapsLock");
   }
@@ -198,6 +198,6 @@ function checkCapsLock(event: KeyboardEvent) {
 
 const submit = async () => {
   await formRef.value?.validate();
-  ElMessage.warning("开发中 ...");
+  ElMessage.warning("개발 중 ...");
 };
 </script>

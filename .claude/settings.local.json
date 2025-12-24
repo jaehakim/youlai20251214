@@ -8,7 +8,8 @@
       "Bash(python translate_chinese_to_korean.py:*)",
       "Bash(python:*)",
       "Bash(find:*)",
-      "Bash({} ;)"
+      "Bash({} ;)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

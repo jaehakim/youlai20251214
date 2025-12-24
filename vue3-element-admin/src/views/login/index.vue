@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <!-- 右侧切换主题、语言按钮  -->
+    <!-- 오른쪽 테마, 언어 전환 버튼 -->
     <div class="action-bar">
       <el-tooltip :content="t('login.themeToggle')" placement="bottom">
         <CommonWrapper>
@@ -13,29 +13,29 @@
         </CommonWrapper>
       </el-tooltip>
     </div>
-    <!-- 登录页主体 -->
+    <!-- 로그인 페이지 본문 -->
     <div flex-1 flex-center>
       <div
         class="p-4xl w-full h-auto sm:w-450px sm:h-700px shadow-[var(--el-box-shadow-light)] border-rd-2"
       >
         <div w-full flex flex-col items-center>
-          <!-- logo -->
+          <!-- 로고 -->
           <el-image :src="logo" style="width: 84px" />
 
-          <!-- 标题 -->
+          <!-- 제목 -->
           <h2>
             <el-badge :value="`v ${defaultSettings.version}`" type="success">
               {{ defaultSettings.title }}
             </el-badge>
           </h2>
 
-          <!-- 组件切换 -->
+          <!-- 컴포넌트 전환 -->
           <transition name="fade-slide" mode="out-in">
             <component :is="formComponents[component]" v-model="component" class="w-90%" />
           </transition>
         </div>
       </div>
-      <!-- 登录页底部版权 -->
+      <!-- 로그인 페이지 하단 저작권 -->
       <el-text size="small" class="py-2.5! fixed bottom-0 text-center">
         Copyright © 2021 - 2025 youlai.tech All Rights Reserved.
         <a href="http://beian.miit.gov.cn/" target="_blank">皖ICP备20006496号-2</a>
@@ -54,23 +54,23 @@ type LayoutMap = "login" | "register" | "resetPwd";
 
 const t = useI18n().t;
 
-const component = ref<LayoutMap>("login"); // 切换显示的组件
+const component = ref<LayoutMap>("login"); // 표시할 컴포넌트 전환
 const formComponents = {
   login: defineAsyncComponent(() => import("./components/Login.vue")),
   register: defineAsyncComponent(() => import("./components/Register.vue")),
   resetPwd: defineAsyncComponent(() => import("./components/ResetPwd.vue")),
 };
 
-// 投票通知
+// 투표 알림
 const voteUrl = "https://gitee.com/activity/2025opensource?ident=I6VXEH";
-// 保存通知实例，用于在组件卸载时关闭
+// 알림 인스턴스 저장, 컴포넌트 언마운트 시 닫기 위함
 let notificationInstance: ReturnType<typeof ElNotification> | null = null;
 
-// 显示投票通知
+// 투표 알림 표시
 const showVoteNotification = () => {
   notificationInstance = ElNotification({
-    title: "⭐ Gitee 2025 开源评选 · 诚邀您的支持！ 🙏",
-    message: `我正在参加 Gitee 2025 最受欢迎的开源软件投票活动，快来给我投票吧！<br/><a href="${voteUrl}" target="_blank" style="color: var(--el-color-primary); text-decoration: none; font-weight: 500;">点击投票 →</a>`,
+    title: "⭐ Gitee 2025 오픈소스 선정 · 여러분의 지원을 정성으로 기다립니다! 🙏",
+    message: `저는 Gitee 2025 가장 인기 있는 오픈소스 소프트웨어 투표 활동에 참가하고 있습니다. 저에게 투표해주세요!<br/><a href="${voteUrl}" target="_blank" style="color: var(--el-color-primary); text-decoration: none; font-weight: 500;">투표하기 →</a>`,
     type: "success",
     position: "bottom-right",
     duration: 0,
@@ -78,14 +78,14 @@ const showVoteNotification = () => {
   });
 };
 
-// 延迟显示
+// 지연 표시
 onMounted(() => {
   setTimeout(() => {
     showVoteNotification();
   }, 500);
 });
 
-// 组件卸载时关闭通知
+// 컴포넌트 언마운트 시 알림 닫기
 onBeforeUnmount(() => {
   if (notificationInstance) {
     notificationInstance.close();
@@ -106,7 +106,7 @@ onBeforeUnmount(() => {
   height: 100%;
 }
 
-// 添加伪元素作为背景层
+// 배경 레이어로 의사 요소 추가
 .login-container::before {
   position: fixed;
   top: 0;
@@ -143,7 +143,7 @@ onBeforeUnmount(() => {
   }
 }
 
-/* fade-slide */
+/* fade-slide 애니메이션 */
 .fade-slide-leave-active,
 .fade-slide-enter-active {
   transition: all 0.3s;

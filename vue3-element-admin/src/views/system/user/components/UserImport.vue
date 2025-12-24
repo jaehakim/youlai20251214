@@ -32,7 +32,7 @@
               </div>
               <template #tip>
                 <div class="el-upload__tip">
-                  格式为*.xlsx / *.xls，文件不超过一个
+                  형식은 *.xlsx / *.xls이며, 파일은 하나만 업로드할 수 있습니다
                   <el-link
                     type="primary"
                     icon="download"
@@ -57,9 +57,9 @@
             :disabled="importFormData.files.length === 0"
             @click="handleUpload"
           >
-            确 定
+            확 인
           </el-button>
-          <el-button @click="handleClose">取 消</el-button>
+          <el-button @click="handleClose">취 소</el-button>
         </div>
       </template>
     </el-dialog>
@@ -126,12 +126,12 @@ const importFormRules = {
   files: [{ required: true, message: "파일을 비워둘 수 없습니다", trigger: "blur" }],
 };
 
-// 文件超出个数限制
+// 파일 개수 초과
 const handleFileExceed = () => {
   ElMessage.warning("파일은 하나만 업로드할 수 있습니다");
 };
 
-// 下载导入模板
+// 가져오기 템플릿 다운로드
 const handleDownloadTemplate = () => {
   UserAPI.downloadTemplate().then((response: any) => {
     const fileData = response.data;
@@ -154,17 +154,17 @@ const handleDownloadTemplate = () => {
   });
 };
 
-// 上传文件
+// 파일 업로드
 const handleUpload = async () => {
   if (!importFormData.files.length) {
-    ElMessage.warning("请选择文件");
+    ElMessage.warning("파일을 선택하세요");
     return;
   }
 
   try {
     const result = await UserAPI.import("1", importFormData.files[0].raw as File);
     if (result.code === ApiCodeEnum.SUCCESS && result.invalidCount === 0) {
-      ElMessage.success("导入成功，데이터 가져오기：" + result.validCount + "条");
+      ElMessage.success("가져오기 성공, 데이터 가져오기: " + result.validCount + "개");
       emit("import-success");
       handleClose();
     } else {
@@ -176,21 +176,21 @@ const handleUpload = async () => {
     }
   } catch (error: any) {
     console.error(error);
-    ElMessage.error("업로드 실패：" + error);
+    ElMessage.error("업로드 실패: " + error);
   }
 };
 
-// 显示오류 정보
+// 오류 정보 표시
 const handleShowResult = () => {
   resultVisible.value = true;
 };
 
-// 닫기오류 정보弹窗
+// 오류 정보 다이얼로그 닫기
 const handleCloseResult = () => {
   resultVisible.value = false;
 };
 
-// 닫기弹窗
+// 다이얼로그 닫기
 const handleClose = () => {
   importFormData.files.length = 0;
   visible.value = false;

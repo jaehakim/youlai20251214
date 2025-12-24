@@ -19,12 +19,12 @@ const settingsStore = useSettingsStore();
 const layout = computed(() => settingsStore.layout);
 
 const hamburgerClass = computed(() => {
-  // 如果暗黑主题
+  // 어두운 테마인 경우
   if (settingsStore.theme === ThemeMode.DARK) {
     return "hamburger--white";
   }
 
-  // 如果是混合布局 && 侧边栏配色方案是经典蓝
+  // 혼합 레이아웃 && 사이드바 색 구성 방식이 클래식 파란색인 경우
   if (
     layout.value === LayoutMode.MIX &&
     settingsStore.sidebarColorScheme === SidebarColor.CLASSIC_BLUE
@@ -32,7 +32,7 @@ const hamburgerClass = computed(() => {
     return "hamburger--white";
   }
 
-  // 默认返回空字符串
+  // 기본값 빈 문자열 반환
   return "";
 });
 

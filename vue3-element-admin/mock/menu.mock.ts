@@ -13,7 +13,7 @@ export default defineMock([
           redirect: "/system/user",
           name: "/system",
           meta: {
-            title: "系统管理",
+            title: "시스템 관리",
             icon: "system",
             hidden: false,
             alwaysShow: false,
@@ -25,7 +25,7 @@ export default defineMock([
               component: "system/user/index",
               name: "User",
               meta: {
-                title: "用户管理",
+                title: "사용자 관리",
                 icon: "el-icon-User",
                 hidden: false,
                 keepAlive: true,
@@ -38,7 +38,7 @@ export default defineMock([
               component: "system/role/index",
               name: "Role",
               meta: {
-                title: "角色管理",
+                title: "역할 관리",
                 icon: "role",
                 hidden: false,
                 keepAlive: true,
@@ -51,7 +51,7 @@ export default defineMock([
               component: "system/menu/index",
               name: "SysMenu",
               meta: {
-                title: "菜单管理",
+                title: "메뉴 관리",
                 icon: "menu",
                 hidden: false,
                 keepAlive: true,
@@ -64,7 +64,7 @@ export default defineMock([
               component: "system/dept/index",
               name: "Dept",
               meta: {
-                title: "部门管理",
+                title: "부서 관리",
                 icon: "tree",
                 hidden: false,
                 keepAlive: true,
@@ -77,7 +77,7 @@ export default defineMock([
               component: "system/dict/index",
               name: "Dict",
               meta: {
-                title: "字典管理",
+                title: "사전 관리",
                 icon: "dict",
                 hidden: false,
                 keepAlive: true,
@@ -90,7 +90,7 @@ export default defineMock([
               component: "system/log/index",
               name: "Log",
               meta: {
-                title: "系统日志",
+                title: "시스템 로그",
                 icon: "document",
                 hidden: false,
                 keepAlive: true,
@@ -103,7 +103,7 @@ export default defineMock([
               component: "system/dict/dict-item",
               name: "DictItem",
               meta: {
-                title: "字典项",
+                title: "사전 항목",
                 icon: "",
                 hidden: true,
                 keepAlive: true,
@@ -116,7 +116,7 @@ export default defineMock([
               component: "system/config/index",
               name: "Config",
               meta: {
-                title: "系统配置",
+                title: "시스템 설정",
                 icon: "setting",
                 hidden: false,
                 keepAlive: true,
@@ -129,7 +129,7 @@ export default defineMock([
               component: "system/notice/index",
               name: "Notice",
               meta: {
-                title: "通知公告",
+                title: "공지 사항",
                 icon: "",
                 hidden: false,
                 alwaysShow: false,
@@ -143,7 +143,7 @@ export default defineMock([
           component: "Layout",
           name: "/codegen",
           meta: {
-            title: "系统工具",
+            title: "시스템 도구",
             icon: "menu",
             hidden: false,
             alwaysShow: false,
@@ -155,7 +155,7 @@ export default defineMock([
               component: "codegen/index",
               name: "Codegen",
               meta: {
-                title: "代码生成",
+                title: "코드 생성",
                 icon: "code",
                 hidden: false,
                 keepAlive: true,
@@ -170,7 +170,7 @@ export default defineMock([
           component: "Layout",
           name: "/api",
           meta: {
-            title: "接口文档",
+            title: "API 문서",
             icon: "api",
             hidden: false,
             alwaysShow: true,
@@ -198,7 +198,7 @@ export default defineMock([
           redirect: "https://juejin.cn/post/7228990409909108793",
           name: "/doc",
           meta: {
-            title: "平台文档",
+            title: "플랫폼 문서",
             icon: "document",
             hidden: false,
             alwaysShow: false,
@@ -221,7 +221,7 @@ export default defineMock([
               path: "https://juejin.cn/post/7228990409909108793",
               name: "Https://juejin.cn/post/7228990409909108793",
               meta: {
-                title: "平台文档(外链)",
+                title: "플랫폼 문서(외부링크)",
                 icon: "link",
                 hidden: false,
                 alwaysShow: false,
@@ -235,7 +235,7 @@ export default defineMock([
           component: "Layout",
           name: "/multiLevel",
           meta: {
-            title: "多级菜单",
+            title: "다단계 메뉴",
             icon: "cascader",
             hidden: false,
             alwaysShow: true,
@@ -247,7 +247,7 @@ export default defineMock([
               component: "Layout",
               name: "MultiLevel1",
               meta: {
-                title: "菜单一级",
+                title: "1단계 메뉴",
                 icon: "",
                 hidden: false,
                 alwaysShow: true,
@@ -259,7 +259,7 @@ export default defineMock([
                   component: "Layout",
                   name: "MultiLevel2",
                   meta: {
-                    title: "菜单二级",
+                    title: "2단계 메뉴",
                     icon: "",
                     hidden: false,
                     alwaysShow: false,
@@ -271,7 +271,7 @@ export default defineMock([
                       component: "demo/multi-level/children/children/level3-1",
                       name: "MultiLevel31",
                       meta: {
-                        title: "菜单三级-1",
+                        title: "3단계 메뉴-1",
                         icon: "",
                         hidden: false,
                         keepAlive: true,
@@ -284,7 +284,7 @@ export default defineMock([
                       component: "demo/multi-level/children/children/level3-2",
                       name: "MultiLevel32",
                       meta: {
-                        title: "菜单三级-2",
+                        title: "3단계 메뉴-2",
                         icon: "",
                         hidden: false,
                         keepAlive: true,
@@ -303,7 +303,7 @@ export default defineMock([
           component: "Layout",
           name: "/component",
           meta: {
-            title: "组件封装",
+            title: "컴포넌트 캡슐화",
             icon: "menu",
             hidden: false,
             alwaysShow: false,
@@ -315,7 +315,7 @@ export default defineMock([
               component: "demo/curd/index",
               name: "Curd",
               meta: {
-                title: "增删改查",
+                title: "CURD",
                 icon: "",
                 hidden: false,
                 keepAlive: true,
@@ -328,7 +328,7 @@ export default defineMock([
               component: "demo/table-select/index",
               name: "TableSelect",
               meta: {
-                title: "列表选择器",
+                title: "목록 선택기",
                 icon: "",
                 hidden: false,
                 keepAlive: true,
@@ -341,7 +341,7 @@ export default defineMock([
               component: "demo/wang-editor",
               name: "WangEditor",
               meta: {
-                title: "富文本编辑器",
+                title: "리치 텍스트 에디터",
                 icon: "",
                 hidden: false,
                 keepAlive: true,
@@ -354,7 +354,7 @@ export default defineMock([
               component: "demo/upload",
               name: "Upload",
               meta: {
-                title: "图片上传",
+                title: "이미지 업로드",
                 icon: "",
                 hidden: false,
                 keepAlive: true,
@@ -367,7 +367,7 @@ export default defineMock([
               component: "demo/dictionary",
               name: "DictDemo",
               meta: {
-                title: "字典组件",
+                title: "사전 컴포넌트",
                 icon: "",
                 hidden: false,
                 keepAlive: true,
@@ -380,7 +380,7 @@ export default defineMock([
               component: "demo/icon-selector",
               name: "IconSelector",
               meta: {
-                title: "图标选择器",
+                title: "아이콘 선택기",
                 icon: "",
                 hidden: false,
                 keepAlive: true,
@@ -393,7 +393,7 @@ export default defineMock([
               component: "demo/drag",
               name: "Drag",
               meta: {
-                title: "拖拽组件",
+                title: "드래그 앤 드롭 컴포넌트",
                 icon: "",
                 hidden: false,
                 keepAlive: true,
@@ -406,7 +406,7 @@ export default defineMock([
               component: "demo/text-scroll",
               name: "TextScroll",
               meta: {
-                title: "滚动文本",
+                title: "스크롤 텍스트",
                 icon: "",
                 hidden: false,
                 keepAlive: true,
@@ -421,7 +421,7 @@ export default defineMock([
           component: "Layout",
           name: "/routeParam",
           meta: {
-            title: "路由参数",
+            title: "라우트 파라미터",
             icon: "el-icon-ElementPlus",
             hidden: false,
             alwaysShow: true,
@@ -433,7 +433,7 @@ export default defineMock([
               component: "demo/route-param",
               name: "RouteParamType1",
               meta: {
-                title: "参数(type=1)",
+                title: "파라미터(type=1)",
                 icon: "el-icon-Star",
                 hidden: false,
                 keepAlive: true,
@@ -448,7 +448,7 @@ export default defineMock([
               component: "demo/route-param",
               name: "RouteParamType2",
               meta: {
-                title: "参数(type=2)",
+                title: "파라미터(type=2)",
                 icon: "el-icon-StarFilled",
                 hidden: false,
                 keepAlive: true,
@@ -465,7 +465,7 @@ export default defineMock([
           component: "Layout",
           name: "/function",
           meta: {
-            title: "功能演示",
+            title: "기능 데모",
             icon: "menu",
             hidden: false,
             alwaysShow: false,
@@ -529,7 +529,7 @@ export default defineMock([
               component: "demo/other",
               name: "Other/:id",
               meta: {
-                title: "敬请期待...",
+                title: "준비 중...",
                 icon: "",
                 hidden: false,
                 alwaysShow: false,
@@ -539,11 +539,11 @@ export default defineMock([
           ],
         },
       ],
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
 
-  // 获取菜单树形表格列表
+  // 메뉴 트리 테이블 목록 조회
   {
     url: "menus",
     method: ["GET"],
@@ -553,7 +553,7 @@ export default defineMock([
         {
           id: 1,
           parentId: 0,
-          name: "系统管理",
+          name: "시스템 관리",
           type: "CATALOG",
           routeName: "",
           routePath: "/system",
@@ -567,7 +567,7 @@ export default defineMock([
             {
               id: 2,
               parentId: 1,
-              name: "用户管理",
+              name: "사용자 관리",
               type: "MENU",
               routeName: "User",
               routePath: "user",
@@ -581,7 +581,7 @@ export default defineMock([
                 {
                   id: 105,
                   parentId: 2,
-                  name: "用户查询",
+                  name: "사용자 검색",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -596,7 +596,7 @@ export default defineMock([
                 {
                   id: 31,
                   parentId: 2,
-                  name: "用户新增",
+                  name: "사용자 추가",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -611,7 +611,7 @@ export default defineMock([
                 {
                   id: 32,
                   parentId: 2,
-                  name: "用户编辑",
+                  name: "사용자 수정",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -626,7 +626,7 @@ export default defineMock([
                 {
                   id: 33,
                   parentId: 2,
-                  name: "用户删除",
+                  name: "사용자 삭제",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -641,7 +641,7 @@ export default defineMock([
                 {
                   id: 88,
                   parentId: 2,
-                  name: "重置密码",
+                  name: "비밀번호 재설정",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -656,7 +656,7 @@ export default defineMock([
                 {
                   id: 106,
                   parentId: 2,
-                  name: "用户导入",
+                  name: "사용자 가져오기",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -671,7 +671,7 @@ export default defineMock([
                 {
                   id: 107,
                   parentId: 2,
-                  name: "用户导出",
+                  name: "사용자 내보내기",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -688,7 +688,7 @@ export default defineMock([
             {
               id: 3,
               parentId: 1,
-              name: "角色管理",
+              name: "역할 관리",
               type: "MENU",
               routeName: "Role",
               routePath: "role",
@@ -702,7 +702,7 @@ export default defineMock([
                 {
                   id: 70,
                   parentId: 3,
-                  name: "角色新增",
+                  name: "역할 추가",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -717,7 +717,7 @@ export default defineMock([
                 {
                   id: 71,
                   parentId: 3,
-                  name: "角色编辑",
+                  name: "역할 수정",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -732,7 +732,7 @@ export default defineMock([
                 {
                   id: 72,
                   parentId: 3,
-                  name: "角色删除",
+                  name: "역할 삭제",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -749,7 +749,7 @@ export default defineMock([
             {
               id: 4,
               parentId: 1,
-              name: "菜单管理",
+              name: "메뉴 관리",
               type: "MENU",
               routeName: "Menu",
               routePath: "menu",
@@ -763,7 +763,7 @@ export default defineMock([
                 {
                   id: 73,
                   parentId: 4,
-                  name: "菜单新增",
+                  name: "메뉴 추가",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -778,7 +778,7 @@ export default defineMock([
                 {
                   id: 74,
                   parentId: 4,
-                  name: "菜单编辑",
+                  name: "메뉴 수정",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -793,7 +793,7 @@ export default defineMock([
                 {
                   id: 75,
                   parentId: 4,
-                  name: "菜单删除",
+                  name: "메뉴 삭제",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -810,7 +810,7 @@ export default defineMock([
             {
               id: 5,
               parentId: 1,
-              name: "部门管理",
+              name: "부서 관리",
               type: "MENU",
               routeName: "Dept",
               routePath: "dept",
@@ -824,7 +824,7 @@ export default defineMock([
                 {
                   id: 76,
                   parentId: 5,
-                  name: "部门新增",
+                  name: "부서 추가",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -839,7 +839,7 @@ export default defineMock([
                 {
                   id: 77,
                   parentId: 5,
-                  name: "部门编辑",
+                  name: "부서 수정",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -854,7 +854,7 @@ export default defineMock([
                 {
                   id: 78,
                   parentId: 5,
-                  name: "部门删除",
+                  name: "부서 삭제",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -871,7 +871,7 @@ export default defineMock([
             {
               id: 6,
               parentId: 1,
-              name: "字典管理",
+              name: "사전 관리",
               type: "MENU",
               routeName: "Dict",
               routePath: "dict",
@@ -885,7 +885,7 @@ export default defineMock([
                 {
                   id: 79,
                   parentId: 6,
-                  name: "字典新增",
+                  name: "사전 추가",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -900,7 +900,7 @@ export default defineMock([
                 {
                   id: 81,
                   parentId: 6,
-                  name: "字典编辑",
+                  name: "사전 수정",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -915,7 +915,7 @@ export default defineMock([
                 {
                   id: 84,
                   parentId: 6,
-                  name: "字典删除",
+                  name: "사전 삭제",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -932,7 +932,7 @@ export default defineMock([
             {
               id: 135,
               parentId: 1,
-              name: "字典项",
+              name: "사전 항목",
               type: "MENU",
               routeName: "DictData",
               routePath: "dict-item",
@@ -946,7 +946,7 @@ export default defineMock([
                 {
                   id: 136,
                   parentId: 135,
-                  name: "字典项新增",
+                  name: "사전 항목 추가",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -961,7 +961,7 @@ export default defineMock([
                 {
                   id: 137,
                   parentId: 135,
-                  name: "字典项编辑",
+                  name: "사전 항목 수정",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -976,7 +976,7 @@ export default defineMock([
                 {
                   id: 138,
                   parentId: 135,
-                  name: "字典项删除",
+                  name: "사전 항목 삭제",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -993,7 +993,7 @@ export default defineMock([
             {
               id: 117,
               parentId: 1,
-              name: "系统日志",
+              name: "시스템 로그",
               type: "MENU",
               routeName: "Log",
               routePath: "log",
@@ -1008,7 +1008,7 @@ export default defineMock([
             {
               id: 120,
               parentId: 1,
-              name: "系统配置",
+              name: "시스템 설정",
               type: "MENU",
               routeName: "Config",
               routePath: "config",
@@ -1022,7 +1022,7 @@ export default defineMock([
                 {
                   id: 121,
                   parentId: 120,
-                  name: "查询系统配置",
+                  name: "시스템 설정 검색",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -1037,7 +1037,7 @@ export default defineMock([
                 {
                   id: 122,
                   parentId: 120,
-                  name: "新增系统配置",
+                  name: "시스템 설정 추가",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -1052,7 +1052,7 @@ export default defineMock([
                 {
                   id: 123,
                   parentId: 120,
-                  name: "修改系统配置",
+                  name: "시스템 설정 수정",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -1067,7 +1067,7 @@ export default defineMock([
                 {
                   id: 124,
                   parentId: 120,
-                  name: "删除系统配置",
+                  name: "시스템 설정 삭제",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -1082,7 +1082,7 @@ export default defineMock([
                 {
                   id: 125,
                   parentId: 120,
-                  name: "刷新系统配置",
+                  name: "시스템 설정 새로고침",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -1099,7 +1099,7 @@ export default defineMock([
             {
               id: 126,
               parentId: 1,
-              name: "通知公告",
+              name: "공지 사항",
               type: "MENU",
               routeName: "Notice",
               routePath: "notice",
@@ -1113,7 +1113,7 @@ export default defineMock([
                 {
                   id: 127,
                   parentId: 126,
-                  name: "查询",
+                  name: "검색",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -1128,7 +1128,7 @@ export default defineMock([
                 {
                   id: 128,
                   parentId: 126,
-                  name: "新增",
+                  name: "추가",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -1143,7 +1143,7 @@ export default defineMock([
                 {
                   id: 129,
                   parentId: 126,
-                  name: "编辑",
+                  name: "수정",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -1158,7 +1158,7 @@ export default defineMock([
                 {
                   id: 130,
                   parentId: 126,
-                  name: "删除",
+                  name: "삭제",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -1173,7 +1173,7 @@ export default defineMock([
                 {
                   id: 133,
                   parentId: 126,
-                  name: "发布",
+                  name: "발행",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -1188,7 +1188,7 @@ export default defineMock([
                 {
                   id: 134,
                   parentId: 126,
-                  name: "撤回",
+                  name: "철회",
                   type: "BUTTON",
                   routeName: null,
                   routePath: "",
@@ -1207,7 +1207,7 @@ export default defineMock([
         {
           id: 118,
           parentId: 0,
-          name: "系统工具",
+          name: "시스템 도구",
           type: "CATALOG",
           routeName: null,
           routePath: "/codegen",
@@ -1221,7 +1221,7 @@ export default defineMock([
             {
               id: 119,
               parentId: 118,
-              name: "代码生成",
+              name: "코드 생성",
               type: "MENU",
               routeName: "Codegen",
               routePath: "codegen",
@@ -1238,7 +1238,7 @@ export default defineMock([
         {
           id: 40,
           parentId: 0,
-          name: "接口文档",
+          name: "API 문서",
           type: "CATALOG",
           routeName: null,
           routePath: "/api",
@@ -1269,7 +1269,7 @@ export default defineMock([
         {
           id: 26,
           parentId: 0,
-          name: "平台文档",
+          name: "플랫폼 문서",
           type: "CATALOG",
           routeName: null,
           routePath: "/doc",
@@ -1283,7 +1283,7 @@ export default defineMock([
             {
               id: 102,
               parentId: 26,
-              name: "平台文档(内嵌)",
+              name: "플랫폼 문서(내장)",
               type: "EXTLINK",
               routeName: null,
               routePath: "internal-doc",
@@ -1298,7 +1298,7 @@ export default defineMock([
             {
               id: 30,
               parentId: 26,
-              name: "平台文档(外链)",
+              name: "플랫폼 문서(외부링크)",
               type: "EXTLINK",
               routeName: null,
               routePath: "https://juejin.cn/post/7228990409909108793",
@@ -1315,7 +1315,7 @@ export default defineMock([
         {
           id: 20,
           parentId: 0,
-          name: "多级菜单",
+          name: "다단계 메뉴",
           type: "CATALOG",
           routeName: null,
           routePath: "/multi-level",
@@ -1329,7 +1329,7 @@ export default defineMock([
             {
               id: 21,
               parentId: 20,
-              name: "菜单一级",
+              name: "1단계 메뉴",
               type: "CATALOG",
               routeName: null,
               routePath: "multi-level1",
@@ -1343,7 +1343,7 @@ export default defineMock([
                 {
                   id: 22,
                   parentId: 21,
-                  name: "菜单二级",
+                  name: "2단계 메뉴",
                   type: "CATALOG",
                   routeName: null,
                   routePath: "multi-level2",
@@ -1357,7 +1357,7 @@ export default defineMock([
                     {
                       id: 23,
                       parentId: 22,
-                      name: "菜单三级-1",
+                      name: "3단계 메뉴-1",
                       type: "MENU",
                       routeName: null,
                       routePath: "multi-level3-1",
@@ -1372,7 +1372,7 @@ export default defineMock([
                     {
                       id: 24,
                       parentId: 22,
-                      name: "菜单三级-2",
+                      name: "3단계 메뉴-2",
                       type: "MENU",
                       routeName: null,
                       routePath: "multi-level3-2",
@@ -1393,7 +1393,7 @@ export default defineMock([
         {
           id: 36,
           parentId: 0,
-          name: "组件封装",
+          name: "컴포넌트 캡슐화",
           type: "CATALOG",
           routeName: null,
           routePath: "/component",
@@ -1407,7 +1407,7 @@ export default defineMock([
             {
               id: 108,
               parentId: 36,
-              name: "增删改查",
+              name: "CURD",
               type: "MENU",
               routeName: null,
               routePath: "curd",
@@ -1422,7 +1422,7 @@ export default defineMock([
             {
               id: 109,
               parentId: 36,
-              name: "列表选择器",
+              name: "목록 선택기",
               type: "MENU",
               routeName: null,
               routePath: "table-select",
@@ -1437,7 +1437,7 @@ export default defineMock([
             {
               id: 37,
               parentId: 36,
-              name: "富文本编辑器",
+              name: "리치 텍스트 에디터",
               type: "MENU",
               routeName: null,
               routePath: "wang-editor",
@@ -1452,7 +1452,7 @@ export default defineMock([
             {
               id: 38,
               parentId: 36,
-              name: "图片上传",
+              name: "이미지 업로드",
               type: "MENU",
               routeName: null,
               routePath: "upload",
@@ -1467,7 +1467,7 @@ export default defineMock([
             {
               id: 95,
               parentId: 36,
-              name: "字典组件",
+              name: "사전 컴포넌트",
               type: "MENU",
               routeName: null,
               routePath: "dict-demo",
@@ -1482,7 +1482,7 @@ export default defineMock([
             {
               id: 39,
               parentId: 36,
-              name: "图标选择器",
+              name: "아이콘 선택기",
               type: "MENU",
               routeName: null,
               routePath: "icon-selector",
@@ -1499,7 +1499,7 @@ export default defineMock([
         {
           id: 110,
           parentId: 0,
-          name: "路由参数",
+          name: "라우트 파라미터",
           type: "CATALOG",
           routeName: null,
           routePath: "/route-param",
@@ -1513,7 +1513,7 @@ export default defineMock([
             {
               id: 111,
               parentId: 110,
-              name: "参数(type=1)",
+              name: "파라미터(type=1)",
               type: "MENU",
               routeName: null,
               routePath: "route-param-type1",
@@ -1528,7 +1528,7 @@ export default defineMock([
             {
               id: 112,
               parentId: 110,
-              name: "参数(type=2)",
+              name: "파라미터(type=2)",
               type: "MENU",
               routeName: null,
               routePath: "route-param-type2",
@@ -1545,7 +1545,7 @@ export default defineMock([
         {
           id: 89,
           parentId: 0,
-          name: "功能演示",
+          name: "기능 데모",
           type: "CATALOG",
           routeName: null,
           routePath: "/function",
@@ -1589,7 +1589,7 @@ export default defineMock([
             {
               id: 91,
               parentId: 89,
-              name: "敬请期待...",
+              name: "준비 중...",
               type: "CATALOG",
               routeName: null,
               routePath: "other/:id",
@@ -1604,11 +1604,11 @@ export default defineMock([
           ],
         },
       ],
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
 
-  // 获取菜单树形下拉列表
+  // 메뉴 트리 드롭다운 목록 조회
   {
     url: "menus/options",
     method: ["GET"],
@@ -1949,11 +1949,11 @@ export default defineMock([
         },
       ],
 
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
 
-  // 新增菜单
+  // 메뉴 추가
   {
     url: "menus",
     method: ["POST"],
@@ -1961,12 +1961,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "新增菜单" + body.name + "成功",
+        msg: "메뉴 추가 " + body.name + " 성공",
       };
     },
   },
 
-  // 获取菜单表单数据
+  // 메뉴 폼 데이터 조회
   {
     url: "menus/:id/form",
     method: ["GET"],
@@ -1974,12 +1974,12 @@ export default defineMock([
       return {
         code: "00000",
         data: menuMap[params.id],
-        msg: "一切ok",
+        msg: "모두 정상",
       };
     },
   },
 
-  // 修改菜单
+  // 메뉴 수정
   {
     url: "menus/:id",
     method: ["PUT"],
@@ -1987,12 +1987,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "修改菜单" + body.name + "成功",
+        msg: "메뉴 수정 " + body.name + " 성공",
       };
     },
   },
 
-  // 删除菜单
+  // 메뉴 삭제
   {
     url: "menus/:id",
     method: ["DELETE"],
@@ -2000,7 +2000,7 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "删除菜单" + params.id + "成功",
+        msg: "메뉴 삭제 " + params.id + " 성공",
       };
     },
   },

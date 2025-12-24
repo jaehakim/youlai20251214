@@ -1,34 +1,34 @@
 <template>
   <div :class="['navbar-actions', navbarActionsClass]">
-    <!-- 桌面端工具项 -->
+    <!-- 데스크톱 도구 항목 -->
     <template v-if="isDesktop">
-      <!-- 搜索 -->
+      <!-- 검색 -->
       <div class="navbar-actions__item">
         <MenuSearch />
       </div>
 
-      <!-- 全屏 -->
+      <!-- 전체 화면 -->
       <div class="navbar-actions__item">
         <Fullscreen />
       </div>
 
-      <!-- 布局大小 -->
+      <!-- 레이아웃 크기 -->
       <div class="navbar-actions__item">
         <SizeSelect />
       </div>
 
-      <!-- 语言选择 -->
+      <!-- 언어 선택 -->
       <div class="navbar-actions__item">
         <LangSelect />
       </div>
 
-      <!-- 通知 -->
+      <!-- 알림 -->
       <div class="navbar-actions__item">
         <Notification />
       </div>
     </template>
 
-    <!-- 用户菜单 -->
+    <!-- 사용자 메뉴 -->
     <div class="navbar-actions__item">
       <el-dropdown trigger="click">
         <div class="user-profile">
@@ -48,7 +48,7 @@
       </el-dropdown>
     </div>
 
-    <!-- 系统设置 -->
+    <!-- 시스템 설정 -->
     <div
       v-if="defaultSettings.showSettings"
       class="navbar-actions__item"
@@ -68,7 +68,7 @@ import { useAppStore, useSettingsStore, useUserStore } from "@/store";
 import { SidebarColor, ThemeMode } from "@/enums/settings/theme-enum";
 import { LayoutMode } from "@/enums";
 
-// 导入子组件
+// 자식 컴포넌트 가져오기
 import MenuSearch from "@/components/MenuSearch/index.vue";
 import Fullscreen from "@/components/Fullscreen/index.vue";
 import SizeSelect from "@/components/SizeSelect/index.vue";
@@ -83,30 +83,30 @@ const userStore = useUserStore();
 const route = useRoute();
 const router = useRouter();
 
-// 是否为桌面设备
+// 데스크톱 장치 여부
 const isDesktop = computed(() => appStore.device === DeviceEnum.DESKTOP);
 
 /**
- * 打开个人中心页面
+ * 개인 센터 페이지 열기
  */
 function handleProfileClick() {
   router.push({ name: "Profile" });
 }
 
-// 根据主题和侧边栏配色方案选择样式类
+// 테마 및 사이드바 색상 구성표에 따라 스타일 클래스 선택
 const navbarActionsClass = computed(() => {
   const { theme, sidebarColorScheme, layout } = settingStore;
 
-  // 暗黑主题下，所有布局都使用白色文字
+  // 어두운 테마에서 모든 레이아웃이 흰색 텍스트를 사용합니다
   if (theme === ThemeMode.DARK) {
     return "navbar-actions--white-text";
   }
 
-  // 明亮主题下
+  // 밝은 테마에서
   if (theme === ThemeMode.LIGHT) {
-    // 顶部布局和混合布局的顶部区域：
-    // - 如果侧边栏是经典蓝色，使用白色文字
-    // - 如果侧边栏是极简白色，使用深色文字
+    // 상단 레이아웃과 혼합 레이아웃의 상단 영역:
+    // - 사이드바가 클래식 파란색이면 흰색 텍스트 사용
+    // - 사이드바가 미니멀 흰색이면 진한 텍스트 사용
     if (layout === LayoutMode.TOP || layout === LayoutMode.MIX) {
       if (sidebarColorScheme === SidebarColor.CLASSIC_BLUE) {
         return "navbar-actions--white-text";
@@ -120,12 +120,12 @@ const navbarActionsClass = computed(() => {
 });
 
 /**
- * 退出登录
+ * 로그아웃
  */
 function logout() {
-  ElMessageBox.confirm("确定注销并退出系统吗？", "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm("로그아웃하고 시스템을 종료하시겠습니까?", "알림", {
+    confirmButtonText: "확인",
+    cancelButtonText: "취소",
     type: "warning",
     lockScroll: false,
   }).then(() => {
@@ -136,7 +136,7 @@ function logout() {
 }
 
 /**
- * 打开系统设置页面
+ * 시스템 설정 페이지 열기
  */
 function handleSettingsClick() {
   settingStore.settingsVisible = true;
@@ -154,7 +154,7 @@ function handleSettingsClick() {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 44px; /* 增加最小点击区域到44px，符合人机交互标准 */
+    min-width: 44px; /* 최소 클릭 영역을 44px로 늘립니다. 인간-컴퓨터 상호작용 표준을 준수합니다 */
     height: 100%;
     min-height: 44px;
     padding: 0 8px;
@@ -162,14 +162,14 @@ function handleSettingsClick() {
     cursor: pointer;
     transition: all 0.3s;
 
-    // 确保子元素居中
+    // 하위 요소가 중앙에 있는지 확인합니다
     > * {
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    // 确保 Element Plus 组件可以正常工作
+    // Element Plus 컴포넌트가 정상적으로 작동하는지 확인합니다
     :deep(.el-dropdown),
     :deep(.el-tooltip) {
       display: flex;
@@ -179,7 +179,7 @@ function handleSettingsClick() {
       height: 100%;
     }
 
-    // 图标样式
+    // 아이콘 스타일
     :deep([class^="i-svg:"]) {
       font-size: 18px;
       line-height: 1;
@@ -219,7 +219,7 @@ function handleSettingsClick() {
   }
 }
 
-// 白色文字样式（用于深色背景：暗黑主题、顶部布局、混合布局）
+// 흰색 텍스트 스타일（어두운 배경용: 어두운 테마, 상단 레이아웃, 혼합 레이아웃）
 .navbar-actions--white-text {
   .navbar-actions__item {
     :deep([class^="i-svg:"]) {
@@ -240,7 +240,7 @@ function handleSettingsClick() {
   }
 }
 
-// 深色文字样式（用于浅色背景：明亮主题下的左侧布局）
+// 진한 텍스트 스타일（밝은 배경용: 밝은 테마의 왼쪽 레이아웃）
 .navbar-actions--dark-text {
   .navbar-actions__item {
     :deep([class^="i-svg:"]) {
@@ -261,7 +261,7 @@ function handleSettingsClick() {
   }
 }
 
-// 确保下拉菜单中的图标不受影响
+// 드롭다운 메뉴의 아이콘이 영향을 받지 않는지 확인합니다
 :deep(.el-dropdown-menu) {
   [class^="i-svg:"] {
     color: var(--el-text-color-regular) !important;

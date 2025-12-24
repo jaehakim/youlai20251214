@@ -9,7 +9,7 @@ export default defineMock([
       data: [
         {
           value: 2,
-          label: "系统管理员",
+          label: "시스템 관리자",
         },
         {
           value: 4,
@@ -49,10 +49,10 @@ export default defineMock([
         },
         {
           value: 3,
-          label: "访问游客",
+          label: "방문 게스트",
         },
       ],
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
 
@@ -65,7 +65,7 @@ export default defineMock([
         list: [
           {
             id: 2,
-            name: "系统管理员",
+            name: "시스템 관리자",
             code: "ADMIN",
             status: 1,
             sort: 2,
@@ -74,7 +74,7 @@ export default defineMock([
           },
           {
             id: 3,
-            name: "访问游客",
+            name: "방문 게스트",
             code: "GUEST",
             status: 1,
             sort: 3,
@@ -156,11 +156,11 @@ export default defineMock([
         ],
         total: 10,
       },
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
 
-  // 新增角色
+  // 역할 추가
   {
     url: "roles",
     method: ["POST"],
@@ -168,12 +168,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "新增角色" + body.name + "成功",
+        msg: "역할 추가 " + body.name + " 성공",
       };
     },
   },
 
-  // 获取角色表单数据
+  // 역할 폼 데이터 조회
   {
     url: "roles/:id/form",
     method: ["GET"],
@@ -181,11 +181,11 @@ export default defineMock([
       return {
         code: "00000",
         data: roleMap[params.id],
-        msg: "一切ok",
+        msg: "모두 정상",
       };
     },
   },
-  // 修改角色
+  // 역할 수정
   {
     url: "roles/:id",
     method: ["PUT"],
@@ -193,12 +193,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "修改角色" + body.name + "成功",
+        msg: "역할 수정 " + body.name + " 성공",
       };
     },
   },
 
-  // 删除角色
+  // 역할 삭제
   {
     url: "roles/:id",
     method: ["DELETE"],
@@ -206,11 +206,11 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "删除角色" + params.id + "成功",
+        msg: "역할 삭제 " + params.id + " 성공",
       };
     },
   },
-  // 获取角色拥有的菜单ID
+  // 역할의 메뉴 ID 조회
   {
     url: "roles/:id/menuIds",
     method: ["GET"],
@@ -222,27 +222,27 @@ export default defineMock([
           87, 40, 41, 26, 30, 20, 21, 22, 23, 24, 89, 90, 91, 36, 37, 38, 39, 93, 94, 95, 97, 102,
           89, 90, 91, 93, 94, 95, 97, 102, 103, 104,
         ],
-        msg: "一切ok",
+        msg: "모두 정상",
       };
     },
   },
-  // 保存角色菜单
+  // 역할 메뉴 저장
   {
     url: "roles/:id/menus",
     method: ["PUT"],
     body: {
       code: "00000",
       data: null,
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
 ]);
 
-// 角色映射表数据
+// 역할 매핑 테이블 데이터
 const roleMap: Record<string, any> = {
   2: {
     id: 2,
-    name: "系统管理员",
+    name: "시스템 관리자",
     code: "ADMIN",
     status: 1,
     sort: 2,
@@ -251,7 +251,7 @@ const roleMap: Record<string, any> = {
   },
   3: {
     id: 3,
-    name: "访问游客",
+    name: "방문 게스트",
     code: "GUEST",
     status: 1,
     sort: 3,

@@ -2,7 +2,7 @@
   <div class="layout-wrapper">
     <component :is="currentLayoutComponent" />
 
-    <!-- 设置面板 - 独立于布局组件 -->
+    <!-- 설정 패널 - 레이아웃 컴포넌트와 무관 -->
     <Settings v-if="isShowSettings" />
   </div>
 </template>

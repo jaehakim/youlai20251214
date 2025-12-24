@@ -6,7 +6,7 @@
       target="_blank"
       class="mb-[20px]"
     >
-      示例源码 请点击>>>>
+      예제 소스 코드 클릭>>>>
     </el-link>
     <el-row :gutter="10">
       <el-col :span="12">
@@ -20,46 +20,46 @@
                 :disabled="isConnected"
                 @click="connectWebSocket"
               >
-                连接
+                연결
               </el-button>
               <el-button type="danger" :disabled="!isConnected" @click="disconnectWebSocket">
-                断开
+                연결 해제
               </el-button>
             </el-col>
             <el-col :span="6" class="text-right">
-              连接状态：
-              <el-tag v-if="isConnected" type="success">已连接</el-tag>
-              <el-tag v-else type="info">已断开</el-tag>
+              연결 상태：
+              <el-tag v-if="isConnected" type="success">연결됨</el-tag>
+              <el-tag v-else type="info">연결 해제됨</el-tag>
             </el-col>
           </el-row>
         </el-card>
-        <!-- 广播消息发送部分 -->
+        <!-- 브로드캐스트 메시지 발송 부분 -->
         <el-card class="mt-5">
           <el-form label-width="90px">
-            <el-form-item label="消息内容">
+            <el-form-item label="메시지 내용">
               <el-input v-model="topicMessage" type="textarea" />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="sendToAll">发送广播</el-button>
+              <el-button type="primary" @click="sendToAll">브로드캐스트 발송</el-button>
             </el-form-item>
           </el-form>
         </el-card>
-        <!-- 点对点消息发送部分 -->
+        <!-- 1:1 메시지 발송 부분 -->
         <el-card class="mt-5">
           <el-form label-width="90px">
-            <el-form-item label="消息内容">
+            <el-form-item label="메시지 내용">
               <el-input v-model="queneMessage" type="textarea" />
             </el-form-item>
-            <el-form-item label="消息接收人">
+            <el-form-item label="메시지 수신자">
               <el-input v-model="receiver" />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="sendToUser">发送点对点消息</el-button>
+              <el-button type="primary" @click="sendToUser">1:1 메시지 발송</el-button>
             </el-form-item>
           </el-form>
         </el-card>
       </el-col>
-      <!-- 消息接收显示部分 -->
+      <!-- 메시지 수신 표시 부분 -->
       <el-col :span="12">
         <el-card>
           <div class="chat-messages-wrapper">
@@ -101,22 +101,22 @@ import { useStomp } from "@/composables/websocket/useStomp";
 import { useUserStoreHook } from "@/store/modules/user-store";
 
 const userStore = useUserStoreHook();
-// 用于手动调整 WebSocket 地址
+// WebSocket 주소를 수동으로 조정하기 위함
 const socketEndpoint = ref(import.meta.env.VITE_APP_WS_ENDPOINT);
-// 同步连接状态
+// 연결 상태 동기화
 interface MessageType {
   type?: string;
   sender?: string;
   content: string;
 }
 const messages = ref<MessageType[]>([]);
-// 广播消息内容
-const topicMessage = ref("亲爱的朋友们，系统已恢复最新状态。");
-// 点对点消息内容（默认示例）
-const queneMessage = ref("Hi, " + userStore.userInfo.username + " 这里是点对点消息示例！");
+// 브로드캐스트 메시지 내용
+const topicMessage = ref("친구들, 시스템이 최신 상태로 복구되었습니다.");
+// 1:1 메시지 내용(기본 예제)
+const queneMessage = ref("Hi, " + userStore.userInfo.username + " 이것은 1:1 메시지 예제입니다!");
 const receiver = ref("root");
 
-// 调用 useStomp hook，默认使用 socketEndpoint 和 token（此处用 getAccessToken()）
+// useStomp hook 호출, 기본적으로 socketEndpoint 및 토큰 사용(여기서는 getAccessToken() 사용)
 const { isConnected, connect, subscribe, disconnect } = useStomp({
   debug: true,
 });
@@ -125,7 +125,7 @@ watch(
   () => isConnected.value,
   (connected) => {
     if (connected) {
-      // 连接成功后，订阅广播和点对点消息主题
+      // 연결 성공 후 브로드캐스트 및 1:1 메시지 주제 구독
       subscribe("/topic/notice", (res) => {
         messages.value.push({
           sender: "Server",
@@ -141,33 +141,33 @@ watch(
       });
       messages.value.push({
         sender: "Server",
-        content: "Websocket 已连接",
+        content: "WebSocket 연결됨",
         type: "tip",
       });
     } else {
       messages.value.push({
         sender: "Server",
-        content: "Websocket 已断开",
+        content: "WebSocket 연결 해제됨",
         type: "tip",
       });
     }
   }
 );
 
-// 连接 WebSocket
+// WebSocket 연결
 function connectWebSocket() {
   connect();
 }
 
-// 断开 WebSocket
+// WebSocket 연결 해제
 function disconnectWebSocket() {
   disconnect();
 }
 
-// 发送广播消息
+// 브로드캐스트 메시지 발송
 function sendToAll() {
   if (isConnected.value) {
-    // 直接使用订阅模式处理广播消息
+    // 구독 모드를 직접 사용하여 브로드캐스트 메시지 처리
     subscribe("/app/broadcast", () => {});
     messages.value.push({
       sender: userStore.userInfo.username,
@@ -176,10 +176,10 @@ function sendToAll() {
   }
 }
 
-// 发送点对点消息
+// 1:1 메시지 발송
 function sendToUser() {
   if (isConnected.value) {
-    // 使用订阅模式处理点对点消息
+    // 구독 모드를 사용하여 1:1 메시지 처리
     subscribe(`/app/sendToUser/${receiver.value}`, () => {});
     messages.value.push({
       sender: userStore.userInfo.username,

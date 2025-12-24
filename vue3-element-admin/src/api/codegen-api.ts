@@ -3,7 +3,7 @@ import request from "@/utils/request";
 const GENERATOR_BASE_URL = "/api/v1/codegen";
 
 const GeneratorAPI = {
-  /** 获取数据表分页列表 */
+  /** 데이터 테이블 페이지 목록 조회 */
   getTablePage(params: TablePageQuery) {
     return request<any, PageResult<TablePageVO[]>>({
       url: `${GENERATOR_BASE_URL}/table/page`,
@@ -12,7 +12,7 @@ const GeneratorAPI = {
     });
   },
 
-  /** 获取代码生成配置 */
+  /** 코드 생성 설정 조회 */
   getGenConfig(tableName: string) {
     return request<any, GenConfigForm>({
       url: `${GENERATOR_BASE_URL}/${tableName}/config`,
@@ -20,7 +20,7 @@ const GeneratorAPI = {
     });
   },
 
-  /** 获取代码生成配置 */
+  /** 코드 생성 설정 저장 */
   saveGenConfig(tableName: string, data: GenConfigForm) {
     return request({
       url: `${GENERATOR_BASE_URL}/${tableName}/config`,
@@ -29,7 +29,7 @@ const GeneratorAPI = {
     });
   },
 
-  /** 获取代码生成预览数据 */
+  /** 코드 생성 미리보기 데이터 조회 */
   getPreviewData(tableName: string, pageType?: "classic" | "curd") {
     return request<any, GeneratorPreviewVO[]>({
       url: `${GENERATOR_BASE_URL}/${tableName}/preview`,
@@ -38,7 +38,7 @@ const GeneratorAPI = {
     });
   },
 
-  /** 重置代码生成配置 */
+  /** 코드 생성 설정 초기화 */
   resetGenConfig(tableName: string) {
     return request({
       url: `${GENERATOR_BASE_URL}/${tableName}/config`,
@@ -75,125 +75,125 @@ const GeneratorAPI = {
 
 export default GeneratorAPI;
 
-/** 代码生成预览对象 */
+/** 코드 생성 미리보기 객체 */
 export interface GeneratorPreviewVO {
-  /** 文件生成路径 */
+  /** 파일 생성 경로 */
   path: string;
-  /** 文件名称 */
+  /** 파일명 */
   fileName: string;
-  /** 文件内容 */
+  /** 파일 내용 */
   content: string;
 }
 
-/**  数据表分页查询参数 */
+/**  데이터 테이블 페이지 쿼리 파라미터 */
 export interface TablePageQuery extends PageQuery {
-  /** 关键字(表名) */
+  /** 키워드(테이블명) */
   keywords?: string;
 }
 
-/** 数据表分页对象 */
+/** 데이터 테이블 페이지 객체 */
 export interface TablePageVO {
-  /** 表名称 */
+  /** 테이블명 */
   tableName: string;
 
-  /** 表描述 */
+  /** 테이블 설명 */
   tableComment: string;
 
-  /** 存储引擎 */
+  /** 스토리지 엔진 */
   engine: string;
 
-  /** 字符集排序规则 */
+  /** 문자집합 정렬 규칙 */
   tableCollation: string;
 
-  /** 创建时间 */
+  /** 생성 시간 */
   createTime: string;
 }
 
-/** 代码生成配置表单 */
+/** 코드 생성 설정 폼 */
 export interface GenConfigForm {
-  /** 主键 */
+  /** 기본 키 */
   id?: string;
 
-  /** 表名 */
+  /** 테이블명 */
   tableName?: string;
 
-  /** 业务名 */
+  /** 비즈니스명 */
   businessName?: string;
 
-  /** 模块名 */
+  /** 모듈명 */
   moduleName?: string;
 
-  /** 包名 */
+  /** 패키지명 */
   packageName?: string;
 
-  /** 实体名 */
+  /** 엔티티명 */
   entityName?: string;
 
-  /** 作者 */
+  /** 작성자 */
   author?: string;
 
-  /** 上级菜单 */
+  /** 상위 메뉴 */
   parentMenuId?: string;
 
-  /** 后端应用名 */
+  /** 백엔드 애플리케이션명 */
   backendAppName?: string;
-  /** 前端应用名 */
+  /** 프론트엔드 애플리케이션명 */
   frontendAppName?: string;
 
-  /** 字段配置列表 */
+  /** 필드 설정 목록 */
   fieldConfigs?: FieldConfig[];
 
-  /** 页面类型 classic|curd */
+  /** 페이지 타입 classic|curd */
   pageType?: "classic" | "curd";
 
-  /** 要移除的表前缀，如 sys_ */
+  /** 제거할 테이블 접두사, 예: sys_ */
   removeTablePrefix?: string;
 }
 
-/** 字段配置 */
+/** 필드 설정 */
 export interface FieldConfig {
-  /** 主键 */
+  /** 기본 키 */
   id?: string;
 
-  /** 列名 */
+  /** 컬럼명 */
   columnName?: string;
 
-  /** 列类型 */
+  /** 컬럼 타입 */
   columnType?: string;
 
-  /** 字段名 */
+  /** 필드명 */
   fieldName?: string;
 
-  /** 字段类型 */
+  /** 필드 타입 */
   fieldType?: string;
 
-  /** 字段描述 */
+  /** 필드 설명 */
   fieldComment?: string;
 
-  /** 是否在列表显示 */
+  /** 목록에 표시 여부 */
   isShowInList?: number;
 
-  /** 是否在表单显示 */
+  /** 폼에 표시 여부 */
   isShowInForm?: number;
 
-  /** 是否在查询条件显示 */
+  /** 쿼리 조건에 표시 여부 */
   isShowInQuery?: number;
 
-  /** 是否必填 */
+  /** 필수 입력 여부 */
   isRequired?: number;
 
-  /** 表单类型 */
+  /** 폼 타입 */
   formType?: number;
 
-  /** 查询类型 */
+  /** 쿼리 타입 */
   queryType?: number;
 
-  /** 字段长度 */
+  /** 필드 길이 */
   maxLength?: number;
 
-  /** 字段排序 */
+  /** 필드 정렬 */
   fieldSort?: number;
 
-  /** 字典类型 */
+  /** 사전 타입 */
   dictType?: string;
 }

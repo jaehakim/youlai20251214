@@ -3,8 +3,8 @@
     <div flex flex-col gap-20px>
       <MultiLevel1 />
       <MultiLevel2 />
-      <el-alert :closable="false" title="菜单三级-2" type="warning" />
-      <el-input v-model="value" placeholder="缓存测试" />
+      <el-alert :closable="false" title="메뉴 세 번째 레벨-2" type="warning" />
+      <el-input v-model="value" placeholder="캐시 테스트" />
       <ToDetail />
     </div>
   </div>

@@ -1,4 +1,4 @@
-<!-- 列表选择器示例 -->
+<!-- 테이블 선택기 예제 -->
 <template>
   <div class="app-container">
     <el-link
@@ -7,12 +7,12 @@
       target="_blank"
       class="mb-10"
     >
-      示例源码 请点击>>>>
+      예제 소스 코드 클릭>>>>
     </el-link>
     <table-select :text="text" :select-config="selectConfig" @confirm-click="handleConfirm">
       <template #status="scope">
         <el-tag :type="scope.row[scope.prop] == 1 ? 'success' : 'info'">
-          {{ scope.row[scope.prop] == 1 ? "启用" : "禁用" }}
+          {{ scope.row[scope.prop] == 1 ? "활성화" : "비활성화" }}
         </el-tag>
       </template>
       <template #gender="scope">
@@ -44,7 +44,7 @@ function handleConfirm(data: IUser[]) {
   selectedUser.value = data[0];
 }
 const text = computed(() => {
-  // 获取字典数据
+  // 사전 데이터 가져오기
   const dictData = dictStore.getDictItems("gender");
   const genderLabel = dictData.find((item: any) => item.value == selectedUser.value?.gender)?.label;
   return selectedUser.value

@@ -1,33 +1,33 @@
 <template>
   <div class="app-container">
-    <!-- 搜索区域 -->
+    <!-- 검색 영역 -->
     <div class="search-container">
       <el-form ref="queryFormRef" :model="queryParams" :inline="true" label-suffix=":">
-        <el-form-item label="标题123" prop="title">
+        <el-form-item label="제목" prop="title">
           <el-input
             v-model="queryParams.title"
-            placeholder="标题"
+            placeholder="제목"
             clearable
             @keyup.enter="handleQuery()"
           />
         </el-form-item>
 
-        <el-form-item label="发布状态" prop="publishStatus">
+        <el-form-item label="발행 상태" prop="publishStatus">
           <el-select
             v-model="queryParams.publishStatus"
             clearable
-            placeholder="全部"
+            placeholder="전체"
             style="width: 100px"
           >
-            <el-option :value="0" label="未发布" />
-            <el-option :value="1" label="已发布" />
-            <el-option :value="-1" label="已撤回" />
+            <el-option :value="0" label="미발행" />
+            <el-option :value="1" label="발행됨" />
+            <el-option :value="-1" label="철회됨" />
           </el-select>
         </el-form-item>
 
         <el-form-item class="search-buttons">
-          <el-button type="primary" icon="search" @click="handleQuery()">搜索</el-button>
-          <el-button icon="refresh" @click="handleResetQuery()">重置</el-button>
+          <el-button type="primary" icon="search" @click="handleQuery()">검색</el-button>
+          <el-button icon="refresh" @click="handleResetQuery()">초기화</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -41,7 +41,7 @@
             icon="plus"
             @click="handleOpenDialog()"
           >
-            新增通知
+            공지사항 추가
           </el-button>
           <el-button
             v-hasPerm="['sys:notice:delete']"
@@ -50,7 +50,7 @@
             icon="delete"
             @click="handleDelete()"
           >
-            删除
+            삭제
           </el-button>
         </div>
       </div>
@@ -64,53 +64,53 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column type="index" label="序号" width="60" />
-        <el-table-column label="通知标题" prop="title" min-width="200" />
-        <el-table-column align="center" label="通知类型" width="150">
+        <el-table-column type="index" label="번호" width="60" />
+        <el-table-column label="공지 제목" prop="title" min-width="200" />
+        <el-table-column align="center" label="공지 유형" width="150">
           <template #default="scope">
             <DictLabel v-model="scope.row.type" :code="'notice_type'" />
           </template>
         </el-table-column>
-        <el-table-column align="center" label="发布人" prop="publisherName" width="150" />
-        <el-table-column align="center" label="通知等级" width="100">
+        <el-table-column align="center" label="발행인" prop="publisherName" width="150" />
+        <el-table-column align="center" label="공지 등급" width="100">
           <template #default="scope">
             <DictLabel v-model="scope.row.level" code="notice_level" />
           </template>
         </el-table-column>
-        <el-table-column align="center" label="通告目标类型" prop="targetType" min-width="100">
+        <el-table-column align="center" label="공지 대상 유형" prop="targetType" min-width="100">
           <template #default="scope">
-            <el-tag v-if="scope.row.targetType == 1" type="warning">全体</el-tag>
-            <el-tag v-if="scope.row.targetType == 2" type="success">指定</el-tag>
+            <el-tag v-if="scope.row.targetType == 1" type="warning">전체</el-tag>
+            <el-tag v-if="scope.row.targetType == 2" type="success">지정</el-tag>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="发布状态" min-width="100">
+        <el-table-column align="center" label="발행 상태" min-width="100">
           <template #default="scope">
-            <el-tag v-if="scope.row.publishStatus == 0" type="info">未发布</el-tag>
-            <el-tag v-if="scope.row.publishStatus == 1" type="success">已发布</el-tag>
-            <el-tag v-if="scope.row.publishStatus == -1" type="warning">已撤回</el-tag>
+            <el-tag v-if="scope.row.publishStatus == 0" type="info">미발행</el-tag>
+            <el-tag v-if="scope.row.publishStatus == 1" type="success">발행됨</el-tag>
+            <el-tag v-if="scope.row.publishStatus == -1" type="warning">철회됨</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作时间" width="250">
+        <el-table-column label="작업 시간" width="250">
           <template #default="scope">
             <div class="flex-x-start">
-              <span>创建时间：</span>
+              <span>생성 시간:</span>
               <span>{{ scope.row.createTime || "-" }}</span>
             </div>
 
             <div v-if="scope.row.publishStatus === 1" class="flex-x-start">
-              <span>发布时间：</span>
+              <span>발행 시간:</span>
               <span>{{ scope.row.publishTime || "-" }}</span>
             </div>
             <div v-else-if="scope.row.publishStatus === -1" class="flex-x-start">
-              <span>撤回时间：</span>
+              <span>철회 시간:</span>
               <span>{{ scope.row.revokeTime || "-" }}</span>
             </div>
           </template>
         </el-table-column>
-        <el-table-column align="center" fixed="right" label="操作" width="150">
+        <el-table-column align="center" fixed="right" label="작업" width="150">
           <template #default="scope">
             <el-button type="primary" size="small" link @click="openDetailDialog(scope.row.id)">
-              查看
+              보기
             </el-button>
             <el-button
               v-if="scope.row.publishStatus != 1"
@@ -120,7 +120,7 @@
               link
               @click="handlePublish(scope.row.id)"
             >
-              发布
+              발행
             </el-button>
             <el-button
               v-if="scope.row.publishStatus == 1"
@@ -130,7 +130,7 @@
               link
               @click="handleRevoke(scope.row.id)"
             >
-              撤回
+              철회
             </el-button>
             <el-button
               v-if="scope.row.publishStatus != 1"
@@ -140,7 +140,7 @@
               link
               @click="handleOpenDialog(scope.row.id)"
             >
-              编辑
+              편집
             </el-button>
             <el-button
               v-if="scope.row.publishStatus != 1"
@@ -150,7 +150,7 @@
               link
               @click="handleDelete(scope.row.id)"
             >
-              删除
+              삭제
             </el-button>
           </template>
         </el-table-column>
@@ -165,7 +165,7 @@
       />
     </el-card>
 
-    <!-- 通知公告表单弹窗 -->
+    <!-- 공지사항 폼 다이얼로그 -->
     <el-dialog
       v-model="dialog.visible"
       :title="dialog.title"
@@ -174,24 +174,24 @@
       @close="handleCloseDialog"
     >
       <el-form ref="dataFormRef" :model="formData" :rules="rules" label-width="100px">
-        <el-form-item label="通知标题" prop="title">
-          <el-input v-model="formData.title" placeholder="通知标题" clearable />
+        <el-form-item label="공지 제목" prop="title">
+          <el-input v-model="formData.title" placeholder="공지 제목" clearable />
         </el-form-item>
 
-        <el-form-item label="通知类型" prop="type">
+        <el-form-item label="공지 유형" prop="type">
           <Dict v-model="formData.type" code="notice_type" />
         </el-form-item>
-        <el-form-item label="通知等级" prop="level">
+        <el-form-item label="공지 등급" prop="level">
           <Dict v-model="formData.level" code="notice_level" />
         </el-form-item>
-        <el-form-item label="目标类型" prop="targetType">
+        <el-form-item label="대상 유형" prop="targetType">
           <el-radio-group v-model="formData.targetType">
-            <el-radio :value="1">全体</el-radio>
-            <el-radio :value="2">指定</el-radio>
+            <el-radio :value="1">전체</el-radio>
+            <el-radio :value="2">지정</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-if="formData.targetType == 2" label="指定用户" prop="targetUserIds">
-          <el-select v-model="formData.targetUserIds" multiple search placeholder="请选择指定用户">
+        <el-form-item v-if="formData.targetType == 2" label="지정 사용자" prop="targetUserIds">
+          <el-select v-model="formData.targetUserIds" multiple search placeholder="지정 사용자를 선택하세요">
             <el-option
               v-for="item in userOptions"
               :key="item.value"
@@ -200,18 +200,18 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="通知内容" prop="content">
+        <el-form-item label="공지 내용" prop="content">
           <WangEditor v-model="formData.content" />
         </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="handleSubmit()">确定</el-button>
-          <el-button @click="handleCloseDialog()">取消</el-button>
+          <el-button type="primary" @click="handleSubmit()">확인</el-button>
+          <el-button @click="handleCloseDialog()">취소</el-button>
         </div>
       </template>
     </el-dialog>
-    <!-- 通知公告详情 -->
+    <!-- 공지사항 상세정보 -->
     <el-dialog
       v-model="detailDialog.visible"
       :show-close="false"
@@ -221,7 +221,7 @@
     >
       <template #header>
         <div class="flex-x-between">
-          <span>通知公告详情</span>
+          <span>공지사항 상세정보</span>
           <div class="dialog-toolbar">
             <el-button circle @click="closeDetailDialog">
               <template #icon>
@@ -232,21 +232,21 @@
         </div>
       </template>
       <el-descriptions :column="1">
-        <el-descriptions-item label="标题：">
+        <el-descriptions-item label="제목:">
           {{ currentNotice.title }}
         </el-descriptions-item>
-        <el-descriptions-item label="发布状态：">
-          <el-tag v-if="currentNotice.publishStatus == 0" type="info">未发布</el-tag>
-          <el-tag v-else-if="currentNotice.publishStatus == 1" type="success">已发布</el-tag>
-          <el-tag v-else-if="currentNotice.publishStatus == -1" type="warning">已撤回</el-tag>
+        <el-descriptions-item label="발행 상태:">
+          <el-tag v-if="currentNotice.publishStatus == 0" type="info">미발행</el-tag>
+          <el-tag v-else-if="currentNotice.publishStatus == 1" type="success">발행됨</el-tag>
+          <el-tag v-else-if="currentNotice.publishStatus == -1" type="warning">철회됨</el-tag>
         </el-descriptions-item>
-        <el-descriptions-item label="发布人：">
+        <el-descriptions-item label="발행인:">
           {{ currentNotice.publisherName }}
         </el-descriptions-item>
-        <el-descriptions-item label="发布时间：">
+        <el-descriptions-item label="발행 시간:">
           {{ currentNotice.publishTime }}
         </el-descriptions-item>
-        <el-descriptions-item label="公告内容：">
+        <el-descriptions-item label="공지 내용:">
           <div class="notice-content" v-html="currentNotice.content" />
         </el-descriptions-item>
       </el-descriptions>
@@ -281,39 +281,39 @@ const queryParams = reactive<NoticePageQuery>({
 });
 
 const userOptions = ref<OptionType[]>([]);
-// 通知公告表格数据
+// 공지사항 테이블 데이터
 const pageData = ref<NoticePageVO[]>([]);
 
-// 弹窗
+// 팝업
 const dialog = reactive({
   title: "",
   visible: false,
 });
 
-// 通知公告表单数据
+// 공지사항 폼 데이터
 const formData = reactive<NoticeForm>({
-  level: "L", // 默认优先级为低
-  targetType: 1, // 默认目标类型为全体
+  level: "L", // 기본 우선순위: 낮음
+  targetType: 1, // 기본 대상 유형: 전체
 });
 
-// 通知公告表单校验规则
+// 공지사항 폼 검증 규칙
 const rules = reactive({
-  title: [{ required: true, message: "请输入通知标题", trigger: "blur" }],
+  title: [{ required: true, message: "공지 제목을 입력하세요", trigger: "blur" }],
   content: [
     {
       required: true,
-      message: "请输入通知内容",
+      message: "공지 내용을 입력하세요",
       trigger: "blur",
       validator: (rule: any, value: string, callback: any) => {
         if (!value.replace(/<[^>]+>/g, "").trim()) {
-          callback(new Error("请输入通知内容"));
+          callback(new Error("공지 내용을 입력하세요"));
         } else {
           callback();
         }
       },
     },
   ],
-  type: [{ required: true, message: "请选择通知类型", trigger: "change" }],
+  type: [{ required: true, message: "공지 유형을 선택하세요", trigger: "change" }],
 });
 
 const detailDialog = reactive({
@@ -321,13 +321,13 @@ const detailDialog = reactive({
 });
 const currentNotice = ref<NoticeDetailVO>({});
 
-// 查询通知公告
+// 공지사항 조회
 function handleQuery() {
   queryParams.pageNum = 1;
   fetchData();
 }
 
-//发送请求接口
+// 요청 인터페이스 발송
 function fetchData() {
   loading.value = true;
   NoticeAPI.getPage(queryParams)
@@ -340,19 +340,19 @@ function fetchData() {
     });
 }
 
-// 重置查询
+// 조회 초기화
 function handleResetQuery() {
   queryFormRef.value!.resetFields();
   queryParams.pageNum = 1;
   handleQuery();
 }
 
-// 行复选框选中项变化
+// 행 체크박스 선택 변화
 function handleSelectionChange(selection: any) {
   selectIds.value = selection.map((item: any) => item.id);
 }
 
-// 打开通知公告弹窗
+// 공지사항 다이얼로그 열기
 function handleOpenDialog(id?: string) {
   UserAPI.getOptions().then((data) => {
     userOptions.value = data;
@@ -360,33 +360,33 @@ function handleOpenDialog(id?: string) {
 
   dialog.visible = true;
   if (id) {
-    dialog.title = "修改公告";
+    dialog.title = "공지사항 수정";
     NoticeAPI.getFormData(id).then((data) => {
       Object.assign(formData, data);
     });
   } else {
     Object.assign(formData, { level: 0, targetType: 0 });
-    dialog.title = "新增公告";
+    dialog.title = "공지사항 추가";
   }
 }
 
-// 发布通知公告
+// 공지사항 발행
 function handlePublish(id: string) {
   NoticeAPI.publish(id).then(() => {
-    ElMessage.success("发布成功");
+    ElMessage.success("발행 성공");
     handleQuery();
   });
 }
 
-// 撤回通知公告
+// 공지사항 철회
 function handleRevoke(id: string) {
   NoticeAPI.revoke(id).then(() => {
-    ElMessage.success("撤回成功");
+    ElMessage.success("철회 성공");
     handleQuery();
   });
 }
 
-// 通知公告表单提交
+// 공지사항 양식 제출
 function handleSubmit() {
   dataFormRef.value.validate((valid: any) => {
     if (valid) {
@@ -395,7 +395,7 @@ function handleSubmit() {
       if (id) {
         NoticeAPI.update(id, formData)
           .then(() => {
-            ElMessage.success("修改成功");
+            ElMessage.success("수정 성공");
             handleCloseDialog();
             handleResetQuery();
           })
@@ -403,7 +403,7 @@ function handleSubmit() {
       } else {
         NoticeAPI.create(formData)
           .then(() => {
-            ElMessage.success("新增成功");
+            ElMessage.success("추가 성공");
             handleCloseDialog();
             handleResetQuery();
           })
@@ -413,7 +413,7 @@ function handleSubmit() {
   });
 }
 
-// 重置表单
+// 양식 초기화
 function resetForm() {
   dataFormRef.value.resetFields();
   dataFormRef.value.clearValidate();
@@ -421,36 +421,36 @@ function resetForm() {
   formData.targetType = 1;
 }
 
-// 关闭通知公告弹窗
+// 공지사항 팝업 닫기
 function handleCloseDialog() {
   dialog.visible = false;
   resetForm();
 }
 
-// 删除通知公告
+// 공지사항 삭제
 function handleDelete(id?: number) {
   const deleteIds = [id || selectIds.value].join(",");
   if (!deleteIds) {
-    ElMessage.warning("请勾选删除项");
+    ElMessage.warning("삭제할 항목을 선택하세요");
     return;
   }
 
-  ElMessageBox.confirm("确认删除已选中的数据项?", "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm("선택한 데이터 항목을 삭제하시겠습니까?", "경고", {
+    confirmButtonText: "확인",
+    cancelButtonText: "취소",
     type: "warning",
   }).then(
     () => {
       loading.value = true;
       NoticeAPI.deleteByIds(deleteIds)
         .then(() => {
-          ElMessage.success("删除成功");
+          ElMessage.success("삭제 성공");
           handleResetQuery();
         })
         .finally(() => (loading.value = false));
     },
     () => {
-      ElMessage.info("已取消删除");
+      ElMessage.info("삭제가 취소되었습니다");
     }
   );
 }

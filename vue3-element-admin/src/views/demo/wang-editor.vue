@@ -1,4 +1,4 @@
-<!-- wangEditor富文本编辑器示例 -->
+<!-- WangEditor 리치 텍스트 에디터 예제 -->
 <template>
   <div class="app-container">
     <el-link
@@ -7,7 +7,7 @@
       target="_blank"
       class="mb-[20px]"
     >
-      示例源码 请点击>>>>
+      예제 소스 코드 클릭>>>>
     </el-link>
     <WangEditor v-model="value" height="400px" />
 
@@ -20,5 +20,5 @@
 <script setup lang="ts">
 import WangEditor from "@/components/WangEditor/index.vue";
 
-const value = ref("初始化内容");
+const value = ref("초기화 내용");
 </script>

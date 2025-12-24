@@ -4,9 +4,9 @@ const USER_BASE_URL = "/api/v1/users";
 
 const UserAPI = {
   /**
-   * 获取当前登录用户信息
+   * 현재 로그인된 사용자 정보 조회
    *
-   * @returns 登录用户昵称、头像信息，包括角色和权限
+   * @returns 로그인 사용자 닉네임, 프로필 사진 정보, 역할 및 권한 포함
    */
   getInfo() {
     return request<any, UserInfo>({
@@ -16,9 +16,9 @@ const UserAPI = {
   },
 
   /**
-   * 获取用户分页列表
+   * 사용자 페이지 목록 조회
    *
-   * @param queryParams 查询参数
+   * @param queryParams 쿼리 파라미터
    */
   getPage(queryParams: UserPageQuery) {
     return request<any, PageResult<UserPageVO[]>>({
@@ -29,10 +29,10 @@ const UserAPI = {
   },
 
   /**
-   * 获取用户表单详情
+   * 사용자 폼 상세 조회
    *
-   * @param userId 用户ID
-   * @returns 用户表单详情
+   * @param userId 사용자 ID
+   * @returns 사용자 폼 상세
    */
   getFormData(userId: string) {
     return request<any, UserForm>({
@@ -42,9 +42,9 @@ const UserAPI = {
   },
 
   /**
-   * 添加用户
+   * 사용자 추가
    *
-   * @param data 用户表单数据
+   * @param data 사용자 폼 데이터
    */
   create(data: UserForm) {
     return request({
@@ -55,10 +55,10 @@ const UserAPI = {
   },
 
   /**
-   * 修改用户
+   * 사용자 수정
    *
-   * @param id 用户ID
-   * @param data 用户表单数据
+   * @param id 사용자 ID
+   * @param data 사용자 폼 데이터
    */
   update(id: string, data: UserForm) {
     return request({
@@ -69,10 +69,10 @@ const UserAPI = {
   },
 
   /**
-   * 修改用户密码
+   * 사용자 암호 수정
    *
-   * @param id 用户ID
-   * @param password 新密码
+   * @param id 사용자 ID
+   * @param password 새 암호
    */
   resetPassword(id: string, password: string) {
     return request({
@@ -83,9 +83,9 @@ const UserAPI = {
   },
 
   /**
-   * 批量删除用户，多个以英文逗号(,)分割
+   * 대량 사용자 삭제, 쉼표(,)로 구분
    *
-   * @param ids 用户ID字符串，多个以英文逗号(,)分割
+   * @param ids 사용자 ID 문자열, 쉼표(,)로 구분
    */
   deleteByIds(ids: string) {
     return request({
@@ -94,7 +94,7 @@ const UserAPI = {
     });
   },
 
-  /** 下载用户导入模板 */
+  /** 사용자 가져오기 템플릿 다운로드 */
   downloadTemplate() {
     return request({
       url: `${USER_BASE_URL}/template`,
@@ -104,9 +104,9 @@ const UserAPI = {
   },
 
   /**
-   * 导出用户
+   * 사용자 내보내기
    *
-   * @param queryParams 查询参数
+   * @param queryParams 쿼리 파라미터
    */
   export(queryParams: UserPageQuery) {
     return request({
@@ -118,10 +118,10 @@ const UserAPI = {
   },
 
   /**
-   * 导入用户
+   * 사용자 가져오기
    *
-   * @param deptId 部门ID
-   * @param file 导入文件
+   * @param deptId 부서 ID
+   * @param file 가져오기 파일
    */
   import(deptId: string, file: File) {
     const formData = new FormData();
@@ -137,7 +137,7 @@ const UserAPI = {
     });
   },
 
-  /** 获取个人中心用户信息 */
+  /** 개인 정보 센터 사용자 정보 조회 */
   getProfile() {
     return request<any, UserProfileVO>({
       url: `${USER_BASE_URL}/profile`,
@@ -145,7 +145,7 @@ const UserAPI = {
     });
   },
 
-  /** 修改个人中心用户信息 */
+  /** 개인 정보 센터 사용자 정보 수정 */
   updateProfile(data: UserProfileForm) {
     return request({
       url: `${USER_BASE_URL}/profile`,
@@ -154,7 +154,7 @@ const UserAPI = {
     });
   },
 
-  /** 修改个人中心用户密码 */
+  /** 개인 정보 센터 사용자 암호 수정 */
   changePassword(data: PasswordChangeForm) {
     return request({
       url: `${USER_BASE_URL}/password`,
@@ -163,7 +163,7 @@ const UserAPI = {
     });
   },
 
-  /** 发送短信验证码（绑定或更换手机号）*/
+  /** SMS 인증 코드 발송 (휴대폰 번호 바인딩 또는 변경) */
   sendMobileCode(mobile: string) {
     return request({
       url: `${USER_BASE_URL}/mobile/code`,
@@ -172,7 +172,7 @@ const UserAPI = {
     });
   },
 
-  /** 绑定或更换手机号 */
+  /** 휴대폰 번호 바인딩 또는 변경 */
   bindOrChangeMobile(data: MobileUpdateForm) {
     return request({
       url: `${USER_BASE_URL}/mobile`,
@@ -181,7 +181,7 @@ const UserAPI = {
     });
   },
 
-  /** 发送邮箱验证码（绑定或更换邮箱）*/
+  /** 이메일 인증 코드 발송 (이메일 바인딩 또는 변경) */
   sendEmailCode(email: string) {
     return request({
       url: `${USER_BASE_URL}/email/code`,
@@ -190,7 +190,7 @@ const UserAPI = {
     });
   },
 
-  /** 绑定或更换邮箱 */
+  /** 이메일 바인딩 또는 변경 */
   bindOrChangeEmail(data: EmailUpdateForm) {
     return request({
       url: `${USER_BASE_URL}/email`,
@@ -200,7 +200,7 @@ const UserAPI = {
   },
 
   /**
-   *  获取用户下拉列表
+   *  사용자 드롭다운 목록 조회
    */
   getOptions() {
     return request<any, OptionType[]>({

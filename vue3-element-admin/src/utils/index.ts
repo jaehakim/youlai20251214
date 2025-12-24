@@ -30,7 +30,7 @@ export function removeClass(ele: HTMLElement, cls: string) {
 }
 
 /**
- * 判断是否是外部链接
+ * 외부 링크 여부 판단
  *
  * @param {string} path
  * @returns {Boolean}
@@ -41,7 +41,7 @@ export function isExternal(path: string) {
 }
 
 /**
- * 格式化增长率，保留两位小数 ，并且去掉末尾的0  取绝对值
+ * 성장률 형식화, 소수점 두 자리 유지, 끝의 0 제거, 절대값 취하기
  *
  * @param growthRate
  * @returns

@@ -1,21 +1,21 @@
-<!-- 字典 -->
+<!-- 사전 -->
 <template>
   <div class="app-container">
-    <!-- 搜索区域 -->
+    <!-- 검색 영역 -->
     <div class="search-container">
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
-        <el-form-item label="关键字" prop="keywords">
+        <el-form-item label="키워드" prop="keywords">
           <el-input
             v-model="queryParams.keywords"
-            placeholder="字典名称/编码"
+            placeholder="사전명/코드"
             clearable
             @keyup.enter="handleQuery"
           />
         </el-form-item>
 
         <el-form-item class="search-buttons">
-          <el-button type="primary" icon="search" @click="handleQuery">搜索</el-button>
-          <el-button icon="refresh" @click="handleResetQuery">重置</el-button>
+          <el-button type="primary" icon="search" @click="handleQuery">검색</el-button>
+          <el-button icon="refresh" @click="handleResetQuery">초기화</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -23,14 +23,14 @@
     <el-card shadow="hover" class="data-table">
       <div class="data-table__toolbar">
         <div class="data-table__toolbar--actions">
-          <el-button type="success" icon="plus" @click="handleAddClick()">新增</el-button>
+          <el-button type="success" icon="plus" @click="handleAddClick()">추가</el-button>
           <el-button
             type="danger"
             :disabled="ids.length === 0"
             icon="delete"
             @click="handleDelete()"
           >
-            删除
+            삭제
           </el-button>
         </div>
       </div>
@@ -44,22 +44,22 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="字典名称" prop="name" />
-        <el-table-column label="字典编码" prop="dictCode" />
-        <el-table-column label="状态" prop="status">
+        <el-table-column label="사전명" prop="name" />
+        <el-table-column label="사전 코드" prop="dictCode" />
+        <el-table-column label="상태" prop="status">
           <template #default="scope">
             <el-tag :type="scope.row.status === 1 ? 'success' : 'info'">
-              {{ scope.row.status === 1 ? "启用" : "禁用" }}
+              {{ scope.row.status === 1 ? "활성" : "비활성" }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" align="center" width="220">
+        <el-table-column fixed="right" label="작업" align="center" width="220">
           <template #default="scope">
             <el-button type="primary" link size="small" @click.stop="handleOpenDictData(scope.row)">
               <template #icon>
                 <Collection />
               </template>
-              字典数据
+              사전 데이터
             </el-button>
 
             <el-button
@@ -69,7 +69,7 @@
               icon="edit"
               @click.stop="handleEditClick(scope.row.id)"
             >
-              编辑
+              수정
             </el-button>
             <el-button
               type="danger"
@@ -78,7 +78,7 @@
               icon="delete"
               @click.stop="handleDelete(scope.row.id)"
             >
-              删除
+              삭제
             </el-button>
           </template>
         </el-table-column>
@@ -93,7 +93,7 @@
       />
     </el-card>
 
-    <!--字典弹窗-->
+    <!--사전 대화상자-->
     <el-dialog
       v-model="dialog.visible"
       :title="dialog.title"
@@ -101,30 +101,30 @@
       @close="handleCloseDialog"
     >
       <el-form ref="dataFormRef" :model="formData" :rules="computedRules" label-width="80px">
-        <el-form-item label="字典名称" prop="name">
-          <el-input v-model="formData.name" placeholder="请输入字典名称" />
+        <el-form-item label="사전명" prop="name">
+          <el-input v-model="formData.name" placeholder="사전명을 입력하세요" />
         </el-form-item>
 
-        <el-form-item label="字典编码" prop="dictCode">
-          <el-input v-model="formData.dictCode" placeholder="请输入字典编码" />
+        <el-form-item label="사전 코드" prop="dictCode">
+          <el-input v-model="formData.dictCode" placeholder="사전 코드를 입력하세요" />
         </el-form-item>
 
-        <el-form-item label="状态">
+        <el-form-item label="상태">
           <el-radio-group v-model="formData.status">
-            <el-radio :value="1">启用</el-radio>
-            <el-radio :value="0">禁用</el-radio>
+            <el-radio :value="1">활성</el-radio>
+            <el-radio :value="0">비활성</el-radio>
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="备注">
-          <el-input v-model="formData.remark" type="textarea" placeholder="请输入备注" />
+        <el-form-item label="비고">
+          <el-input v-model="formData.remark" type="textarea" placeholder="비고를 입력하세요" />
         </el-form-item>
       </el-form>
 
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="handleSubmitClick">确 定</el-button>
-          <el-button @click="handleCloseDialog">取 消</el-button>
+          <el-button type="primary" @click="handleSubmitClick">확인</el-button>
+          <el-button @click="handleCloseDialog">취소</el-button>
         </div>
       </template>
     </el-dialog>
@@ -164,13 +164,13 @@ const formData = reactive<DictForm>({});
 
 const computedRules = computed(() => {
   const rules: Partial<Record<string, any>> = {
-    name: [{ required: true, message: "请输入字典名称", trigger: "blur" }],
-    dictCode: [{ required: true, message: "请输入字典编码", trigger: "blur" }],
+    name: [{ required: true, message: "사전명을 입력하세요", trigger: "blur" }],
+    dictCode: [{ required: true, message: "사전 코드를 입력하세요", trigger: "blur" }],
   };
   return rules;
 });
 
-// 获取数据
+// 데이터 가져오기
 function fetchData() {
   loading.value = true;
   DictAPI.getPage(queryParams)
@@ -183,44 +183,44 @@ function fetchData() {
     });
 }
 
-// 查询（重置页码后获取数据）
+// 조회 (페이지 번호 초기화 후 데이터 가져오기)
 function handleQuery() {
   queryParams.pageNum = 1;
   fetchData();
 }
 
-// 重置查询
+// 쿼리 초기화
 function handleResetQuery() {
   queryFormRef.value.resetFields();
   queryParams.pageNum = 1;
   fetchData();
 }
 
-// 行选择
+// 행 선택
 function handleSelectionChange(selection: any) {
   ids.value = selection.map((item: any) => item.id);
 }
 
-// 新增字典
+// 사전 추가
 function handleAddClick() {
   dialog.visible = true;
-  dialog.title = "新增字典";
+  dialog.title = "사전 추가";
 }
 
 /**
- * 编辑字典
+ * 사전 수정
  *
- * @param id 字典ID
+ * @param id 사전 ID
  */
 function handleEditClick(id: string) {
   dialog.visible = true;
-  dialog.title = "修改字典";
+  dialog.title = "사전 수정";
   DictAPI.getFormData(id).then((data) => {
     Object.assign(formData, data);
   });
 }
 
-// 提交字典表单
+// 사전 폼 제출
 function handleSubmitClick() {
   dataFormRef.value.validate((isValid: boolean) => {
     if (isValid) {
@@ -229,7 +229,7 @@ function handleSubmitClick() {
       if (id) {
         DictAPI.update(id, formData)
           .then(() => {
-            ElMessage.success("修改成功");
+            ElMessage.success("수정 성공");
             handleCloseDialog();
             handleQuery();
           })
@@ -237,7 +237,7 @@ function handleSubmitClick() {
       } else {
         DictAPI.create(formData)
           .then(() => {
-            ElMessage.success("新增成功");
+            ElMessage.success("추가 성공");
             handleCloseDialog();
             handleQuery();
           })
@@ -247,7 +247,7 @@ function handleSubmitClick() {
   });
 }
 
-// 关闭字典弹窗
+// 사전 대화상자 닫기
 function handleCloseDialog() {
   dialog.visible = false;
 
@@ -257,38 +257,38 @@ function handleCloseDialog() {
   formData.id = undefined;
 }
 /**
- * 删除字典
+ * 사전 삭제
  *
- * @param id 字典ID
+ * @param id 사전 ID
  */
 function handleDelete(id?: number) {
   const attrGroupIds = [id || ids.value].join(",");
   if (!attrGroupIds) {
-    ElMessage.warning("请勾选删除项");
+    ElMessage.warning("삭제할 항목을 선택하세요");
     return;
   }
-  ElMessageBox.confirm("确认删除已选中的数据项?", "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm("선택한 데이터 항목을 삭제하시겠습니까?", "경고", {
+    confirmButtonText: "확인",
+    cancelButtonText: "취소",
     type: "warning",
   }).then(
     () => {
       DictAPI.deleteByIds(attrGroupIds).then(() => {
-        ElMessage.success("删除成功");
+        ElMessage.success("삭제 성공");
         handleResetQuery();
       });
     },
     () => {
-      ElMessage.info("已取消删除");
+      ElMessage.info("삭제가 취소되었습니다");
     }
   );
 }
 
-// 打开字典项
+// 사전 항목 열기
 function handleOpenDictData(row: DictPageVO) {
   router.push({
     path: "/system/dict-item",
-    query: { dictCode: row.dictCode, title: "【" + row.name + "】字典数据" },
+    query: { dictCode: row.dictCode, title: "【" + row.name + "】사전 데이터" },
   });
 }
 

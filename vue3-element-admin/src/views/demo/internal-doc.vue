@@ -4,16 +4,16 @@
   </div>
 </template>
 <style lang="scss" scoped>
-/** 关闭tag标签  */
+/** 태그 태그 비활성화  */
 .app-container {
-  /* 50px = navbar = 50px */
+  /* 50px = 네비게이션 바 = 50px */
   height: calc(100vh - 50px);
 }
 
-/** 开启tag标签  */
+/** 태그 태그 활성화  */
 .hasTagsView {
   .app-container {
-    /* 84px = navbar + tags-view = 50px + 34px */
+    /* 84px = 네비게이션 바 + 태그 보기 = 50px + 34px */
     height: calc(100vh - 84px);
   }
 }

@@ -13,7 +13,7 @@ export default defineMock([
             title: "v2.12.0 新增系统日志，访问趋势统计功能。",
             publishStatus: 1,
             type: 1,
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             level: "L",
             publishTime: "2024-09-30 17:21",
             isRead: null,
@@ -26,7 +26,7 @@ export default defineMock([
             title: "v2.13.0 新增菜单搜索。",
             publishStatus: 1,
             type: 1,
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             level: "L",
             publishTime: "2024-09-30 17:22",
             isRead: null,
@@ -39,7 +39,7 @@ export default defineMock([
             title: "\r\nv2.14.0 新增个人中心。",
             publishStatus: 1,
             type: 1,
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             level: "L",
             publishTime: "2024-09-30 17:23",
             isRead: null,
@@ -52,7 +52,7 @@ export default defineMock([
             title: "v2.15.0 登录页面改造。",
             publishStatus: 1,
             type: 1,
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             level: "L",
             publishTime: "2024-09-30 17:24",
             isRead: null,
@@ -65,7 +65,7 @@ export default defineMock([
             title: "v2.16.0 通知公告、字典翻译组件。",
             publishStatus: 1,
             type: 1,
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             level: "L",
             publishTime: "2024-09-30 17:25",
             isRead: null,
@@ -78,7 +78,7 @@ export default defineMock([
             title: "系统将于本周六凌晨 2 点进行维护，预计维护时间为 2 小时。",
             publishStatus: 1,
             type: 2,
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             level: "L",
             publishTime: "2024-09-30 17:26",
             isRead: null,
@@ -91,7 +91,7 @@ export default defineMock([
             title: "最近发现一些钓鱼邮件，请大家提高警惕，不要点击陌生链接。",
             publishStatus: 1,
             type: 3,
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             level: "L",
             publishTime: "2024-09-30 17:27",
             isRead: null,
@@ -104,7 +104,7 @@ export default defineMock([
             title: "国庆假期从 10 月 1 日至 10 月 7 日放假，共 7 天。",
             publishStatus: 1,
             type: 4,
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             level: "L",
             publishTime: "2024-09-30 17:28",
             isRead: null,
@@ -117,7 +117,7 @@ export default defineMock([
             title: "公司将在 10 月 15 日举办新产品发布会，敬请期待。",
             publishStatus: 1,
             type: 5,
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             level: "L",
             publishTime: "2024-09-30 17:29",
             isRead: null,
@@ -130,7 +130,7 @@ export default defineMock([
             title: "v2.16.1 版本修复了 WebSocket 重复连接导致的后台线程阻塞问题，优化了通知公告。",
             publishStatus: 1,
             type: 1,
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             level: "L",
             publishTime: "2024-09-30 17:30",
             isRead: null,
@@ -141,11 +141,11 @@ export default defineMock([
         ],
         total: 10,
       },
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
 
-  // 新增通知
+  // 공지 추가
   {
     url: "notices",
     method: ["POST"],
@@ -153,12 +153,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "新增成功",
+        msg: "추가 성공",
       };
     },
   },
 
-  // 获取通知表单数据
+  // 공지 폼 데이터 조회
   {
     url: "notices/:id/form",
     method: ["GET"],
@@ -166,12 +166,12 @@ export default defineMock([
       return {
         code: "00000",
         data: noticeMap[params.id],
-        msg: "一切ok",
+        msg: "모두 정상",
       };
     },
   },
 
-  // 获取通知详情
+  // 공지 상세 조회
   {
     url: "notices/:id/detail",
     method: ["GET"],
@@ -179,11 +179,11 @@ export default defineMock([
       return {
         code: "00000",
         data: noticeMap[params.id],
-        msg: "一切ok",
+        msg: "모두 정상",
       };
     },
   },
-  // 修改通知
+  // 공지 수정
   {
     url: "roles/:id",
     method: ["PUT"],
@@ -191,12 +191,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "修改通知" + body.name + "成功",
+        msg: "공지 수정 " + body.name + " 성공",
       };
     },
   },
 
-  // 删除通知
+  // 공지 삭제
   {
     url: "roles/:id",
     method: ["DELETE"],
@@ -204,12 +204,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "删除通知" + params.id + "成功",
+        msg: "공지 삭제 " + params.id + " 성공",
       };
     },
   },
 
-  // 我的通知分页列表
+  // 내 공지 페이지 목록
   {
     url: "notices/my-page",
     method: ["GET"],
@@ -222,7 +222,7 @@ export default defineMock([
             title: "v2.16.1 版本修复了 WebSocket 重复连接导致的后台线程阻塞问题，优化了通知公告。",
             type: 1,
             level: "L",
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             publishTime: "2024-09-30 17:30",
             isRead: 0,
           },
@@ -231,7 +231,7 @@ export default defineMock([
             title: "公司将在 10 月 15 日举办新产品发布会，敬请期待。",
             type: 5,
             level: "L",
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             publishTime: "2024-09-30 17:29",
             isRead: 0,
           },
@@ -240,7 +240,7 @@ export default defineMock([
             title: "国庆假期从 10 月 1 日至 10 月 7 日放假，共 7 天。",
             type: 4,
             level: "L",
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             publishTime: "2024-09-30 17:28",
             isRead: 0,
           },
@@ -249,7 +249,7 @@ export default defineMock([
             title: "最近发现一些钓鱼邮件，请大家提高警惕，不要点击陌生链接。",
             type: 3,
             level: "L",
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             publishTime: "2024-09-30 17:27",
             isRead: 0,
           },
@@ -258,19 +258,19 @@ export default defineMock([
             title: "系统将于本周六凌晨 2 点进行维护，预计维护时间为 2 小时。",
             type: 2,
             level: "L",
-            publisherName: "系统管理员",
+            publisherName: "시스템 관리자",
             publishTime: "2024-09-30 17:26",
             isRead: 0,
           },
         ],
         total: 10,
       },
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
 ]);
 
-// 通知映射表数据
+// 공지 매핑 테이블 데이터
 const noticeMap: Record<string, any> = {
   1: {
     id: 1,

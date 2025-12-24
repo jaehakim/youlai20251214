@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
-    <!-- 搜索区域 -->
+    <!-- 검색 영역 -->
     <div class="search-container">
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
-        <el-form-item label="通知标题" prop="title">
+        <el-form-item label="공지 제목" prop="title">
           <el-input
             v-model="queryParams.title"
-            placeholder="关键字"
+            placeholder="키워드"
             clearable
             @keyup.enter="handleQuery()"
           />
@@ -17,13 +17,13 @@
             <template #icon>
               <Search />
             </template>
-            搜索
+            검색
           </el-button>
           <el-button @click="handleResetQuery()">
             <template #icon>
               <Refresh />
             </template>
-            重置
+            초기화
           </el-button>
         </el-form-item>
       </el-form>
@@ -37,15 +37,15 @@
         highlight-current-row
         class="data-table__content"
       >
-        <el-table-column type="index" label="序号" width="60" />
-        <el-table-column label="通知标题" prop="title" min-width="200" />
-        <el-table-column align="center" label="通知类型" width="150">
+        <el-table-column type="index" label="번호" width="60" />
+        <el-table-column label="공지 제목" prop="title" min-width="200" />
+        <el-table-column align="center" label="공지 유형" width="150">
           <template #default="scope">
             <DictLabel v-model="scope.row.type" code="notice_type" />
           </template>
         </el-table-column>
-        <el-table-column align="center" label="发布人" prop="publisherName" width="100" />
-        <el-table-column align="center" label="通知等级" width="100">
+        <el-table-column align="center" label="발행자" prop="publisherName" width="100" />
+        <el-table-column align="center" label="공지 등급" width="100">
           <template #default="scope">
             <DictLabel v-model="scope.row.level" code="notice_level" />
           </template>
@@ -53,22 +53,22 @@
         <el-table-column
           key="releaseTime"
           align="center"
-          label="发布时间"
+          label="발행 시간"
           prop="publishTime"
           width="150"
         />
 
-        <el-table-column align="center" label="发布人" prop="publisherName" width="150" />
-        <el-table-column align="center" label="状态" width="100">
+        <el-table-column align="center" label="발행자" prop="publisherName" width="150" />
+        <el-table-column align="center" label="상태" width="100">
           <template #default="scope">
-            <el-tag v-if="scope.row.isRead == 1" type="success">已读</el-tag>
-            <el-tag v-else type="info">未读</el-tag>
+            <el-tag v-if="scope.row.isRead == 1" type="success">읽음</el-tag>
+            <el-tag v-else type="info">읽지 않음</el-tag>
           </template>
         </el-table-column>
-        <el-table-column align="center" fixed="right" label="操作" width="80">
+        <el-table-column align="center" fixed="right" label="작업" width="80">
           <template #default="scope">
             <el-button type="primary" size="small" link @click="handleReadNotice(scope.row.id)">
-              查看
+              보기
             </el-button>
           </template>
         </el-table-column>

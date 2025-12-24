@@ -4,16 +4,16 @@
     <div class="w-75">
       <div class="oops mb-5 text-[2rem] font-bold">OOPS！</div>
       <div class="info text-gray mb-7 text-[0.8125rem]">
-        该页面无法访问。
+        이 페이지에 접근할 수 없습니다.
         <el-link type="primary" href="https://www.youlai.tech.com" target="_blank">
-          有来开源官网
+          유래이 오픈소스 공식 웹사이트
         </el-link>
       </div>
-      <div class="headline mb-2.5 text-xl font-bold text-[#222]">抱歉，您访问的页面不存在。</div>
+      <div class="headline mb-2.5 text-xl font-bold text-[#222]">죄송합니다, 방문하신 페이지가 존재하지 않습니다.</div>
       <div class="info text-gray mb-7 text-[0.8125rem]">
-        请确认您输入的网址是否正确，或者点击下方按钮返回首页。
+        입력한 주소가 올바른지 확인하거나 아래 버튼을 클릭하여 홈으로 돌아가세요.
       </div>
-      <el-button round type="primary" class="btn h-9 w-28 mb-10" @click="back">返回首页</el-button>
+      <el-button round type="primary" class="btn h-9 w-28 mb-10" @click="back">홈으로 돌아가기</el-button>
     </div>
   </div>
 </template>

@@ -2,7 +2,7 @@
   <div>
     <h3 text-center m-0 mb-20px>{{ t("login.resetPassword") }}</h3>
     <el-form ref="formRef" :model="model" :rules="rules" size="large">
-      <!-- 用户名 -->
+      <!-- 사용자명 -->
       <el-form-item prop="username">
         <el-input v-model.trim="model.username" :placeholder="t('login.username')">
           <template #prefix>
@@ -52,6 +52,6 @@ const formRef = ref<FormInstance>();
 
 const submit = async () => {
   await formRef.value?.validate();
-  ElMessage.warning("开发中 ...");
+  ElMessage.warning("개발 중 ...");
 };
 </script>

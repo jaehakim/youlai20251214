@@ -1,11 +1,11 @@
 <template>
   <div class="dashboard-container">
-    <!-- github 角标 -->
+    <!-- GitHub 배지 -->
     <github-corner class="github-corner" />
 
     <el-card shadow="never" class="mt-2">
       <div class="flex flex-wrap">
-        <!-- 左侧问候语区域 -->
+        <!-- 왼쪽 인사말 영역 -->
         <div class="flex-1 flex items-start">
           <img
             class="w80px h80px rounded-full"
@@ -13,18 +13,18 @@
           />
           <div class="ml-5">
             <p>{{ greetings }}</p>
-            <p class="text-sm text-gray">今日天气晴朗，气温在15℃至25℃之间，东南风。</p>
+            <p class="text-sm text-gray">오늘 날씨가 맑고, 기온은 15℃에서 25℃ 사이이며, 남동풍입니다.</p>
           </div>
         </div>
 
-        <!-- 右侧图标区域 - PC端 -->
+        <!-- 오른쪽 아이콘 영역 - PC -->
         <div class="hidden sm:block">
           <div class="flex items-end space-x-6">
-            <!-- 仓库 -->
+            <!-- 저장소 -->
             <div>
               <div class="font-bold color-#ff9a2e text-sm flex items-center">
                 <el-icon class="mr-2px"><Folder /></el-icon>
-                仓库
+                저장소
               </div>
               <div class="mt-3 whitespace-nowrap">
                 <el-link href="https://gitee.com/youlaiorg/vue3-element-admin" target="_blank">
@@ -41,11 +41,11 @@
               </div>
             </div>
 
-            <!-- 文档 -->
+            <!-- 문서 -->
             <div>
               <div class="font-bold color-#4080ff text-sm flex items-center">
                 <el-icon class="mr-2px"><Document /></el-icon>
-                文档
+                문서
               </div>
               <div class="mt-3 whitespace-nowrap">
                 <el-link href="https://juejin.cn/post/7228990409909108793" target="_blank">
@@ -65,11 +65,11 @@
               </div>
             </div>
 
-            <!-- 视频 -->
+            <!-- 비디오 -->
             <div>
               <div class="font-bold color-#f76560 text-sm flex items-center">
                 <el-icon class="mr-2px"><VideoCamera /></el-icon>
-                视频
+                비디오
               </div>
               <div class="mt-3 whitespace-nowrap">
                 <el-link href="https://www.bilibili.com/video/BV1eFUuYyEFj" target="_blank">
@@ -80,10 +80,10 @@
           </div>
         </div>
 
-        <!-- 移动端图标区域 -->
+        <!-- 모바일 아이콘 영역 -->
         <div class="w-full sm:hidden mt-3">
           <div class="flex justify-end space-x-4 overflow-x-auto">
-            <!-- 仓库图标 -->
+            <!-- 저장소 아이콘 -->
             <el-link href="https://gitee.com/youlaiorg/vue3-element-admin" target="_blank">
               <div class="i-svg:gitee text-lg color-#F76560" />
             </el-link>
@@ -94,7 +94,7 @@
               <div class="i-svg:gitcode text-lg color-#FF9A2E" />
             </el-link>
 
-            <!-- 文档图标 -->
+            <!-- 문서 아이콘 -->
             <el-link href="https://juejin.cn/post/7228990409909108793" target="_blank">
               <div class="i-svg:juejin text-lg" />
             </el-link>
@@ -105,7 +105,7 @@
               <div class="i-svg:cnblogs text-lg" />
             </el-link>
 
-            <!-- 视频图标 -->
+            <!-- 비디오 아이콘 -->
             <el-link href="https://www.bilibili.com/video/BV1eFUuYyEFj" target="_blank">
               <div class="i-svg:bilibili text-lg" />
             </el-link>
@@ -114,15 +114,15 @@
       </div>
     </el-card>
 
-    <!-- 数据统计 -->
+    <!-- 데이터 통계 -->
     <el-row :gutter="10" class="mt-5">
-      <!-- 在线用户数量 -->
+      <!-- 온라인 사용자 수 -->
       <el-col :span="8" :xs="24" class="mb-xs-3">
         <el-card shadow="never" class="h-full flex flex-col">
           <template #header>
             <div class="flex-x-between">
-              <span class="text-gray">在线用户</span>
-              <el-tag type="danger" size="small">实时</el-tag>
+              <span class="text-gray">온라인 사용자</span>
+              <el-tag type="danger" size="small">실시간</el-tag>
             </div>
           </template>
 
@@ -133,24 +133,24 @@
               </span>
               <span v-if="isConnected" class="ml-2 text-xs text-[#67c23a]">
                 <el-icon><Connection /></el-icon>
-                已连接
+                연결됨
               </span>
               <span v-else class="ml-2 text-xs text-[#f56c6c]">
                 <el-icon><Failed /></el-icon>
-                未连接
+                연결 해제
               </span>
             </div>
             <div class="i-svg:people w-8 h-8 animate-[pulse_2s_infinite]" />
           </div>
 
           <div class="flex-x-between mt-2 text-sm text-gray">
-            <span>更新时间</span>
+            <span>업데이트 시간</span>
             <span>{{ formattedTime }}</span>
           </div>
         </el-card>
       </el-col>
 
-      <!-- 访客数(UV) -->
+      <!-- 방문자 수(UV) -->
       <el-col :span="8" :xs="24" class="mb-xs-3">
         <el-skeleton :loading="visitStatsLoading" :rows="5" animated>
           <template #template>
@@ -176,8 +176,8 @@
             <el-card shadow="never" class="h-full flex flex-col">
               <template #header>
                 <div class="flex-x-between">
-                  <span class="text-gray">访客数(UV)</span>
-                  <el-tag type="success" size="small">日</el-tag>
+                  <span class="text-gray">방문자 수(UV)</span>
+                  <el-tag type="success" size="small">일</el-tag>
                 </div>
               </template>
 
@@ -202,7 +202,7 @@
               </div>
 
               <div class="flex-x-between mt-2 text-sm text-gray">
-                <span>总访客数</span>
+                <span>총 방문자 수</span>
                 <span>{{ Math.round(transitionTotalUvCount) }}</span>
               </div>
             </el-card>
@@ -210,7 +210,7 @@
         </el-skeleton>
       </el-col>
 
-      <!-- 浏览量(PV) -->
+      <!-- 페이지뷰(PV) -->
       <el-col :span="8" :xs="24">
         <el-skeleton :loading="visitStatsLoading" :rows="5" animated>
           <template #template>
@@ -236,8 +236,8 @@
             <el-card shadow="never" class="h-full flex flex-col">
               <template #header>
                 <div class="flex-x-between">
-                  <span class="text-gray">浏览量(PV)</span>
-                  <el-tag type="primary" size="small">日</el-tag>
+                  <span class="text-gray">페이지뷰(PV)</span>
+                  <el-tag type="primary" size="small">일</el-tag>
                 </div>
               </template>
 
@@ -262,7 +262,7 @@
               </div>
 
               <div class="flex-x-between mt-2 text-sm text-gray">
-                <span>总浏览量</span>
+                <span>총 페이지뷰</span>
                 <span>{{ Math.round(transitionTotalPvCount) }}</span>
               </div>
             </el-card>
@@ -272,34 +272,34 @@
     </el-row>
 
     <el-row :gutter="10" class="mt-5">
-      <!-- 访问趋势统计图 -->
+      <!-- 방문 추세 통계 차트 -->
       <el-col :xs="24" :span="16">
         <el-card>
           <template #header>
             <div class="flex-x-between">
-              <span>访问趋势</span>
+              <span>방문 추세</span>
               <el-radio-group v-model="visitTrendDateRange" size="small">
-                <el-radio-button :value="7">近7天</el-radio-button>
-                <el-radio-button :value="30">近30天</el-radio-button>
+                <el-radio-button :value="7">최근 7일</el-radio-button>
+                <el-radio-button :value="30">최근 30일</el-radio-button>
               </el-radio-group>
             </div>
           </template>
           <ECharts :options="visitTrendChartOptions" height="400px" />
         </el-card>
       </el-col>
-      <!-- 最新动态 -->
+      <!-- 최신 동향 -->
       <el-col :xs="24" :span="8">
         <el-card>
           <template #header>
             <div class="flex-x-between">
-              <span class="header-title">最新动态</span>
+              <span class="header-title">최신 동향</span>
               <el-link
                 type="primary"
                 underline="never"
                 href="https://gitee.com/youlaiorg/vue3-element-admin/releases"
                 target="_blank"
               >
-                完整记录
+                전체 기록
                 <el-icon class="link-icon"><TopRight /></el-icon>
               </el-link>
             </div>
@@ -333,7 +333,7 @@
                       target="_blank"
                       underline="never"
                     >
-                      详情
+                      세부사항
                       <el-icon class="link-icon"><TopRight /></el-icon>
                     </el-link>
                   </div>
@@ -361,20 +361,20 @@ import { useTransition, useDateFormat } from "@vueuse/core";
 import { Connection, Failed } from "@element-plus/icons-vue";
 import { useOnlineCount } from "@/composables";
 
-// 在线用户数量组件相关
+// 온라인 사용자 수 컴포넌트 관련
 const { onlineUserCount, lastUpdateTime, isConnected } = useOnlineCount();
 
-// 记录上一次的用户数量用于计算趋势
+// 이전 사용자 수 기록, 추세 계산용
 const previousCount = ref(0);
 
-// 监听用户数量变化，计算趋势
+// 사용자 수 변화 감시, 추세 계산
 watch(onlineUserCount, (newCount, oldCount) => {
   if (oldCount > 0) {
     previousCount.value = oldCount;
   }
 });
 
-// 格式化时间戳
+// 타임스탐프 형식화
 const formattedTime = computed(() => {
   if (!lastUpdateTime.value) return "--";
   return useDateFormat(lastUpdateTime, "HH:mm:ss").value;
@@ -382,66 +382,66 @@ const formattedTime = computed(() => {
 
 interface VersionItem {
   id: string;
-  title: string; // 版本标题（如：v2.4.0）
-  date: string; // 发布时间
-  content: string; // 版本描述
-  link: string; // 详情链接
-  tag?: string; // 版本标签（可选）
+  title: string; // 버전 제목 (예: v2.4.0)
+  date: string; // 릴리스 시간
+  content: string; // 버전 설명
+  link: string; // 세부사항 링크
+  tag?: string; // 버전 태그 (선택 사항)
 }
 
 const userStore = useUserStore();
 
-// 当前通知公告列表
+// 현재 공지 사항 목록
 const vesionList = ref<VersionItem[]>([
   {
     id: "1",
     title: "v3.0.0",
     date: "2025-06-06 00:00:00",
-    content: "布局重写，代码规范重构。",
+    content: "레이아웃 재작성, 코드 규범 리팩토링.",
     link: "https://gitee.com/youlaiorg/vue3-element-admin/releases",
-    tag: "里程碑",
+    tag: "마일스톤",
   },
   {
     id: "2",
     title: "v2.4.0",
     date: "2021-09-01 00:00:00",
-    content: "实现基础框架搭建，包含权限管理、路由系统等核心功能。",
+    content: "기본 프레임워크 구축 구현, 권한 관리, 라우팅 시스템 등 핵심 기능 포함.",
     link: "https://gitee.com/youlaiorg/vue3-element-admin/releases",
-    tag: "里程碑",
+    tag: "마일스톤",
   },
   {
     id: "3",
     title: "v2.4.0",
     date: "2021-09-01 00:00:00",
-    content: "实现基础框架搭建，包含权限管理、路由系统等核心功能。",
+    content: "기본 프레임워크 구축 구현, 권한 관리, 라우팅 시스템 등 핵심 기능 포함.",
     link: "https://gitee.com/youlaiorg/vue3-element-admin/releases",
-    tag: "里程碑",
+    tag: "마일스톤",
   },
 ]);
 
-// 当前时间（用于计算问候语）
+// 현재 시간 (인사말 계산용)
 const currentDate = new Date();
 
-// 问候语：根据当前小时返回不同问候语
+// 인사말: 현재 시간에 따라 다른 인사말 반환
 const greetings = computed(() => {
   const hours = currentDate.getHours();
   const nickname = userStore.userInfo.nickname;
   if (hours >= 6 && hours < 8) {
-    return "晨起披衣出草堂，轩窗已自喜微凉🌅！";
+    return "아침이 밝아오고 있습니다. 좋은 아침입니다🌅!";
   } else if (hours >= 8 && hours < 12) {
-    return `上午好，${nickname}！`;
+    return `좋은 아침입니다, ${nickname}!`;
   } else if (hours >= 12 && hours < 18) {
-    return `下午好，${nickname}！`;
+    return `좋은 오후입니다, ${nickname}!`;
   } else if (hours >= 18 && hours < 24) {
-    return `晚上好，${nickname}！`;
+    return `좋은 저녁입니다, ${nickname}!`;
   } else {
-    return "偷偷向银河要了一把碎星，只等你闭上眼睛撒入你的梦中，晚安🌛！";
+    return "하늘의 별에서 몰래 작은 별 조각을 빌렸습니다. 당신이 눈을 감으면 당신의 꿈에 뿌려질 것입니다. 좋은 밤🌛!";
   }
 });
 
-// 访客统计数据加载状态
+// 방문자 통계 데이터 로드 상태
 const visitStatsLoading = ref(true);
-// 访客统计数据
+// 방문자 통계 데이터
 const visitStatsData = ref<VisitStatsVO>({
   todayUvCount: 0,
   uvGrowthRate: 0,
@@ -451,7 +451,7 @@ const visitStatsData = ref<VisitStatsVO>({
   totalPvCount: 0,
 });
 
-// 数字过渡动画
+// 숫자 전환 애니메이션
 const transitionUvCount = useTransition(
   computed(() => visitStatsData.value.todayUvCount),
   {
@@ -484,13 +484,13 @@ const transitionTotalPvCount = useTransition(
   }
 );
 
-// 访问趋势日期范围（单位：天）
+// 방문 추세 날짜 범위 (단위: 일)
 const visitTrendDateRange = ref(7);
-// 访问趋势图表配置
+// 방문 추세 차트 구성
 const visitTrendChartOptions = ref();
 
 /**
- * 获取访客统计数据
+ * 방문자 통계 데이터 가져오기
  */
 const fetchVisitStatsData = () => {
   LogAPI.getVisitStats()
@@ -503,7 +503,7 @@ const fetchVisitStatsData = () => {
 };
 
 /**
- * 获取访问趋势数据，并更新图表配置
+ * 방문 추세 데이터를 가져오고 차트 구성을 업데이트합니다
  */
 const fetchVisitTrendData = () => {
   const startDate = dayjs()
@@ -520,9 +520,9 @@ const fetchVisitTrendData = () => {
 };
 
 /**
- * 更新访问趋势图表的配置项
+ * 방문 추세 차트의 구성 항목 업데이트
  *
- * @param data - 访问趋势数据
+ * @param data - 방문 추세 데이터
  */
 const updateVisitTrendChartOptions = (data: VisitTrendVO) => {
   visitTrendChartOptions.value = {
@@ -530,7 +530,7 @@ const updateVisitTrendChartOptions = (data: VisitTrendVO) => {
       trigger: "axis",
     },
     legend: {
-      data: ["浏览量(PV)", "访客数(UV)"],
+      data: ["페이지뷰(PV)", "방문자 수(UV)"],
       bottom: 0,
     },
     grid: {
@@ -554,7 +554,7 @@ const updateVisitTrendChartOptions = (data: VisitTrendVO) => {
     },
     series: [
       {
-        name: "浏览量(PV)",
+        name: "페이지뷰(PV)",
         type: "line",
         data: data.pvList,
         areaStyle: {
@@ -569,7 +569,7 @@ const updateVisitTrendChartOptions = (data: VisitTrendVO) => {
         },
       },
       {
-        name: "访客数(UV)",
+        name: "방문자 수(UV)",
         type: "line",
         data: data.ipList,
         areaStyle: {
@@ -588,9 +588,9 @@ const updateVisitTrendChartOptions = (data: VisitTrendVO) => {
 };
 
 /**
- * 根据增长率计算对应的 CSS 类名
+ * 증장률에 따라 해당하는 CSS 클래스명 계산
  *
- * @param growthRate - 增长率数值
+ * @param growthRate - 증장률 값
  */
 const computeGrowthRateClass = (growthRate?: number): string => {
   if (!growthRate) {
@@ -605,7 +605,7 @@ const computeGrowthRateClass = (growthRate?: number): string => {
   }
 };
 
-// 监听访问趋势日期范围的变化，重新获取趋势数据
+// 방문 추세 날짜 범위 변경 감시, 추세 데이터 다시 가져오기
 watch(
   () => visitTrendDateRange.value,
   () => {
@@ -614,7 +614,7 @@ watch(
   { immediate: true }
 );
 
-// 组件挂载后加载访客统计数据和通知公告数据
+// 컴포넌트 마운트 후 방문자 통계 데이터와 공지 데이터 로드
 onMounted(() => {
   fetchVisitStatsData();
 });

@@ -10,19 +10,19 @@ export default defineMock([
         list: [
           {
             id: 1,
-            name: "性别",
+            name: "성별",
             dictCode: "gender",
             status: 1,
           },
         ],
         total: 1,
       },
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
 
   /**
-   * 字典列表
+   * 사전 목록
    */
   {
     url: "dicts",
@@ -33,16 +33,16 @@ export default defineMock([
         list: [
           {
             value: "gender",
-            label: "性别",
+            label: "성별",
           },
         ],
         total: 1,
       },
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
 
-  // 新增字典
+  // 사전 추가
   {
     url: "dicts",
     method: ["POST"],
@@ -50,12 +50,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "新增字典" + body.name + "成功",
+        msg: "사전 추가 " + body.name + " 성공",
       };
     },
   },
 
-  // 获取字典表单数据
+  // 사전 폼 데이터 조회
   {
     url: "dicts/:id/form",
     method: ["GET"],
@@ -63,12 +63,12 @@ export default defineMock([
       return {
         code: "00000",
         data: dictMap[params.id],
-        msg: "一切ok",
+        msg: "모두 정상",
       };
     },
   },
 
-  // 修改字典
+  // 사전 수정
   {
     url: "dicts/:id",
     method: ["PUT"],
@@ -76,12 +76,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "修改字典" + body.name + "成功",
+        msg: "사전 수정 " + body.name + " 성공",
       };
     },
   },
 
-  // 删除字典
+  // 사전 삭제
   {
     url: "dicts/:ids",
     method: ["DELETE"],
@@ -89,16 +89,16 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "删除字典" + params.ids + "成功",
+        msg: "사전 삭제 " + params.ids + " 성공",
       };
     },
   },
 
   //---------------------------------------------------
-  // 字典项相关接口
+  // 사전 항목 관련 인터페이스
   //---------------------------------------------------
 
-  // 字典项分页列表
+  // 사전 항목 페이지 목록
   {
     url: "dicts/:dictCode/items/page",
     method: ["GET"],
@@ -109,7 +109,7 @@ export default defineMock([
           {
             id: 1,
             dictCode: "gender",
-            label: "男",
+            label: "남",
             value: "1",
             sort: 1,
             status: 1,
@@ -117,7 +117,7 @@ export default defineMock([
           {
             id: 2,
             dictCode: "gender",
-            label: "女",
+            label: "여",
             value: "2",
             sort: 2,
             status: 1,
@@ -125,7 +125,7 @@ export default defineMock([
           {
             id: 3,
             dictCode: "gender",
-            label: "保密",
+            label: "비공개",
             value: "0",
             sort: 3,
             status: 1,
@@ -133,10 +133,10 @@ export default defineMock([
         ],
         total: 3,
       },
-      msg: "一切ok",
+      msg: "모두 정상",
     },
   },
-  // 字典项列表
+  // 사전 항목 목록
   {
     url: "dicts/:dictCode/items",
     method: ["GET"],
@@ -149,32 +149,32 @@ export default defineMock([
         list = [
           {
             value: "1",
-            label: "男",
+            label: "남",
           },
           {
             value: "2",
-            label: "女",
+            label: "여",
           },
           {
             value: "0",
-            label: "保密",
+            label: "비공개",
           },
         ];
       } else if (dictCode == "notice_level") {
         list = [
           {
             value: "L",
-            label: "低",
+            label: "낮음",
             tag: "info",
           },
           {
             value: "M",
-            label: "中",
+            label: "중간",
             tag: "warning",
           },
           {
             value: "H",
-            label: "高",
+            label: "높음",
             tag: "danger",
           },
         ];
@@ -182,32 +182,32 @@ export default defineMock([
         list = [
           {
             value: "1",
-            label: "系统升级",
+            label: "시스템 업그레이드",
             tag: "success",
           },
           {
             value: "2",
-            label: "系统维护",
+            label: "시스템 유지보수",
             tag: "primary",
           },
           {
             value: "3",
-            label: "安全警告",
+            label: "보안 경고",
             tag: "danger",
           },
           {
             value: "4",
-            label: "假期通知",
+            label: "휴가 공지",
             tag: "success",
           },
           {
             value: "5",
-            label: "公司新闻",
+            label: "회사 뉴스",
             tag: "primary",
           },
           {
             value: "99",
-            label: "其他",
+            label: "기타",
             tag: "info",
           },
         ];
@@ -216,11 +216,11 @@ export default defineMock([
       return {
         code: "00000",
         data: list,
-        msg: "一切ok",
+        msg: "모두 정상",
       };
     },
   },
-  // 新增字典项
+  // 사전 항목 추가
   {
     url: "dicts/:dictCode/items",
     method: ["POST"],
@@ -228,12 +228,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "新增字典" + body.name + "成功",
+        msg: "사전 항목 추가 " + body.name + " 성공",
       };
     },
   },
 
-  // 字典项表单数据
+  // 사전 항목 폼 데이터
   {
     url: "dicts/:dictCode/items/:itemId/form",
     method: ["GET"],
@@ -241,12 +241,12 @@ export default defineMock([
       return {
         code: "00000",
         data: dictItemMap[params.itemId],
-        msg: "一切ok",
+        msg: "모두 정상",
       };
     },
   },
 
-  // 修改字典项
+  // 사전 항목 수정
   {
     url: "dicts/:dictCode/items/:itemId",
     method: ["PUT"],
@@ -254,12 +254,12 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "修改字典项" + body.name + "成功",
+        msg: "사전 항목 수정 " + body.name + " 성공",
       };
     },
   },
 
-  // 删除字典
+  // 사전 항목 삭제
   {
     url: "dicts/:dictCode/items/:itemId",
     method: ["DELETE"],
@@ -267,13 +267,13 @@ export default defineMock([
       return {
         code: "00000",
         data: null,
-        msg: "删除字典" + params.itemId + "成功",
+        msg: "사전 항목 삭제 " + params.itemId + " 성공",
       };
     },
   },
 ]);
 
-// 字典映射表数据
+// 사전 매핑 테이블 데이터
 const dictMap: Record<string, any> = {
   1: {
     id: 1,
@@ -283,7 +283,7 @@ const dictMap: Record<string, any> = {
   },
 };
 
-// 字典项映射表数据
+// 사전 항목 매핑 테이블 데이터
 const dictItemMap: Record<string, any> = {
   1: {
     id: 1,

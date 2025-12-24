@@ -1,4 +1,4 @@
-<!-- 图标选择器示例 -->
+<!-- 아이콘 선택기 예제 -->
 <template>
   <div class="app-container">
     <el-link
@@ -7,15 +7,15 @@
       target="_blank"
       class="mb-10"
     >
-      示例源码 请点击>>>>
+      예제 소스 코드 클릭>>>>
     </el-link>
     <icon-select v-model="iconName" />
   </div>
 </template>
 
 <script setup lang="ts">
-// element-plus 图标格式以el-icon-开头
+// element-plus 아이콘 형식은 el-icon-으로 시작합니다
 const iconName = ref("el-icon-edit");
-// 本地SVG图标格式取 src/assets/icons 下的文件名，不需要svg后缀
+// 로컬 SVG 아이콘 형식은 src/assets/icons 아래 파일 이름을 가져오고 svg 확장자는 필요 없습니다
 // const iconName = ref("api");
 </script>

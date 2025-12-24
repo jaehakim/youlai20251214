@@ -1,7 +1,7 @@
 <template>
   <div class="profile-container">
     <el-row :gutter="20">
-      <!-- 左侧个人信息卡片 -->
+      <!-- 왼쪽 개인정보 카드 -->
       <el-col :span="8">
         <el-card class="user-card">
           <div class="user-info">
@@ -35,30 +35,30 @@
           <div class="user-stats">
             <div class="stat-item">
               <div class="stat-value">0</div>
-              <div class="stat-label">待办</div>
+              <div class="stat-label">할 일</div>
             </div>
             <div class="stat-item">
               <div class="stat-value">0</div>
-              <div class="stat-label">消息</div>
+              <div class="stat-label">메시지</div>
             </div>
             <div class="stat-item">
               <div class="stat-value">0</div>
-              <div class="stat-label">通知</div>
+              <div class="stat-label">알림</div>
             </div>
           </div>
         </el-card>
       </el-col>
 
-      <!-- 右侧信息卡片 -->
+      <!-- 오른쪽 정보 카드 -->
       <el-col :span="16">
         <el-card class="info-card">
           <template #header>
             <div class="card-header">
-              <span>账号信息</span>
+              <span>계정 정보</span>
             </div>
           </template>
           <el-descriptions :column="1" border>
-            <el-descriptions-item label="用户名">
+            <el-descriptions-item label="사용자명">
               {{ userProfile.username }}
               <el-icon v-if="userProfile.gender === 1" class="gender-icon male">
                 <Male />
@@ -67,15 +67,15 @@
                 <Female />
               </el-icon>
             </el-descriptions-item>
-            <el-descriptions-item label="手机号码">
-              {{ userProfile.mobile || "未绑定" }}
+            <el-descriptions-item label="휴대폰 번호">
+              {{ userProfile.mobile || "미연동" }}
               <el-button
                 v-if="userProfile.mobile"
                 type="primary"
                 link
                 @click="() => handleOpenDialog(DialogType.MOBILE)"
               >
-                更换
+                변경
               </el-button>
               <el-button
                 v-else
@@ -83,18 +83,18 @@
                 link
                 @click="() => handleOpenDialog(DialogType.MOBILE)"
               >
-                绑定
+                연동
               </el-button>
             </el-descriptions-item>
-            <el-descriptions-item label="邮箱">
-              {{ userProfile.email || "未绑定" }}
+            <el-descriptions-item label="이메일">
+              {{ userProfile.email || "미연동" }}
               <el-button
                 v-if="userProfile.email"
                 type="primary"
                 link
                 @click="() => handleOpenDialog(DialogType.EMAIL)"
               >
-                更换
+                변경
               </el-button>
               <el-button
                 v-else
@@ -102,13 +102,13 @@
                 link
                 @click="() => handleOpenDialog(DialogType.EMAIL)"
               >
-                绑定
+                연동
               </el-button>
             </el-descriptions-item>
-            <el-descriptions-item label="部门">
+            <el-descriptions-item label="부서">
               {{ userProfile.deptName }}
             </el-descriptions-item>
-            <el-descriptions-item label="创建时间">
+            <el-descriptions-item label="생성 시간">
               {{ userProfile.createTime }}
             </el-descriptions-item>
           </el-descriptions>
@@ -117,40 +117,40 @@
         <el-card class="security-card">
           <template #header>
             <div class="card-header">
-              <span>安全设置</span>
+              <span>보안 설정</span>
             </div>
           </template>
           <div class="security-item">
             <div class="security-info">
-              <div class="security-title">账户密码</div>
-              <div class="security-desc">定期修改密码有助于保护账户安全</div>
+              <div class="security-title">계정 비밀번호</div>
+              <div class="security-desc">정기적으로 비밀번호를 변경하면 계정 보안에 도움이 됩니다</div>
             </div>
             <el-button type="primary" link @click="() => handleOpenDialog(DialogType.PASSWORD)">
-              修改
+              변경
             </el-button>
           </div>
         </el-card>
       </el-col>
     </el-row>
 
-    <!-- 弹窗 -->
+    <!-- 다이얼로그 -->
     <el-dialog v-model="dialog.visible" :title="dialog.title" :width="500">
-      <!-- 账号资料 -->
+      <!-- 계정 정보 -->
       <el-form
         v-if="dialog.type === DialogType.ACCOUNT"
         ref="userProfileFormRef"
         :model="userProfileForm"
         :label-width="100"
       >
-        <el-form-item label="昵称">
+        <el-form-item label="닉네임">
           <el-input v-model="userProfileForm.nickname" />
         </el-form-item>
-        <el-form-item label="性别">
+        <el-form-item label="성별">
           <Dict v-model="userProfileForm.gender" code="gender" />
         </el-form-item>
       </el-form>
 
-      <!-- 修改密码 -->
+      <!-- 비밀번호 변경 -->
       <el-form
         v-if="dialog.type === DialogType.PASSWORD"
         ref="passwordChangeFormRef"
@@ -158,18 +158,18 @@
         :rules="passwordChangeRules"
         :label-width="100"
       >
-        <el-form-item label="原密码" prop="oldPassword">
+        <el-form-item label="기존 비밀번호" prop="oldPassword">
           <el-input v-model="passwordChangeForm.oldPassword" type="password" show-password />
         </el-form-item>
-        <el-form-item label="新密码" prop="newPassword">
+        <el-form-item label="새 비밀번호" prop="newPassword">
           <el-input v-model="passwordChangeForm.newPassword" type="password" show-password />
         </el-form-item>
-        <el-form-item label="确认密码" prop="confirmPassword">
+        <el-form-item label="비밀번호 확인" prop="confirmPassword">
           <el-input v-model="passwordChangeForm.confirmPassword" type="password" show-password />
         </el-form-item>
       </el-form>
 
-      <!-- 绑定手机 -->
+      <!-- 휴대폰 연동 -->
       <el-form
         v-else-if="dialog.type === DialogType.MOBILE"
         ref="mobileBindingFormRef"
@@ -177,21 +177,21 @@
         :rules="mobileBindingRules"
         :label-width="100"
       >
-        <el-form-item label="手机号码" prop="mobile">
+        <el-form-item label="휴대폰 번호" prop="mobile">
           <el-input v-model="mobileUpdateForm.mobile" style="width: 250px" />
         </el-form-item>
-        <el-form-item label="验证码" prop="code">
+        <el-form-item label="인증번호" prop="code">
           <el-input v-model="mobileUpdateForm.code" style="width: 250px">
             <template #append>
               <el-button :disabled="mobileCountdown > 0" @click="handleSendMobileCode">
-                {{ mobileCountdown > 0 ? `${mobileCountdown}s后重新发送` : "发送验证码" }}
+                {{ mobileCountdown > 0 ? `${mobileCountdown}s 후 재전송` : "인증번호 전송" }}
               </el-button>
             </template>
           </el-input>
         </el-form-item>
       </el-form>
 
-      <!-- 绑定邮箱 -->
+      <!-- 이메일 연동 -->
       <el-form
         v-else-if="dialog.type === DialogType.EMAIL"
         ref="emailBindingFormRef"
@@ -199,14 +199,14 @@
         :rules="emailBindingRules"
         :label-width="100"
       >
-        <el-form-item label="邮箱" prop="email">
+        <el-form-item label="이메일" prop="email">
           <el-input v-model="emailUpdateForm.email" style="width: 250px" />
         </el-form-item>
-        <el-form-item label="验证码" prop="code">
+        <el-form-item label="인증번호" prop="code">
           <el-input v-model="emailUpdateForm.code" style="width: 250px">
             <template #append>
               <el-button :disabled="emailCountdown > 0" @click="handleSendEmailCode">
-                {{ emailCountdown > 0 ? `${emailCountdown}s后重新发送` : "发送验证码" }}
+                {{ emailCountdown > 0 ? `${emailCountdown}s 후 재전송` : "인증번호 전송" }}
               </el-button>
             </template>
           </el-input>
@@ -215,8 +215,8 @@
 
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="handleCancel">取消</el-button>
-          <el-button type="primary" @click="handleSubmit">确定</el-button>
+          <el-button @click="handleCancel">취소</el-button>
+          <el-button type="primary" @click="handleSubmit">확인</el-button>
         </span>
       </template>
     </el-dialog>
@@ -251,7 +251,7 @@ const enum DialogType {
 const dialog = reactive({
   visible: false,
   title: "",
-  type: "" as DialogType, // 修改账号资料,修改密码、绑定手机、绑定邮箱
+  type: "" as DialogType, // 계정 정보 수정, 비밀번호 변경, 휴대폰 연동, 이메일 연동
 });
 const userProfileFormRef = ref();
 const passwordChangeFormRef = ref();
@@ -269,85 +269,85 @@ const mobileTimer = ref();
 const emailCountdown = ref(0);
 const emailTimer = ref();
 
-// 修改密码校验规则
+// 비밀번호 변경 검증 규칙
 const passwordChangeRules = {
-  oldPassword: [{ required: true, message: "请输入原密码", trigger: "blur" }],
-  newPassword: [{ required: true, message: "请输入新密码", trigger: "blur" }],
-  confirmPassword: [{ required: true, message: "请再次输入新密码", trigger: "blur" }],
+  oldPassword: [{ required: true, message: "기존 비밀번호를 입력하세요", trigger: "blur" }],
+  newPassword: [{ required: true, message: "새 비밀번호를 입력하세요", trigger: "blur" }],
+  confirmPassword: [{ required: true, message: "새 비밀번호를 다시 입력하세요", trigger: "blur" }],
 };
 
-// 手机号校验规则
+// 휴대폰 번호 검증 규칙
 const mobileBindingRules = {
   mobile: [
-    { required: true, message: "请输入手机号", trigger: "blur" },
+    { required: true, message: "휴대폰 번호를 입력하세요", trigger: "blur" },
     {
       pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-      message: "请输入正确的手机号码",
+      message: "올바른 휴대폰 번호를 입력하세요",
       trigger: "blur",
     },
   ],
-  code: [{ required: true, message: "请输入验证码", trigger: "blur" }],
+  code: [{ required: true, message: "인증번호를 입력하세요", trigger: "blur" }],
 };
 
-// 邮箱校验规则
+// 이메일 검증 규칙
 const emailBindingRules = {
   email: [
-    { required: true, message: "请输入邮箱", trigger: "blur" },
+    { required: true, message: "이메일을 입력하세요", trigger: "blur" },
     {
       pattern: /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/,
-      message: "请输入正确的邮箱地址",
+      message: "올바른 이메일 주소를 입력하세요",
       trigger: "blur",
     },
   ],
-  code: [{ required: true, message: "请输入验证码", trigger: "blur" }],
+  code: [{ required: true, message: "인증번호를 입력하세요", trigger: "blur" }],
 };
 
 /**
- * 打开弹窗
- * @param type 弹窗类型 ACCOUNT: 账号资料 PASSWORD: 修改密码 MOBILE: 绑定手机 EMAIL: 绑定邮箱
+ * 다이얼로그 열기
+ * @param type 다이얼로그 유형 ACCOUNT: 계정 정보 PASSWORD: 비밀번호 변경 MOBILE: 휴대폰 연동 EMAIL: 이메일 연동
  */
 const handleOpenDialog = (type: DialogType) => {
   dialog.type = type;
   dialog.visible = true;
   switch (type) {
     case DialogType.ACCOUNT:
-      dialog.title = "账号资料";
-      // 初始化表单数据
+      dialog.title = "계정 정보";
+      // 폼 데이터 초기화
       userProfileForm.id = userProfile.value.id;
       userProfileForm.nickname = userProfile.value.nickname;
       userProfileForm.gender = userProfile.value.gender;
       break;
     case DialogType.PASSWORD:
-      dialog.title = "修改密码";
+      dialog.title = "비밀번호 변경";
       break;
     case DialogType.MOBILE:
-      dialog.title = "绑定手机";
+      dialog.title = "휴대폰 연동";
       break;
     case DialogType.EMAIL:
-      dialog.title = "绑定邮箱";
+      dialog.title = "이메일 연동";
       break;
   }
 };
 
 /**
- * 发送手机验证码
+ * 휴대폰 인증번호 전송
  */
 function handleSendMobileCode() {
   if (!mobileUpdateForm.mobile) {
-    ElMessage.error("请输入手机号");
+    ElMessage.error("휴대폰 번호를 입력하세요");
     return;
   }
-  // 验证手机号格式
+  // 휴대폰 번호 형식 검증
   const reg = /^1[3-9]\d{9}$/;
   if (!reg.test(mobileUpdateForm.mobile)) {
-    ElMessage.error("手机号格式不正确");
+    ElMessage.error("휴대폰 번호 형식이 올바르지 않습니다");
     return;
   }
-  // 发送短信验证码
+  // SMS 인증번호 전송
   UserAPI.sendMobileCode(mobileUpdateForm.mobile).then(() => {
-    ElMessage.success("验证码发送成功");
+    ElMessage.success("인증번호 전송 성공");
 
-    // 倒计时 60s 重新发送
+    // 60초 카운트다운 재전송
     mobileCountdown.value = 60;
     mobileTimer.value = setInterval(() => {
       if (mobileCountdown.value > 0) {
@@ -360,24 +360,24 @@ function handleSendMobileCode() {
 }
 
 /**
- * 发送邮箱验证码
+ * 이메일 인증번호 전송
  */
 function handleSendEmailCode() {
   if (!emailUpdateForm.email) {
-    ElMessage.error("请输入邮箱");
+    ElMessage.error("이메일을 입력하세요");
     return;
   }
-  // 验证邮箱格式
+  // 이메일 형식 검증
   const reg = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
   if (!reg.test(emailUpdateForm.email)) {
-    ElMessage.error("邮箱格式不正确");
+    ElMessage.error("이메일 형식이 올바르지 않습니다");
     return;
   }
 
-  // 发送邮箱验证码
+  // 이메일 인증번호 전송
   UserAPI.sendEmailCode(emailUpdateForm.email).then(() => {
-    ElMessage.success("验证码发送成功");
-    // 倒计时 60s 重新发送
+    ElMessage.success("인증번호 전송 성공");
+    // 60초 카운트다운 재전송
     emailCountdown.value = 60;
     emailTimer.value = setInterval(() => {
       if (emailCountdown.value > 0) {
@@ -390,33 +390,33 @@ function handleSendEmailCode() {
 }
 
 /**
- * 提交表单
+ * 폼 제출
  */
 const handleSubmit = async () => {
   if (dialog.type === DialogType.ACCOUNT) {
     UserAPI.updateProfile(userProfileForm).then(() => {
-      ElMessage.success("账号资料修改成功");
+      ElMessage.success("계정 정보 수정 성공");
       dialog.visible = false;
       loadUserProfile();
     });
   } else if (dialog.type === DialogType.PASSWORD) {
     if (passwordChangeForm.newPassword !== passwordChangeForm.confirmPassword) {
-      ElMessage.error("两次输入的密码不一致");
+      ElMessage.error("두 번 입력한 비밀번호가 일치하지 않습니다");
       return;
     }
     UserAPI.changePassword(passwordChangeForm).then(() => {
-      ElMessage.success("密码修改成功");
+      ElMessage.success("비밀번호 변경 성공");
       dialog.visible = false;
     });
   } else if (dialog.type === DialogType.MOBILE) {
     UserAPI.bindOrChangeMobile(mobileUpdateForm).then(() => {
-      ElMessage.success("手机号绑定成功");
+      ElMessage.success("휴대폰 번호 연동 성공");
       dialog.visible = false;
       loadUserProfile();
     });
   } else if (dialog.type === DialogType.EMAIL) {
     UserAPI.bindOrChangeEmail(emailUpdateForm).then(() => {
-      ElMessage.success("邮箱绑定成功");
+      ElMessage.success("이메일 연동 성공");
       dialog.visible = false;
       loadUserProfile();
     });
@@ -424,7 +424,7 @@ const handleSubmit = async () => {
 };
 
 /**
- * 取消
+ * 취소
  */
 const handleCancel = () => {
   dialog.visible = false;
@@ -449,23 +449,23 @@ const handleFileChange = async (event: Event) => {
   const target = event.target as HTMLInputElement;
   const file = target.files ? target.files[0] : null;
   if (file) {
-    // 调用文件上传API
+    // 파일 업로드 API 호출
     try {
       const data = await FileAPI.uploadFile(file);
-      // 更新用户信息
+      // 사용자 정보 업데이트
       await UserAPI.updateProfile({
         avatar: data.url,
       });
-      // 更新用户头像
+      // 사용자 아바타 업데이트
       userStore.userInfo.avatar = data.url;
     } catch (error) {
-      console.error("头像上传失败：" + error);
-      ElMessage.error("头像上传失败");
+      console.error("아바타 업로드 실패: " + error);
+      ElMessage.error("아바타 업로드 실패");
     }
   }
 };
 
-/** 加载用户信息 */
+/** 사용자 정보 로드 */
 const loadUserProfile = async () => {
   const data = await UserAPI.getProfile();
   userProfile.value = data;
@@ -636,7 +636,7 @@ onMounted(async () => {
   }
 }
 
-// 响应式适配
+// 반응형 적응
 @media (max-width: 768px) {
   .profile-container {
     padding: 10px;

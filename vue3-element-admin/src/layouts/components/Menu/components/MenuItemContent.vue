@@ -1,5 +1,5 @@
 <template>
-  <!-- 菜单图标 -->
+  <!-- 메뉴 아이콘 -->
   <template v-if="icon">
     <el-icon v-if="isElIcon" class="menu-icon">
       <component :is="iconComponent" />
@@ -9,7 +9,7 @@
   <template v-else>
     <div class="i-svg:menu menu-icon" />
   </template>
-  <!-- 菜单标题 -->
+  <!-- 메뉴 제목 -->
   <span v-if="title" class="menu-title ml-1">{{ translateRouteTitle(title) }}</span>
 </template>
 

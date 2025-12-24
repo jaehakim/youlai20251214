@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
-    <!-- 搜索区域 -->
+    <!-- 검색 영역 -->
     <div class="search-container">
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
-        <el-form-item prop="keywords" label="关键字">
+        <el-form-item prop="keywords" label="키워드">
           <el-input
             v-model="queryParams.keywords"
-            placeholder="表名"
+            placeholder="테이블명"
             clearable
             @keyup.enter="handleQuery"
           />
@@ -17,13 +17,13 @@
             <template #icon>
               <Search />
             </template>
-            搜索
+            검색
           </el-button>
           <el-button @click="handleResetQuery">
             <template #icon>
               <Refresh />
             </template>
-            重置
+            초기화
           </el-button>
         </el-form-item>
       </el-form>
@@ -39,15 +39,15 @@
         class="data-table__content"
       >
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="表名" prop="tableName" min-width="100" />
-        <el-table-column label="描述" prop="tableComment" width="150" />
+        <el-table-column label="테이블명" prop="tableName" min-width="100" />
+        <el-table-column label="설명" prop="tableComment" width="150" />
 
-        <el-table-column label="存储引擎" align="center" prop="engine" />
+        <el-table-column label="저장 엔진" align="center" prop="engine" />
 
-        <el-table-column label="排序规则" align="center" prop="tableCollation" />
-        <el-table-column label="创建时间" align="center" prop="createTime" />
+        <el-table-column label="정렬 규칙" align="center" prop="tableCollation" />
+        <el-table-column label="생성 시간" align="center" prop="createTime" />
 
-        <el-table-column fixed="right" label="操作" width="200">
+        <el-table-column fixed="right" label="작업" width="200">
           <template #default="scope">
             <el-button
               type="primary"
@@ -58,7 +58,7 @@
               <template #icon>
                 <MagicStick />
               </template>
-              生成代码
+              코드 생성
             </el-button>
 
             <el-button
@@ -71,7 +71,7 @@
               <template #icon>
                 <RefreshLeft />
               </template>
-              重置配置
+              구성 초기화
             </el-button>
           </template>
         </el-table-column>
@@ -93,9 +93,9 @@
       @close="dialog.visible = false"
     >
       <el-steps :active="active" align-center finish-status="success" simple>
-        <el-step title="基础配置" />
-        <el-step title="字段配置" />
-        <el-step title="预览生成" />
+        <el-step title="기본 구성" />
+        <el-step title="필드 구성" />
+        <el-step title="미리 보기 생성" />
       </el-steps>
 
       <div class="mt-5">
@@ -107,25 +107,25 @@
         >
           <el-row>
             <el-col :span="12">
-              <el-form-item label="表名" prop="tableName">
+              <el-form-item label="테이블명" prop="tableName">
                 <el-input v-model="genConfigFormData.tableName" readonly />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="业务名" prop="businessName">
-                <el-input v-model="genConfigFormData.businessName" placeholder="用户" />
+              <el-form-item label="비즈니스명" prop="businessName">
+                <el-input v-model="genConfigFormData.businessName" placeholder="사용자" />
               </el-form-item>
             </el-col>
           </el-row>
 
           <el-row>
             <el-col :span="12">
-              <el-form-item label="主包名" prop="packageName">
+              <el-form-item label="주 패키지명" prop="packageName">
                 <el-input v-model="genConfigFormData.packageName" placeholder="com.youlai.boot" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="模块名" prop="moduleName">
+              <el-form-item label="모듈명" prop="moduleName">
                 <el-input v-model="genConfigFormData.moduleName" placeholder="system" />
               </el-form-item>
             </el-col>
@@ -133,12 +133,12 @@
 
           <el-row>
             <el-col :span="12">
-              <el-form-item label="实体名" prop="entityName">
+              <el-form-item label="엔티티명" prop="entityName">
                 <el-input v-model="genConfigFormData.entityName" placeholder="User" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="作者">
+              <el-form-item label="저자">
                 <el-input v-model="genConfigFormData.author" placeholder="youlai" />
               </el-form-item>
             </el-col>
@@ -146,15 +146,15 @@
 
           <el-row>
             <el-col :span="12">
-              <el-form-item label="移除表前缀">
-                <el-input v-model="genConfigFormData.removeTablePrefix" placeholder="如: sys_" />
+              <el-form-item label="테이블 접두사 제거">
+                <el-input v-model="genConfigFormData.removeTablePrefix" placeholder="예: sys_" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="页面类型">
+              <el-form-item label="페이지 유형">
                 <el-radio-group v-model="genConfigFormData.pageType">
-                  <el-radio-button label="classic">普通</el-radio-button>
-                  <el-radio-button label="curd">封装(CURD)</el-radio-button>
+                  <el-radio-button label="classic">일반</el-radio-button>
+                  <el-radio-button label="curd">캡슐화(CURD)</el-radio-button>
                 </el-radio-group>
               </el-form-item>
             </el-col>
@@ -165,14 +165,14 @@
               <el-form-item>
                 <template #label>
                   <div class="flex-y-between">
-                    <span>上级菜单</span>
+                    <span>상위 메뉴</span>
                     <el-tooltip effect="dark">
                       <template #content>
-                        选择上级菜单，生成代码后会自动创建对应菜单。
+                        상위 메뉴를 선택하면, 코드 생성 후 자동으로 해당 메뉴가 생성됩니다.
                         <br />
-                        注意1：生成菜单后需分配权限给角色，否则菜单将无法显示。
+                        주의 1: 메뉴 생성 후 역할에 권한을 할당해야 하며, 그렇지 않으면 메뉴가 표시되지 않습니다.
                         <br />
-                        注意2：演示环境默认不生成菜单，如需生成，请在本地部署数据库。
+                        주의 2: 데모 환경에서는 기본적으로 메뉴가 생성되지 않습니다. 생성하려면 로컬에 데이터베이스를 배포하세요.
                       </template>
                       <el-icon class="cursor-pointer">
                         <QuestionFilled />
@@ -183,7 +183,7 @@
 
                 <el-tree-select
                   v-model="genConfigFormData.parentMenuId"
-                  placeholder="选择上级菜单"
+                  placeholder="상위 메뉴 선택"
                   :data="menuOptions"
                   check-strictly
                   :render-after-expand="false"
@@ -197,32 +197,32 @@
 
         <div v-show="active == 1" class="elTableCustom">
           <div class="mb-2 flex-y-center gap-2">
-            <el-tag size="small" type="info">批量设置</el-tag>
+            <el-tag size="small" type="info">일괄 설정</el-tag>
             <el-space size="small">
               <el-dropdown>
-                <el-button size="small" type="primary" plain>查询</el-button>
+                <el-button size="small" type="primary" plain>검색</el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item @click="bulkSet('isShowInQuery', 1)">全选</el-dropdown-item>
-                    <el-dropdown-item @click="bulkSet('isShowInQuery', 0)">全不选</el-dropdown-item>
+                    <el-dropdown-item @click="bulkSet('isShowInQuery', 1)">전체 선택</el-dropdown-item>
+                    <el-dropdown-item @click="bulkSet('isShowInQuery', 0)">전체 선택 해제</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
               <el-dropdown>
-                <el-button size="small" type="success" plain>列表</el-button>
+                <el-button size="small" type="success" plain">목록</el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item @click="bulkSet('isShowInList', 1)">全选</el-dropdown-item>
-                    <el-dropdown-item @click="bulkSet('isShowInList', 0)">全不选</el-dropdown-item>
+                    <el-dropdown-item @click="bulkSet('isShowInList', 1)">전체 선택</el-dropdown-item>
+                    <el-dropdown-item @click="bulkSet('isShowInList', 0)">전체 선택 해제</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
               <el-dropdown>
-                <el-button size="small" type="warning" plain>表单</el-button>
+                <el-button size="small" type="warning" plain">양식</el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item @click="bulkSet('isShowInForm', 1)">全选</el-dropdown-item>
-                    <el-dropdown-item @click="bulkSet('isShowInForm', 0)">全不选</el-dropdown-item>
+                    <el-dropdown-item @click="bulkSet('isShowInForm', 1)">전체 선택</el-dropdown-item>
+                    <el-dropdown-item @click="bulkSet('isShowInForm', 0)">전체 선택 해제</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>

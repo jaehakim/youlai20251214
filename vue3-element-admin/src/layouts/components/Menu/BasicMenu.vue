@@ -1,4 +1,4 @@
-<!-- 菜单组件 -->
+<!-- 메뉴 구성 요소 -->
 <template>
   <el-menu
     ref="menuRef"
@@ -14,7 +14,7 @@
     @open="onMenuOpen"
     @close="onMenuClose"
   >
-    <!-- 菜单项 -->
+    <!-- 메뉴 항목 -->
     <MenuItem
       v-for="route in data"
       :key="route.path"
@@ -57,16 +57,16 @@ const settingsStore = useSettingsStore();
 const appStore = useAppStore();
 const currentRoute = useRoute();
 
-// 存储已展开的菜单项索引
+// 확장된 메뉴 항목 인덱스 저장
 const expandedMenuIndexes = ref<string[]>([]);
 
-// 获取主题
+// 테마 가져오기
 const theme = computed(() => settingsStore.theme);
 
-// 获取浅色主题下的侧边栏配色方案
+// 밝은 테마의 사이드바 색상 구성표 가져오기
 const sidebarColorScheme = computed(() => settingsStore.sidebarColorScheme);
 
-// 菜单主题属性
+// 메뉴 테마 속성
 const menuThemeProps = computed(() => {
   const isDarkOrClassicBlue =
     theme.value === "dark" || sidebarColorScheme.value === SidebarColor.CLASSIC_BLUE;
@@ -78,24 +78,24 @@ const menuThemeProps = computed(() => {
   };
 });
 
-// 计算当前激活的菜单项
+// 현재 활성화된 메뉴 항목 계산
 const activeMenuPath = computed((): string => {
   const { meta, path } = currentRoute;
 
-  // 如果路由meta中设置了activeMenu，则使用它（用于处理一些特殊情况，如详情页）
+  // 라우트 메타에 activeMenu가 설정된 경우 사용 (상세 페이지와 같은 특별한 경우 처리)
   if (meta?.activeMenu && typeof meta.activeMenu === "string") {
     return meta.activeMenu;
   }
 
-  // 否则使用当前路由路径
+  // 그렇지 않으면 현재 라우트 경로 사용
   return path;
 });
 
 /**
- * 获取完整路径
+ * 전체 경로 가져오기
  *
- * @param routePath 当前路由的相对路径  /user
- * @returns 完整的绝对路径 D://vue3-element-admin/system/user
+ * @param routePath 현재 라우트의 상대 경로  /user
+ * @returns 전체 절대 경로 D://vue3-element-admin/system/user
  */
 function resolveFullPath(routePath: string) {
   if (isExternal(routePath)) {
@@ -105,35 +105,35 @@ function resolveFullPath(routePath: string) {
     return props.basePath;
   }
 
-  // 如果 basePath 为空（顶部布局），直接返回 routePath
+  // basePath가 비어있으면（상단 레이아웃）, routePath를 직접 반환합니다
   if (!props.basePath || props.basePath === "") {
     return routePath;
   }
 
-  // 解析路径，生成完整的绝对路径
+  // 경로 구문 분석, 전체 절대 경로 생성
   return path.resolve(props.basePath, routePath);
 }
 
 /**
- * 打开菜单
+ * 메뉴 열기
  *
- * @param index 当前展开的菜单项索引
+ * @param index 현재 확장된 메뉴 항목 인덱스
  */
 const onMenuOpen = (index: string) => {
   expandedMenuIndexes.value.push(index);
 };
 
 /**
- * 关闭菜单
+ * 메뉴 닫기
  *
- * @param index 当前收起的菜单项索引
+ * @param index 현재 축소된 메뉴 항목 인덱스
  */
 const onMenuClose = (index: string) => {
   expandedMenuIndexes.value = expandedMenuIndexes.value.filter((item) => item !== index);
 };
 
 /**
- * 监听展开的菜单项变化，更新父菜单样式
+ * 확장된 메뉴 항목 변화 감시, 부모 메뉴 스타일 업데이트
  */
 watch(
   () => expandedMenuIndexes.value,
@@ -143,8 +143,8 @@ watch(
 );
 
 /**
- * 监听菜单模式变化：当菜单模式切换为水平模式时，关闭所有展开的菜单项，
- * 避免在水平模式下菜单项显示错位。
+ * 메뉴 모드 변화 감시: 메뉴 모드가 수평 모드로 전환될 때, 모든 확장된 메뉴 항목을 닫고,
+ * 수평 모드에서 메뉴 항목 표시 오류를 피합니다.
  */
 watch(
   () => props.menuMode,
@@ -156,7 +156,7 @@ watch(
 );
 
 /**
- * 监听激活菜单变化，为包含激活子菜单的父菜单添加样式类
+ * 활성 메뉴 변화 감시, 활성 하위 메뉴를 포함하는 부모 메뉴에 스타일 클래스 추가
  */
 watch(
   () => activeMenuPath.value,
@@ -169,7 +169,7 @@ watch(
 );
 
 /**
- * 监听路由变化，确保菜单能随TagsView切换而正确激活
+ * 라우트 변화 감시, 메뉴가 TagsView 전환에 따라 올바르게 활성화되도록 보장
  */
 watch(
   () => currentRoute.path,
@@ -181,7 +181,7 @@ watch(
 );
 
 /**
- * 更新父菜单样式 - 为包含激活子菜单的父菜单添加 has-active-child 类
+ * 부모 메뉴 스타일 업데이트 - 활성 하위 메뉴를 포함하는 부모 메뉴에 has-active-child 클래스 추가
  */
 function updateParentMenuStyles() {
   if (!menuRef.value?.$el) return;
@@ -191,17 +191,17 @@ function updateParentMenuStyles() {
       const menuEl = menuRef.value?.$el as HTMLElement;
       if (!menuEl) return;
 
-      // 移除所有现有的 has-active-child 类
+      // 모든 기존 has-active-child 클래스 제거
       const allSubMenus = menuEl.querySelectorAll(".el-sub-menu");
       allSubMenus.forEach((subMenu) => {
         subMenu.classList.remove("has-active-child");
       });
 
-      // 查找当前激活的菜单项
+      // 현재 활성화된 메뉴 항목 찾기
       const activeMenuItem = menuEl.querySelector(".el-menu-item.is-active");
 
       if (activeMenuItem) {
-        // 向上查找父级 el-sub-menu 元素
+        // 부모 el-sub-menu 요소 상향 검색
         let parent = activeMenuItem.parentElement;
         while (parent && parent !== menuEl) {
           if (parent.classList.contains("el-sub-menu")) {
@@ -210,19 +210,19 @@ function updateParentMenuStyles() {
           parent = parent.parentElement;
         }
       } else {
-        // 水平模式下可能需要特殊处理
+        // 수평 모드에서는 특별한 처리가 필요할 수 있습니다
         if (props.menuMode === "horizontal") {
-          // 对于水平菜单，使用路径匹配来找到父菜单
+          // 수평 메뉴의 경우, 경로 매칭을 사용하여 부모 메뉴 찾기
           const currentPath = activeMenuPath.value;
 
-          // 查找所有父菜单项，检查哪个包含当前路径
+          // 모든 부모 메뉴 항목 찾기, 현재 경로를 포함하는 항목 확인
           allSubMenus.forEach((subMenu) => {
             const subMenuEl = subMenu as HTMLElement;
             const subMenuPath =
               subMenuEl.getAttribute("data-path") ||
               subMenuEl.querySelector(".el-sub-menu__title")?.getAttribute("data-path");
 
-            // 如果找到包含当前路径的父菜单，则添加激活类
+            // 현재 경로를 포함하는 부모 메뉴를 찾으면, 활성화 클래스 추가
             if (subMenuPath && currentPath.startsWith(subMenuPath)) {
               subMenuEl.classList.add("has-active-child");
             }
@@ -236,10 +236,10 @@ function updateParentMenuStyles() {
 }
 
 /**
- * 组件挂载后立即更新父菜单样式
+ * 컴포넌트 마운트 후 부모 메뉴 스타일 즉시 업데이트
  */
 onMounted(() => {
-  // 确保在组件挂载后更新样式，不依赖于异步操作
+  // 컴포넌트 마운트 후 스타일 업데이트, 비동기 작업에 의존하지 않음
   updateParentMenuStyles();
 });
 </script>

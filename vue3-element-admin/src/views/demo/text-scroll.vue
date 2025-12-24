@@ -1,19 +1,19 @@
 <template>
   <div class="app-container">
-    <!-- 基础用法 -->
-    <TextScroll text="这是一条基础的滚动公告，默认向左滚动。" typewriter />
+    <!-- 기본 사용 방법 -->
+    <TextScroll text="이것은 기본 스크롤 공지입니다. 기본적으로 왼쪽으로 스크롤합니다." typewriter />
 
-    <!-- 使用不同的类型 -->
-    <TextScroll type="success" text="这是一条成功类型的滚动公告" typewriter />
+    <!-- 다양한 타입 사용 -->
+    <TextScroll type="success" text="이것은 성공 타입 스크롤 공지입니다" typewriter />
 
-    <TextScroll type="warning" text="这是一条警告类型的滚动公告" />
+    <TextScroll type="warning" text="이것은 경고 타입 스크롤 공지입니다" />
 
-    <TextScroll type="danger" text="这是一条危险类型的滚动公告" />
+    <TextScroll type="danger" text="이것은 위험 타입 스크롤 공지입니다" />
 
-    <TextScroll type="info" text="这是一条信息类型的滚动公告" />
+    <TextScroll type="info" text="이것은 정보 타입 스크롤 공지입니다" />
 
-    <!-- 自定义速度和方向 -->
-    <TextScroll text="这是一条速度较慢、向右滚动的公告" :speed="30" direction="right" show-close />
+    <!-- 사용자 지정 속도 및 방향 -->
+    <TextScroll text="이것은 느린 속도로 오른쪽으로 스크롤하는 공지입니다" :speed="30" direction="right" show-close />
   </div>
 </template>
 

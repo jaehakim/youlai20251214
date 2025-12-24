@@ -32,7 +32,7 @@ const inputValue = ref("");
 const inputVisible = ref(false);
 const inputRef = ref<InputInstance>();
 
-// 定义 model，用于与父组件的 v-model绑定
+// model을 정의하고 부모 컴포넌트의 v-model 바인딩에 사용
 const tags = defineModel<string[]>();
 
 defineProps({

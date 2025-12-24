@@ -1,13 +1,13 @@
 <!--
-  TextScroll 组件 - 文本滚动公告
-  
-  功能：
-  - 支持水平方向文本滚动
-  - 提供多种预设样式（默认、成功、警告、危险、信息）
-  - 支持自定义滚动速度和方向
-  - 可选的打字机输入效果
-  - 鼠标悬停时暂停滚动
-  - 可选的关闭按钮
+  TextScroll 컴포넌트 - 텍스트 스크롤 공지
+
+  기능:
+  - 수평 방향 텍스트 스크롤 지원
+  - 다양한 사전 설정 스타일 제공 (기본값, 성공, 경고, 위험, 정보)
+  - 사용자 정의 스크롤 속도 및 방향 지원
+  - 선택 가능한 타자기 입력 효과
+  - 마우스 호버 시 스크롤 일시 중지
+  - 선택 가능한 닫기 버튼
 -->
 <template>
   <div
@@ -16,11 +16,11 @@
     :class="[`text-scroll--${props.type}`]"
     :typewriter="props.typewriter ? 'true' : undefined"
   >
-    <!-- 左侧图标 -->
+    <!-- 왼쪽 아이콘 -->
     <div class="left-icon">
       <el-icon><Bell /></el-icon>
     </div>
-    <!-- 滚动内容包装器 -->
+    <!-- 스크롤 콘텐츠 래퍼 -->
     <div class="scroll-wrapper">
       <div
         ref="scrollContent"
@@ -28,12 +28,12 @@
         :class="{ scrolling: shouldScroll }"
         :style="scrollStyle"
       >
-        <!-- 滚动内容，复制两份以实现无缝滚动 -->
+        <!-- 스크롤 콘텐츠, 2개 복사하여 원활한 스크롤 구현 -->
         <div class="scroll-item" v-html="sanitizedContent" />
         <div class="scroll-item" v-html="sanitizedContent" />
       </div>
     </div>
-    <!-- 可选的关闭按钮 -->
+    <!-- 선택 가능한 닫기 버튼 -->
     <div v-if="showClose" class="right-icon" @click="handleRightIconClick">
       <el-icon><Close /></el-icon>
     </div>
@@ -46,23 +46,23 @@ import { useElementHover } from "@vueuse/core";
 const emit = defineEmits(["close"]);
 
 interface Props {
-  /** 滚动文本内容（必填） */
+  /** 스크롤 텍스트 콘텐츠 (필수) */
   text: string;
-  /** 滚动速度，数值越小滚动越慢 */
+  /** 스크롤 속도, 값이 작을수록 스크롤이 느림 */
   speed?: number;
-  /** 滚动方向：左侧或右侧 */
+  /** 스크롤 방향: 왼쪽 또는 오른쪽 */
   direction?: "left" | "right";
-  /** 样式类型 */
+  /** 스타일 유형 */
   type?: "default" | "success" | "warning" | "danger" | "info";
-  /** 是否显示关闭按钮 */
+  /** 닫기 버튼 표시 여부 */
   showClose?: boolean;
-  /** 是否启用打字机效果 */
+  /** 타자기 효과 활성화 여부 */
   typewriter?: boolean;
-  /** 打字机效果的速度，数值越小打字越快 */
+  /** 타자기 효과의 속도, 값이 작을수록 타이핑이 빠름 */
   typewriterSpeed?: number;
 }
 
-// 定义组件属性及默认值
+// 컴포넌트 속성 및 기본값 정의
 const props = withDefaults(defineProps<Props>(), {
   speed: 70,
   direction: "left",
@@ -72,30 +72,30 @@ const props = withDefaults(defineProps<Props>(), {
   typewriterSpeed: 100,
 });
 
-// 容器元素引用
+// 컨테이너 요소 참조
 const containerRef = ref<HTMLElement | null>(null);
-// 使用 vueuse 的 useElementHover 检测鼠标悬停状态
+// vueuse의 useElementHover를 사용하여 마우스 호버 상태 감지
 const isHovered = useElementHover(containerRef);
-// 滚动内容元素引用
+// 스크롤 콘텐츠 요소 참조
 const scrollContent = ref<HTMLElement | null>(null);
-// 动画持续时间（秒）
+// 애니메이션 지속 시간 (초)
 const animationDuration = ref(0);
 
 /**
- * 打字机效果相关状态
+ * 타자기 효과 관련 상태
  */
-// 当前已显示的文本内容
+// 현재 표시된 텍스트 콘텐츠
 const currentText = ref("");
-// 打字机定时器引用，用于清理
+// 타자기 타이머 참조, 정리용
 let typewriterTimer: ReturnType<typeof setTimeout> | null = null;
-// 打字机效果是否已完成
+// 타자기 효과 완료 여부
 const isTypewriterComplete = ref(false);
 
 /**
- * 计算是否应该滚动
- * 条件：
- * 1. 鼠标未悬停在组件上
- * 2. 如果启用了打字机效果，则需要等待打字效果完成
+ * 스크롤 여부 계산
+ * 조건:
+ * 1. 마우스가 컴포넌트 위에 없음
+ * 2. 타자기 효과가 활성화된 경우 타자기 효과 완료 대기
  */
 const shouldScroll = computed(() => {
   if (props.typewriter) {
@@ -105,17 +105,17 @@ const shouldScroll = computed(() => {
 });
 
 /**
- * 计算最终显示的内容
- * 如果启用了打字机效果，则显示当前已打出的文本
- * 否则直接显示完整文本
- * 注意：内容支持 HTML，使用时需注意 XSS 风险
+ * 최종 표시 콘텐츠 계산
+ * 타자기 효과가 활성화된 경우 현재까지 입력된 텍스트 표시
+ * 그렇지 않으면 전체 텍스트 직접 표시
+ * 주의: 콘텐츠는 HTML을 지원하므로 사용 시 XSS 위험 유의
  */
 const sanitizedContent = computed(() => (props.typewriter ? currentText.value : props.text));
 
 /**
- * 计算滚动样式
- * 包括动画持续时间、播放状态和方向
- * 这些值通过 CSS 变量传递给样式
+ * 스크롤 스타일 계산
+ * 애니메이션 지속 시간, 재생 상태 및 방향 포함
+ * 이러한 값은 CSS 변수를 통해 스타일에 전달됨
  */
 const scrollStyle = computed(() => ({
   "--animation-duration": `${animationDuration.value}s`,
@@ -124,9 +124,9 @@ const scrollStyle = computed(() => ({
 }));
 
 /**
- * 计算动画持续时间
- * 根据内容宽度和设定的速度计算出合适的动画持续时间
- * 内容越长或速度值越小，动画持续时间越长
+ * 애니메이션 지속 시간 계산
+ * 콘텐츠 너비 및 설정된 속도에 따라 적절한 애니메이션 지속 시간 계산
+ * 콘텐츠가 길수록 또는 속도 값이 작을수록 애니메이션 지속 시간이 길어짐
  */
 const calculateDuration = () => {
   if (scrollContent.value) {
@@ -136,69 +136,69 @@ const calculateDuration = () => {
 };
 
 /**
- * 处理关闭按钮点击事件
- * 触发 close 事件，并直接销毁当前组件
+ * 닫기 버튼 클릭 이벤트 처리
+ * close 이벤트를 트리거하고 현재 컴포넌트 직접 삭제
  */
 const handleRightIconClick = () => {
   emit("close");
-  // 获取当前组件的DOM元素
+  // 현재 컴포넌트의 DOM 요소 가져오기
   if (containerRef.value) {
-    // 从DOM中移除元素
+    // DOM에서 요소 제거
     containerRef.value.remove();
   }
 };
 
 /**
- * 启动打字机效果
- * 逐字显示文本内容，完成后设置状态以开始滚动
+ * 타자기 효과 시작
+ * 텍스트를 문자 단위로 표시하고 완료 후 상태 설정하여 스크롤 시작
  */
 const startTypewriter = () => {
   let index = 0;
   currentText.value = "";
-  isTypewriterComplete.value = false; // 重置状态
+  isTypewriterComplete.value = false; // 상태 재설정
 
-  // 递归函数，逐字添加文本
+  // 재귀 함수, 문자를 하나씩 추가
   const type = () => {
     if (index < props.text.length) {
-      // 添加一个字符
+      // 한 문자 추가
       currentText.value += props.text[index];
       index++;
-      // 设置下一个字符的延迟
+      // 다음 문자의 지연 설정
       typewriterTimer = setTimeout(type, props.typewriterSpeed);
     } else {
-      // 所有字符都已添加，设置完成状态
+      // 모든 문자가 추가됨, 완료 상태 설정
       isTypewriterComplete.value = true;
     }
   };
 
-  // 开始打字过程
+  // 타자기 프로세스 시작
   type();
 };
 
 onMounted(() => {
-  // 计算初始动画持续时间
+  // 초기 애니메이션 지속 시간 계산
   calculateDuration();
-  // 监听窗口大小变化，重新计算动画持续时间
+  // 윈도우 크기 변경 감시, 애니메이션 지속 시간 재계산
   window.addEventListener("resize", calculateDuration);
 
-  // 如果启用了打字机效果，开始打字
+  // 타자기 효과가 활성화된 경우 타이핑 시작
   if (props.typewriter) {
     startTypewriter();
   }
 });
 
 onUnmounted(() => {
-  // 移除事件监听
+  // 이벤트 리스너 제거
   window.removeEventListener("resize", calculateDuration);
-  // 清除打字机定时器
+  // 타자기 타이머 정리
   if (typewriterTimer) {
     clearTimeout(typewriterTimer);
   }
 });
 
 /**
- * 监听文本内容变化
- * 当文本内容变化时，如果启用了打字机效果，重新开始打字
+ * 텍스트 콘텐츠 변경 감시
+ * 텍스트 콘텐츠가 변경되면 타자기 효과가 활성화된 경우 타이핑 다시 시작
  */
 watch(
   () => props.text,

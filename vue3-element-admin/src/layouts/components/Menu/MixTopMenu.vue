@@ -1,4 +1,4 @@
-<!-- 混合布局顶部菜单 -->
+<!-- 혼합 레이아웃 상단 메뉴 -->
 <template>
   <el-menu
     mode="horizontal"
@@ -47,27 +47,27 @@ const appStore = useAppStore();
 const permissionStore = usePermissionStore();
 const settingsStore = useSettingsStore();
 
-// 获取主题
+// 테마 가져오기
 const theme = computed(() => settingsStore.theme);
 
-// 获取浅色主题下的侧边栏配色方案
+// 밝은 테마의 사이드바 색상 구성표 가져오기
 const sidebarColorScheme = computed(() => settingsStore.sidebarColorScheme);
 
-// 顶部菜单列表
+// 상단 메뉴 목록
 const topMenus = ref<RouteRecordRaw[]>([]);
 
-// 处理后的顶部菜单列表 - 智能显示唯一子菜单的标题
+// 처리된 상단 메뉴 목록 - 유일한 자식 메뉴 제목 지능형 표시
 const processedTopMenus = computed(() => {
   return topMenus.value.map((route) => {
-    // 如果路由设置了 alwaysShow=true，或者没有子菜单，直接返回原路由
+    // 라우트가 alwaysShow = true로 설정되었거나 자식 메뉴가 없으면 원본 라우트를 직접 반환
     if (route.meta?.alwaysShow || !route.children || route.children.length === 0) {
       return route;
     }
 
-    // 过滤出非隐藏的子菜单
+    // 숨겨지지 않은 자식 메뉴 필터링
     const visibleChildren = route.children.filter((child) => !child.meta?.hidden);
 
-    // 如果只有一个非隐藏的子菜单，显示子菜单的信息
+    // 숨겨지지 않은 자식 메뉴가 하나뿐이면 자식 메뉴 정보 표시
     if (visibleChildren.length === 1) {
       const onlyChild = visibleChildren[0];
       return {
@@ -80,47 +80,47 @@ const processedTopMenus = computed(() => {
       };
     }
 
-    // 其他情况返回原路由
+    // 기타 경우 원본 라우트 반환
     return route;
   });
 });
 
 /**
- * 处理菜单点击事件，切换顶部菜单并加载对应的左侧菜单
- * @param routePath 点击的菜单路径
+ * 메뉴 클릭 이벤트 처리, 상단 메뉴 전환 및 해당 왼쪽 메뉴 로드
+ * @param routePath 클릭한 메뉴 경로
  */
 const handleMenuSelect = (routePath: string) => {
   updateMenuState(routePath);
 };
 
 /**
- * 更新菜单状态 - 同时处理点击和路由变化情况
- * @param topMenuPath 顶级菜单路径
- * @param skipNavigation 是否跳过导航（路由变化时为true，点击菜单时为false）
+ * 메뉴 상태 업데이트 - 클릭 및 라우트 변화 상황을 동시에 처리
+ * @param topMenuPath 상위 메뉴 경로
+ * @param skipNavigation 네비게이션 스킵 여부（라우트 변화시 true, 메뉴 클릭시 false）
  */
 const updateMenuState = (topMenuPath: string, skipNavigation = false) => {
-  // 不相同才更新，避免重复操作
+  // 다르면 업데이트, 중복 작업 방지
   if (topMenuPath !== appStore.activeTopMenuPath) {
-    appStore.activeTopMenu(topMenuPath); // 设置激活的顶部菜单
-    permissionStore.setMixLayoutSideMenus(topMenuPath); // 设置混合布局左侧菜单
+    appStore.activeTopMenu(topMenuPath); // 활성화된 상단 메뉴 설정
+    permissionStore.setMixLayoutSideMenus(topMenuPath); // 혼합 레이아웃 왼쪽 메뉴 설정
   }
 
-  // 如果是点击菜单且状态已变更，才进行导航
+  // 메뉴 클릭 및 상태가 변경된 경우에만 네비게이션 수행
   if (!skipNavigation) {
-    navigateToFirstLeftMenu(permissionStore.mixLayoutSideMenus); // 跳转到左侧第一个菜单
+    navigateToFirstLeftMenu(permissionStore.mixLayoutSideMenus); // 왼쪽 첫 번째 메뉴로 이동
   }
 };
 
 /**
- * 跳转到左侧第一个可访问的菜单
- * @param menus 左侧菜单列表
+ * 왼쪽 첫 번째 접근 가능한 메뉴로 이동
+ * @param menus 왼쪽 메뉴 목록
  */
 const navigateToFirstLeftMenu = (menus: RouteRecordRaw[]) => {
   if (menus.length === 0) return;
 
   const [firstMenu] = menus;
 
-  // 如果第一个菜单有子菜单，递归跳转到第一个子菜单
+  // 첫 번째 메뉴에 하위 메뉴가 있으면, 첫 번째 하위 메뉴로 재귀적으로 이동
   if (firstMenu.children && firstMenu.children.length > 0) {
     navigateToFirstLeftMenu(firstMenu.children as RouteRecordRaw[]);
   } else if (firstMenu.name) {
@@ -134,30 +134,30 @@ const navigateToFirstLeftMenu = (menus: RouteRecordRaw[]) => {
   }
 };
 
-// 获取当前路由路径的顶部菜单路径
+// 현재 라우트 경로의 상단 메뉴 경로 가져오기
 const activeTopMenuPath = computed(() => appStore.activeTopMenuPath);
 
 onMounted(() => {
   topMenus.value = permissionStore.routes.filter((item) => !item.meta || !item.meta.hidden);
-  // 初始化顶部菜单
+  // 상단 메뉴 초기화
   const currentTopMenuPath =
     useRoute().path.split("/").filter(Boolean).length > 1
       ? useRoute().path.match(/^\/[^/]+/)?.[0] || "/"
       : "/";
-  appStore.activeTopMenu(currentTopMenuPath); // 设置激活的顶部菜单
-  permissionStore.setMixLayoutSideMenus(currentTopMenuPath); // 设置混合布局左侧菜单
+  appStore.activeTopMenu(currentTopMenuPath); // 활성화된 상단 메뉴 설정
+  permissionStore.setMixLayoutSideMenus(currentTopMenuPath); // 혼합 레이아웃 왼쪽 메뉴 설정
 });
 
-// 监听路由变化，同步更新顶部菜单和左侧菜单的激活状态
+// 라우트 변화 감시, 상단 메뉴 및 왼쪽 메뉴의 활성화 상태 동시 업데이트
 watch(
   () => router.currentRoute.value.path,
   (newPath) => {
     if (newPath) {
-      // 提取顶级路径
+      // 상위 경로 추출
       const topMenuPath =
         newPath.split("/").filter(Boolean).length > 1 ? newPath.match(/^\/[^/]+/)?.[0] || "/" : "/";
 
-      // 使用公共方法更新菜单状态，但跳过导航（因为路由已经变化）
+      // 공개 방법을 사용하여 메뉴 상태 업데이트, 네비게이션 스킵（라우트가 이미 변경되었으므로）
       updateMenuState(topMenuPath, true);
     }
   }
@@ -172,13 +172,13 @@ watch(
   &--horizontal {
     height: $navbar-height !important;
 
-    // 确保菜单项垂直居中
+    // 메뉴 항목이 수직 중앙에 있는지 확인
     :deep(.el-menu-item) {
       height: 100%;
       line-height: $navbar-height;
     }
 
-    // 移除默认的底部边框
+    // 기본 하단 테두리 제거
     &:after {
       display: none;
     }

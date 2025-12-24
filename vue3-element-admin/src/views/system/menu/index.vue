@@ -1,20 +1,20 @@
 <template>
   <div class="app-container">
-    <!-- 搜索区域 -->
+    <!-- 검색 영역 -->
     <div class="search-container">
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
-        <el-form-item label="关键字" prop="keywords">
+        <el-form-item label="키워드" prop="keywords">
           <el-input
             v-model="queryParams.keywords"
-            placeholder="菜单名称"
+            placeholder="메뉴명"
             clearable
             @keyup.enter="handleQuery"
           />
         </el-form-item>
 
         <el-form-item class="search-buttons">
-          <el-button type="primary" icon="search" @click="handleQuery">搜索</el-button>
-          <el-button icon="refresh" @click="handleResetQuery">重置</el-button>
+          <el-button type="primary" icon="search" @click="handleQuery">검색</el-button>
+          <el-button icon="refresh" @click="handleResetQuery">초기화</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -28,7 +28,7 @@
             icon="plus"
             @click="handleOpenDialog('0')"
           >
-            新增
+            추가
           </el-button>
         </div>
       </div>
@@ -45,7 +45,7 @@
         class="data-table__content"
         @row-click="handleRowClick"
       >
-        <el-table-column label="菜单名称" min-width="200">
+        <el-table-column label="메뉴명" min-width="200">
           <template #default="scope">
             <template v-if="scope.row.icon && scope.row.icon.startsWith('el-icon')">
               <el-icon style="vertical-align: -0.15em">
@@ -59,26 +59,26 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="类型" align="center" width="80">
+        <el-table-column label="유형" align="center" width="80">
           <template #default="scope">
-            <el-tag v-if="scope.row.type === MenuTypeEnum.CATALOG" type="warning">目录</el-tag>
-            <el-tag v-if="scope.row.type === MenuTypeEnum.MENU" type="success">菜单</el-tag>
-            <el-tag v-if="scope.row.type === MenuTypeEnum.BUTTON" type="danger">按钮</el-tag>
-            <el-tag v-if="scope.row.type === MenuTypeEnum.EXTLINK" type="info">外链</el-tag>
+            <el-tag v-if="scope.row.type === MenuTypeEnum.CATALOG" type="warning">디렉터리</el-tag>
+            <el-tag v-if="scope.row.type === MenuTypeEnum.MENU" type="success">메뉴</el-tag>
+            <el-tag v-if="scope.row.type === MenuTypeEnum.BUTTON" type="danger">버튼</el-tag>
+            <el-tag v-if="scope.row.type === MenuTypeEnum.EXTLINK" type="info">외부링크</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="路由名称" align="left" width="150" prop="routeName" />
-        <el-table-column label="路由路径" align="left" width="150" prop="routePath" />
-        <el-table-column label="组件路径" align="left" width="250" prop="component" />
-        <el-table-column label="权限标识" align="center" width="200" prop="perm" />
-        <el-table-column label="状态" align="center" width="80">
+        <el-table-column label="라우트명" align="left" width="150" prop="routeName" />
+        <el-table-column label="라우트 경로" align="left" width="150" prop="routePath" />
+        <el-table-column label="컴포넌트 경로" align="left" width="250" prop="component" />
+        <el-table-column label="권한 식별자" align="center" width="200" prop="perm" />
+        <el-table-column label="상태" align="center" width="80">
           <template #default="scope">
-            <el-tag v-if="scope.row.visible === 1" type="success">显示</el-tag>
-            <el-tag v-else type="info">隐藏</el-tag>
+            <el-tag v-if="scope.row.visible === 1" type="success">표시</el-tag>
+            <el-tag v-else type="info">숨김</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="排序" align="center" width="80" prop="sort" />
-        <el-table-column fixed="right" align="center" label="操作" width="220">
+        <el-table-column label="정렬" align="center" width="80" prop="sort" />
+        <el-table-column fixed="right" align="center" label="작업" width="220">
           <template #default="scope">
             <el-button
               v-if="scope.row.type == MenuTypeEnum.CATALOG || scope.row.type == MenuTypeEnum.MENU"
@@ -89,7 +89,7 @@
               icon="plus"
               @click.stop="handleOpenDialog(scope.row.id)"
             >
-              新增
+              추가
             </el-button>
 
             <el-button
@@ -100,7 +100,7 @@
               icon="edit"
               @click.stop="handleOpenDialog(undefined, scope.row.id)"
             >
-              编辑
+              수정
             </el-button>
             <el-button
               v-hasPerm="['sys:menu:delete']"
@@ -110,7 +110,7 @@
               icon="delete"
               @click.stop="handleDelete(scope.row.id)"
             >
-              删除
+              삭제
             </el-button>
           </template>
         </el-table-column>
@@ -124,10 +124,10 @@
       @close="handleCloseDialog"
     >
       <el-form ref="menuFormRef" :model="formData" :rules="rules" label-width="100px">
-        <el-form-item label="父级菜单" prop="parentId">
+        <el-form-item label="상위 메뉴" prop="parentId">
           <el-tree-select
             v-model="formData.parentId"
-            placeholder="选择上级菜单"
+            placeholder="상위 메뉴 선택"
             :data="menuOptions"
             filterable
             check-strictly
@@ -135,30 +135,30 @@
           />
         </el-form-item>
 
-        <el-form-item label="菜单名称" prop="name">
-          <el-input v-model="formData.name" placeholder="请输入菜单名称" />
+        <el-form-item label="메뉴명" prop="name">
+          <el-input v-model="formData.name" placeholder="메뉴명을 입력하세요" />
         </el-form-item>
 
-        <el-form-item label="菜单类型" prop="type">
+        <el-form-item label="메뉴 유형" prop="type">
           <el-radio-group v-model="formData.type" @change="handleMenuTypeChange">
-            <el-radio :value="MenuTypeEnum.CATALOG">目录</el-radio>
-            <el-radio :value="MenuTypeEnum.MENU">菜单</el-radio>
-            <el-radio :value="MenuTypeEnum.BUTTON">按钮</el-radio>
-            <el-radio :value="MenuTypeEnum.EXTLINK">外链</el-radio>
+            <el-radio :value="MenuTypeEnum.CATALOG">디렉터리</el-radio>
+            <el-radio :value="MenuTypeEnum.MENU">메뉴</el-radio>
+            <el-radio :value="MenuTypeEnum.BUTTON">버튼</el-radio>
+            <el-radio :value="MenuTypeEnum.EXTLINK">외부링크</el-radio>
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item v-if="formData.type == MenuTypeEnum.EXTLINK" label="外链地址" prop="path">
-          <el-input v-model="formData.routePath" placeholder="请输入外链完整路径" />
+        <el-form-item v-if="formData.type == MenuTypeEnum.EXTLINK" label="외부링크 주소" prop="path">
+          <el-input v-model="formData.routePath" placeholder="외부링크 전체 경로를 입력하세요" />
         </el-form-item>
 
         <el-form-item v-if="formData.type == MenuTypeEnum.MENU" prop="routeName">
           <template #label>
             <div class="flex-y-center">
-              路由名称
+              라우트명
               <el-tooltip placement="bottom" effect="light">
                 <template #content>
-                  如果需要开启缓存，需保证页面 defineOptions 中的 name 与此处一致，建议使用驼峰。
+                  캐싱을 활성화하려면 페이지의 defineOptions에 있는 name이 여기와 일치해야 하며, 카멜케이스 사용을 권장합니다.
                 </template>
                 <el-icon class="ml-1 cursor-pointer">
                   <QuestionFilled />
@@ -175,11 +175,11 @@
         >
           <template #label>
             <div class="flex-y-center">
-              路由路径
+              라우트 경로
               <el-tooltip placement="bottom" effect="light">
                 <template #content>
-                  定义应用中不同页面对应的 URL 路径，目录需以 / 开头，菜单项不用。例如：系统管理目录
-                  /system，系统管理下的用户管理菜单 user。
+                  애플리케이션의 다른 페이지에 해당하는 URL 경로를 정의합니다. 디렉터리는 /로 시작해야 하며, 메뉴 항목은 필요하지 않습니다. 예: 시스템 관리 디렉터리
+                  /system, 시스템 관리 하위의 사용자 관리 메뉴 user.
                 </template>
                 <el-icon class="ml-1 cursor-pointer">
                   <QuestionFilled />
@@ -198,10 +198,10 @@
         <el-form-item v-if="formData.type == MenuTypeEnum.MENU" prop="component">
           <template #label>
             <div class="flex-y-center">
-              组件路径
+              컴포넌트 경로
               <el-tooltip placement="bottom" effect="light">
                 <template #content>
-                  组件页面完整路径，相对于 src/views/，如 system/user/index，缺省后缀 .vue
+                  컴포넌트 페이지의 전체 경로, src/views/를 기준으로 합니다. 예: system/user/index, 접미사 .vue는 생략합니다
                 </template>
                 <el-icon class="ml-1 cursor-pointer">
                   <QuestionFilled />
@@ -219,10 +219,10 @@
         <el-form-item v-if="formData.type == MenuTypeEnum.MENU">
           <template #label>
             <div class="flex-y-center">
-              路由参数
+              라우트 파라미터
               <el-tooltip placement="bottom" effect="light">
                 <template #content>
-                  组件页面使用 `useRoute().query.参数名` 获取路由参数值。
+                  컴포넌트 페이지에서 `useRoute().query.파라미터명`을 사용하여 라우트 파라미터 값을 가져옵니다.
                 </template>
                 <el-icon class="ml-1 cursor-pointer">
                   <QuestionFilled />
@@ -233,17 +233,17 @@
 
           <div v-if="!formData.params || formData.params.length === 0">
             <el-button type="success" plain @click="formData.params = [{ key: '', value: '' }]">
-              添加路由参数
+              라우트 파라미터 추가
             </el-button>
           </div>
 
           <div v-else>
             <div v-for="(item, index) in formData.params" :key="index">
-              <el-input v-model="item.key" placeholder="参数名" style="width: 100px" />
+              <el-input v-model="item.key" placeholder="파라미터명" style="width: 100px" />
 
               <span class="mx-1">=</span>
 
-              <el-input v-model="item.value" placeholder="参数值" style="width: 100px" />
+              <el-input v-model="item.value" placeholder="파라미터 값" style="width: 100px" />
 
               <el-icon
                 v-if="formData.params.indexOf(item) === formData.params.length - 1"
@@ -264,10 +264,10 @@
           </div>
         </el-form-item>
 
-        <el-form-item v-if="formData.type !== MenuTypeEnum.BUTTON" prop="visible" label="显示状态">
+        <el-form-item v-if="formData.type !== MenuTypeEnum.BUTTON" prop="visible" label="표시 상태">
           <el-radio-group v-model="formData.visible">
-            <el-radio :value="1">显示</el-radio>
-            <el-radio :value="0">隐藏</el-radio>
+            <el-radio :value="1">표시</el-radio>
+            <el-radio :value="0">숨김</el-radio>
           </el-radio-group>
         </el-form-item>
 
@@ -276,14 +276,14 @@
         >
           <template #label>
             <div class="flex-y-center">
-              始终显示
+              항상 표시
               <el-tooltip placement="bottom" effect="light">
                 <template #content>
-                  选择"是"，即使目录或菜单下只有一个子节点，也会显示父节点。
+                  "예"를 선택하면 디렉터리나 메뉴 아래에 하위 노드가 하나만 있어도 상위 노드가 표시됩니다.
                   <br />
-                  选择"否"，如果目录或菜单下只有一个子节点，则只显示该子节点，隐藏父节点。
+                  "아니오"를 선택하면 디렉터리나 메뉴 아래에 하위 노드가 하나만 있을 경우 해당 하위 노드만 표시되고 상위 노드는 숨겨집니다.
                   <br />
-                  如果是叶子节点，请选择"否"。
+                  리프 노드인 경우 "아니오"를 선택하세요.
                 </template>
                 <el-icon class="ml-1 cursor-pointer">
                   <QuestionFilled />
@@ -293,19 +293,19 @@
           </template>
 
           <el-radio-group v-model="formData.alwaysShow">
-            <el-radio :value="1">是</el-radio>
-            <el-radio :value="0">否</el-radio>
+            <el-radio :value="1">예</el-radio>
+            <el-radio :value="0">아니오</el-radio>
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item v-if="formData.type === MenuTypeEnum.MENU" label="缓存页面">
+        <el-form-item v-if="formData.type === MenuTypeEnum.MENU" label="페이지 캐싱">
           <el-radio-group v-model="formData.keepAlive">
-            <el-radio :value="1">开启</el-radio>
-            <el-radio :value="0">关闭</el-radio>
+            <el-radio :value="1">활성화</el-radio>
+            <el-radio :value="0">비활성화</el-radio>
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="排序" prop="sort">
+        <el-form-item label="정렬" prop="sort">
           <el-input-number
             v-model="formData.sort"
             style="width: 100px"
@@ -314,25 +314,25 @@
           />
         </el-form-item>
 
-        <!-- 权限标识 -->
-        <el-form-item v-if="formData.type == MenuTypeEnum.BUTTON" label="权限标识" prop="perm">
+        <!-- 권한 식별자 -->
+        <el-form-item v-if="formData.type == MenuTypeEnum.BUTTON" label="권한 식별자" prop="perm">
           <el-input v-model="formData.perm" placeholder="sys:user:add" />
         </el-form-item>
 
-        <el-form-item v-if="formData.type !== MenuTypeEnum.BUTTON" label="图标" prop="icon">
-          <!-- 图标选择器 -->
+        <el-form-item v-if="formData.type !== MenuTypeEnum.BUTTON" label="아이콘" prop="icon">
+          <!-- 아이콘 선택기 -->
           <icon-select v-model="formData.icon" />
         </el-form-item>
 
-        <el-form-item v-if="formData.type == MenuTypeEnum.CATALOG" label="跳转路由">
-          <el-input v-model="formData.redirect" placeholder="跳转路由" />
+        <el-form-item v-if="formData.type == MenuTypeEnum.CATALOG" label="리다이렉트 라우트">
+          <el-input v-model="formData.redirect" placeholder="리다이렉트 라우트" />
         </el-form-item>
       </el-form>
 
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="handleSubmit">确 定</el-button>
-          <el-button @click="handleCloseDialog">取 消</el-button>
+          <el-button type="primary" @click="handleSubmit">확인</el-button>
+          <el-button @click="handleCloseDialog">취소</el-button>
         </div>
       </template>
     </el-drawer>
@@ -358,45 +358,45 @@ const menuFormRef = ref();
 
 const loading = ref(false);
 const dialog = reactive({
-  title: "新增菜单",
+  title: "메뉴 추가",
   visible: false,
 });
 
 const drawerSize = computed(() => (appStore.device === DeviceEnum.DESKTOP ? "600px" : "90%"));
-// 查询参数
+// 쿼리 파라미터
 const queryParams = reactive<MenuQuery>({});
-// 菜单表格数据
+// 메뉴 테이블 데이터
 const menuTableData = ref<MenuVO[]>([]);
-// 顶级菜单下拉选项
+// 최상위 메뉴 드롭다운 옵션
 const menuOptions = ref<OptionType[]>([]);
-// 初始菜单表单数据
+// 초기 메뉴 폼 데이터
 const initialMenuFormData = ref<MenuForm>({
   id: undefined,
   parentId: "0",
   visible: 1,
   sort: 1,
-  type: MenuTypeEnum.MENU, // 默认菜单
+  type: MenuTypeEnum.MENU, // 기본 메뉴
   alwaysShow: 0,
   keepAlive: 1,
   params: [],
 });
-// 菜单表单数据
+// 메뉴 폼 데이터
 const formData = ref({ ...initialMenuFormData.value });
-// 表单验证规则
+// 폼 검증 규칙
 const rules = reactive({
-  parentId: [{ required: true, message: "请选择父级菜单", trigger: "blur" }],
-  name: [{ required: true, message: "请输入菜单名称", trigger: "blur" }],
-  type: [{ required: true, message: "请选择菜单类型", trigger: "blur" }],
-  routeName: [{ required: true, message: "请输入路由名称", trigger: "blur" }],
-  routePath: [{ required: true, message: "请输入路由路径", trigger: "blur" }],
-  component: [{ required: true, message: "请输入组件路径", trigger: "blur" }],
-  visible: [{ required: true, message: "请选择显示状态", trigger: "change" }],
+  parentId: [{ required: true, message: "상위 메뉴를 선택하세요", trigger: "blur" }],
+  name: [{ required: true, message: "메뉴명을 입력하세요", trigger: "blur" }],
+  type: [{ required: true, message: "메뉴 유형을 선택하세요", trigger: "blur" }],
+  routeName: [{ required: true, message: "라우트명을 입력하세요", trigger: "blur" }],
+  routePath: [{ required: true, message: "라우트 경로를 입력하세요", trigger: "blur" }],
+  component: [{ required: true, message: "컴포넌트 경로를 입력하세요", trigger: "blur" }],
+  visible: [{ required: true, message: "표시 상태를 선택하세요", trigger: "change" }],
 });
 
-// 选择表格的行菜单ID
+// 선택된 테이블 행의 메뉴 ID
 const selectedMenuId = ref<string | undefined>();
 
-// 查询菜单
+// 메뉴 조회
 function handleQuery() {
   loading.value = true;
   MenuAPI.getList(queryParams)
@@ -408,53 +408,53 @@ function handleQuery() {
     });
 }
 
-// 重置查询
+// 쿼리 초기화
 function handleResetQuery() {
   queryFormRef.value.resetFields();
   handleQuery();
 }
 
-// 行点击事件
+// 행 클릭 이벤트
 function handleRowClick(row: MenuVO) {
   selectedMenuId.value = row.id;
 }
 
 /**
- * 打开表单弹窗
+ * 폼 대화상자 열기
  *
- * @param parentId 父菜单ID
- * @param menuId 菜单ID
+ * @param parentId 상위 메뉴 ID
+ * @param menuId 메뉴 ID
  */
 function handleOpenDialog(parentId?: string, menuId?: string) {
   MenuAPI.getOptions(true)
     .then((data) => {
-      menuOptions.value = [{ value: "0", label: "顶级菜单", children: data }];
+      menuOptions.value = [{ value: "0", label: "최상위 메뉴", children: data }];
     })
     .then(() => {
       dialog.visible = true;
       if (menuId) {
-        dialog.title = "编辑菜单";
+        dialog.title = "메뉴 수정";
         MenuAPI.getFormData(menuId).then((data) => {
           initialMenuFormData.value = { ...data };
           formData.value = data;
         });
       } else {
-        dialog.title = "新增菜单";
+        dialog.title = "메뉴 추가";
         formData.value.parentId = parentId?.toString();
       }
     });
 }
 
-// 菜单类型切换
+// 메뉴 유형 변경
 function handleMenuTypeChange() {
-  // 如果菜单类型改变
+  // 메뉴 유형이 변경된 경우
   if (formData.value.type !== initialMenuFormData.value.type) {
     if (formData.value.type === MenuTypeEnum.MENU) {
-      // 目录切换到菜单时，清空组件路径
+      // 디렉터리에서 메뉴로 전환할 때 컴포넌트 경로를 비움
       if (initialMenuFormData.value.type === MenuTypeEnum.CATALOG) {
         formData.value.component = "";
       } else {
-        // 其他情况，保留原有的组件路径
+        // 기타 경우, 기존 컴포넌트 경로를 유지
         formData.value.routePath = initialMenuFormData.value.routePath;
         formData.value.component = initialMenuFormData.value.component;
       }
@@ -463,26 +463,26 @@ function handleMenuTypeChange() {
 }
 
 /**
- * 提交表单
+ * 폼 제출
  */
 function handleSubmit() {
   menuFormRef.value.validate((isValid: boolean) => {
     if (isValid) {
       const menuId = formData.value.id;
       if (menuId) {
-        //修改时父级菜单不能为当前菜单
+        //수정 시 상위 메뉴는 현재 메뉴가 될 수 없음
         if (formData.value.parentId == menuId) {
-          ElMessage.error("父级菜单不能为当前菜单");
+          ElMessage.error("상위 메뉴는 현재 메뉴가 될 수 없습니다");
           return;
         }
         MenuAPI.update(menuId, formData.value).then(() => {
-          ElMessage.success("修改成功");
+          ElMessage.success("수정 성공");
           handleCloseDialog();
           handleQuery();
         });
       } else {
         MenuAPI.create(formData.value).then(() => {
-          ElMessage.success("新增成功");
+          ElMessage.success("추가 성공");
           handleCloseDialog();
           handleQuery();
         });
@@ -491,23 +491,23 @@ function handleSubmit() {
   });
 }
 
-// 删除菜单
+// 메뉴 삭제
 function handleDelete(menuId: string) {
   if (!menuId) {
-    ElMessage.warning("请勾选删除项");
+    ElMessage.warning("삭제할 항목을 선택하세요");
     return false;
   }
 
-  ElMessageBox.confirm("确认删除已选中的数据项?", "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
+  ElMessageBox.confirm("선택한 데이터 항목을 삭제하시겠습니까?", "경고", {
+    confirmButtonText: "확인",
+    cancelButtonText: "취소",
     type: "warning",
   }).then(
     () => {
       loading.value = true;
       MenuAPI.deleteById(menuId)
         .then(() => {
-          ElMessage.success("删除成功");
+          ElMessage.success("삭제 성공");
           handleQuery();
         })
         .finally(() => {
@@ -515,7 +515,7 @@ function handleDelete(menuId: string) {
         });
     },
     () => {
-      ElMessage.info("已取消删除");
+      ElMessage.info("삭제가 취소되었습니다");
     }
   );
 }
@@ -528,14 +528,14 @@ function resetForm() {
     parentId: "0",
     visible: 1,
     sort: 1,
-    type: MenuTypeEnum.MENU, // 默认菜单
+    type: MenuTypeEnum.MENU, // 기본 메뉴
     alwaysShow: 0,
     keepAlive: 1,
     params: [],
   };
 }
 
-// 关闭弹窗
+// 대화상자 닫기
 function handleCloseDialog() {
   dialog.visible = false;
   resetForm();

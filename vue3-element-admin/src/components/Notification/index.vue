@@ -29,7 +29,7 @@
           <el-divider />
           <div class="flex-x-between">
             <el-link type="primary" underline="never" @click="handleViewMoreNotice">
-              <span class="text-xs">查看更多</span>
+              <span class="text-xs">더보기</span>
               <el-icon class="text-xs">
                 <ArrowRight />
               </el-icon>
@@ -40,13 +40,13 @@
               underline="never"
               @click="handleMarkAllAsRead"
             >
-              <span class="text-xs">全部已读</span>
+              <span class="text-xs">모두 읽음</span>
             </el-link>
           </div>
         </template>
         <template v-else>
           <div class="flex-center h-150px w-350px">
-            <el-empty :image-size="50" description="暂无消息" />
+            <el-empty :image-size="50" description="메시지 없음" />
           </div>
         </template>
       </div>
@@ -55,7 +55,7 @@
 
   <el-dialog
     v-model="noticeDialogVisible"
-    :title="noticeDetail?.title ?? '通知详情'"
+    :title="noticeDetail?.title ?? '알림 상세'"
     width="800px"
     custom-class="notification-detail"
   >
@@ -94,7 +94,7 @@ watch(
   (connected) => {
     if (connected) {
       subscribe("/user/queue/message", (message: any) => {
-        console.log("收到通知消息：", message);
+        console.log("알림 메시지 수신:", message);
         const data = JSON.parse(message.body);
         const id = data.id;
         if (!noticeList.value.some((notice) => notice.id == id)) {
@@ -106,7 +106,7 @@ watch(
           });
 
           ElNotification({
-            title: "您收到一条新的通知消息！",
+            title: "새 알림 메시지를 받았습니다!",
             message: data.title,
             type: "success",
             position: "bottom-right",
@@ -118,7 +118,7 @@ watch(
 );
 
 /**
- * 获取我的通知公告
+ * 나의 알림 공지 조회
  */
 function featchMyNotice() {
   NoticeAPI.getMyNoticePage({ pageNum: 1, pageSize: 5, isRead: 0 }).then((data) => {
@@ -126,12 +126,12 @@ function featchMyNotice() {
   });
 }
 
-// 阅读通知公告
+// 알림 공지 읽기
 function handleReadNotice(id: string) {
   NoticeAPI.getDetail(id).then((data) => {
     noticeDialogVisible.value = true;
     noticeDetail.value = data;
-    // 标记为已读
+    // 읽음으로 표시
     const index = noticeList.value.findIndex((notice) => notice.id === id);
     if (index >= 0) {
       noticeList.value.splice(index, 1);
@@ -139,12 +139,12 @@ function handleReadNotice(id: string) {
   });
 }
 
-// 查看更多
+// 더보기
 function handleViewMoreNotice() {
   router.push({ name: "MyNotice" });
 }
 
-// 全部已读
+// 모두 읽음
 function handleMarkAllAsRead() {
   NoticeAPI.readAll().then(() => {
     noticeList.value = [];

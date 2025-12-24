@@ -1,4 +1,4 @@
-<!-- 单图上传组件 -->
+<!-- 단일 이미지 업로드 컴포넌트 -->
 <template>
   <el-upload
     class="single-upload"
@@ -37,7 +37,7 @@ import FileAPI, { FileInfo } from "@/api/file-api";
 
 const props = defineProps({
   /**
-   * 请求携带的额外参数
+   * 요청에 포함된 추가 매개변수
    */
   data: {
     type: Object,
@@ -46,14 +46,14 @@ const props = defineProps({
     },
   },
   /**
-   * 上传文件的参数名
+   * 파일 업로드 매개변수 이름
    */
   name: {
     type: String,
     default: "file",
   },
   /**
-   * 最大文件大小（单位：M）
+   * 최대 파일 크기(단위: MB)
    */
   maxFileSize: {
     type: Number,
@@ -61,7 +61,7 @@ const props = defineProps({
   },
 
   /**
-   * 上传图片格式，默认支持所有图片(image/*)，指定格式示例：'.png,.jpg,.jpeg,.gif,.bmp'
+   * 이미지 업로드 형식, 기본적으로 모든 이미지(image/*)를 지원하며, 지정 형식 예: '.png,.jpg,.jpeg,.gif,.bmp'
    */
   accept: {
     type: String,
@@ -69,7 +69,7 @@ const props = defineProps({
   },
 
   /**
-   * 自定义样式，用于设置组件的宽度和高度等其他样式
+   * 컴포넌트의 너비, 높이 등 기타 스타일을 설정하는 데 사용되는 사용자 정의 스타일
    */
   style: {
     type: Object,
@@ -88,41 +88,41 @@ const modelValue = defineModel("modelValue", {
 });
 
 /**
- * 限制用户上传文件的格式和大小
+ * 사용자 업로드 파일의 형식과 크기 제한
  */
 function handleBeforeUpload(file: UploadRawFile) {
-  // 校验文件类型：虽然 accept 属性限制了用户在文件选择器中可选的文件类型，但仍需在上传时再次校验文件实际类型，确保符合 accept 的规则
+  // 파일 유형 검증: accept 속성이 파일 선택기에서 사용자가 선택할 수 있는 파일 유형을 제한하지만, 업로드 시 파일의 실제 유형을 다시 검증하여 accept 규칙을 준수하도록 해야 합니다
   const acceptTypes = props.accept.split(",").map((type) => type.trim());
 
-  // 检查文件格式是否符合 accept
+  // 파일 형식이 accept를 준수하는지 확인
   const isValidType = acceptTypes.some((type) => {
     if (type === "image/*") {
-      // 如果是 image/*，检查 MIME 类型是否以 "image/" 开头
+      // image/*인 경우 MIME 유형이 "image/"로 시작하는지 확인
       return file.type.startsWith("image/");
     } else if (type.startsWith(".")) {
-      // 如果是扩展名 (.png, .jpg)，检查文件名是否以指定扩展名结尾
+      // 확장명(.png, .jpg)인 경우 파일명이 지정된 확장명으로 끝나는지 확인
       return file.name.toLowerCase().endsWith(type);
     } else {
-      // 如果是具体的 MIME 类型 (image/png, image/jpeg)，检查是否完全匹配
+      // 구체적인 MIME 유형(image/png, image/jpeg)인 경우 완전히 일치하는지 확인
       return file.type === type;
     }
   });
 
   if (!isValidType) {
-    ElMessage.warning(`上传文件的格式不正确，仅支持：${props.accept}`);
+    ElMessage.warning(`업로드 파일 형식이 잘못되었습니다. 다음만 지원됩니다: ${props.accept}`);
     return false;
   }
 
-  // 限制文件大小
+  // 파일 크기 제한
   if (file.size > props.maxFileSize * 1024 * 1024) {
-    ElMessage.warning("上传图片不能大于" + props.maxFileSize + "M");
+    ElMessage.warning("업로드할 이미지는 " + props.maxFileSize + "MB보다 클 수 없습니다");
     return false;
   }
   return true;
 }
 
 /*
- * 上传图片
+ * 이미지 업로드
  */
 function handleUpload(options: UploadRequestOptions) {
   return new Promise((resolve, reject) => {
@@ -131,7 +131,7 @@ function handleUpload(options: UploadRequestOptions) {
     const formData = new FormData();
     formData.append(props.name, file);
 
-    // 处理附加参数
+    // 추가 매개변수 처리
     Object.keys(props.data).forEach((key) => {
       formData.append(key, props.data[key]);
     });
@@ -147,35 +147,35 @@ function handleUpload(options: UploadRequestOptions) {
 }
 
 /**
- * 预览图片
+ * 이미지 미리 보기
  */
 function handlePreview() {
-  console.log("预览图片,停止冒泡");
+  console.log("이미지 미리 보기, 이벤트 전파 중지");
 }
 
 /**
- * 删除图片
+ * 이미지 삭제
  */
 function handleDelete() {
   modelValue.value = "";
 }
 
 /**
- * 上传成功回调
+ * 업로드 성공 콜백
  *
- * @param fileInfo 上传成功后的文件信息
+ * @param fileInfo 업로드 성공 후 파일 정보
  */
 const onSuccess = (fileInfo: FileInfo) => {
-  ElMessage.success("上传成功");
+  ElMessage.success("업로드 성공");
   modelValue.value = fileInfo.url;
 };
 
 /**
- * 上传失败回调
+ * 업로드 실패 콜백
  */
 const onError = (error: any) => {
   console.log("onError");
-  ElMessage.error("上传失败: " + error.message);
+  ElMessage.error("업로드 실패: " + error.message);
 };
 </script>
 

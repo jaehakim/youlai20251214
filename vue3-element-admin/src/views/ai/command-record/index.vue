@@ -1,100 +1,100 @@
 <template>
   <div class="app-container">
-    <!-- 搜索区域 -->
+    <!-- 검색 영역 -->
     <div class="search-container">
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
-        <el-form-item prop="keywords" label="关键字">
+        <el-form-item prop="keywords" label="키워드">
           <el-input
             v-model="queryParams.keywords"
-            placeholder="原始命令/函数名称/用户名"
+            placeholder="원본 명령어/함수명/사용자명"
             clearable
             style="width: 220px"
             @keyup.enter="handleQuery"
           />
         </el-form-item>
 
-        <el-form-item prop="provider" label="AI提供商">
+        <el-form-item prop="provider" label="AI 제공자">
           <el-select
             v-model="queryParams.provider"
-            placeholder="请选择"
+            placeholder="선택하세요"
             clearable
             style="width: 140px"
           >
-            <el-option label="通义千问" value="qwen" />
+            <el-option label="Qwen" value="qwen" />
             <el-option label="OpenAI" value="openai" />
             <el-option label="DeepSeek" value="deepseek" />
             <el-option label="Gemini" value="gemini" />
           </el-select>
         </el-form-item>
 
-        <el-form-item prop="model" label="AI模型">
+        <el-form-item prop="model" label="AI 모델">
           <el-input
             v-model="queryParams.model"
-            placeholder="如 qwen-plus"
+            placeholder="예: qwen-plus"
             clearable
             style="width: 160px"
             @keyup.enter="handleQuery"
           />
         </el-form-item>
 
-        <el-form-item prop="parseSuccess" label="解析状态">
+        <el-form-item prop="parseSuccess" label="파싱 상태">
           <el-select
             v-model="queryParams.parseSuccess"
-            placeholder="请选择"
+            placeholder="선택하세요"
             clearable
             style="width: 140px"
           >
-            <el-option label="成功" :value="true" />
-            <el-option label="失败" :value="false" />
+            <el-option label="성공" :value="true" />
+            <el-option label="실패" :value="false" />
           </el-select>
         </el-form-item>
 
-        <el-form-item prop="executeStatus" label="执行状态">
+        <el-form-item prop="executeStatus" label="실행 상태">
           <el-select
             v-model="queryParams.executeStatus"
-            placeholder="请选择"
+            placeholder="선택하세요"
             clearable
             style="width: 140px"
           >
-            <el-option label="待执行" value="pending" />
-            <el-option label="成功" value="success" />
-            <el-option label="失败" value="failed" />
+            <el-option label="대기 중" value="pending" />
+            <el-option label="성공" value="success" />
+            <el-option label="실패" value="failed" />
           </el-select>
         </el-form-item>
 
-        <el-form-item prop="isDangerous" label="风险操作">
+        <el-form-item prop="isDangerous" label="위험 작업">
           <el-select
             v-model="queryParams.isDangerous"
-            placeholder="请选择"
+            placeholder="선택하세요"
             clearable
             style="width: 140px"
           >
-            <el-option label="是" :value="true" />
-            <el-option label="否" :value="false" />
+            <el-option label="예" :value="true" />
+            <el-option label="아니오" :value="false" />
           </el-select>
         </el-form-item>
 
-        <el-form-item prop="createTime" label="创建时间">
+        <el-form-item prop="createTime" label="생성 시간">
           <el-date-picker
             v-model="queryParams.createTime"
             :editable="false"
             type="daterange"
             range-separator="~"
-            start-placeholder="开始时间"
-            end-placeholder="截止时间"
+            start-placeholder="시작 시간"
+            end-placeholder="종료 시간"
             value-format="YYYY-MM-DD"
             style="width: 260px"
           />
         </el-form-item>
 
         <el-form-item class="search-buttons">
-          <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
-          <el-button icon="Refresh" @click="handleResetQuery">重置</el-button>
+          <el-button type="primary" icon="Search" @click="handleQuery">검색</el-button>
+          <el-button icon="Refresh" @click="handleResetQuery">초기화</el-button>
         </el-form-item>
       </el-form>
     </div>
 
-    <!-- 数据表格 -->
+    <!-- 데이터 표 -->
     <el-card shadow="hover" class="data-table">
       <el-table
         v-loading="loading"
@@ -103,30 +103,30 @@
         border
         class="data-table__content"
       >
-        <el-table-column label="创建时间" prop="createTime" width="180" />
-        <el-table-column label="用户名" prop="username" width="120" />
+        <el-table-column label="생성 시간" prop="createTime" width="180" />
+        <el-table-column label="사용자명" prop="username" width="120" />
         <el-table-column
-          label="原始命令"
+          label="원본 명령어"
           prop="originalCommand"
           min-width="220"
           show-overflow-tooltip
         />
         <el-table-column
-          label="函数名称"
+          label="함수명"
           prop="functionName"
           min-width="160"
           show-overflow-tooltip
         />
-        <el-table-column label="AI提供商" prop="provider" width="120" />
-        <el-table-column label="AI模型" prop="model" width="160" show-overflow-tooltip />
-        <el-table-column label="解析状态" width="110" align="center">
+        <el-table-column label="AI 제공자" prop="provider" width="120" />
+        <el-table-column label="AI 모델" prop="model" width="160" show-overflow-tooltip />
+        <el-table-column label="파싱 상태" width="110" align="center">
           <template #default="{ row }">
             <el-tag :type="row.parseSuccess ? 'success' : 'danger'" size="small">
-              {{ row.parseSuccess ? "成功" : "失败" }}
+              {{ row.parseSuccess ? "성공" : "실패" }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="执行状态" width="110" align="center">
+        <el-table-column label="실행 상태" width="110" align="center">
           <template #default="{ row }">
             <el-tag v-if="row.executeStatus" :type="statusTagType[row.executeStatus]" size="small">
               {{ statusText[row.executeStatus] }}
@@ -134,13 +134,13 @@
             <span v-else>-</span>
           </template>
         </el-table-column>
-        <el-table-column label="风险" width="90" align="center">
+        <el-table-column label="위험" width="90" align="center">
           <template #default="{ row }">
-            <el-tag v-if="row.isDangerous" type="warning" size="small">风险</el-tag>
+            <el-tag v-if="row.isDangerous" type="warning" size="small">위험</el-tag>
             <span v-else>-</span>
           </template>
         </el-table-column>
-        <el-table-column label="置信度" prop="confidence" width="100" align="center">
+        <el-table-column label="신뢰도" prop="confidence" width="100" align="center">
           <template #default="{ row }">
             <span v-if="row.confidence !== undefined && row.confidence !== null">
               {{ (row.confidence * 100).toFixed(0) }}%
@@ -148,13 +148,13 @@
             <span v-else>-</span>
           </template>
         </el-table-column>
-        <el-table-column label="解析耗时(ms)" prop="parseTime" width="120" align="center" />
-        <el-table-column label="执行耗时(ms)" prop="executionTime" width="120" align="center" />
-        <el-table-column label="IP地址" prop="ipAddress" width="140" />
-        <el-table-column label="操作" width="100" align="center" fixed="right">
+        <el-table-column label="파싱 소요시간(ms)" prop="parseTime" width="120" align="center" />
+        <el-table-column label="실행 소요시간(ms)" prop="executionTime" width="120" align="center" />
+        <el-table-column label="IP 주소" prop="ipAddress" width="140" />
+        <el-table-column label="작업" width="100" align="center" fixed="right">
           <template #default="{ row }">
             <el-button type="primary" link size="small" @click="handleViewDetail(row)">
-              详情
+              상세정보
             </el-button>
           </template>
         </el-table-column>

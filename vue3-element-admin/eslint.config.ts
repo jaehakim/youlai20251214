@@ -1,31 +1,31 @@
 // https://eslint.org/docs/latest/use/configure/configuration-files-new
 
-// 基础ESLint配置
+// 기본 ESLint 설정
 import eslint from "@eslint/js";
 import globals from "globals";
-// TypeScript支持
+// TypeScript 지원
 import * as typescriptEslint from "typescript-eslint";
-// Vue支持
+// Vue 지원
 import pluginVue from "eslint-plugin-vue";
 import vueParser from "vue-eslint-parser";
-// 代码风格与格式化
+// 코드 스타일 및 형식화
 import configPrettier from "eslint-config-prettier";
 import prettierPlugin from "eslint-plugin-prettier";
 
-// 解析自动导入配置
+// 자동 가져오기 설정 파싱
 import fs from "node:fs";
 let autoImportGlobals = {};
 try {
   autoImportGlobals =
     JSON.parse(fs.readFileSync("./.eslintrc-auto-import.json", "utf-8")).globals || {};
 } catch (error) {
-  // 文件不存在或解析错误时使用空对象
+  // 파일이 없거나 파싱 오류 시 빈 객체 사용
   console.warn("Could not load auto-import globals", error);
 }
 
-// Element Plus组件
+// Element Plus 컴포넌트
 const elementPlusComponents = {
-  // Element Plus 组件添加为全局变量，避免 no-undef 报错
+  // Element Plus 컴포넌트를 전역 변수로 추가하여 no-undef 오류 방지
   ElInput: "readonly",
   ElSelect: "readonly",
   ElSwitch: "readonly",
@@ -56,7 +56,7 @@ const elementPlusComponents = {
 };
 
 export default [
-  // 忽略文件配置
+  // 무시 파일 설정
   {
     ignores: [
       "**/node_modules/**",
@@ -67,29 +67,29 @@ export default [
     ],
   },
 
-  // 基础 JavaScript 配置
+  // 기본 JavaScript 설정
   eslint.configs.recommended,
 
-  // Vue 推荐配置
+  // Vue 권장 설정
   ...pluginVue.configs["flat/recommended"],
 
-  // TypeScript 推荐配置
+  // TypeScript 권장 설정
   ...typescriptEslint.configs.recommended,
 
-  // 全局配置
+  // 전역 설정
   {
-    // 指定要检查的文件
+    // 확인할 파일 지정
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,vue}"],
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
       globals: {
-        ...globals.browser, // 浏览器环境全局变量
-        ...globals.node, // Node.js 环境全局变量
-        ...globals.es2022, // ES2022 全局对象
-        ...autoImportGlobals, // 自动导入的 API 函数
-        ...elementPlusComponents, // Element Plus 组件
-        // 全局类型定义，解决 TypeScript 中定义但 ESLint 不识别的问题
+        ...globals.browser, // 브라우저 환경 전역 변수
+        ...globals.node, // Node.js 환경 전역 변수
+        ...globals.es2022, // ES2022 전역 객체
+        ...autoImportGlobals, // 자동 가져온 API 함수
+        ...elementPlusComponents, // Element Plus 컴포넌트
+        // 전역 타입 정의, TypeScript에서 정의되었지만 ESLint가 인식하지 못하는 문제 해결
         PageQuery: "readonly",
         PageResult: "readonly",
         OptionType: "readonly",
@@ -105,21 +105,21 @@ export default [
       "@typescript-eslint": typescriptEslint.plugin,
     },
     rules: {
-      // 基础规则
+      // 기본 규칙
       "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
       "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
 
-      // ES6+ 规则
+      // ES6+ 규칙
       "prefer-const": "error",
       "no-var": "error",
       "object-shorthand": "error",
 
-      // 最佳实践
+      // 최고의 실천
       eqeqeq: "off",
       "no-multi-spaces": "error",
       "no-multiple-empty-lines": ["error", { max: 1, maxBOF: 0, maxEOF: 0 }],
 
-      // 禁用与 TypeScript 冲突的规则
+      // TypeScript와 충돌하는 규칙 비활성화
       "no-unused-vars": "off",
       "no-undef": "off",
       "no-redeclare": "off",
@@ -127,7 +127,7 @@ export default [
     },
   },
 
-  // Vue 文件特定配置
+  // Vue 파일 특정 설정
   {
     files: ["**/*.vue"],
     languageOptions: {
@@ -141,7 +141,7 @@ export default [
       },
     },
     rules: {
-      // Vue 规则
+      // Vue 규칙
       "vue/multi-word-component-names": "off",
       "vue/no-v-html": "off",
       "vue/require-default-prop": "off",
@@ -174,7 +174,7 @@ export default [
     },
   },
 
-  // TypeScript 文件特定配置
+  // TypeScript 파일 특정 설정
   {
     files: ["**/*.{ts,tsx,mts,cts}"],
     languageOptions: {
@@ -187,20 +187,20 @@ export default [
       },
     },
     rules: {
-      // TypeScript 规则
-      "@typescript-eslint/no-explicit-any": "off", // 允许使用any类型，方便开发
+      // TypeScript 규칙
+      "@typescript-eslint/no-explicit-any": "off", // any 타입 사용 허용, 개발 편의성
       "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/no-empty-object-type": "off",
       "@typescript-eslint/ban-ts-comment": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
-      "@typescript-eslint/no-unused-vars": "warn", // 降级为警告
-      "@typescript-eslint/no-unused-expressions": "warn", // 降级为警告
-      "@typescript-eslint/consistent-type-imports": "off", // 关闭强制使用type import
+      "@typescript-eslint/no-unused-vars": "warn", // 경고로 낮춤
+      "@typescript-eslint/no-unused-expressions": "warn", // 경고로 낮춤
+      "@typescript-eslint/consistent-type-imports": "off", // type import 강제 사용 비활성화
       "@typescript-eslint/no-import-type-side-effects": "error",
     },
   },
 
-  // .d.ts 文件配置
+  // .d.ts 파일 설정
   {
     files: ["**/*.d.ts"],
     rules: {
@@ -209,7 +209,7 @@ export default [
     },
   },
 
-  // CURD 组件配置
+  // CURD 컴포넌트 설정
   {
     files: ["**/components/CURD/**/*.{ts,vue}"],
     rules: {
@@ -219,10 +219,10 @@ export default [
     },
   },
 
-  // Prettier 集成（必须放在最后）
+  // Prettier 통합 (반드시 마지막에 배치)
   {
     plugins: {
-      prettier: prettierPlugin, // 将 Prettier 的输出作为 ESLint 的问题来报告
+      prettier: prettierPlugin, // Prettier의 출력을 ESLint 문제로 보고
     },
     rules: {
       ...configPrettier.rules,

@@ -3,7 +3,7 @@ import request from "@/utils/request";
 const AUTH_BASE_URL = "/api/v1/auth";
 
 const AuthAPI = {
-  /** 登录接口*/
+  /** 로그인 인터페이스*/
   login(data: LoginFormData) {
     const formData = new FormData();
     formData.append("username", data.username);
@@ -20,7 +20,7 @@ const AuthAPI = {
     });
   },
 
-  /** 刷新 token 接口*/
+  /** 토큰 새로 고침 인터페이스*/
   refreshToken(refreshToken: string) {
     return request<any, LoginResult>({
       url: `${AUTH_BASE_URL}/refresh-token`,
@@ -32,7 +32,7 @@ const AuthAPI = {
     });
   },
 
-  /** 退出登录接口 */
+  /** 로그아웃 인터페이스 */
   logout() {
     return request({
       url: `${AUTH_BASE_URL}/logout`,
@@ -40,7 +40,7 @@ const AuthAPI = {
     });
   },
 
-  /** 获取验证码接口*/
+  /** 캡차 조회 인터페이스*/
   getCaptcha() {
     return request<any, CaptchaInfo>({
       url: `${AUTH_BASE_URL}/captcha`,
@@ -51,36 +51,36 @@ const AuthAPI = {
 
 export default AuthAPI;
 
-/** 登录表单数据 */
+/** 로그인 폼 데이터 */
 export interface LoginFormData {
-  /** 用户名 */
+  /** 사용자명 */
   username: string;
-  /** 密码 */
+  /** 비밀번호 */
   password: string;
-  /** 验证码缓存key */
+  /** 캡차 캐시 키 */
   captchaKey: string;
-  /** 验证码 */
+  /** 캡차 코드 */
   captchaCode: string;
-  /** 记住我 */
+  /** 로그인 상태 유지 */
   rememberMe: boolean;
 }
 
-/** 登录响应 */
+/** 로그인 응답 */
 export interface LoginResult {
-  /** 访问令牌 */
+  /** 액세스 토큰 */
   accessToken: string;
-  /** 刷新令牌 */
+  /** 리프레시 토큰 */
   refreshToken: string;
-  /** 令牌类型 */
+  /** 토큰 타입 */
   tokenType: string;
-  /** 过期时间(秒) */
+  /** 만료 시간(초) */
   expiresIn: number;
 }
 
-/** 验证码信息 */
+/** 캡차 정보 */
 export interface CaptchaInfo {
-  /** 验证码缓存key */
+  /** 캡차 캐시 키 */
   captchaKey: string;
-  /** 验证码图片Base64字符串 */
+  /** 캡차 이미지 Base64 문자열 */
   captchaBase64: string;
 }

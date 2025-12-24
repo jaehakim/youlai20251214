@@ -3,7 +3,7 @@
     <el-row :gutter="24">
       <el-col :span="12">
         <el-card shadow="never">
-          <template #header><span class="card-header">基础示例</span></template>
+          <template #header><span class="card-header">기본 예제</span></template>
           <VueDraggable ref="el" v-model="userList" class="drag-container">
             <div v-for="item in userList" :key="item.name" class="drag-item">
               {{ item.name }}
@@ -14,7 +14,7 @@
 
       <el-col :span="12">
         <el-card shadow="never">
-          <template #header><span class="card-header">过渡动画</span></template>
+          <template #header><span class="card-header">전환 애니메이션</span></template>
           <VueDraggable
             v-model="userList"
             target=".sort-target"
@@ -32,24 +32,24 @@
     </el-row>
 
     <el-card shadow="never">
-      <template #header><span class="card-header">表格拖拽排序</span></template>
+      <template #header><span class="card-header">표 드래그 정렬</span></template>
       <VueDraggable v-model="userList" target="tbody" :animation="150">
         <el-table :data="userList" row-key="name">
-          <el-table-column label="姓名" prop="name" />
-          <el-table-column label="角色" prop="roles" />
+          <el-table-column label="이름" prop="name" />
+          <el-table-column label="역할" prop="roles" />
         </el-table>
       </VueDraggable>
     </el-card>
 
     <el-card shadow="never">
-      <template #header><span class="card-header">指定元素拖拽排序</span></template>
+      <template #header><span class="card-header">지정된 요소 드래그 정렬</span></template>
       <VueDraggable v-model="userList" target="tbody" handle=".handle" :animation="150">
         <el-table :data="userList" row-key="name">
-          <el-table-column label="姓名" prop="name" />
-          <el-table-column label="角色" prop="roles" />
-          <el-table-column label="操作" width="100">
+          <el-table-column label="이름" prop="name" />
+          <el-table-column label="역할" prop="roles" />
+          <el-table-column label="작업" width="100">
             <template #default>
-              <el-button size="default" class="handle">移动</el-button>
+              <el-button size="default" class="handle">이동</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -62,11 +62,11 @@
 import { VueDraggable } from "vue-draggable-plus";
 
 const userList = ref([
-  { name: "路飞", roles: "船长·格斗家·D之一族" },
-  { name: "索隆", roles: "剑豪·战斗员·三刀流大师" },
-  { name: "娜美", roles: "航海士·气象学家·财务官" },
-  { name: "山治", roles: "厨师·格斗家·黑足" },
-  { name: "罗宾", roles: "考古学家·历史正文解读者" },
+  { name: "루피", roles: "선장·격투가·D의 일족" },
+  { name: "조로", roles: "검호·전투원·세 칼 유파의 대사" },
+  { name: "나미", roles: "항해사·기상학자·재무 담당" },
+  { name: "상디", roles: "요리사·격투가·검은 발" },
+  { name: "로빈", roles: "고고학자·역사 정문 해석자" },
 ]);
 </script>
 
@@ -104,7 +104,7 @@ const userList = ref([
   }
 }
 
-/* 过渡动画 */
+/* 전환 애니메이션 */
 .fade-move,
 .fade-enter-active,
 .fade-leave-active {

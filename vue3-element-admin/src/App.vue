@@ -1,6 +1,6 @@
 <template>
   <el-config-provider :locale="locale" :size="size">
-    <!-- 开启水印 -->
+    <!-- 워터마크 활성화 -->
     <el-watermark
       :font="{ color: fontColor }"
       :content="showWatermark ? defaultSettings.watermarkContent : ''"
@@ -9,7 +9,7 @@
     >
       <router-view />
 
-      <!-- AI 助手 -->
+      <!-- AI 어시스턴트 -->
       <AiAssistant v-if="enableAiAssistant" />
     </el-watermark>
   </el-config-provider>
@@ -29,15 +29,15 @@ const locale = computed(() => appStore.locale);
 const size = computed(() => appStore.size as ComponentSize);
 const showWatermark = computed(() => settingsStore.showWatermark);
 
-// 只有在启用 AI 助手且用户已登录时才显示
-// 使用 userInfo 作为响应式依赖，当用户退出登录时会自动更新
+// AI 어시스턴트가 활성화되고 사용자가 로그인한 경우에만 표시합니다
+// userInfo를 반응형 종속성으로 사용하여 사용자가 로그아웃할 때 자동으로 업데이트됩니다
 const enableAiAssistant = computed(() => {
   const isEnabled = settingsStore.enableAiAssistant;
   const isLoggedIn = userStore.userInfo && Object.keys(userStore.userInfo).length > 0;
   return isEnabled && isLoggedIn;
 });
 
-// 明亮/暗黑主题水印字体颜色适配
+// 밝은/어두운 테마 워터마크 글꼴 색상 적응
 const fontColor = computed(() => {
   return settingsStore.theme === ThemeMode.DARK ? "rgba(255, 255, 255, .15)" : "rgba(0, 0, 0, .15)";
 });

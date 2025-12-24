@@ -3,7 +3,7 @@ import request from "@/utils/request";
 const NOTICE_BASE_URL = "/api/v1/notices";
 
 const NoticeAPI = {
-  /** 获取通知公告分页数据 */
+  /** 통지 공고 페이지 데이터 조회 */
   getPage(queryParams?: NoticePageQuery) {
     return request<any, PageResult<NoticePageVO[]>>({
       url: `${NOTICE_BASE_URL}/page`,
@@ -11,39 +11,39 @@ const NoticeAPI = {
       params: queryParams,
     });
   },
-  /** 获取通知公告表单数据 */
+  /** 통지 공고 폼 데이터 조회 */
   getFormData(id: string) {
     return request<any, NoticeForm>({ url: `${NOTICE_BASE_URL}/${id}/form`, method: "get" });
   },
-  /** 添加通知公告 */
+  /** 통지 공고 추가 */
   create(data: NoticeForm) {
     return request({ url: `${NOTICE_BASE_URL}`, method: "post", data });
   },
-  /** 更新通知公告 */
+  /** 통지 공고 업데이트 */
   update(id: string, data: NoticeForm) {
     return request({ url: `${NOTICE_BASE_URL}/${id}`, method: "put", data });
   },
-  /** 批量删除通知公告，多个以英文逗号(,)分割 */
+  /** 대량 통지 공고 삭제, 쉼표(,)로 구분 */
   deleteByIds(ids: string) {
     return request({ url: `${NOTICE_BASE_URL}/${ids}`, method: "delete" });
   },
-  /** 发布通知 */
+  /** 통지 발행 */
   publish(id: string) {
     return request({ url: `${NOTICE_BASE_URL}/${id}/publish`, method: "put" });
   },
-  /** 撤回通知 */
+  /** 통지 회수 */
   revoke(id: string) {
     return request({ url: `${NOTICE_BASE_URL}/${id}/revoke`, method: "put" });
   },
-  /** 查看通知 */
+  /** 통지 상세 조회 */
   getDetail(id: string) {
     return request<any, NoticeDetailVO>({ url: `${NOTICE_BASE_URL}/${id}/detail`, method: "get" });
   },
-  /** 全部已读 */
+  /** 전체 읽음 */
   readAll() {
     return request({ url: `${NOTICE_BASE_URL}/read-all`, method: "put" });
   },
-  /** 获取我的通知分页列表 */
+  /** 내 통지 페이지 목록 조회 */
   getMyNoticePage(queryParams?: NoticePageQuery) {
     return request<any, PageResult<NoticePageVO[]>>({
       url: `${NOTICE_BASE_URL}/my-page`,
@@ -56,66 +56,66 @@ const NoticeAPI = {
 export default NoticeAPI;
 
 export interface NoticePageQuery extends PageQuery {
-  /** 标题 */
+  /** 제목 */
   title?: string;
-  /** 发布状态(0:草稿;1:已发布;2:已撤回) */
+  /** 발행 상태 (0:초안;1:발행됨;2:회수됨) */
   publishStatus?: number;
-  /** 是否已读(1:是;0:否) */
+  /** 읽음 여부 (1:예;0:아니오) */
   isRead?: number;
 }
 export interface NoticeForm {
-  /** 通知ID(新增不填) */
+  /** 통지 ID (신규 추가 시 입력 불필요) */
   id?: string;
-  /** 标题 */
+  /** 제목 */
   title?: string;
-  /** 内容 */
+  /** 내용 */
   content?: string;
-  /** 类型 */
+  /** 유형 */
   type?: number;
-  /** 优先级/级别 */
+  /** 우선 순위/수준 */
   level?: string;
-  /** 目标类型 */
+  /** 대상 유형 */
   targetType?: number;
-  /** 目标用户ID(多个以英文逗号(,)分割) */
+  /** 대상 사용자 ID (쉼표(,)로 구분) */
   targetUserIds?: string;
 }
 export interface NoticePageVO {
-  /** 通知ID */
+  /** 통지 ID */
   id: string;
-  /** 标题 */
+  /** 제목 */
   title?: string;
-  /** 内容 */
+  /** 내용 */
   content?: string;
-  /** 类型 */
+  /** 유형 */
   type?: number;
-  /** 发布人ID */
+  /** 발행인 ID */
   publisherId?: bigint;
-  /** 优先级 */
+  /** 우선 순위 */
   priority?: number;
-  /** 目标类型 */
+  /** 대상 유형 */
   targetType?: number;
-  /** 发布状态 */
+  /** 발행 상태 */
   publishStatus?: number;
-  /** 发布时间 */
+  /** 발행 시간 */
   publishTime?: Date;
-  /** 撤回时间 */
+  /** 회수 시간 */
   revokeTime?: Date;
 }
 export interface NoticeDetailVO {
-  /** 通知ID */
+  /** 통지 ID */
   id?: string;
-  /** 标题 */
+  /** 제목 */
   title?: string;
-  /** 内容 */
+  /** 내용 */
   content?: string;
-  /** 类型 */
+  /** 유형 */
   type?: number;
-  /** 发布人名称 */
+  /** 발행인 이름 */
   publisherName?: string;
-  /** 优先级/级别 */
+  /** 우선 순위/수준 */
   level?: string;
-  /** 发布时间 */
+  /** 발행 시간 */
   publishTime?: Date;
-  /** 发布状态 */
+  /** 발행 상태 */
   publishStatus?: number;
 }

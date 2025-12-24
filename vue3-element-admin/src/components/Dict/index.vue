@@ -62,7 +62,7 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: "请选择",
+    default: "선택하세요",
   },
   disabled: {
     type: Boolean,
@@ -90,7 +90,7 @@ const selectedValue = ref<any>(
       : undefined
 );
 
-// 监听 modelValue 和 options 的变化
+// modelValue 및 options의 변경 감시
 watch(
   [() => props.modelValue, () => options.value],
   ([newValue, newOptions]) => {
@@ -110,12 +110,12 @@ watch(
   { immediate: true }
 );
 
-// 监听 selectedValue 的变化并触发 update:modelValue
+// selectedValue의 변경을 감시하고 update:modelValue 트리거
 function handleChange(val: any) {
   emit("update:modelValue", val);
 }
 
-// 获取字典数据
+// 사전 데이터 가져오기
 onMounted(async () => {
   await dictStore.loadDictItems(props.code);
   options.value = dictStore.getDictItems(props.code);

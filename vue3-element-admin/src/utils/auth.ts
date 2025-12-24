@@ -3,7 +3,7 @@ import { AUTH_KEYS, ROLE_ROOT } from "@/constants";
 import { useUserStoreHook } from "@/store/modules/user-store";
 import router from "@/router";
 
-// 负责本地凭证与偏好的读写
+// 로컬 자격 증명 및 선호도 읽기/쓰기 담당
 export const AuthStorage = {
   getAccessToken(): string {
     const isRememberMe = Storage.get<boolean>(AUTH_KEYS.REMEMBER_ME, false);
@@ -45,7 +45,7 @@ export const AuthStorage = {
 };
 
 /**
- * 权限判断
+ * 권한 판단
  */
 export function hasPerm(value: string | string[], type: "button" | "role" = "button"): boolean {
   const { roles, perms } = useUserStoreHook().userInfo;
@@ -54,7 +54,7 @@ export function hasPerm(value: string | string[], type: "button" | "role" = "but
     return false;
   }
 
-  // 超级管理员拥有所有权限
+  // 슈퍼 관리자는 모든 권한을 가집니다.
   if (type === "button" && roles.includes(ROLE_ROOT)) {
     return true;
   }
@@ -66,11 +66,11 @@ export function hasPerm(value: string | string[], type: "button" | "role" = "but
 }
 
 /**
- * 重定向到登录页面
+ * 로그인 페이지로 리디렉션
  */
-export async function redirectToLogin(message: string = "请重新登录"): Promise<void> {
+export async function redirectToLogin(message: string = "다시 로그인해주세요"): Promise<void> {
   ElNotification({
-    title: "提示",
+    title: "알림",
     message,
     type: "warning",
     duration: 3000,
@@ -79,12 +79,12 @@ export async function redirectToLogin(message: string = "请重新登录"): Prom
   await useUserStoreHook().resetAllState();
 
   try {
-    // 跳转到登录页，保留当前路由用于登录后跳转
+    // 로그인 페이지로 이동, 로그인 후 리디렉션을 위해 현재 라우트 유지
     const currentPath = router.currentRoute.value.fullPath;
     await router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
   } catch (error) {
     console.error("Redirect to login error:", error);
-    // 强制跳转，即使路由重定向失败
+    // 라우트 리디렉션 실패 시에도 강제로 이동
     window.location.href = "/login";
   }
 }

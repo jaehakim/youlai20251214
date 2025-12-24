@@ -1,6 +1,6 @@
 <template>
   <div class="tags-container">
-    <!-- 水平滚动容器 -->
+    <!-- 가로 스크롤 컨테이너 -->
     <el-scrollbar
       ref="scrollbarRef"
       class="scroll-container"
@@ -31,7 +31,7 @@
       </div>
     </el-scrollbar>
 
-    <!-- 标签右键菜单 -->
+    <!-- 태그 우클릭 메뉴 -->
     <Teleport to="body">
       <ul
         v-show="contextMenu.visible"
@@ -40,27 +40,27 @@
       >
         <li @click="refreshSelectedTag(selectedTag)">
           <div class="i-svg:refresh" />
-          刷新
+          새로고침
         </li>
         <li v-if="!selectedTag?.affix" @click="closeSelectedTag(selectedTag)">
           <div class="i-svg:close" />
-          关闭
+          닫기
         </li>
         <li @click="closeOtherTags">
           <div class="i-svg:close_other" />
-          关闭其它
+          다른 태그 닫기
         </li>
         <li v-if="!isFirstView" @click="closeLeftTags">
           <div class="i-svg:close_left" />
-          关闭左侧
+          왼쪽 닫기
         </li>
         <li v-if="!isLastView" @click="closeRightTags">
           <div class="i-svg:close_right" />
-          关闭右侧
+          오른쪽 닫기
         </li>
         <li @click="closeAllTags(selectedTag)">
           <div class="i-svg:close_all" />
-          关闭所有
+          모두 닫기
         </li>
       </ul>
     </Teleport>
@@ -82,26 +82,26 @@ interface ContextMenu {
 const router = useRouter();
 const route = useRoute();
 
-// 状态管理
+// 상태 관리
 const permissionStore = usePermissionStore();
 const tagsViewStore = useTagsViewStore();
 
 const { visitedViews } = storeToRefs(tagsViewStore);
 
-// 当前选中的标签
+// 현재 선택된 태그
 const selectedTag = ref<TagView | null>(null);
 
-// 右键菜单状态
+// 우클릭 메뉴 상태
 const contextMenu = reactive<ContextMenu>({
   visible: false,
   x: 0,
   y: 0,
 });
 
-// 滚动条引用
+// 스크롤바 참조
 const scrollbarRef = ref();
 
-// 路由映射缓存，提升查找性能
+// 라우트 매핑 캐시, 조회 성능 향상
 const routePathMap = computed(() => {
   const map = new Map<string, TagView>();
   visitedViews.value.forEach((tag) => {
@@ -110,7 +110,7 @@ const routePathMap = computed(() => {
   return map;
 });
 
-// 判断是否为第一个标签
+// 첫 번째 태그 여부 판단
 const isFirstView = computed(() => {
   if (!selectedTag.value) return false;
   return (
@@ -119,14 +119,14 @@ const isFirstView = computed(() => {
   );
 });
 
-// 判断是否为最后一个标签
+// 마지막 태그 여부 판단
 const isLastView = computed(() => {
   if (!selectedTag.value) return false;
   return selectedTag.value.fullPath === visitedViews.value[visitedViews.value.length - 1]?.fullPath;
 });
 
 /**
- * 递归提取固定标签
+ * 고정 태그 재귀 추출
  */
 const extractAffixTags = (routes: RouteRecordRaw[], basePath = "/"): TagView[] => {
   const affixTags: TagView[] = [];
@@ -135,7 +135,7 @@ const extractAffixTags = (routes: RouteRecordRaw[], basePath = "/"): TagView[] =
     routeList.forEach((route) => {
       const fullPath = resolve(currentBasePath, route.path);
 
-      // 如果是固定标签，添加到列表
+      // 고정 태그인 경우 목록에 추가
       if (route.meta?.affix) {
         affixTags.push({
           path: fullPath,
@@ -147,7 +147,7 @@ const extractAffixTags = (routes: RouteRecordRaw[], basePath = "/"): TagView[] =
         });
       }
 
-      // 递归处理子路由
+      // 자식 라우트 재귀 처리
       if (route.children?.length) {
         traverse(route.children, fullPath);
       }
@@ -159,7 +159,7 @@ const extractAffixTags = (routes: RouteRecordRaw[], basePath = "/"): TagView[] =
 };
 
 /**
- * 初始化固定标签
+ * 고정 태그 초기화
  */
 const initAffixTags = () => {
   const affixTags = extractAffixTags(permissionStore.routes);
@@ -172,7 +172,7 @@ const initAffixTags = () => {
 };
 
 /**
- * 添加当前路由标签
+ * 현재 라우트 태그 추가
  */
 const addCurrentTag = () => {
   if (!route.meta?.title) return;
@@ -189,7 +189,7 @@ const addCurrentTag = () => {
 };
 
 /**
- * 更新当前标签
+ * 현재 태그 업데이트
  */
 const updateCurrentTag = () => {
   nextTick(() => {
@@ -210,7 +210,7 @@ const updateCurrentTag = () => {
 };
 
 /**
- * 处理中键点击
+ * 중간 키 클릭 처리
  */
 const handleMiddleClick = (tag: TagView) => {
   if (!tag.affix) {
@@ -219,7 +219,7 @@ const handleMiddleClick = (tag: TagView) => {
 };
 
 /**
- * 打开右键菜单
+ * 우클릭 메뉴 열기
  */
 const openContextMenu = (tag: TagView, event: MouseEvent) => {
   contextMenu.x = event.clientX;
@@ -230,14 +230,14 @@ const openContextMenu = (tag: TagView, event: MouseEvent) => {
 };
 
 /**
- * 关闭右键菜单
+ * 우클릭 메뉴 닫기
  */
 const closeContextMenu = () => {
   contextMenu.visible = false;
 };
 
 /**
- * 处理滚轮事件
+ * 휠 이벤트 처리
  */
 const handleScroll = (event: WheelEvent) => {
   closeContextMenu();
@@ -255,7 +255,7 @@ const handleScroll = (event: WheelEvent) => {
 };
 
 /**
- * 刷新标签
+ * 태그 새로고침
  */
 const refreshSelectedTag = (tag: TagView | null) => {
   if (!tag) return;
@@ -267,7 +267,7 @@ const refreshSelectedTag = (tag: TagView | null) => {
 };
 
 /**
- * 关闭标签
+ * 태그 닫기
  */
 const closeSelectedTag = (tag: TagView | null) => {
   if (!tag) return;
@@ -280,7 +280,7 @@ const closeSelectedTag = (tag: TagView | null) => {
 };
 
 /**
- * 关闭左侧标签
+ * 왼쪽 태그 닫기
  */
 const closeLeftTags = () => {
   if (!selectedTag.value) return;
@@ -295,7 +295,7 @@ const closeLeftTags = () => {
 };
 
 /**
- * 关闭右侧标签
+ * 오른쪽 태그 닫기
  */
 const closeRightTags = () => {
   if (!selectedTag.value) return;
@@ -310,7 +310,7 @@ const closeRightTags = () => {
 };
 
 /**
- * 关闭其他标签
+ * 다른 태그 닫기
  */
 const closeOtherTags = () => {
   if (!selectedTag.value) return;
@@ -322,7 +322,7 @@ const closeOtherTags = () => {
 };
 
 /**
- * 关闭所有标签
+ * 모든 태그 닫기
  */
 const closeAllTags = (tag: TagView | null) => {
   tagsViewStore.delAllViews().then((result: any) => {
@@ -330,7 +330,7 @@ const closeAllTags = (tag: TagView | null) => {
   });
 };
 
-// 右键菜单管理
+// 우클릭 메뉴 관리
 const useContextMenuManager = () => {
   const handleOutsideClick = () => {
     closeContextMenu();
@@ -344,13 +344,13 @@ const useContextMenuManager = () => {
     }
   });
 
-  // 组件卸载时清理
+  // 컴포넌트 언마운트 시 정리
   onBeforeUnmount(() => {
     document.removeEventListener("click", handleOutsideClick);
   });
 };
 
-// 监听路由变化
+// 라우트 변화 감시
 watch(
   route,
   () => {
@@ -360,12 +360,12 @@ watch(
   { immediate: true }
 );
 
-// 初始化
+// 초기화
 onMounted(() => {
   initAffixTags();
 });
 
-// 启用右键菜单管理
+// 우클릭 메뉴 관리 활성화
 useContextMenuManager();
 </script>
 
