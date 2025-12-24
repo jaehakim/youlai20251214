@@ -3,7 +3,7 @@
 ## 🎉 Gitee 2025 가장 인기 있는 오픈소스 소프트웨어 평가 참가 중
 
 <a href="https://gitee.com/activity/2025opensource?ident=I6VXEH" target="_blank">
-  <img src="https://img.shields.io/badge/🗳️_즉시 투표-支持本项目-ff6b35?style=for-the-badge&logo=gitee" alt="투표" height="50"/>
+  <img src="https://img.shields.io/badge/🗳️_즉시 투표-支持本프로젝트-ff6b35?style=for-the-badge&logo=gitee" alt="투표" height="50"/>
 </a>
 
 <p>
@@ -38,7 +38,7 @@
    <br/>
    <img alt="有来技术" src="https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg"/>
    <a href="https://gitee.com/youlaiorg" target="_blank">
-     <img alt="有来技术" src="https://img.shields.io/badge/Author-有来开源组织-orange.svg"/>
+     <img alt="有来技术" src="https://img.shields.io/badge/Author-有来开源조직-orange.svg"/>
    </a>
 </div>
 
@@ -95,7 +95,7 @@ youlai-boot
 ├── sql                                 # SQL 스크립트
 │   ├── mysql                           # MySQL 스크립트
 ├── src                                 # 소스코드 디렉토리
-│   ├── auth                            # 认证模块（登录入口）
+│   ├── auth                            # 인증모듈（로그인入口）
 │   ├── common                          # 공통 모듈
 │   │   ├── annotation                  # 어노테이션 정의
 │   │   ├── base                        # 기본 클래스
@@ -111,7 +111,7 @@ youlai-boot
 │   │   ├── filter                      # 필터(요청 로그, 제한)
 │   │   ├── validator                   # 검증기
 │   │   └── web                         # Web 응답 래핑(Result, PageResult 등)
-│   ├── platform                        # 平台服务（通用服务）
+│   ├── platform                        # 平台서비스（通用서비스）
 │   │   ├── codegen                     # 코드 생성 모듈
 │   │   ├── file                        # 파일 서비스
 │   │   ├── mail                        # 이메일 서비스
@@ -120,14 +120,14 @@ youlai-boot
 │   ├── plugin                          # 플러그인 확장
 │   │   ├── knife4j                     # Knife4j 확장
 │   │   └── mybatis                     # Mybatis 확장
-│   ├── security                        # 安全框架（Spring Security）
+│   ├── security                        # 보안框架（Spring Security）
 │   │   ├── exception                   # 보안 예외
 │   │   ├── filter                      # 보안 필터
 │   │   ├── handler                     # 보안 핸들러
 │   │   ├── model                       # 보안 모델
 │   │   ├── provider                    # 인증 제공자
 │   │   ├── service                     # 보안 서비스
-│   │   ├── token                       # Token 관리
+│   │   ├── token                       # 토큰 관리
 │   │   └── util                        # 보안 유틸리티 클래스
 │   ├── system                          # 시스템 모듈
 │   │   ├── controller                  # 컨트롤러 계층

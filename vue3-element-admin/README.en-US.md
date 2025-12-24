@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/Element Plus-2.11.2-blue.svg"/>
   <img src="https://img.shields.io/badge/license-MIT-green.svg"/>
   <a href="https://gitee.com/youlaiorg" target="_blank">
-      <img src="https://img.shields.io/badge/Author-有来开源组织-orange.svg"/>
+      <img src="https://img.shields.io/badge/Author-有来开源조직-orange.svg"/>
   </a>
 
   <a href="https://gitee.com/youlaiorg/vue3-element-admin" target="_blank">
@@ -26,7 +26,7 @@
 
 
 <div align="center">
-  <a target="_blank" href="https://vue.youlai.tech">🖥️ Live Preview</a> | <a target="_blank" href="https://app.youlai.tech">📲 Mobile Preview</a> |  <a target="_blank" href="https://juejin.cn/post/7228990409909108793">📑 Documentation</a>|  <a target="_blank" href="https://www.youlai.tech//vue3-element-admin">🌐 Official Website</a> | <a href="./README.md">💬 中文
+  <a target="_blank" href="https://vue.youlai.tech">🖥️ Live Preview</a> | <a target="_blank" href="https://app.youlai.tech">📲 Mobile Preview</a> |  <a target="_blank" href="https://juejin.cn/post/7228990409909108793">📑 Documentation</a>|  <a target="_blank" href="https://www.youlai.tech//vue3-element-admin">🌐 Official Website</a> | <a href="./README.md">💬 중문
 </div>
 
 

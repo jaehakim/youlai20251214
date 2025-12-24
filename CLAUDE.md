@@ -27,7 +27,7 @@ RBAC 기반 권한 관리 시스템으로 이중 인증 메커니즘(JWT 무상�
 - **auth**: 인증 진입점 (로그인 엔드포인트)
 - **security**: Spring Security 6 구현 (커스텀 필터 및 토큰 관리)
   - 이중 인증: JWT(무상태) 또는 Redis 기반 세션(다중 기기 제어 가능)
-  - 커스텀 필터: `TokenAuthenticationFilter`, `CaptchaValidationFilter`, `RateLimiterFilter`
+  - 커스텀 필터: `토큰AuthenticationFilter`, `CaptchaValidationFilter`, `RateLimiterFilter`
   - 커스텀 프로바이더: `SmsAuthenticationProvider`, `WxMiniAppCodeAuthenticationProvider`
 - **system**: 핵심 비즈니스 모듈 (사용자, 역할, 메뉴, 부서, 사전 관리)
 - **platform**: 공유 플랫폼 서비스

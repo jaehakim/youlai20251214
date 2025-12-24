@@ -5,7 +5,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://www.youlai.tech:3306/youlai_boot?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true&allowMultiQueries=true
+    url: jdbc:mysql://www.youlai.tech:3306/youlai_boot?zeroDateTimeBehavior=convertTonull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true&allowMultiQueries=true
     username: youlai
     password: 123456
   data:
@@ -201,7 +201,7 @@ xxl:
     admin:
       # 스케줄링 센터 주소, 여러 개는 쉼표로 구분
       addresses: http://127.0.0.1:8080/xxl-job-admin
-    accessToken: default_token
+    access토큰: default_token
     # 실행기 설정
     executor:
       appname: xxl-job-executor-${spring.application.name} # 실행기 앱명

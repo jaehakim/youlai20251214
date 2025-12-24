@@ -116,126 +116,126 @@
 
 
 ## 🐛 fix
-- 路由是否始终显示不限制只有顶级目录才有의配置，开放至菜单 （author by [haoxianrui](https://github.com/haoxianrui)）
-- sockjs-client 报错 global is not defined 导致开发环境无法打开 WebSocket 页面问题修复 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 发送用户重启密码功能，最少为6位字符（小于6位登陆时不允许의问题） （author by [dreamnyj](https://gitee.com/dreamnyj)）
-- 修复系统设置面板滚动条问题（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 修复表单插槽失效问题（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 修改tagsview刷新丢失query问题（author by [xiudaozhe](https://github.com/xiudaozhe)）
+- 라우팅是否始终显示不제한只有顶级디렉토리才有의설정，开放至메뉴 （author by [haoxianrui](https://github.com/haoxianrui)）
+- sockjs-client 报错 global is not defined 导致개발 환경无法열기 WebSocket 페이지问题修复 （author by [haoxianrui](https://github.com/haoxianrui)）
+- 发送사용자重启비밀번호기능，最少为6位문자（小于6位登陆时不允许의问题） （author by [dreamnyj](https://gitee.com/dreamnyj)）
+- 修复시스템설정面板스크롤条问题（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 修复폼插槽失效问题（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 수정tagsview새로고침丢失query问题（author by [xiudaozhe](https://github.com/xiudaozhe)）
 
 ## 📦️ build
-- 升级 NPM 包版本至最新 （author by [haoxianrui](https://github.com/haoxianrui)）
+- 升级 NPM 패키지버전至最新 （author by [haoxianrui](https://github.com/haoxianrui)）
 
 ## ⚙️ ci
-- 规整脚本执行命令（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 规整脚本실행命令（author by [cshaptx4869](https://github.com/cshaptx4869)）
 
 
 # 2.10.1 (2024/5/4)
 
 ## ♻️ refactor
-- 抽离CURD의使用部分代码为Hooks实现（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 修改CURD导入权限点标识名（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- cURD表单字段支持watch监听（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- cURD表单input支持number修饰（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- cURD表单组件支持checkbox多选框（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 优化axios响应数据TS类型提示（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 修改CURD表单组件自定义类型의attrs传值（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 同步重置密码按钮权限标识重命名（author by [haoxianrui](https://github.com/haoxianrui)）
-- 重构API为静态方法实现模块化管理，并将types.ts重命名为model.ts用于存放接口模型定义（author by [haoxianrui](https://github.com/haoxianrui)）
+- 抽离CURD의使用部分코드为Hooks实现（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 수정CURD가져오기권한点标识名（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- cURD폼필드支持watch감시（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- cURD폼input支持number修饰（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- cURD폼컴포넌트支持checkbox체크박스框（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 优化axios응답데이터TS타입안내（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 수정CURD폼컴포넌트自定义타입의attrs传값（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 동기초기화비밀번호버튼권한标识重命名（author by [haoxianrui](https://github.com/haoxianrui)）
+- 重构API为静态메서드实现모듈化관리，并将types.ts重命名为model.ts用于存放인터페이스模型定义（author by [haoxianrui](https://github.com/haoxianrui)）
 
 
 ## 🐛 fix
-- sockjs-client 报错 global is not defined 导致开发环境无法打开 WebSocket 页面问题修复 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 主题颜色设置覆盖暗黑모드下el-table行激活의背景色问题修复 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 修复因API接口调整而影响의调用页面의问题 （author by [haoxianrui](https://github.com/haoxianrui)）
+- sockjs-client 报错 global is not defined 导致개발 환경无法열기 WebSocket 페이지问题修复 （author by [haoxianrui](https://github.com/haoxianrui)）
+- 테마색상설정覆盖暗黑모드下el-table행激活의背景色问题修复 （author by [haoxianrui](https://github.com/haoxianrui)）
+- 修复因API 인터페이스调整而影响의调用페이지의问题 （author by [haoxianrui](https://github.com/haoxianrui)）
 
 ## 📦️ build
-- 升级 NPM 包版本至最新 （author by [haoxianrui](https://github.com/haoxianrui)）
+- 升级 NPM 패키지버전至最新 （author by [haoxianrui](https://github.com/haoxianrui)）
 
 
 # 2.10.0 (2024/4/26)
 ## ✨ feat
-- 封装增删改查组件（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 集成 vite-plugin-vue-devtools 插件（author by [Tricker39](https://github.com/Tricker39)）
-- 增加CURD配置化实现（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 封装增删改查컴포넌트（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 集成 vite-plugin-vue-devtools 플러그인（author by [Tricker39](https://github.com/Tricker39)）
+- 增加CURD설정化实现（author by [cshaptx4869](https://github.com/cshaptx4869)）
 
 
 # 2.9.3 (2024/04/14)
 ## ✨ feat
-- 增加vue文件代码片段（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 菜单 hover 背景色추가值全局SCSS变量进行控制（author by [haoxianrui](https://github.com/haoxianrui)）
+- 增加vue파일코드片段（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 메뉴 hover 背景色추가값全局SCSS변수进행控制（author by [haoxianrui](https://github.com/haoxianrui)）
 
 ## ♻️ refactor
-- 加强基础国际化（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 增加语言和布局大小枚举类型（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 增加侧边栏状态枚举类型（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 使用布局枚举替换字面量（author by [haoxianrui](https://github.com/haoxianrui)）
-- 控制台使用静态数据循环渲染（author by [april](mailto:april@zen-game.cn)）
-- 本地缓存의 token 变量重命名（author by [haoxianrui](https://github.com/haoxianrui)）
-- 完善 Vite 环境变量类型声明（author by [haoxianrui](https://github.com/haoxianrui)）
+- 加强基础국제화（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 增加언어和布局大小열거형타입（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 增加侧边栏상태열거형타입（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 使用布局열거형替换字面量（author by [haoxianrui](https://github.com/haoxianrui)）
+- 콘솔使用静态데이터循环渲染（author by [april](mailto:april@zen-game.cn)）
+- 로컬캐시의 token 변수重命名（author by [haoxianrui](https://github.com/haoxianrui)）
+- 完善 Vite 环境변수타입声明（author by [haoxianrui](https://github.com/haoxianrui)）
 
 ## 🐛 fix
-- 修复构建时提示iconComponent.name可能为undefined의报错 （author by [wangji1042](https://github.com/wangji1042)）
-- 修复浏览器密码自动填充时可能存在의报错 （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 修复빌드时안내iconComponent.name可能为undefined의报错 （author by [wangji1042](https://github.com/wangji1042)）
+- 修复浏览器비밀번호自动填充时可能存在의报错 （author by [cshaptx4869](https://github.com/cshaptx4869)）
 - 修复eslint报错（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 移动端下点击左侧菜单节点后关闭侧边栏（author by [haoxianrui](https://github.com/haoxianrui)）
-- 추가 size 类型断言修复类型报错（author by [haoxianrui](https://github.com/haoxianrui)）
+- 移动端下点击左侧메뉴노드后닫기侧边栏（author by [haoxianrui](https://github.com/haoxianrui)）
+- 추가 size 타입断言修复타입报错（author by [haoxianrui](https://github.com/haoxianrui)）
 
 ## 📦️ build
-- husky9.x版本适配 （author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 升级 npm 包版本至最新（author by [haoxianrui](https://github.com/haoxianrui)）
+- husky9.x버전适配 （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 升级 npm 패키지버전至最新（author by [haoxianrui](https://github.com/haoxianrui)）
 
 # 2.9.2 (2024/03/05)
 ## ✨ feat
-- vscode开发扩展推荐（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 完善基础增删改查Mock接口（author by [haoxianrui](https://github.com/haoxianrui)）
+- vscode개발扩展推荐（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 完善基础增删改查Mock인터페이스（author by [haoxianrui](https://github.com/haoxianrui)）
 
 ## ♻️ refactor
-- 修改login密码框功能实现（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 弱化页面进入动画效果（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 取消推荐TypeScript Vue Plugin （author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 网站加载动画替换 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 优化主题和主题色监听，避免多个页面重复初始化 （author by [haoxianrui](https://github.com/haoxianrui)）
+- 수정login비밀번호框기능实现（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 弱化페이지进入动画效果（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 취소推荐TypeScript Vue Plugin （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 网站로드动画替换 （author by [haoxianrui](https://github.com/haoxianrui)）
+- 优化테마和테마色감시，避免多个페이지重复初始化 （author by [haoxianrui](https://github.com/haoxianrui)）
 
 ## 🐛 fix
-- AppMain 高度在非固定头部不正确导致出现滚动条问题修复 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 修复混合모드开启固定Head时의样式问题 （author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 设置面板统一字体大小 （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- AppMain 高度在非固定头部不正确导致出现스크롤条问题修复 （author by [haoxianrui](https://github.com/haoxianrui)）
+- 修复混合모드开启固定Head时의스타일问题 （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 설정面板统一폰트 크기 （author by [cshaptx4869](https://github.com/cshaptx4869)）
 
 ## 📦️build
-- 通过env配置控制mock服务 （author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 升级依赖包至最新版本 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 定义vite全局常量替换项目标题和版本 （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 通过env설정控制mock서비스 （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 升级依赖패키지至最新버전 （author by [haoxianrui](https://github.com/haoxianrui)）
+- 定义vite全局상수替换프로젝트标题和버전 （author by [cshaptx4869](https://github.com/cshaptx4869)）
 
 # 2.9.1 (2024/02/28)
 ## ♻️ refactor
-- 项目配置按钮移入navbar（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 优化user数据定义（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 统一设置栏의 SVG 图标风格
+- 프로젝트설정버튼移入navbar（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 优化user데이터定义（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 统一설정栏의 SVG 图标风格
 
 ## 🐛 fix
-- 规整一些开发依赖（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 修复登录页主题切换问题 （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 规整一些개발依赖（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 修复로그인页테마切换问题 （author by [cshaptx4869](https://github.com/cshaptx4869)）
 
 ## 🚀 pref
 
-- 压缩图片资源  （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 压缩이미지资源  （author by [cshaptx4869](https://github.com/cshaptx4869)）
 
 
 # 2.9.0 (2024/02/25)
 
 ## ✨ feat
-- 引入 animate.css 动画库
-- 新增水印和配置
-- 动态路由菜单支持 element plus 의图标
+- 引入 animate.css 动画라이브러리
+- 신규水印和설정
+- 동적 라우트메뉴支持 element plus 의图标
 
 ## ♻️ refactor
 - Layout 布局重构和相关问题修复
-- sass 使用 @use 替代 @import 引入外部文件指令
+- sass 使用 @use 替代 @import 引入外部파일指令
 
 ## 🐛 fix
-- 修复管理页面部分弹窗无法打开问题
-- 主题颜色设置按钮 hover 等未变化问题修复
+- 修复관리페이지部分팝업无法열기问题
+- 테마색상설정버튼 hover 等未变化问题修复
 
 
 # 2.8.1 (2024/01/10)
@@ -251,136 +251,136 @@
 # 2.7.1 (2023/12/12)
 
 ## ♻️ refactor
-- 将打包后의文件进行分类 （author by [ityangzhiwen](https://gitee.com/ityangzhiwen)）
+- 将패킹后의파일进행분류 （author by [ityangzhiwen](https://gitee.com/ityangzhiwen)）
 
 # 2.7.0 (2023/11/19)
 
 ## ♻️ refactor
-- 代码重构优化
-- 修改自动导入组件类型声明文件路径
-- 完善 typescript 类型
+- 코드重构优化
+- 수정自动가져오기컴포넌트타입声明파일경로
+- 完善 typescript 타입
 
 ## 🐛 fix
-- 修复管理页面部分弹窗无法打开问题
+- 修复관리페이지部分팝업无法열기问题
 
 
 # 2.7.0 (2023/11/19)
 
 ## ♻️ refactor
-- 代码重构
-- 修改自动导入组件类型声明文件路径
-- 完善 typescript 类型
+- 코드重构
+- 수정自动가져오기컴포넌트타입声明파일경로
+- 完善 typescript 타입
 
 ## 🐛 fix
-- 修复管理页面部分弹窗无法打开问题
+- 修复관리페이지部分팝업无法열기问题
 
 
 # 2.6.3 (2023/10/22)
 
 ## ✨ feat
-- 菜单管理新增目录只有一级子路由是否始终显示(alwaysShow)和路由页面是否缓存(keepAlive)의配置
-- 接口文档新增 swagger、knife4j
+- 메뉴 관리신규디렉토리只有一级子라우팅是否始终显示(alwaysShow)和라우팅페이지是否캐시(keepAlive)의설정
+- API 문서신규 swagger、knife4j
 - 引入和支持 tsx
 
 ## ♻️ refactor
-- 代码瘦身，整理并删除未使用의 svg
-- 控制台样式优化
+- 코드瘦身，整理并삭제未使用의 svg
+- 콘솔스타일优化
 
 ## 🐛 fix
-- 菜单栏折叠和展开의图标暗黑모드显示问题修复
+- 메뉴栏折叠和확장의图标暗黑모드显示问题修复
 
 
 # 2.6.2 (2023/10/11)
 
 ## 🐛 fix
-- 主题设置未持久化问题
-- UnoCSS 插件无智能提示
+- 테마설정未持久化问题
+- UnoCSS 플러그인无智能안내
 
 ## ♻️ refactor
-- WebSocket 演示样式和代码优化
-- 用户管理代码重构
+- WebSocket 演示스타일和코드优化
+- 사용자 관리코드重构
 
 # 2.6.1 (2023/9/4)
 
 ## 🐛 fix
-- 导航顶部모드、混合모드样式在固定 Header 出现의样式问题修复
+- 导航顶部모드、混合모드스타일在固定 Header 出现의스타일问题修复
 - 固定 Header 没有持久化问题修复
-- 字典回显兼容 String 和 Number 类型
+- 사전回显兼容 String 和 Number 타입
 
 # 2.6.0 (2023/8/24)💥💥💥
 
 ## ✨ feat
 - 导航顶部모드、混合모드支持（author by [april-tong](https://april-tong.com/)）
-- 平台文档(内嵌)（author by [april-tong](https://april-tong.com/)）
+- 平台문서(内嵌)（author by [april-tong](https://april-tong.com/)）
 
 # 2.5.0 (2023/8/8)
 
 ## ✨ feat
-- 新增 Mock（author by [ygcaicn](https://github.com/ygcaicn)）
+- 신규 Mock（author by [ygcaicn](https://github.com/ygcaicn)）
 - 아이콘 데모（author by [ygcaicn](https://github.com/ygcaicn)）
 
 ## 🐛 fix
-- 字典支持 Number 类型
+- 사전支持 Number 타입
 
 # 2.4.1 (2023/7/20)
 
 ## ✨ feat
-- 整合 vite-plugin-compression 插件打包优化(3.66MB → 1.58MB) （author by [april-tong](https://april-tong.com/)）
-- 字典组件封装（author by [haoxr](https://juejin.cn/user/4187394044331261/posts)）
+- 整合 vite-plugin-compression 플러그인패킹优化(3.66MB → 1.58MB) （author by [april-tong](https://april-tong.com/)）
+- 사전컴포넌트封装（author by [haoxr](https://juejin.cn/user/4187394044331261/posts)）
 
 ## 🐛 fix
-- 分页组件hidden无效
-- 签名无法保存至后端
-- Git 提交 stylelint 校验部分机器报错
+- 페이지네이션컴포넌트hidden无效
+- 서명无法저장至后端
+- Git 커밋 stylelint 校验部分机器报错
 
 # 2.4.0 (2023/6/17)
 
 ## ✨ feat
-- 新增组件태그 제거输入框（author by [april-tong](https://april-tong.com/)）
-- 新增组件签名（author by [april-tong](https://april-tong.com/)）
-- 新增组件表格（author by [april-tong](https://april-tong.com/)）
-- Echarts 图表추가下载功能 author by [april-tong](https://april-tong.com/)）
+- 신규컴포넌트태그 제거입력框（author by [april-tong](https://april-tong.com/)）
+- 신규컴포넌트서명（author by [april-tong](https://april-tong.com/)）
+- 신규컴포넌트표（author by [april-tong](https://april-tong.com/)）
+- Echarts 차트추가다운로드기능 author by [april-tong](https://april-tong.com/)）
 
 ## ♻️ refactor
-- 限制包管理器为 pnpm 和 node 版本16+
-- 自定义组件自动导入配置
-- 搜索框样式写法优化
+- 제한패키지관리器为 pnpm 和 node 버전16+
+- 사용자 정의 컴포넌트自动가져오기설정
+- 검색框스타일写法优化
 
 ## 🐛 fix
-- 用户导入의部门回显成数字问题修复
+- 사용자가져오기의부서回显成숫자问题修复
 
 ## ⬆️ chore
-- element-plus 版本升级 2.3.5 → 2.3.6
+- element-plus 버전升级 2.3.5 → 2.3.6
 
 # 2.3.1 (2023/5/21)
 
 ## 🔄 refactor
-- 组件示例文件名称优化
+- 컴포넌트示例파일이름优化
 
 # 2.2.2 (2023/5/11)
 
 ## ✨ feat
-- 组件封装示例추가源码地址
-- 角色、菜单、部门、字段按钮추가权限控制
+- 컴포넌트封装示例추가源码주소
+- 역할、메뉴、부서、필드버튼추가권한控制
 
 
 # 2.3.0 (2023/5/12)
 
 ## ⬆️ chore
-- vue 版本升级 3.2.45 → 3.3.1 ([CHANGELOG](https://github.com/vuejs/core/blob/main/CHANGELOG.md))
-- vite 版本升级 4.3.1 → 4.3.5
+- vue 버전升级 3.2.45 → 3.3.1 ([CHANGELOG](https://github.com/vuejs/core/blob/main/CHANGELOG.md))
+- vite 버전升级 4.3.1 → 4.3.5
 
 ## ♻️ refactor
-- 使用 vue 3.3 版本新特性 `defineOptions` 在 `setup` 定义组件名称，移除重复의 `script` 태그 제거
+- 使用 vue 3.3 버전新기능 `defineOptions` 在 `setup` 定义컴포넌트이름，제거重复의 `script` 태그 제거
 
 # 2.2.2 (2023/5/11)
 
 ## ✨ feat
--  用户新增提交추가 `vueUse` 의 `useDebounceFn` 函数实现按钮防抖节流
+-  사용자신규커밋추가 `vueUse` 의 `useDebounceFn` 함수实现버튼防抖节流
 
 
 # 2.2.1 (2023/4/25)
 
 ## 🐛 fix
-- 图标选择器组件使用 `onClickOutside` 未排除下拉弹出框元素导致无法输入搜索。
+- 图标선택器컴포넌트使用 `onClickOutside` 未排除下拉弹出框元素导致无法입력검색。
 
