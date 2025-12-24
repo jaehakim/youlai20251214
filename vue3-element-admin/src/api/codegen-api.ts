@@ -65,7 +65,7 @@ const GeneratorAPI = {
       const blob = new Blob([response.data], { type: "application/zip" });
       const a = document.createElement("a");
       const url = window.URL.createObjectURL(blob);
-      a.href = url;
+      a.h참조 = url;
       a.download = fileName;
       a.click();
       window.URL.revokeObjectURL(url);
@@ -88,7 +88,7 @@ export interface GeneratorPreviewVO {
 /**  데이터 테이블 페이지 쿼리 파라미터 */
 export interface TablePageQuery extends PageQuery {
   /** 키워드(테이블명) */
-  keywords?: string;
+  키words?: string;
 }
 
 /** 데이터 테이블 페이지 객체 */
@@ -147,7 +147,7 @@ export interface GenConfigForm {
   pageType?: "classic" | "curd";
 
   /** 제거할 테이블 접두사, 예: sys_ */
-  removeTablePrefix?: string;
+  removeTableP참조ix?: string;
 }
 
 /** 필드 설정 */

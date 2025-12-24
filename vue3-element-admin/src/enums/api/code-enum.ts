@@ -1,23 +1,23 @@
 /**
- * API响应码枚举
+ * API응답码열거형
  */
 export const enum ApiCodeEnum {
   /**
-   * 成功
+   * 성공
    */
   SUCCESS = "00000",
   /**
-   * 错误
+   * 오류
    */
   ERROR = "B0001",
 
   /**
-   * 访问令牌无效或过期
+   * 访问令牌无效或거치期
    */
   ACCESS_TOKEN_INVALID = "A0230",
 
   /**
-   * 刷新令牌无效或过期
+   * 새로고침令牌无效或거치期
    */
   REFRESH_TOKEN_INVALID = "A0231",
 }

@@ -1,43 +1,43 @@
 /**
- * 菜单布局枚举
+ * 메뉴단일레이아웃열거형
  */
 export const enum LayoutMode {
   /**
-   * 左侧菜单布局
+   * 왼쪽메뉴단일레이아웃
    */
   LEFT = "left",
   /**
-   * 顶部菜单布局
+   * 상단메뉴단일레이아웃
    */
   TOP = "top",
 
   /**
-   * 混合菜单布局
+   * 混合메뉴단일레이아웃
    */
   MIX = "mix",
 }
 
 /**
- * 侧边栏状态枚举
+ * 측엣지열상태열거형
  */
 export const enum SidebarStatus {
   /**
-   * 展开
+   * 펼치기
    */
   OPENED = "opened",
 
   /**
-   * 关闭
+   * 닫기
    */
   CLOSED = "closed",
 }
 
 /**
- * 组件尺寸枚举
+ * 컴포넌트尺寸열거형
  */
 export const enum ComponentSize {
   /**
-   * 默认
+   * 기본값
    */
   DEFAULT = "default",
 

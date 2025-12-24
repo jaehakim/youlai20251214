@@ -18,14 +18,14 @@ export type ISearchComponent = DateComponent | InputComponent | "custom";
 export type IComponentType = DateComponent | InputComponent | OtherComponent;
 
 type ToolbarLeft = "add" | "delete" | "import" | "export";
-type ToolbarRight = "refresh" | "filter" | "imports" | "exports" | "search";
+type ToolbarRight = "참조resh" | "filter" | "imports" | "exports" | "search";
 type ToolbarTable = "edit" | "view" | "delete";
 export type IToolsButton = {
-  name: string; // 按钮名称
-  text?: string; // 按钮文本
-  perm?: Array<string> | string; // 权限标识(可以是完整权限字符串如'sys:user:add'或操作权限如'add')
-  attrs?: Partial<ButtonProps> & { style?: CSSProperties }; // 按钮属性
-  render?: (row: IObject) => boolean; // 条件渲染
+  name: string; // 버튼이름칭
+  text?: string; // 버튼文本
+  perm?: Array<string> | string; // 权限标识(可以是完整权限문자열如'sys:user:add'或작업权限如'add')
+  attrs?: Partial<ButtonProps> & { style?: CSSProperties }; // 버튼속성
+  render?: (row: IObject) => boolean; // 조건렌더링
 };
 export type IToolsDefault = ToolbarLeft | ToolbarRight | ToolbarTable | IToolsButton;
 
@@ -37,32 +37,32 @@ export interface IOperateData {
 }
 
 export interface ISearchConfig {
-  // 权限前缀(如sys:user，用于组成权限标识)，不提供则不进行权限校验
-  permPrefix?: string;
-  // 标签冒号(默认：false)
+  // 权限前缀(如sys:user，용도그룹成权限标识)，不提供그러면不进行权限검사
+  permP참조ix?: string;
+  // 标签冒号(기본값：false)
   colon?: boolean;
-  // 表单项(默认：[])
+  // 양식항목(기본값：[])
   formItems?: IFormItems<ISearchComponent>;
-  // 是否开启展开和收缩(默认：true)
+  // 是否开启펼치기및축소(기본값：true)
   isExpandable?: boolean;
-  // 默认展示的表单项数量(默认：3)
+  // 기본값展示의양식항목개量(기본값：3)
   showNumber?: number;
-  // 卡片属性
+  // 卡片속성
   cardAttrs?: Partial<CardProps> & { style?: CSSProperties };
-  // form组件属性
+  // form컴포넌트속성
   form?: IForm;
-  // 自适应网格布局(使用时表单不要添加 style: { width: "200px" })
+  // 自适应网格레이아웃(사용시양식不해야추가 style: { width: "200px" })
   grid?: boolean | "left" | "right";
 }
 
 export interface IContentConfig<T = any> {
-  // 权限前缀(如sys:user，用于组成权限标识)，不提供则不进行权限校验
-  permPrefix?: string;
-  // table组件属性
+  // 权限前缀(如sys:user，용도그룹成权限标识)，不提供그러면不进行权限검사
+  permP참조ix?: string;
+  // table컴포넌트속성
   table?: Omit<TableProps<any>, "data">;
-  // 分页组件位置(默认：left)
+  // 페이지네이션컴포넌트位置(기본값：left)
   pagePosition?: "left" | "right";
-  // pagination组件属性
+  // pagination컴포넌트속성
   pagination?:
     | boolean
     | Partial<
@@ -71,44 +71,44 @@ export interface IContentConfig<T = any> {
           "v-model:page-size" | "v-model:current-page" | "total" | "currentPage"
         >
       >;
-  // 列表的网络请求函数(需返回promise)
+  // 목록의网络요청함수(필요돌아가기promise)
   indexAction: (queryParams: T) => Promise<any>;
-  // 默认的分页相关的请求参数
+  // 기본값의페이지네이션관련의요청 파라미터
   request?: {
     pageName: string;
     limitName: string;
   };
-  // 数据格式解析的回调函数
+  // 데이터格式파싱의콜백함수
   parseData?: (res: any) => {
     total: number;
     list: IObject[];
-    [key: string]: any;
+    [키: string]: any;
   };
-  // 修改属性的网络请求函数(需返回promise)
+  // 수정속성의网络요청함수(필요돌아가기promise)
   modifyAction?: (data: {
-    [key: string]: any;
+    [키: string]: any;
     field: string;
     value: boolean | string | number;
   }) => Promise<any>;
-  // 删除的网络请求函数(需返回promise)
+  // 삭제의网络요청함수(필요돌아가기promise)
   deleteAction?: (ids: string) => Promise<any>;
-  // 后端导出的网络请求函数(需返回promise)
+  // 백엔드내보내기의网络요청함수(필요돌아가기promise)
   exportAction?: (queryParams: T) => Promise<any>;
-  // 前端全量导出的网络请求函数(需返回promise)
+  // 프론트엔드全量내보내기의网络요청함수(필요돌아가기promise)
   exportsAction?: (queryParams: T) => Promise<IObject[]>;
-  // 导入模板
+  // 가져오기템플릿
   importTemplate?: string | (() => Promise<any>);
-  // 后端导入的网络请求函数(需返回promise)
+  // 백엔드가져오기의网络요청함수(필요돌아가기promise)
   importAction?: (file: File) => Promise<any>;
-  // 前端导入的网络请求函数(需返回promise)
+  // 프론트엔드가져오기의网络요청함수(필요돌아가기promise)
   importsAction?: (data: IObject[]) => Promise<any>;
-  // 主键名(默认为id)
+  // 주요키이름(기본값로id)
   pk?: string;
-  // 表格工具栏(默认:add,delete,export,也可自定义)
+  // 表格工具열(기본값:add,delete,export,也可사용자 정의)
   toolbar?: Array<ToolbarLeft | IToolsButton>;
-  // 表格工具栏右侧图标(默认:refresh,filter,imports,exports,search)
+  // 表格工具열右측아이콘(기본값:참조resh,filter,imports,exports,search)
   defaultToolbar?: Array<ToolbarRight | IToolsButton>;
-  // table组件列属性(额外的属性templet,operat,slotName)
+  // table컴포넌트列속성(额外의속성templet,operat,slotName)
   cols: Array<{
     type?: "default" | "selection" | "index" | "expand";
     label?: string;
@@ -119,7 +119,7 @@ export interface IContentConfig<T = any> {
     reserveSelection?: boolean;
     // 列是否显示
     show?: boolean;
-    // 模板
+    // 템플릿
     templet?:
       | "image"
       | "list"
@@ -132,92 +132,92 @@ export interface IContentConfig<T = any> {
       | "date"
       | "tool"
       | "custom";
-    // image模板相关参数
+    // image템플릿관련파라미터
     imageWidth?: number;
     imageHeight?: number;
-    // list模板相关参数
+    // list템플릿관련파라미터
     selectList?: IObject;
-    // switch模板相关参数
+    // switch템플릿관련파라미터
     activeValue?: boolean | string | number;
     inactiveValue?: boolean | string | number;
     activeText?: string;
     inactiveText?: string;
-    // input模板相关参数
+    // input템플릿관련파라미터
     inputType?: string;
-    // price模板相关参数
+    // price템플릿관련파라미터
     priceFormat?: string;
-    // date模板相关参数
+    // date템플릿관련파라미터
     dateFormat?: string;
-    // tool模板相关参数
+    // tool템플릿관련파라미터
     operat?: Array<ToolbarTable | IToolsButton>;
-    // filter值拼接符
+    // filter값연결符
     filterJoin?: string;
-    [key: string]: any;
-    // 初始化数据函数
+    [키: string]: any;
+    // 초기화데이터함수
     initFn?: (item: IObject) => void;
   }>;
 }
 
 export interface IModalConfig<T = any> {
-  // 权限前缀(如sys:user，用于组成权限标识)，不提供则不进行权限校验
-  permPrefix?: string;
-  // 标签冒号(默认：false)
+  // 权限前缀(如sys:user，용도그룹成权限标识)，不提供그러면不进行权限검사
+  permP참조ix?: string;
+  // 标签冒号(기본값：false)
   colon?: boolean;
-  // 主键名(主要用于编辑数据,默认为id)
+  // 주요키이름(주요해야용도편집데이터,기본값로id)
   pk?: string;
-  // 组件类型(默认：dialog)
+  // 컴포넌트타입(기본값：dialog)
   component?: "dialog" | "drawer";
-  // dialog组件属性
+  // dialog컴포넌트속성
   dialog?: Partial<Omit<DialogProps, "modelValue">>;
-  // drawer组件属性
+  // drawer컴포넌트속성
   drawer?: Partial<Omit<DrawerProps, "modelValue">>;
-  // form组件属性
+  // form컴포넌트속성
   form?: IForm;
-  // 表单项
+  // 양식항목
   formItems: IFormItems<IComponentType>;
-  // 提交之前处理
+  // 제출之前처리
   beforeSubmit?: (data: T) => void;
-  // 提交的网络请求函数(需返回promise)
+  // 제출의网络요청함수(필요돌아가기promise)
   formAction?: (data: T) => Promise<any>;
 }
 
 export type IForm = Partial<Omit<FormProps, "model" | "rules">>;
 
-// 表单项
+// 양식항목
 export type IFormItems<T = IComponentType> = Array<{
-  // 组件类型(如input,select,radio,custom等)
+  // 컴포넌트타입(如input,select,radio,custom等)
   type: T;
   // 标签提示
   tips?: string | IObject;
   // 标签文本
   label: string;
-  // 键名
+  // 키이름
   prop: string;
-  // 组件属性
+  // 컴포넌트속성
   attrs?: IObject;
-  // 组件可选项(只适用于select,radio,checkbox组件)
-  options?: Array<{ label: string; value: any; [key: string]: any }> | Ref<any[]>;
-  // 验证规则
+  // 컴포넌트可옵션(오직适용도select,radio,checkbox컴포넌트)
+  options?: Array<{ label: string; value: any; [키: string]: any }> | Ref<any[]>;
+  // 검증规그러면
   rules?: FormItemRule[];
-  // 初始值
+  // 初始값
   initialValue?: any;
-  // 插槽名(适用于自定义组件，设置类型为custom)
+  // 슬롯이름(适용도사용자 정의컴포넌트，설정타입로custom)
   slotName?: string;
   // 是否隐藏
   hidden?: boolean;
-  // layout组件Col属性
+  // layout컴포넌트Col속성
   col?: Partial<ColProps>;
-  // 组件事件
+  // 컴포넌트이벤트
   events?: Record<string, (...args: any) => void>;
-  // 初始化数据函数扩展
+  // 초기화데이터함수扩展
   initFn?: (item: IObject) => void;
 }>;
 
 export interface IPageForm {
-  // 主键名(主要用于编辑数据,默认为id)
+  // 주요키이름(주요해야용도편집데이터,기본값로id)
   pk?: string;
-  // form组件属性
+  // form컴포넌트속성
   form?: IForm;
-  // 表单项
+  // 양식항목
   formItems: IFormItems<IComponentType>;
 }

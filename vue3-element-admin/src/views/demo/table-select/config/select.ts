@@ -4,14 +4,14 @@ import type { ISelectConfig } from "@/components/TableSelect/index.vue";
 const selectConfig: ISelectConfig = {
   pk: "id",
   width: "70%",
-  placeholder: "请选择用户",
+  placeholder: "선택해주세요사용자",
   formItems: [
     {
       type: "input",
-      label: "关键字",
-      prop: "keywords",
+      label: "关키字",
+      prop: "키words",
       attrs: {
-        placeholder: "用户名/昵称/手机号",
+        placeholder: "사용자이름/닉네임/手机号",
         clearable: true,
         style: {
           width: "200px",
@@ -20,10 +20,10 @@ const selectConfig: ISelectConfig = {
     },
     {
       type: "tree-select",
-      label: "部门",
+      label: "부서",
       prop: "deptId",
       attrs: {
-        placeholder: "请选择",
+        placeholder: "선택해주세요",
         data: [
           {
             value: 1,
@@ -31,11 +31,11 @@ const selectConfig: ISelectConfig = {
             children: [
               {
                 value: 2,
-                label: "研发部门",
+                label: "研发부서",
               },
               {
                 value: 3,
-                label: "测试部门",
+                label: "测试부서",
               },
             ],
           },
@@ -51,7 +51,7 @@ const selectConfig: ISelectConfig = {
     },
     {
       type: "select",
-      label: "状态",
+      label: "상태",
       prop: "status",
       attrs: {
         placeholder: "全部",
@@ -62,18 +62,18 @@ const selectConfig: ISelectConfig = {
       },
       options: [
         { label: "启用", value: 1 },
-        { label: "禁用", value: 0 },
+        { label: "비활성화", value: 0 },
       ],
     },
     {
       type: "date-picker",
-      label: "创建时间",
+      label: "创建시사이",
       prop: "createAt",
       attrs: {
         type: "daterange",
         "range-separator": "~",
-        "start-placeholder": "开始时间",
-        "end-placeholder": "截止时间",
+        "start-placeholder": "开始시사이",
+        "end-placeholder": "截止시사이",
         "value-format": "YYYY-MM-DD",
         style: {
           width: "240px",
@@ -95,26 +95,26 @@ const selectConfig: ISelectConfig = {
   tableColumns: [
     { type: "selection", width: 50, align: "center" },
     { label: "编号", align: "center", prop: "id", width: 100 },
-    { label: "用户名", align: "center", prop: "username" },
-    { label: "用户昵称", align: "center", prop: "nickname", width: 120 },
+    { label: "사용자이름", align: "center", prop: "username" },
+    { label: "사용자닉네임", align: "center", prop: "nickname", width: 120 },
     {
-      label: "性别",
+      label: "성별",
       align: "center",
       prop: "gender",
       width: 100,
       templet: "custom",
       slotName: "gender",
     },
-    { label: "部门", align: "center", prop: "deptName", width: 120 },
+    { label: "부서", align: "center", prop: "deptName", width: 120 },
     { label: "手机号码", align: "center", prop: "mobile", width: 120 },
     {
-      label: "状态",
+      label: "상태",
       align: "center",
       prop: "status",
       templet: "custom",
       slotName: "status",
     },
-    { label: "创建时间", align: "center", prop: "createTime", width: 180 },
+    { label: "创建시사이", align: "center", prop: "createTime", width: 180 },
   ],
 };
 

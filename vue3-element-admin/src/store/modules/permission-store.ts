@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from "vue-router";
 import { constantRoutes } from "@/router";
-import { store } from "@/store";
+import { 저장소 } from "@/저장소";
 import router from "@/router";
 
 import MenuAPI, { type RouteVO } from "@/api/system/menu-api";
@@ -8,17 +8,17 @@ const modules = import.meta.glob("../../views/**/**.vue");
 const Layout = () => import("../../layouts/index.vue");
 
 export const usePermissionStore = defineStore("permission", () => {
-  // 所有路由（静态路由 + 动态路由）
-  const routes = ref<RouteRecordRaw[]>([]);
-  // 混合布局的左侧菜单路由
-  const mixLayoutSideMenus = ref<RouteRecordRaw[]>([]);
-  // 动态路由是否已生成
-  const isRouteGenerated = ref(false);
+  // 모든라우팅（静态라우팅 + 动态라우팅）
+  const routes = 참조<RouteRecordRaw[]>([]);
+  // 混合레이아웃의왼쪽메뉴단일라우팅
+  const mixLayoutSideMenus = 참조<RouteRecordRaw[]>([]);
+  // 动态라우팅是否已生成
+  const isRouteGenerated = 참조(false);
 
-  /** 生成动态路由 */
+  /** 生成动态라우팅 */
   async function generateRoutes(): Promise<RouteRecordRaw[]> {
     try {
-      const data = await MenuAPI.getRoutes(); // 获取当前登录人的菜单路由
+      const data = await MenuAPI.getRoutes(); // 조회当前登录人의메뉴단일라우팅
       const dynamicRoutes = transformRoutes(data);
 
       routes.value = [...constantRoutes, ...dynamicRoutes];
@@ -26,21 +26,21 @@ export const usePermissionStore = defineStore("permission", () => {
 
       return dynamicRoutes;
     } catch (error) {
-      // 路由生成失败，重置状态
+      // 라우팅生成실패，초기화상태
       isRouteGenerated.value = false;
       throw error;
     }
   }
 
-  /** 设置混合布局左侧菜单 */
+  /** 설정混合레이아웃왼쪽메뉴단일 */
   const setMixLayoutSideMenus = (parentPath: string) => {
     const parentMenu = routes.value.find((item) => item.path === parentPath);
     mixLayoutSideMenus.value = parentMenu?.children || [];
   };
 
-  /** 重置路由状态 */
+  /** 초기화라우팅상태 */
   const resetRouter = () => {
-    // 移除动态添加的路由
+    // 移除动态추가의라우팅
     const constantRouteNames = new Set(constantRoutes.map((route) => route.name).filter(Boolean));
     routes.value.forEach((route) => {
       if (route.name && !constantRouteNames.has(route.name)) {
@@ -48,7 +48,7 @@ export const usePermissionStore = defineStore("permission", () => {
       }
     });
 
-    // 重置所有状态
+    // 초기화모든상태
     routes.value = [...constantRoutes];
     mixLayoutSideMenus.value = [];
     isRouteGenerated.value = false;
@@ -65,23 +65,23 @@ export const usePermissionStore = defineStore("permission", () => {
 });
 
 /**
- * 转换后端路由数据为Vue Router配置
- * 处理组件路径映射和Layout层级嵌套
+ * 변환백엔드라우팅데이터로Vue Router설정
+ * 처리컴포넌트경로매핑및Layout层级嵌套
  */
 const transformRoutes = (routes: RouteVO[], isTopLevel: boolean = true): RouteRecordRaw[] => {
   return routes.map((route) => {
     const { component, children, ...args } = route;
 
-    // 处理组件：顶层或非Layout保留组件，中间层Layout设为undefined
+    // 처리컴포넌트：顶层或非Layout보유컴포넌트，내사이层Layout设로undefined
     const processedComponent = isTopLevel || component !== "Layout" ? component : undefined;
 
     const normalizedRoute = { ...args } as RouteRecordRaw;
 
     if (!processedComponent) {
-      // 多级菜单的父级菜单，不需要组件
+      // 多级메뉴단일의父级메뉴단일，不필요해야컴포넌트
       normalizedRoute.component = undefined;
     } else {
-      // 动态导入组件，Layout特殊处理，找不到组件时返回404
+      // 动态가져오기컴포넌트，Layout特殊처리，找不到컴포넌트시돌아가기404
       normalizedRoute.component =
         processedComponent === "Layout"
           ? Layout
@@ -89,7 +89,7 @@ const transformRoutes = (routes: RouteVO[], isTopLevel: boolean = true): RouteRe
             modules[`../../views/error/404.vue`];
     }
 
-    // 递归处理子路由
+    // 递归처리子라우팅
     if (children && children.length > 0) {
       normalizedRoute.children = transformRoutes(children, false);
     }
@@ -98,7 +98,7 @@ const transformRoutes = (routes: RouteVO[], isTopLevel: boolean = true): RouteRe
   });
 };
 
-/** 非组件环境使用权限store */
+/** 非컴포넌트环境사용权限저장소 */
 export function usePermissionStoreHook() {
-  return usePermissionStore(store);
+  return usePermissionStore(저장소);
 }

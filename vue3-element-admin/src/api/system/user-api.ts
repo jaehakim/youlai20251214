@@ -212,21 +212,21 @@ const UserAPI = {
 
 export default UserAPI;
 
-/** 登录用户信息 */
+/** 登录사용자정보 */
 export interface UserInfo {
-  /** 用户ID */
+  /** 사용자ID */
   userId?: string;
 
-  /** 用户名 */
+  /** 사용자이름 */
   username?: string;
 
-  /** 昵称 */
+  /** 닉네임 */
   nickname?: string;
 
   /** 头像URL */
   avatar?: string;
 
-  /** 角色 */
+  /** 역할 */
   roles: string[];
 
   /** 权限 */
@@ -234,130 +234,130 @@ export interface UserInfo {
 }
 
 /**
- * 用户分页查询对象
+ * 사용자페이지네이션조회객체
  */
 export interface UserPageQuery extends PageQuery {
-  /** 搜索关键字 */
-  keywords?: string;
+  /** 검색关키字 */
+  키words?: string;
 
-  /** 用户状态 */
+  /** 사용자상태 */
   status?: number;
 
-  /** 部门ID */
+  /** 부서ID */
   deptId?: string;
 
-  /** 开始时间 */
+  /** 开始시사이 */
   createTime?: [string, string];
 }
 
-/** 用户分页对象 */
+/** 사용자페이지네이션객체 */
 export interface UserPageVO {
-  /** 用户ID */
+  /** 사용자ID */
   id: string;
-  /** 用户头像URL */
+  /** 사용자头像URL */
   avatar?: string;
-  /** 创建时间 */
+  /** 创建시사이 */
   createTime?: Date;
-  /** 部门名称 */
+  /** 부서이름칭 */
   deptName?: string;
-  /** 用户邮箱 */
+  /** 사용자이메일 */
   email?: string;
-  /** 性别 */
+  /** 성별 */
   gender?: number;
   /** 手机号 */
   mobile?: string;
-  /** 用户昵称 */
+  /** 사용자닉네임 */
   nickname?: string;
-  /** 角色名称，多个使用英文逗号(,)分割 */
+  /** 역할이름칭，多개사용英文逗号(,)분할 */
   roleNames?: string;
-  /** 用户状态(1:启用;0:禁用) */
+  /** 사용자상태(1:启用;0:비활성화) */
   status?: number;
-  /** 用户名 */
+  /** 사용자이름 */
   username?: string;
 }
 
-/** 用户表单类型 */
+/** 사용자양식타입 */
 export interface UserForm {
-  /** 用户ID */
+  /** 사용자ID */
   id?: string;
-  /** 用户头像 */
+  /** 사용자头像 */
   avatar?: string;
-  /** 部门ID */
+  /** 부서ID */
   deptId?: string;
-  /** 邮箱 */
+  /** 이메일 */
   email?: string;
-  /** 性别 */
+  /** 성별 */
   gender?: number;
   /** 手机号 */
   mobile?: string;
-  /** 昵称 */
+  /** 닉네임 */
   nickname?: string;
-  /** 角色ID集合 */
+  /** 역할ID컬렉션 */
   roleIds?: number[];
-  /** 用户状态(1:正常;0:禁用) */
+  /** 사용자상태(1:正常;0:비활성화) */
   status?: number;
-  /** 用户名 */
+  /** 사용자이름 */
   username?: string;
 }
 
-/** 个人中心用户信息 */
+/** 개人내心사용자정보 */
 export interface UserProfileVO {
-  /** 用户ID */
+  /** 사용자ID */
   id?: string;
 
-  /** 用户名 */
+  /** 사용자이름 */
   username?: string;
 
-  /** 昵称 */
+  /** 닉네임 */
   nickname?: string;
 
   /** 头像URL */
   avatar?: string;
 
-  /** 性别 */
+  /** 성별 */
   gender?: number;
 
   /** 手机号 */
   mobile?: string;
 
-  /** 邮箱 */
+  /** 이메일 */
   email?: string;
 
-  /** 部门名称 */
+  /** 부서이름칭 */
   deptName?: string;
 
-  /** 角色名称，多个使用英文逗号(,)分割 */
+  /** 역할이름칭，多개사용英文逗号(,)분할 */
   roleNames?: string;
 
-  /** 创建时间 */
+  /** 创建시사이 */
   createTime?: Date;
 }
 
-/** 个人中心用户信息表单 */
+/** 개人내心사용자정보양식 */
 export interface UserProfileForm {
-  /** 用户ID */
+  /** 사용자ID */
   id?: string;
 
-  /** 用户名 */
+  /** 사용자이름 */
   username?: string;
 
-  /** 昵称 */
+  /** 닉네임 */
   nickname?: string;
 
   /** 头像URL */
   avatar?: string;
 
-  /** 性别 */
+  /** 성별 */
   gender?: number;
 
   /** 手机号 */
   mobile?: string;
 
-  /** 邮箱 */
+  /** 이메일 */
   email?: string;
 }
 
-/** 修改密码表单 */
+/** 수정密码양식 */
 export interface PasswordChangeForm {
   /** 原密码 */
   oldPassword?: string;
@@ -367,18 +367,18 @@ export interface PasswordChangeForm {
   confirmPassword?: string;
 }
 
-/** 修改手机表单 */
+/** 수정手机양식 */
 export interface MobileUpdateForm {
   /** 手机号 */
   mobile?: string;
-  /** 验证码 */
+  /** 검증码 */
   code?: string;
 }
 
-/** 修改邮箱表单 */
+/** 수정이메일양식 */
 export interface EmailUpdateForm {
-  /** 邮箱 */
+  /** 이메일 */
   email?: string;
-  /** 验证码 */
+  /** 검증码 */
   code?: string;
 }

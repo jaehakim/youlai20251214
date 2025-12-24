@@ -1,100 +1,100 @@
 import request from "@/utils/request";
 
 /**
- * AI 命令请求参数
+ * AI 명령요청 파라미터
  */
 export interface AiCommandRequest {
-  /** 用户输入的自然语言命令 */
+  /** 사용자输입의자연어명령 */
   command: string;
-  /** 当前页面路由（用于上下文） */
+  /** 当前페이지라우팅（용도上下文） */
   currentRoute?: string;
-  /** 当前激活的组件名称 */
+  /** 当前激活의컴포넌트이름칭 */
   currentComponent?: string;
-  /** 额外上下文信息 */
+  /** 额外上下文정보 */
   context?: Record<string, any>;
 }
 
 /**
- * 函数调用参数
+ * 함수호출파라미터
  */
 export interface FunctionCall {
-  /** 函数名称 */
+  /** 함수이름칭 */
   name: string;
-  /** 函数描述 */
+  /** 함수描述 */
   description?: string;
-  /** 参数对象 */
+  /** 파라미터객체 */
   arguments: Record<string, any>;
 }
 
 /**
- * AI 命令解析响应
+ * AI 명령파싱응답
  */
 export interface AiCommandResponse {
-  /** 解析日志ID（用于关联执行记录） */
+  /** 파싱日志ID（용도关联실행레코드） */
   parseLogId?: string;
-  /** 是否成功解析 */
+  /** 是否성공파싱 */
   success: boolean;
-  /** 解析后的函数调用列表 */
+  /** 파싱후의함수호출목록 */
   functionCalls: FunctionCall[];
-  /** AI 的理解和说明 */
+  /** AI 의理解및说明 */
   explanation?: string;
   /** 置信度 (0-1) */
   confidence?: number;
-  /** 错误信息 */
+  /** 오류정보 */
   error?: string;
-  /** 原始 LLM 响应（用于调试） */
+  /** 원본 LLM 응답（용도调试） */
   rawResponse?: string;
 }
 
 /**
- * AI 命令执行请求
+ * AI 명령실행요청
  */
 export interface AiExecuteRequest {
-  /** 关联的解析日志ID */
+  /** 关联의파싱日志ID */
   parseLogId?: string;
-  /** 原始命令（用于审计） */
+  /** 원본명령（용도审계） */
   originalCommand?: string;
-  /** 要执行的函数调用 */
+  /** 해야실행의함수호출 */
   functionCall: FunctionCall;
-  /** 确认模式：auto=自动执行, manual=需要用户确认 */
+  /** 确认模式：auto=자동실행, manual=필요해야사용자确认 */
   confirmMode?: "auto" | "manual";
-  /** 用户确认标志 */
+  /** 사용자确认标志 */
   userConfirmed?: boolean;
-  /** 幂等性令牌（防止重复执行） */
+  /** 幂等性令牌（방지重复실행） */
   idempotencyKey?: string;
-  /** 当前页面路由 */
+  /** 当前페이지라우팅 */
   currentRoute?: string;
 }
 
 /**
- * AI 命令执行响应
+ * AI 명령실행응답
  */
 export interface AiExecuteResponse {
-  /** 是否执行成功 */
+  /** 是否실행성공 */
   success: boolean;
-  /** 执行结果数据 */
+  /** 실행结果데이터 */
   data?: any;
-  /** 执行结果说明 */
+  /** 실행结果说明 */
   message?: string;
-  /** 影响的记录数 */
+  /** 影响의레코드개 */
   affectedRows?: number;
-  /** 错误信息 */
+  /** 오류정보 */
   error?: string;
-  /** 记录ID（用于追踪） */
+  /** 레코드ID（용도追踪） */
   recordId?: string;
-  /** 需要用户确认 */
+  /** 필요해야사용자确认 */
   requiresConfirmation?: boolean;
-  /** 确认提示信息 */
+  /** 确认提示정보 */
   confirmationPrompt?: string;
 }
 
 export interface AiCommandRecordPageQuery extends PageQuery {
-  keywords?: string;
+  키words?: string;
   executeStatus?: string;
   parseSuccess?: boolean;
   userId?: number;
   isDangerous?: boolean;
-  provider?: string;
+  제공r?: string;
   model?: string;
   functionName?: string;
   createTime?: [string, string];
@@ -105,7 +105,7 @@ export interface AiCommandRecordVO {
   userId: number;
   username: string;
   originalCommand: string;
-  provider?: string;
+  제공r?: string;
   model?: string;
   parseSuccess?: boolean;
   functionCalls?: string;
@@ -135,14 +135,14 @@ export interface AiCommandRecordVO {
 }
 
 /**
- * AI 命令 API
+ * AI 명령 API
  */
 class AiCommandApi {
   /**
-   * 解析自然语言命令
+   * 파싱자연어명령
    *
-   * @param data 命令请求参数
-   * @returns 解析结果
+   * @param data 명령요청 파라미터
+   * @returns 파싱结果
    */
   static parseCommand(data: AiCommandRequest): Promise<AiCommandResponse> {
     return request<any, AiCommandResponse>({
@@ -153,10 +153,10 @@ class AiCommandApi {
   }
 
   /**
-   * 执行已解析的命令
+   * 실행已파싱의명령
    *
-   * @param data 执行请求参数
-   * @returns 执行结果数据（成功时返回，失败时抛出异常）
+   * @param data 실행요청 파라미터
+   * @returns 실행结果데이터（성공시돌아가기，실패시抛出예외）
    */
   static executeCommand(data: AiExecuteRequest): Promise<any> {
     return request<any, any>({
@@ -167,7 +167,7 @@ class AiCommandApi {
   }
 
   /**
-   * 获取命令记录分页列表
+   * 조회명령레코드페이지네이션목록
    */
   static getCommandRecordPage(queryParams: AiCommandRecordPageQuery) {
     return request<any, PageResult<AiCommandRecordVO[]>>({
@@ -178,7 +178,7 @@ class AiCommandApi {
   }
 
   /**
-   * 撤销命令执行（如果支持）
+   * 撤销명령실행（만약支持）
    */
   static rollbackCommand(recordId: string) {
     return request({

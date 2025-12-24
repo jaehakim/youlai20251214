@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from "vue-router";
 import NProgress from "@/utils/nprogress";
 import router from "@/router";
-import { usePermissionStore, useUserStore } from "@/store";
+import { usePermissionStore, useUserStore } from "@/저장소";
 
 export function setupPermission() {
   const whiteList = ["/login"];
@@ -12,7 +12,7 @@ export function setupPermission() {
     try {
       const isLoggedIn = useUserStore().isLoggedIn();
 
-      // 未登录处理
+      // 미登录처리
       if (!isLoggedIn) {
         if (whiteList.includes(to.path)) {
           next();
@@ -23,7 +23,7 @@ export function setupPermission() {
         return;
       }
 
-      // 已登录登录页重定向
+      // 已登录登录页重定에
       if (to.path === "/login") {
         next({ path: "/" });
         return;
@@ -32,7 +32,7 @@ export function setupPermission() {
       const permissionStore = usePermissionStore();
       const userStore = useUserStore();
 
-      // 动态路由生成
+      // 动态라우팅生成
       if (!permissionStore.isRouteGenerated) {
         if (!userStore.userInfo?.roles?.length) {
           await userStore.getUserInfo();
@@ -47,13 +47,13 @@ export function setupPermission() {
         return;
       }
 
-      // 路由404检查
+      // 라우팅404检查
       if (to.matched.length === 0) {
         next("/404");
         return;
       }
 
-      // 动态标题设置
+      // 动态标题설정
       const title = (to.params.title as string) || (to.query.title as string);
       if (title) {
         to.meta.title = title;
@@ -61,7 +61,7 @@ export function setupPermission() {
 
       next();
     } catch (error) {
-      // 错误处理：重置状态并跳转登录
+      // 오류처리：초기화상태并점프转登录
       console.error("Route guard error:", error);
       await useUserStore().resetAllState();
       next("/login");

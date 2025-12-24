@@ -1,9 +1,9 @@
 /**
- * 语言枚举
+ * 语言열거형
  */
 export const enum LanguageEnum {
   /**
-   * 中文
+   * 내文
    */
   ZH_CN = "zh-cn",
 

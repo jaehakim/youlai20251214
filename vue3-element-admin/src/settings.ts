@@ -2,57 +2,57 @@ import { LayoutMode, ComponentSize, SidebarColor, ThemeMode, LanguageEnum } from
 
 const { pkg } = __APP_INFO__;
 
-// 检查用户的操作系统是否使用深色模式
-const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
+// 检查사용자의작업系统是否사용深色模式
+const mediaQueryList = window.matchMedia("(p참조ers-color-scheme: dark)");
 
 export const defaultSettings: AppSettings = {
   // 系统Title
   title: pkg.name,
   // 系统版本
   version: pkg.version,
-  // 是否显示设置
+  // 是否显示설정
   showSettings: true,
-  // 是否显示标签视图
+  // 是否显示标签뷰
   showTagsView: true,
   // 是否显示应用Logo
   showAppLogo: true,
-  // 布局方式，默认为左侧布局
+  // 레이아웃方式，기본값로왼쪽레이아웃
   layout: LayoutMode.LEFT,
-  // 主题，根据操作系统的色彩方案自动选择
+  // 테마，에 따라작업系统의色彩方案자동선택
   theme: mediaQueryList.matches ? ThemeMode.DARK : ThemeMode.LIGHT,
-  // 组件大小 default | medium | small | large
+  // 컴포넌트크기 default | medium | small | large
   size: ComponentSize.DEFAULT,
   // 语言
   language: LanguageEnum.ZH_CN,
-  // 主题颜色 - 修改此值时需同步修改 src/styles/variables.scss
+  // 테마颜色 - 수정此값시필요동기수정 src/styles/variables.scss
   themeColor: "#4080FF",
   // 是否显示水印
   showWatermark: false,
   // 水印内容
   watermarkContent: pkg.name,
-  // 侧边栏配色方案
+  // 측엣지열配色方案
   sidebarColorScheme: SidebarColor.CLASSIC_BLUE,
   // 是否启用 AI 助手
   enableAiAssistant: false,
 };
 
 /**
- * 认证功能配置
+ * 认证功能설정
  */
 export const authConfig = {
   /**
-   * Token自动刷新开关
+   * Token자동새로고침开关
    *
-   * true: 启用自动刷新 - ACCESS_TOKEN_INVALID时尝试刷新token
-   * false: 禁用自动刷新 - ACCESS_TOKEN_INVALID时直接跳转登录页
+   * true: 启用자동새로고침 - ACCESS_TOKEN_INVALID시尝试새로고침token
+   * false: 비활성화자동새로고침 - ACCESS_TOKEN_INVALID시直接점프转登录页
    *
-   * 适用场景：后端没有刷新接口或不需要自动刷新的项目可设为false
+   * 适用场景：백엔드없음새로고침인터페이스或不필요해야자동새로고침의항목目可设로false
    */
   enableTokenRefresh: true,
 } as const;
 
-// 主题色预设 - 经典配色方案
-// 注意：修改默认主题色时，需要同步修改 src/styles/variables.scss 中的 primary.base 值
+// 테마色预设 - 经典配色方案
+// 注意：수정기본값테마色시，필요해야동기수정 src/styles/variables.scss 의 primary.base 값
 export const themeColorPresets = [
   "#4080FF", // Arco Design 蓝 - 现代感强
   "#1890FF", // Ant Design 蓝 - 经典商务
@@ -60,8 +60,8 @@ export const themeColorPresets = [
   "#FA8C16", // 活力橙 - 温暖友好
   "#722ED1", // 优雅紫 - 高端大气
   "#13C2C2", // 青色 - 科技感
-  "#52C41A", // 成功绿 - 活力清新
+  "#52C41A", // 성공绿 - 活力清新
   "#F5222D", // 警示红 - 醒目强烈
   "#2F54EB", // 深蓝 - 稳重专业
-  "#EB2F96", // 品红 - 时尚个性
+  "#EB2F96", // 品红 - 시아직개性
 ];

@@ -15,26 +15,26 @@ const modalConfig: IModalConfig<UserForm> = {
   },
   formItems: [
     {
-      label: "用户名",
+      label: "사용자이름",
       prop: "username",
-      rules: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
+      rules: [{ required: true, message: "사용자이름비어있을 수 없음비어있음", trigger: "blur" }],
       type: "input",
-      attrs: { placeholder: "请输入" },
+      attrs: { placeholder: "입력해주세요" },
     },
     {
-      label: "用户昵称",
+      label: "사용자닉네임",
       prop: "nickname",
-      rules: [{ required: true, message: "用户昵称不能为空", trigger: "blur" }],
+      rules: [{ required: true, message: "사용자닉네임비어있을 수 없음비어있음", trigger: "blur" }],
       type: "input",
-      attrs: { placeholder: "请输入" },
+      attrs: { placeholder: "입력해주세요" },
     },
     {
-      label: "所属部门",
+      label: "所属부서",
       prop: "deptId",
-      rules: [{ required: true, message: "所属部门不能为空", trigger: "change" }],
+      rules: [{ required: true, message: "所属부서비어있을 수 없음비어있음", trigger: "change" }],
       type: "tree-select",
       attrs: {
-        placeholder: "请选择",
+        placeholder: "선택해주세요",
         data: deptArr,
         filterable: true,
         "check-strictly": true,
@@ -43,7 +43,7 @@ const modalConfig: IModalConfig<UserForm> = {
     },
     {
       type: "custom",
-      label: "性别",
+      label: "성별",
       prop: "gender",
       initialValue: 1,
       attrs: { style: { width: "100%" } },
@@ -51,5 +51,5 @@ const modalConfig: IModalConfig<UserForm> = {
   ],
 };
 
-// 如果有异步数据会修改配置的，推荐用reactive包裹，而纯静态配置的可以直接导出
+// 만약有비동기데이터会수정설정의，推荐用reactive패키지裹，而纯静态설정의可以直接내보내기
 export default reactive(modalConfig);

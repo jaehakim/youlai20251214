@@ -4,107 +4,107 @@ import { onMounted, onBeforeUnmount, nextTick } from "vue";
 import AiCommandApi from "@/api/ai";
 
 /**
- * AI 操作处理器（简化版）
+ * AI 작업처리器（简化版）
  *
- * 可以是简单函数，也可以是配置对象
+ * 可以是简단일함수，也可以是설정객체
  */
 export type AiActionHandler<T = any> =
   | ((args: T) => Promise<void> | void)
   | {
-      /** 执行函数 */
+      /** 함수 실행 */
       execute: (args: T) => Promise<void> | void;
-      /** 是否需要确认（默认 true） */
+      /** 是否필요해야确认（기본값 true） */
       needConfirm?: boolean;
-      /** 确认消息（支持函数或字符串） */
+      /** 确认메시지（支持함수或문자열） */
       confirmMessage?: string | ((args: T) => string);
-      /** 成功消息（支持函数或字符串） */
+      /** 성공메시지（支持함수或문자열） */
       successMessage?: string | ((args: T) => string);
-      /** 是否调用后端 API（默认 false，如果为 true 则自动调用 executeCommand） */
+      /** 是否호출백엔드 API（기본값 false，만약로 true 그러면자동호출 executeCommand） */
       callBackendApi?: boolean;
     };
 
 /**
- * AI 操作配置
+ * AI 작업설정
  */
 export interface UseAiActionOptions {
-  /** 操作映射表：函数名 -> 处理器 */
+  /** 작업매핑表：함수이름 -> 처리器 */
   actionHandlers?: Record<string, AiActionHandler>;
-  /** 数据刷新函数（操作完成后调用） */
+  /** 데이터새로고침함수（작업完成후호출） */
   onRefresh?: () => Promise<void> | void;
-  /** 自动搜索处理函数 */
-  onAutoSearch?: (keywords: string) => void;
-  /** 当前路由路径（用于执行命令时传递） */
+  /** 자동검색처리함수 */
+  onAutoSearch?: (키words: string) => void;
+  /** 当前라우팅경로（용도실행명령시传递） */
   currentRoute?: string;
 }
 
 /**
- * AI 操作 Composable
+ * AI 작업 Composable
  *
- * 统一处理 AI 助手传递的操作，支持：
- * - 自动搜索（通过 keywords + autoSearch 参数）
- * - 执行 AI 操作（通过 aiAction 参数）
- * - 配置化的操作处理器
+ * 统하나처리 AI 助手传递의작업，支持：
+ * - 자동검색（通거치 키words + autoSearch 파라미터）
+ * - 실행 AI 작업（通거치 aiAction 파라미터）
+ * - 설정化의작업처리器
  */
 export function useAiAction(options: UseAiActionOptions = {}) {
   const route = useRoute();
   const { actionHandlers = {}, onRefresh, onAutoSearch, currentRoute = route.path } = options;
 
-  // 用于跟踪是否已卸载，防止在卸载后执行回调
+  // 용도跟踪是否已언마운트，방지에언마운트후실행콜백
   let isUnmounted = false;
 
   /**
-   * 执行 AI 操作（统一处理确认、执行、反馈流程）
+   * 실행 AI 작업（统하나처리确认、실행、反馈流程）
    */
   async function executeAiAction(action: any) {
     if (isUnmounted) return;
 
-    // 兼容两种入参：{ functionName, arguments } 或 { functionCall: { name, arguments } }
+    // 兼容两种입参：{ functionName, arguments } 或 { functionCall: { name, arguments } }
     const fnCall = action.functionCall ?? {
       name: action.functionName,
       arguments: action.arguments,
     };
 
     if (!fnCall?.name) {
-      ElMessage.warning("未识别的 AI 操作");
+      ElMessage.warning("미识别의 AI 작업");
       return;
     }
 
-    // 查找对应的处理器
+    // 조회对应의처리器
     const handler = actionHandlers[fnCall.name];
     if (!handler) {
-      ElMessage.warning(`暂不支持操作: ${fnCall.name}`);
+      ElMessage.warning(`暂지원하지 않음작업: ${fnCall.name}`);
       return;
     }
 
     try {
-      // 判断处理器类型（函数 or 配置对象）
+      // 判断처리器타입（함수 or 설정객체）
       const isSimpleFunction = typeof handler === "function";
 
       if (isSimpleFunction) {
-        // 简单函数形式：直接执行
+        // 简단일함수形式：直接실행
         await handler(fnCall.arguments);
       } else {
-        // 配置对象形式：统一处理确认、执行、反馈
+        // 설정객체形式：统하나처리确认、실행、反馈
         const config = handler;
 
-        // 1. 确认阶段（默认需要确认）
+        // 1. 确认阶段（기본값필요해야确认）
         if (config.needConfirm !== false) {
           const confirmMsg =
             typeof config.confirmMessage === "function"
               ? config.confirmMessage(fnCall.arguments)
-              : config.confirmMessage || "确认执行此操作吗？";
+              : config.confirmMessage || "确认실행此작업하나？";
 
-          await ElMessageBox.confirm(confirmMsg, "AI 助手操作确认", {
-            confirmButtonText: "确认执行",
-            cancelButtonText: "取消",
+          await ElMessageBox.confirm(confirmMsg, "AI 助手작업确认", {
+            confirmButtonText: "确认실행",
+            cancelButtonText: "취소",
             type: "warning",
             dangerouslyUseHTMLString: true,
           });
         }
 
-        // 2. 执行阶段
+        // 2. 실행阶段
         if (config.callBackendApi) {
-          // 自动调用后端 API
+          // 자동호출백엔드 API
           await AiCommandApi.executeCommand({
             originalCommand: action.originalCommand || "",
             confirmMode: "manual",
@@ -116,36 +116,36 @@ export function useAiAction(options: UseAiActionOptions = {}) {
             },
           });
         } else {
-          // 执行自定义函数
+          // 실행사용자 정의함수
           await config.execute(fnCall.arguments);
         }
 
-        // 3. 成功反馈
+        // 3. 성공反馈
         const successMsg =
           typeof config.successMessage === "function"
             ? config.successMessage(fnCall.arguments)
-            : config.successMessage || "操作执行成功";
+            : config.successMessage || "작업실행성공";
         ElMessage.success(successMsg);
       }
 
-      // 4. 刷新数据
+      // 4. 새로고침데이터
       if (onRefresh) {
         await onRefresh();
       }
     } catch (error: any) {
-      // 处理取消操作
+      // 처리취소작업
       if (error === "cancel") {
-        ElMessage.info("已取消操作");
+        ElMessage.info("已취소작업");
         return;
       }
 
-      console.error("AI 操作执行失败:", error);
-      ElMessage.error(error.message || "操作执行失败");
+      console.error("AI 작업실행실패:", error);
+      ElMessage.error(error.message || "작업실행실패");
     }
   }
 
   /**
-   * 执行后端命令（通用方法）
+   * 실행백엔드명령（通用메서드）
    */
   async function executeCommand(
     functionName: string,
@@ -164,17 +164,17 @@ export function useAiAction(options: UseAiActionOptions = {}) {
       confirmMessage,
     } = options;
 
-    // 如果需要确认，先显示确认对话框
+    // 만약필요해야确认，先显示确认对话框
     if (needConfirm && confirmMessage) {
       try {
-        await ElMessageBox.confirm(confirmMessage, "AI 助手操作确认", {
-          confirmButtonText: "确认执行",
-          cancelButtonText: "取消",
+        await ElMessageBox.confirm(confirmMessage, "AI 助手작업确认", {
+          confirmButtonText: "确认실행",
+          cancelButtonText: "취소",
           type: "warning",
           dangerouslyUseHTMLString: true,
         });
       } catch {
-        ElMessage.info("已取消操作");
+        ElMessage.info("已취소작업");
         return;
       }
     }
@@ -191,7 +191,7 @@ export function useAiAction(options: UseAiActionOptions = {}) {
         },
       });
 
-      ElMessage.success("操作执行成功");
+      ElMessage.success("작업실행성공");
     } catch (error: any) {
       if (error !== "cancel") {
         throw error;
@@ -200,63 +200,63 @@ export function useAiAction(options: UseAiActionOptions = {}) {
   }
 
   /**
-   * 处理自动搜索
+   * 처리자동검색
    */
-  function handleAutoSearch(keywords: string) {
+  function handleAutoSearch(키words: string) {
     if (onAutoSearch) {
-      onAutoSearch(keywords);
+      onAutoSearch(키words);
     } else {
-      ElMessage.info(`AI 助手已为您自动搜索：${keywords}`);
+      ElMessage.info(`AI 助手已로귀사자동검색：${키words}`);
     }
   }
 
   /**
-   * 初始化：处理 URL 参数中的 AI 操作
+   * 초기화：처리 URL 파라미터의 AI 작업
    *
-   * 注意：此方法只处理 AI 相关参数，不负责页面数据的初始加载
-   * 页面数据加载应由组件的 onMounted 钩子自行处理
+   * 注意：此메서드오직처리 AI 관련파라미터，不负责페이지데이터의初始加载
+   * 페이지데이터加载应由컴포넌트의 onMounted 훅自行처리
    */
   async function init() {
     if (isUnmounted) return;
 
-    // 检查是否有 AI 助手传递的参数
-    const keywords = route.query.keywords as string;
+    // 检查是否有 AI 助手传递의파라미터
+    const 키words = route.query.키words as string;
     const autoSearch = route.query.autoSearch as string;
     const aiActionParam = route.query.aiAction as string;
 
-    // 如果没有任何 AI 参数，直接返回
-    if (!keywords && !autoSearch && !aiActionParam) {
+    // 만약없음任何 AI 파라미터，直接돌아가기
+    if (!키words && !autoSearch && !aiActionParam) {
       return;
     }
 
-    // 在 nextTick 中执行，确保页面数据已加载
+    // 에 nextTick 내실행，보장페이지데이터已加载
     nextTick(async () => {
       if (isUnmounted) return;
 
-      // 1. 处理自动搜索
-      if (autoSearch === "true" && keywords) {
-        handleAutoSearch(keywords);
+      // 1. 처리자동검색
+      if (autoSearch === "true" && 키words) {
+        handleAutoSearch(키words);
       }
 
-      // 2. 处理 AI 操作
+      // 2. 처리 AI 작업
       if (aiActionParam) {
         try {
           const aiAction = JSON.parse(decodeURIComponent(aiActionParam));
           await executeAiAction(aiAction);
         } catch (error) {
-          console.error("解析 AI 操作失败:", error);
-          ElMessage.error("AI 操作参数解析失败");
+          console.error("파싱 AI 작업실패:", error);
+          ElMessage.error("AI 작업파라미터파싱실패");
         }
       }
     });
   }
 
-  // 组件挂载时自动初始化
+  // 컴포넌트마운트시자동초기화
   onMounted(() => {
     init();
   });
 
-  // 组件卸载时清理
+  // 컴포넌트언마운트시清理
   onBeforeUnmount(() => {
     isUnmounted = true;
   });

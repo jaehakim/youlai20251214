@@ -1,32 +1,32 @@
 import { defaultSettings } from "@/settings";
 
-// 导入 Element Plus 中英文语言包
+// 가져오기 Element Plus 내英文语言패키지
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 import en from "element-plus/es/locale/lang/en";
-import { store } from "@/store";
+import { 저장소 } from "@/저장소";
 import { DeviceEnum } from "@/enums/settings/device-enum";
 import { SidebarStatus } from "@/enums/settings/layout-enum";
 import { STORAGE_KEYS } from "@/constants";
 
 export const useAppStore = defineStore("app", () => {
-  // 设备类型
+  // 设备타입
   const device = useStorage(STORAGE_KEYS.DEVICE, DeviceEnum.DESKTOP);
-  // 布局大小
+  // 레이아웃크기
   const size = useStorage(STORAGE_KEYS.SIZE, defaultSettings.size);
   // 语言
   const language = useStorage(STORAGE_KEYS.LANGUAGE, defaultSettings.language);
-  // 侧边栏状态
+  // 측엣지열상태
   const sidebarStatus = useStorage(STORAGE_KEYS.SIDEBAR_STATUS, SidebarStatus.CLOSED);
   const sidebar = reactive({
     opened: sidebarStatus.value === SidebarStatus.OPENED,
     withoutAnimation: false,
   });
 
-  // 顶部菜单激活路径
+  // 상단메뉴단일激活경로
   const activeTopMenuPath = useStorage(STORAGE_KEYS.ACTIVE_TOP_MENU_PATH, "");
 
   /**
-   * 根据语言标识读取对应的语言包
+   * 에 따라语言标识读취对应의语言패키지
    */
   const locale = computed(() => {
     if (language?.value == "en") {
@@ -36,19 +36,19 @@ export const useAppStore = defineStore("app", () => {
     }
   });
 
-  // 切换侧边栏
+  // 切换측엣지열
   function toggleSidebar() {
     sidebar.opened = !sidebar.opened;
     sidebarStatus.value = sidebar.opened ? SidebarStatus.OPENED : SidebarStatus.CLOSED;
   }
 
-  // 关闭侧边栏
+  // 닫기측엣지열
   function closeSideBar() {
     sidebar.opened = false;
     sidebarStatus.value = SidebarStatus.CLOSED;
   }
 
-  // 打开侧边栏
+  // 열기측엣지열
   function openSideBar() {
     sidebar.opened = true;
     sidebarStatus.value = SidebarStatus.OPENED;
@@ -60,9 +60,9 @@ export const useAppStore = defineStore("app", () => {
   }
 
   /**
-   * 改变布局大小
+   * 改变레이아웃크기
    *
-   * @param val 布局大小 default | small | large
+   * @param val 레이아웃크기 default | small | large
    */
   function changeSize(val: string) {
     size.value = val;
@@ -76,7 +76,7 @@ export const useAppStore = defineStore("app", () => {
     language.value = val;
   }
   /**
-   * 混合模式顶部切换
+   * 混合模式상단切换
    */
   function activeTopMenu(val: string) {
     activeTopMenuPath.value = val;
@@ -99,10 +99,10 @@ export const useAppStore = defineStore("app", () => {
 });
 
 /**
- * 用于在组件外部（如在Pinia Store 中）使用 Pinia 提供的 store 实例。
- * 官方文档解释了如何在组件外部使用 Pinia Store：
- * https://pinia.vuejs.org/core-concepts/outside-component-usage.html#using-a-store-outside-of-a-component
+ * 용도에컴포넌트외부（如에Pinia Store 내）사용 Pinia 提供의 저장소 实例。
+ * 官方文档解释됨如何에컴포넌트외부사용 Pinia Store：
+ * https://pinia.vuejs.org/core-concepts/outside-component-usage.html#using-a-저장소-outside-of-a-component
  */
 export function useAppStoreHook() {
-  return useAppStore(store);
+  return useAppStore(저장소);
 }

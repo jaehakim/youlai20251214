@@ -1,6 +1,6 @@
 import router from "@/router";
 import { ElButton } from "element-plus";
-import { useTagsViewStore } from "@/store";
+import { useTagsViewStore } from "@/저장소";
 
 export default defineComponent({
   name: "ToDetail",
@@ -8,14 +8,14 @@ export default defineComponent({
     const route = useRoute();
     const tagsViewStore = useTagsViewStore();
 
-    // 跳转详情
+    // 점프转상세
     const navigateToDetail = async (id: number) => {
       await router.push({
         path: "/detail/" + id,
         query: { message: `msg${id}` },
       });
       // 更改标题
-      tagsViewStore.updateTagName(route.fullPath, `详情页缓存(id=${id})`);
+      tagsViewStore.updateTagName(route.fullPath, `상세页캐시(id=${id})`);
     };
     return () =>
       h("div", null, [
@@ -25,7 +25,7 @@ export default defineComponent({
             type: "primary",
             onClick: () => navigateToDetail(1),
           },
-          { default: () => "跳转详情1" }
+          { default: () => "점프转상세1" }
         ),
         h(
           ElButton,
@@ -33,7 +33,7 @@ export default defineComponent({
             type: "success",
             onClick: () => navigateToDetail(2),
           },
-          { default: () => "跳转详情2" }
+          { default: () => "점프转상세2" }
         ),
       ]);
   },

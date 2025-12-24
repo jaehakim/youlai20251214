@@ -1,17 +1,17 @@
 /**
- * 查询类型枚举
+ * 조회타입열거형
  */
 export const QueryTypeEnum: Record<string, OptionType> = {
   /** 等于 */
   EQ: { value: 1, label: "=" },
 
-  /** 模糊匹配 */
+  /** 模糊일치 */
   LIKE: { value: 2, label: "LIKE '%s%'" },
 
-  /** 包含 */
+  /** 패키지含 */
   IN: { value: 3, label: "IN" },
 
-  /** 范围 */
+  /** 범위 */
   BETWEEN: { value: 4, label: "BETWEEN" },
 
   /** 大于 */
@@ -29,9 +29,9 @@ export const QueryTypeEnum: Record<string, OptionType> = {
   /** 不等于 */
   NE: { value: 9, label: "!=" },
 
-  /** 左模糊匹配 */
+  /** 左模糊일치 */
   LIKE_LEFT: { value: 10, label: "LIKE '%s'" },
 
-  /** 右模糊匹配 */
+  /** 右模糊일치 */
   LIKE_RIGHT: { value: 11, label: "LIKE 's%'" },
 };

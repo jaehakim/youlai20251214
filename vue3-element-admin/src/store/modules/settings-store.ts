@@ -4,33 +4,33 @@ import type { LayoutMode } from "@/enums/settings/layout-enum";
 import { applyTheme, generateThemeColors, toggleDarkMode, toggleSidebarColor } from "@/utils/theme";
 import { STORAGE_KEYS } from "@/constants";
 
-// 🎯 设置项类型定义
+// 🎯 설정항목타입定义
 interface SettingsState {
-  // 界面显示设置
+  // 界面显示설정
   settingsVisible: boolean;
   showTagsView: boolean;
   showAppLogo: boolean;
   showWatermark: boolean;
   enableAiAssistant: boolean;
 
-  // 布局设置
+  // 레이아웃설정
   layout: LayoutMode;
   sidebarColorScheme: string;
 
-  // 主题设置
+  // 테마설정
   theme: ThemeMode;
   themeColor: string;
 }
 
-// 🎯 可变更的设置项类型
-type MutableSetting = Exclude<keyof SettingsState, "settingsVisible">;
+// 🎯 可변경의설정항목타입
+type MutableSetting = Exclude<키of SettingsState, "settingsVisible">;
 type SettingValue<K extends MutableSetting> = SettingsState[K];
 
 export const useSettingsStore = defineStore("setting", () => {
-  // 设置面板可见性
-  const settingsVisible = ref<boolean>(false);
+  // 설정面板可见性
+  const settingsVisible = 참조<boolean>(false);
 
-  // 是否显示标签页视图
+  // 是否显示标签页뷰
   const showTagsView = useStorage<boolean>(
     STORAGE_KEYS.SHOW_TAGS_VIEW,
     defaultSettings.showTagsView
@@ -51,22 +51,22 @@ export const useSettingsStore = defineStore("setting", () => {
     defaultSettings.enableAiAssistant
   );
 
-  // 侧边栏配色方案
+  // 측엣지열配色方案
   const sidebarColorScheme = useStorage<string>(
     STORAGE_KEYS.SIDEBAR_COLOR_SCHEME,
     defaultSettings.sidebarColorScheme
   );
 
-  // 布局模式
+  // 레이아웃模式
   const layout = useStorage<LayoutMode>(STORAGE_KEYS.LAYOUT, defaultSettings.layout as LayoutMode);
 
-  // 主题颜色
+  // 테마颜色
   const themeColor = useStorage<string>(STORAGE_KEYS.THEME_COLOR, defaultSettings.themeColor);
 
-  // 主题模式（亮色/暗色）
+  // 테마模式（亮色/暗色）
   const theme = useStorage<ThemeMode>(STORAGE_KEYS.THEME, defaultSettings.theme);
 
-  // 设置项映射，用于统一管理
+  // 설정항목매핑，용도统하나管理
   const settingsMap = {
     showTagsView,
     showAppLogo,
@@ -76,7 +76,7 @@ export const useSettingsStore = defineStore("setting", () => {
     layout,
   } as const;
 
-  // 监听主题变化，自动应用样式
+  // 리스닝테마变化，자동应用스타일
   watch(
     [theme, themeColor],
     ([newTheme, newThemeColor]: [ThemeMode, string]) => {
@@ -87,7 +87,7 @@ export const useSettingsStore = defineStore("setting", () => {
     { immediate: true }
   );
 
-  // 监听侧边栏配色变化
+  // 리스닝측엣지열配色变化
   watch(
     [sidebarColorScheme],
     ([newSidebarColorScheme]) => {
@@ -96,15 +96,15 @@ export const useSettingsStore = defineStore("setting", () => {
     { immediate: true }
   );
 
-  // 通用设置更新方法
-  function updateSetting<K extends keyof typeof settingsMap>(key: K, value: SettingValue<K>): void {
-    const setting = settingsMap[key];
+  // 通用설정업데이트메서드
+  function updateSetting<K extends 키of typeof settingsMap>(키: K, value: SettingValue<K>): void {
+    const setting = settingsMap[키];
     if (setting) {
       (setting as Ref<any>).value = value;
     }
   }
 
-  // 主题更新方法
+  // 테마업데이트메서드
   function updateTheme(newTheme: ThemeMode): void {
     theme.value = newTheme;
   }
@@ -121,7 +121,7 @@ export const useSettingsStore = defineStore("setting", () => {
     layout.value = newLayout;
   }
 
-  // 设置面板控制
+  // 설정面板控制
   function toggleSettingsPanel(): void {
     settingsVisible.value = !settingsVisible.value;
   }
@@ -134,7 +134,7 @@ export const useSettingsStore = defineStore("setting", () => {
     settingsVisible.value = false;
   }
 
-  // 重置所有设置
+  // 초기화모든설정
   function resetSettings(): void {
     showTagsView.value = defaultSettings.showTagsView;
     showAppLogo.value = defaultSettings.showAppLogo;
@@ -147,7 +147,7 @@ export const useSettingsStore = defineStore("setting", () => {
   }
 
   return {
-    // 状态
+    // 상태
     settingsVisible,
     showTagsView,
     showAppLogo,
@@ -158,7 +158,7 @@ export const useSettingsStore = defineStore("setting", () => {
     themeColor,
     theme,
 
-    // 更新方法
+    // 업데이트메서드
     updateSetting,
     updateTheme,
     updateThemeColor,
@@ -170,7 +170,7 @@ export const useSettingsStore = defineStore("setting", () => {
     showSettingsPanel,
     hideSettingsPanel,
 
-    // 重置功能
+    // 초기화功能
     resetSettings,
   };
 });

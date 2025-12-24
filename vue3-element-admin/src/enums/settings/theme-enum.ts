@@ -1,24 +1,24 @@
 /**
- * 主题枚举
+ * 테마열거형
  */
 export const enum ThemeMode {
   /**
-   * 明亮主题
+   * 明亮테마
    */
   LIGHT = "light",
   /**
-   * 暗黑主题
+   * 暗黑테마
    */
   DARK = "dark",
 
   /**
-   * 系统自动
+   * 系统자동
    */
   AUTO = "auto",
 }
 
 /**
- * 侧边栏配色方案枚举
+ * 측엣지열配色方案열거형
  */
 export const enum SidebarColor {
   /**

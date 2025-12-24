@@ -3,32 +3,32 @@ import type { App } from "vue";
 import { setupDirective } from "@/directives";
 import { setupI18n } from "@/lang";
 import { setupRouter } from "@/router";
-import { setupStore } from "@/store";
+import { setupStore } from "@/저장소";
 import { setupElIcons } from "./icons";
 import { setupPermission } from "./permission";
-import { setupWebSocket } from "./websocket";
+import { setup웹소켓 } from "./websocket";
 import { InstallCodeMirror } from "codemirror-editor-vue3";
 import { setupVxeTable } from "./vxeTable";
 
 export default {
   install(app: App<Element>) {
-    // 自定义指令(directive)
+    // 사용자 정의지시문(directive)
     setupDirective(app);
-    // 路由(router)
+    // 라우팅(router)
     setupRouter(app);
-    // 状态管理(store)
+    // 상태 관리(저장소)
     setupStore(app);
     // 国际化
     setupI18n(app);
-    // Element-plus图标
+    // Element-plus아이콘
     setupElIcons(app);
-    // 路由守卫
+    // 라우팅守卫
     setupPermission();
-    // WebSocket服务
-    setupWebSocket();
+    // 웹소켓서비스
+    setup웹소켓();
     // vxe-table
     setupVxeTable(app);
-    // 注册 CodeMirror
+    // 등록 CodeMirror
     app.use(InstallCodeMirror);
   },
 };

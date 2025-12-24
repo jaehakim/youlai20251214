@@ -3,9 +3,9 @@ import type { IModalConfig } from "@/components/CURD/types";
 import { deptArr, roleArr } from "./options";
 
 const modalConfig: IModalConfig<UserForm> = {
-  permPrefix: "sys:user",
+  permP참조ix: "sys:user",
   dialog: {
-    title: "新增用户",
+    title: "신규사용자",
     width: 800,
     draggable: true,
   },
@@ -14,16 +14,16 @@ const modalConfig: IModalConfig<UserForm> = {
   },
   formAction: UserAPI.create,
   beforeSubmit(data) {
-    console.log("提交之前处理", data);
+    console.log("제출之前처리", data);
   },
   formItems: [
     {
-      label: "用户名",
+      label: "사용자이름",
       prop: "username",
-      rules: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
+      rules: [{ required: true, message: "사용자이름비어있을 수 없음비어있음", trigger: "blur" }],
       type: "input",
       attrs: {
-        placeholder: "请输入用户名",
+        placeholder: "입력해주세요사용자이름",
       },
       col: {
         xs: 24,
@@ -31,12 +31,12 @@ const modalConfig: IModalConfig<UserForm> = {
       },
     },
     {
-      label: "用户昵称",
+      label: "사용자닉네임",
       prop: "nickname",
-      rules: [{ required: true, message: "用户昵称不能为空", trigger: "blur" }],
+      rules: [{ required: true, message: "사용자닉네임비어있을 수 없음비어있음", trigger: "blur" }],
       type: "input",
       attrs: {
-        placeholder: "请输入用户昵称",
+        placeholder: "입력해주세요사용자닉네임",
       },
       col: {
         xs: 24,
@@ -44,36 +44,36 @@ const modalConfig: IModalConfig<UserForm> = {
       },
     },
     {
-      label: "所属部门",
+      label: "所属부서",
       prop: "deptId",
-      rules: [{ required: true, message: "所属部门不能为空", trigger: "change" }],
+      rules: [{ required: true, message: "所属부서비어있을 수 없음비어있음", trigger: "change" }],
       type: "tree-select",
       attrs: {
-        placeholder: "请选择所属部门",
+        placeholder: "선택해주세요所属부서",
         data: deptArr,
         filterable: true,
         "check-strictly": true,
         "render-after-expand": false,
       },
       // async initFn(formItem) {
-      //   // 注意:如果initFn函数不是箭头函数,this会指向此配置项对象,那么也就可以用this来替代形参formItem
+      //   // 注意:만약initFn함수不是箭头함수,this会指에此설정항목객체,那么也就可以用this来替代形参formItem
       //   formItem.attrs.data = await DeptAPI.getOptions();
       // },
     },
     {
       type: "custom",
-      label: "性别",
+      label: "성별",
       prop: "gender",
       initialValue: 1,
       attrs: { style: { width: "100%" } },
     },
     {
-      label: "角色",
+      label: "역할",
       prop: "roleIds",
-      rules: [{ required: true, message: "用户角色不能为空", trigger: "change" }],
+      rules: [{ required: true, message: "사용자역할비어있을 수 없음비어있음", trigger: "change" }],
       type: "select",
       attrs: {
-        placeholder: "请选择",
+        placeholder: "선택해주세요",
         multiple: true,
       },
       options: roleArr,
@@ -89,38 +89,38 @@ const modalConfig: IModalConfig<UserForm> = {
       rules: [
         {
           pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-          message: "请输入正确的手机号码",
+          message: "입력해주세요正确의手机号码",
           trigger: "blur",
         },
       ],
       attrs: {
-        placeholder: "请输入手机号码",
+        placeholder: "입력해주세요手机号码",
         maxlength: 11,
       },
     },
     {
-      label: "邮箱",
+      label: "이메일",
       prop: "email",
       rules: [
         {
           pattern: /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/,
-          message: "请输入正确的邮箱地址",
+          message: "입력해주세요正确의이메일地址",
           trigger: "blur",
         },
       ],
       type: "input",
       attrs: {
-        placeholder: "请输入邮箱",
+        placeholder: "입력해주세요이메일",
         maxlength: 50,
       },
     },
     {
-      label: "状态",
+      label: "상태",
       prop: "status",
       type: "radio",
       options: [
         { label: "正常", value: 1 },
-        { label: "禁用", value: 0 },
+        { label: "비활성화", value: 0 },
       ],
       initialValue: 1,
     },
@@ -133,5 +133,5 @@ const modalConfig: IModalConfig<UserForm> = {
   ],
 };
 
-// 如果有异步数据会修改配置的，推荐用reactive包裹，而纯静态配置的可以直接导出
+// 만약有비동기데이터会수정설정의，推荐用reactive패키지裹，而纯静态설정의可以直接내보내기
 export default reactive(modalConfig);

@@ -1,19 +1,19 @@
-import { store } from "@/store";
+import { 저장소 } from "@/저장소";
 
 import AuthAPI, { type LoginFormData } from "@/api/auth-api";
 import UserAPI, { type UserInfo } from "@/api/system/user-api";
 
 import { AuthStorage } from "@/utils/auth";
-import { usePermissionStoreHook } from "@/store/modules/permission-store";
-import { useDictStoreHook } from "@/store/modules/dict-store";
-import { useTagsViewStore } from "@/store";
-import { cleanupWebSocket } from "@/plugins/websocket";
+import { usePermissionStoreHook } from "@/저장소/modules/permission-저장소";
+import { useDictStoreHook } from "@/저장소/modules/dict-저장소";
+import { useTagsViewStore } from "@/저장소";
+import { cleanup웹소켓 } from "@/plugins/websocket";
 
 export const useUserStore = defineStore("user", () => {
-  // 用户信息
-  const userInfo = ref<UserInfo>({} as UserInfo);
-  // 记住我状态
-  const rememberMe = ref(AuthStorage.getRememberMe());
+  // 사용자정보
+  const userInfo = 참조<UserInfo>({} as UserInfo);
+  // 记住我상태
+  const rememberMe = 참조(AuthStorage.getRememberMe());
 
   /**
    * 登录
@@ -25,10 +25,10 @@ export const useUserStore = defineStore("user", () => {
     return new Promise<void>((resolve, reject) => {
       AuthAPI.login(LoginFormData)
         .then((data) => {
-          const { accessToken, refreshToken } = data;
-          // 保存记住我状态和token
+          const { accessToken, 참조reshToken } = data;
+          // 저장记住我상태및token
           rememberMe.value = LoginFormData.rememberMe;
-          AuthStorage.setTokens(accessToken, refreshToken, rememberMe.value);
+          AuthStorage.setTokens(accessToken, 참조reshToken, rememberMe.value);
           resolve();
         })
         .catch((error) => {
@@ -38,9 +38,9 @@ export const useUserStore = defineStore("user", () => {
   }
 
   /**
-   * 获取用户信息
+   * 조회사용자정보
    *
-   * @returns {UserInfo} 用户信息
+   * @returns {UserInfo} 사용자정보
    */
   function getUserInfo() {
     return new Promise<UserInfo>((resolve, reject) => {
@@ -66,7 +66,7 @@ export const useUserStore = defineStore("user", () => {
     return new Promise<void>((resolve, reject) => {
       AuthAPI.logout()
         .then(() => {
-          // 重置所有系统状态
+          // 초기화모든系统상태
           resetAllState();
           resolve();
         })
@@ -77,59 +77,59 @@ export const useUserStore = defineStore("user", () => {
   }
 
   /**
-   * 重置所有系统状态
-   * 统一处理所有清理工作，包括用户凭证、路由、缓存等
+   * 초기화모든系统상태
+   * 统하나처리모든清理工作，패키지括사용자凭证、라우팅、캐시等
    */
   function resetAllState() {
-    // 1. 重置用户状态
+    // 1. 초기화사용자상태
     resetUserState();
 
-    // 2. 重置其他模块状态
-    // 重置路由
+    // 2. 초기화其他모듈상태
+    // 초기화라우팅
     usePermissionStoreHook().resetRouter();
-    // 清除字典缓存
+    // 清除사전캐시
     useDictStoreHook().clearDictCache();
-    // 清除标签视图
+    // 清除标签뷰
     useTagsViewStore().delAllViews();
 
-    // 3. 清理 WebSocket 连接
-    cleanupWebSocket();
-    console.log("[UserStore] WebSocket connections cleaned up");
+    // 3. 清理 웹소켓 연결
+    cleanup웹소켓();
+    console.log("[UserStore] 웹소켓 connections cleaned up");
 
     return Promise.resolve();
   }
 
   /**
-   * 重置用户状态
-   * 仅处理用户模块内的状态
+   * 초기화사용자상태
+   * 오직처리사용자모듈内의상태
    */
   function resetUserState() {
-    // 清除用户凭证
+    // 清除사용자凭证
     AuthStorage.clearAuth();
-    // 重置用户信息
+    // 초기화사용자정보
     userInfo.value = {} as UserInfo;
   }
 
   /**
-   * 刷新 token
+   * 새로고침 token
    */
-  function refreshToken() {
-    const refreshToken = AuthStorage.getRefreshToken();
+  function 참조reshToken() {
+    const 참조reshToken = AuthStorage.getRefreshToken();
 
-    if (!refreshToken) {
-      return Promise.reject(new Error("没有有效的刷新令牌"));
+    if (!참조reshToken) {
+      return Promise.reject(new Error("없음유효의새로고침令牌"));
     }
 
     return new Promise<void>((resolve, reject) => {
-      AuthAPI.refreshToken(refreshToken)
+      AuthAPI.참조reshToken(참조reshToken)
         .then((data) => {
-          const { accessToken, refreshToken: newRefreshToken } = data;
-          // 更新令牌，保持当前记住我状态
+          const { accessToken, 참조reshToken: newRefreshToken } = data;
+          // 업데이트令牌，保持当前记住我상태
           AuthStorage.setTokens(accessToken, newRefreshToken, AuthStorage.getRememberMe());
           resolve();
         })
         .catch((error) => {
-          console.log(" refreshToken  刷新失败", error);
+          console.log(" 참조reshToken  새로고침실패", error);
           reject(error);
         });
     });
@@ -144,14 +144,14 @@ export const useUserStore = defineStore("user", () => {
     logout,
     resetAllState,
     resetUserState,
-    refreshToken,
+    참조reshToken,
   };
 });
 
 /**
- * 在组件外部使用UserStore的钩子函数
+ * 에컴포넌트외부사용UserStore의훅함수
  * @see https://pinia.vuejs.org/core-concepts/outside-component-usage.html
  */
 export function useUserStoreHook() {
-  return useUserStore(store);
+  return useUserStore(저장소);
 }

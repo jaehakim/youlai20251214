@@ -1,29 +1,29 @@
 import type { InternalAxiosRequestConfig } from "axios";
-import { useUserStoreHook } from "@/store/modules/user-store";
+import { useUserStoreHook } from "@/저장소/modules/user-저장소";
 import { AuthStorage, redirectToLogin } from "@/utils/auth";
 
 /**
- * 重试请求的回调函数类型
+ * 재시도요청의콜백함수타입
  */
 type RetryCallback = () => void;
 
 /**
- * Token刷新组合式函数
+ * Token새로고침조합式함수
  */
 export function useTokenRefresh() {
-  // Token 刷新相关状态
+  // Token 새로고침관련상태
   let isRefreshingToken = false;
   const pendingRequests: RetryCallback[] = [];
 
   /**
-   * 刷新 Token 并重试请求
+   * 새로고침 Token 并재시도요청
    */
-  async function refreshTokenAndRetry(
+  async function 참조reshTokenAndRetry(
     config: InternalAxiosRequestConfig,
     httpRequest: any
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      // 封装需要重试的请求
+      // 封装필요해야재시도의요청
       const retryRequest = () => {
         const newToken = AuthStorage.getAccessToken();
         if (newToken && config.headers) {
@@ -32,17 +32,17 @@ export function useTokenRefresh() {
         httpRequest(config).then(resolve).catch(reject);
       };
 
-      // 将请求加入等待队列
+      // 로요청加입대기큐
       pendingRequests.push(retryRequest);
 
-      // 如果没有正在刷新，则开始刷新流程
+      // 만약없음正에새로고침，그러면开始새로고침流程
       if (!isRefreshingToken) {
         isRefreshingToken = true;
 
         useUserStoreHook()
-          .refreshToken()
+          .참조reshToken()
           .then(() => {
-            // 刷新成功，重试所有等待的请求
+            // 새로고침성공，재시도모든대기의요청
             pendingRequests.forEach((callback) => {
               try {
                 callback();
@@ -50,22 +50,22 @@ export function useTokenRefresh() {
                 console.error("Retry request error:", error);
               }
             });
-            // 清空队列
+            // 清비어있음큐
             pendingRequests.length = 0;
           })
           .catch(async (error) => {
-            console.error("Token refresh failed:", error);
-            // 刷新失败，先 reject 所有等待的请求，再清空队列
+            console.error("Token 참조resh failed:", error);
+            // 새로고침실패，先 reject 모든대기의요청，再清비어있음큐
             const failedRequests = [...pendingRequests];
             pendingRequests.length = 0;
 
-            // 拒绝所有等待的请求
+            // 拒绝모든대기의요청
             failedRequests.forEach(() => {
-              reject(new Error("Token refresh failed"));
+              reject(new Error("Token 참조resh failed"));
             });
 
-            // 跳转登录页
-            await redirectToLogin("登录状态已失效，请重新登录");
+            // 점프转登录页
+            await redirectToLogin("登录상태已失效，요청重新登录");
           })
           .finally(() => {
             isRefreshingToken = false;
@@ -75,7 +75,7 @@ export function useTokenRefresh() {
   }
 
   /**
-   * 获取刷新状态（用于外部判断）
+   * 조회새로고침상태（용도외부判断）
    */
   function getRefreshStatus() {
     return {
@@ -85,7 +85,7 @@ export function useTokenRefresh() {
   }
 
   return {
-    refreshTokenAndRetry,
+    참조reshTokenAndRetry,
     getRefreshStatus,
   };
 }

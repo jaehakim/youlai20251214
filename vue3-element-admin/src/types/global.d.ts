@@ -1,6 +1,6 @@
 declare global {
   /**
-   * 响应数据
+   * 응답데이터
    */
   interface ApiResponse<T = any> {
     code: string;
@@ -9,7 +9,7 @@ declare global {
   }
 
   /**
-   * 分页查询参数
+   * 페이지네이션조회 파라미터
    */
   interface PageQuery {
     pageNum: number;
@@ -17,58 +17,58 @@ declare global {
   }
 
   /**
-   * 分页响应对象
+   * 페이지네이션응답객체
    */
   interface PageResult<T> {
-    /** 数据列表 */
+    /** 데이터목록 */
     list: T;
-    /** 总数 */
+    /** 총개 */
     total: number;
   }
 
   /**
-   * 页签对象
+   * 页签객체
    */
   interface TagView {
-    /** 页签名称 */
+    /** 页签이름칭 */
     name: string;
     /** 页签标题 */
     title: string;
-    /** 页签路由路径 */
+    /** 页签라우팅경로 */
     path: string;
-    /** 页签路由完整路径 */
+    /** 页签라우팅完整경로 */
     fullPath: string;
-    /** 页签图标 */
+    /** 页签아이콘 */
     icon?: string;
     /** 是否固定页签 */
     affix?: boolean;
-    /** 是否开启缓存 */
+    /** 是否开启캐시 */
     keepAlive?: boolean;
-    /** 路由查询参数 */
+    /** 라우팅조회 파라미터 */
     query?: any;
   }
 
   /**
-   * 系统设置
+   * 系统설정
    */
   interface AppSettings {
     /** 系统标题 */
     title: string;
     /** 系统版本 */
     version: string;
-    /** 是否显示设置 */
+    /** 是否显示설정 */
     showSettings: boolean;
     /** 是否显示多标签导航 */
     showTagsView: boolean;
     /** 是否显示应用Logo */
     showAppLogo: boolean;
-    /** 导航栏布局(left|top|mix) */
+    /** 导航열레이아웃(left|top|mix) */
     layout: "left" | "top" | "mix";
-    /** 主题颜色 */
+    /** 테마颜色 */
     themeColor: string;
-    /** 主题模式(dark|light) */
+    /** 테마模式(dark|light) */
     theme: import("@/enums/settings/theme-enum").ThemeMode;
-    /** 布局大小(default |large |small) */
+    /** 레이아웃크기(default |large |small) */
     size: string;
     /** 语言( zh-cn| en) */
     language: string;
@@ -76,35 +76,35 @@ declare global {
     showWatermark: boolean;
     /** 水印内容 */
     watermarkContent: string;
-    /** 侧边栏配色方案 */
+    /** 측엣지열配色方案 */
     sidebarColorScheme: "classic-blue" | "minimal-white";
     /** 是否启用 AI 助手 */
     enableAiAssistant: boolean;
   }
 
   /**
-   * 下拉选项数据类型
+   * 下拉옵션데이터 타입
    */
   interface OptionType {
-    /** 值 */
+    /** 값 */
     value: string | number;
     /** 文本 */
     label: string;
-    /** 子列表  */
+    /** 子목록  */
     children?: OptionType[];
   }
 
   /**
-   * 导入结果
+   * 가져오기结果
    */
   interface ExcelResult {
-    /** 状态码 */
+    /** 상태 코드 */
     code: string;
-    /** 无效数据条数 */
+    /** 无效데이터条개 */
     invalidCount: number;
-    /** 有效数据条数 */
+    /** 유효데이터条개 */
     validCount: number;
-    /** 错误信息 */
+    /** 오류정보 */
     messageList: Array<string>;
   }
 }

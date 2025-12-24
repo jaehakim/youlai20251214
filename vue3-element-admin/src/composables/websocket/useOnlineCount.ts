@@ -1,10 +1,10 @@
-import { ref, watch, onMounted, onUnmounted, getCurrentInstance } from "vue";
+import { 참조, watch, onMounted, onUnmounted, getCurrentInstance } from "vue";
 import { useStomp } from "./useStomp";
-import { registerWebSocketInstance } from "@/plugins/websocket";
+import { register웹소켓Instance } from "@/plugins/websocket";
 import { AuthStorage } from "@/utils/auth";
 
 /**
- * 在线用户数量消息结构
+ * 에스레드사용자개量메시지结构
  */
 interface OnlineCountMessage {
   count?: number;
@@ -12,175 +12,175 @@ interface OnlineCountMessage {
 }
 
 /**
- * 全局单例实例
+ * 全局단일例实例
  */
 let globalInstance: ReturnType<typeof createOnlineCountComposable> | null = null;
 
 /**
- * 创建在线用户计数组合式函数（内部工厂函数）
+ * 创建에스레드사용자계배열合式함수（내부工厂함수）
  */
 function createOnlineCountComposable() {
-  // ==================== 状态管理 ====================
-  const onlineUserCount = ref(0);
-  const lastUpdateTime = ref(0);
+  // ==================== 상태 관리 ====================
+  const onlineUserCount = 참조(0);
+  const lastUpdateTime = 참조(0);
 
-  // ==================== WebSocket 客户端 ====================
+  // ==================== 웹소켓 客户端 ====================
   const stomp = useStomp({
     reconnectDelay: 15000,
     maxReconnectAttempts: 3,
     connectionTimeout: 10000,
     useExponentialBackoff: true,
-    autoRestoreSubscriptions: true, // 自动恢复订阅
+    autoRe저장소Subscriptions: true, // 자동恢复구독
     debug: false,
   });
 
-  // 在线用户计数主题
+  // 에스레드사용자계개테마
   const ONLINE_COUNT_TOPIC = "/topic/online-count";
 
-  // 订阅 ID
+  // 구독 ID
   let subscriptionId: string | null = null;
 
-  // 注册到全局实例管理器
-  registerWebSocketInstance("onlineCount", stomp);
+  // 등록到全局实例管理器
+  register웹소켓Instance("onlineCount", stomp);
 
   /**
-   * 处理在线用户数量消息
+   * 처리에스레드사용자개量메시지
    */
   const handleOnlineCountMessage = (message: any) => {
     try {
       const data = message.body;
       const jsonData = JSON.parse(data) as OnlineCountMessage;
 
-      // 支持两种消息格式
-      // 1. 直接是数字: 42
-      // 2. 对象格式: { count: 42, timestamp: 1234567890 }
+      // 支持两种메시지格式
+      // 1. 直接是숫자: 42
+      // 2. 객체格式: { count: 42, timestamp: 1234567890 }
       const count = typeof jsonData === "number" ? jsonData : jsonData.count;
 
       if (count !== undefined && !isNaN(count)) {
         onlineUserCount.value = count;
         lastUpdateTime.value = Date.now();
-        console.log(`[useOnlineCount] 在线用户数更新: ${count}`);
+        console.log(`[useOnlineCount] 에스레드사용자개업데이트: ${count}`);
       } else {
-        console.warn("[useOnlineCount] 收到无效的在线用户数:", data);
+        console.warn("[useOnlineCount] 收到无效의에스레드사용자개:", data);
       }
     } catch (error) {
-      console.error("[useOnlineCount] 解析在线用户数失败:", error);
+      console.error("[useOnlineCount] 파싱에스레드사용자개실패:", error);
     }
   };
 
   /**
-   * 订阅在线用户计数主题
+   * 구독에스레드사용자계개테마
    */
   const subscribeToOnlineCount = () => {
     if (subscriptionId) {
-      console.log("[useOnlineCount] 已存在订阅，跳过");
+      console.log("[useOnlineCount] 已存에구독，점프거치");
       return;
     }
 
-    // 订阅在线用户计数主题（useStomp 会处理重连后的订阅恢复）
+    // 구독에스레드사용자계개테마（useStomp 会처리重连후의구독恢复）
     subscriptionId = stomp.subscribe(ONLINE_COUNT_TOPIC, handleOnlineCountMessage);
 
     if (subscriptionId) {
-      console.log(`[useOnlineCount] 已订阅主题: ${ONLINE_COUNT_TOPIC}`);
+      console.log(`[useOnlineCount] 已구독테마: ${ONLINE_COUNT_TOPIC}`);
     } else {
-      console.log(`[useOnlineCount] 暂存订阅配置，等待连接建立后自动订阅`);
+      console.log(`[useOnlineCount] 暂存구독설정，대기연결建立후자동구독`);
     }
   };
 
   /**
-   * 初始化 WebSocket 连接并订阅在线用户主题
+   * 초기화 웹소켓 연결并구독에스레드사용자테마
    */
   const initialize = () => {
-    // 检查 WebSocket 端点是否配置
+    // 检查 웹소켓 엔드포인트是否설정
     const wsEndpoint = import.meta.env.VITE_APP_WS_ENDPOINT;
     if (!wsEndpoint) {
-      console.log("[useOnlineCount] 未配置 WebSocket 端点，跳过初始化");
+      console.log("[useOnlineCount] 미설정 웹소켓 엔드포인트，점프거치초기화");
       return;
     }
 
-    // 检查令牌有效性
+    // 检查令牌유효性
     const accessToken = AuthStorage.getAccessToken();
     if (!accessToken) {
-      console.log("[useOnlineCount] 未检测到有效令牌，跳过初始化");
+      console.log("[useOnlineCount] 미检测到유효令牌，점프거치초기화");
       return;
     }
 
-    console.log("[useOnlineCount] 初始化在线用户计数服务...");
+    console.log("[useOnlineCount] 초기화에스레드사용자계개서비스...");
 
-    // 建立 WebSocket 连接
+    // 建立 웹소켓 연결
     stomp.connect();
 
-    // 订阅主题
+    // 구독테마
     subscribeToOnlineCount();
   };
 
   /**
-   * 关闭 WebSocket 连接并清理资源
+   * 닫기 웹소켓 연결并清理资源
    */
   const cleanup = () => {
-    console.log("[useOnlineCount] 清理在线用户计数服务...");
+    console.log("[useOnlineCount] 清理에스레드사용자계개서비스...");
 
-    // 取消订阅
+    // 취소구독
     if (subscriptionId) {
       stomp.unsubscribe(subscriptionId);
       subscriptionId = null;
     }
 
-    // 也可以通过主题地址取消订阅
+    // 也可以通거치테마地址취소구독
     stomp.unsubscribeDestination(ONLINE_COUNT_TOPIC);
 
-    // 断开连接
+    // 断开연결
     stomp.disconnect();
 
-    // 重置状态
+    // 초기화상태
     onlineUserCount.value = 0;
     lastUpdateTime.value = 0;
   };
 
-  // 监听连接状态变化
+  // 리스닝연결상태变化
   watch(
     stomp.isConnected,
     (connected) => {
       if (connected) {
-        console.log("[useOnlineCount] WebSocket 已连接");
+        console.log("[useOnlineCount] 웹소켓 已연결");
       } else {
-        console.log("[useOnlineCount] WebSocket 已断开");
+        console.log("[useOnlineCount] 웹소켓 已断开");
       }
     },
     { immediate: false }
   );
 
   return {
-    // 状态
+    // 상태
     onlineUserCount: readonly(onlineUserCount),
     lastUpdateTime: readonly(lastUpdateTime),
     isConnected: stomp.isConnected,
     connectionState: stomp.connectionState,
 
-    // 方法
+    // 메서드
     initialize,
     cleanup,
 
-    // 别名方法（向后兼容）
-    initWebSocket: initialize,
-    closeWebSocket: cleanup,
+    // 别이름메서드（에후兼容）
+    init웹소켓: initialize,
+    close웹소켓: cleanup,
   };
 }
 
 /**
- * 在线用户计数组合式函数（单例模式）
+ * 에스레드사용자계배열合式함수（단일例模式）
  *
- * 用于实时显示系统在线用户数量
+ * 용도实시显示系统에스레드사용자개量
  *
- * @param options 配置选项
- * @param options.autoInit 是否在组件挂载时自动初始化（默认 true）
+ * @param options 설정옵션
+ * @param options.autoInit 是否에컴포넌트마운트시자동초기화（기본값 true）
  *
  * @example
  * ```ts
- * // 在组件中使用
+ * // 에컴포넌트내사용
  * const { onlineUserCount, isConnected } = useOnlineCount();
  *
- * // 手动控制初始化
+ * // 手动控制초기화
  * const { onlineUserCount, initialize, cleanup } = useOnlineCount({ autoInit: false });
  * onMounted(() => initialize());
  * onUnmounted(() => cleanup());
@@ -189,27 +189,27 @@ function createOnlineCountComposable() {
 export function useOnlineCount(options: { autoInit?: boolean } = {}) {
   const { autoInit = true } = options;
 
-  // 获取或创建单例实例
+  // 조회或创建단일例实例
   if (!globalInstance) {
     globalInstance = createOnlineCountComposable();
   }
 
-  // 只在组件上下文中且 autoInit 为 true 时使用生命周期钩子
+  // 오직에컴포넌트上下文내且 autoInit 로 true 시사용생명 주기훅
   const instance = getCurrentInstance();
   if (autoInit && instance) {
     onMounted(() => {
-      // 只有在未连接时才尝试初始化
+      // 오직有에미연결시才尝试초기화
       if (!globalInstance!.isConnected.value) {
-        console.log("[useOnlineCount] 组件挂载，初始化 WebSocket 连接");
+        console.log("[useOnlineCount] 컴포넌트마운트，초기화 웹소켓 연결");
         globalInstance!.initialize();
       } else {
-        console.log("[useOnlineCount] WebSocket 已连接，跳过初始化");
+        console.log("[useOnlineCount] 웹소켓 已연결，점프거치초기화");
       }
     });
 
-    // 注意：不在卸载时关闭连接，保持全局连接
+    // 注意：不에언마운트시닫기연결，保持全局연결
     onUnmounted(() => {
-      console.log("[useOnlineCount] 组件卸载（保持 WebSocket 连接）");
+      console.log("[useOnlineCount] 컴포넌트언마운트（保持 웹소켓 연결）");
     });
   }
 

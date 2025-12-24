@@ -1,23 +1,23 @@
-import { ref } from "vue";
+import { 참조 } from "vue";
 import type { IObject, PageContentInstance, PageModalInstance, PageSearchInstance } from "./types";
 
 function usePage() {
-  const searchRef = ref<PageSearchInstance>();
-  const contentRef = ref<PageContentInstance>();
-  const addModalRef = ref<PageModalInstance>();
-  const editModalRef = ref<PageModalInstance>();
+  const searchRef = 참조<PageSearchInstance>();
+  const contentRef = 참조<PageContentInstance>();
+  const addModalRef = 참조<PageModalInstance>();
+  const editModalRef = 참조<PageModalInstance>();
 
-  // 搜索
+  // 검색
   function handleQueryClick(queryParams: IObject) {
     const filterParams = contentRef.value?.getFilterParams();
     contentRef.value?.fetchPageData({ ...queryParams, ...filterParams }, true);
   }
-  // 重置
+  // 초기화
   function handleResetClick(queryParams: IObject) {
     const filterParams = contentRef.value?.getFilterParams();
     contentRef.value?.fetchPageData({ ...queryParams, ...filterParams }, true);
   }
-  // 新增
+  // 신규
   function handleAddClick(RefImpl?: Ref<PageModalInstance>) {
     if (RefImpl) {
       RefImpl?.value.setModalVisible();
@@ -27,7 +27,7 @@ function usePage() {
       addModalRef.value?.handleDisabled(false);
     }
   }
-  // 编辑
+  // 편집
   async function handleEditClick(
     row: IObject,
     callback?: (result?: IObject) => IObject,
@@ -45,7 +45,7 @@ function usePage() {
       editModalRef.value?.setFormData(from ? from : row);
     }
   }
-  // 查看
+  // 보기
   async function handleViewClick(
     row: IObject,
     callback?: (result?: IObject) => IObject,
@@ -63,23 +63,23 @@ function usePage() {
       editModalRef.value?.setFormData(from ? from : row);
     }
   }
-  // 表单提交
+  // 양식제출
   function handleSubmitClick() {
-    //根据检索条件刷新列表数据
+    //에 따라检索조건새로고침목록데이터
     const queryParams = searchRef.value?.getQueryParams();
     contentRef.value?.fetchPageData(queryParams, true);
   }
-  // 导出
+  // 내보내기
   function handleExportClick() {
-    // 根据检索条件导出数据
+    // 에 따라检索조건내보내기데이터
     const queryParams = searchRef.value?.getQueryParams();
     contentRef.value?.exportPageData(queryParams);
   }
-  // 搜索显隐
+  // 검색显隐
   function handleSearchClick() {
     searchRef.value?.toggleVisible();
   }
-  // 涮选数据
+  // 涮选데이터
   function handleFilterChange(filterParams: IObject) {
     const queryParams = searchRef.value?.getQueryParams();
     contentRef.value?.fetchPageData({ ...queryParams, ...filterParams }, true);

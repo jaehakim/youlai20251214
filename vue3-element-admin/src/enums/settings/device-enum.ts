@@ -1,5 +1,5 @@
 /**
- * 设备枚举
+ * 设备열거형
  */
 export const enum DeviceEnum {
   /**

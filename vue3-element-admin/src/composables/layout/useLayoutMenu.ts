@@ -1,28 +1,28 @@
 import { useRoute } from "vue-router";
-import { useAppStore, usePermissionStore } from "@/store";
+import { useAppStore, usePermissionStore } from "@/저장소";
 
 /**
- * 布局菜单处理逻辑
+ * 레이아웃메뉴단일처리逻辑
  */
 export function useLayoutMenu() {
   const route = useRoute();
   const appStore = useAppStore();
   const permissionStore = usePermissionStore();
 
-  // 顶部菜单激活路径
+  // 상단메뉴단일激活경로
   const activeTopMenuPath = computed(() => appStore.activeTopMenuPath);
 
-  // 常规路由（左侧菜单或顶部菜单）
+  // 常规라우팅（왼쪽메뉴단일或상단메뉴단일）
   const routes = computed(() => permissionStore.routes);
 
-  // 混合布局左侧菜单路由
+  // 混合레이아웃왼쪽메뉴단일라우팅
   const sideMenuRoutes = computed(() => permissionStore.mixLayoutSideMenus);
 
-  // 当前激活的菜单
+  // 当前激活의메뉴단일
   const activeMenu = computed(() => {
     const { meta, path } = route;
 
-    // 如果设置了activeMenu，则使用
+    // 만약설정됨activeMenu，그러면사용
     if (meta?.activeMenu) {
       return meta.activeMenu;
     }
