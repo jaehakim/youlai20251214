@@ -3,12 +3,12 @@
     {
       "name": "oss.type",
       "type": "java.lang.String",
-      "description": "OSS 类型 (目前支持aliyun、minio)"
+      "description": "OSS 유형 (目前지원aliyun、minio)"
     },
     {
       "name": "oss.minio.endpoint",
       "type": "java.lang.String",
-      "description": "MinIO 服务 Endpoint"
+      "description": "MinIO 서비스 Endpoint"
     },
     {
       "name": "oss.minio.access-key",
@@ -18,22 +18,22 @@
     {
       "name": "oss.minio.secret-key",
       "type": "java.lang.String",
-      "description": "MinIO 凭据密钥"
+      "description": "MinIO 凭据키"
     },
     {
       "name": "oss.minio.bucket-name",
       "type": "java.lang.String",
-      "description": "MinIO 存储桶名称"
+      "description": "MinIO 저장소桶이름"
     },
     {
       "name": "oss.minio.custom-domain",
       "type": "java.lang.String",
-      "description": "MinIO 自定义域名"
+      "description": "MinIO 自정의도메인"
     },
     {
       "name": "oss.aliyun.endpoint",
       "type": "java.lang.String",
-      "description": "阿里云 OSS 服务 Endpoint"
+      "description": "阿里云 OSS 서비스 Endpoint"
     },
     {
       "name": "oss.aliyun.access-key-id",
@@ -43,22 +43,22 @@
     {
       "name": "oss.aliyun.access-key-secret",
       "type": "java.lang.String",
-      "description": "阿里云 OSS 凭据密钥"
+      "description": "阿里云 OSS 凭据키"
     },
     {
       "name": "oss.aliyun.bucket-name",
       "type": "java.lang.String",
-      "description": "阿里云 OSS 存储桶名称"
+      "description": "阿里云 OSS 저장소桶이름"
     },
     {
       "name": "xxl.job.enabled",
       "type": "java.lang.Boolean",
-      "description": "定时任务开关"
+      "description": "정시 작업토글"
     },
     {
       "name": "xxl.job.admin.addresses",
       "type": "java.lang.String",
-      "description": "多个地址使用,分割"
+      "description": "多个주소사용,分割"
     },
     {
       "name": "xxl.job.accessToken",
@@ -68,27 +68,27 @@
     {
       "name": "xxl.job.executor.appname",
       "type": "java.lang.String",
-      "description": "执行器应用名称"
+      "description": "실행기기应用이름"
     },
     {
       "name": "xxl.job.executor.address",
       "type": "java.lang.String",
-      "description": "执行器地址"
+      "description": "실행기기주소"
     },
     {
       "name": "xxl.job.executor.ip",
       "type": "java.lang.String",
-      "description": "执行器IP"
+      "description": "실행기기IP"
     },
     {
       "name": "xxl.job.executor.port",
       "type": "java.lang.Integer",
-      "description": "执行器端口"
+      "description": "실행기기포트"
     },
     {
       "name": "xxl.job.executor.logpath",
       "type": "java.lang.String",
-      "description": "日志路径"
+      "description": "日志경로"
     },
     {
       "name": "xxl.job.executor.logretentiondays",
@@ -98,22 +98,22 @@
     {
       "name": "spring.cache.enabled",
       "type": "java.lang.Boolean",
-      "description": "缓存开关"
+      "description": "캐시토글"
     },
     {
       "name": "security.redis-token.multi-login",
       "type": "java.lang.String",
-      "description": "是否允许多点登录"
+      "description": "여부允许多点로그인"
     },
     {
       "name": "security.redis-token.access-token-time-to-live",
       "type": "java.lang.String",
-      "description": "访问令牌有效期"
+      "description": "访问令牌있음效期"
     },
     {
       "name": "security.redis-token.refresh-token-time-to-live",
       "type": "java.lang.String",
-      "description": "刷新令牌有效期"
+      "description": "새로고침令牌있음效期"
     }
   ]
 }

@@ -125,7 +125,7 @@
 
 <script setup lang="ts">
 import router from "@/router";
-import { usePermissionStore } from "@/store";
+import { usePermission스토어 } from "@/store";
 import { isExternal } from "@/utils";
 import { RouteRecordRaw, LocationQueryRaw } from "vue-router";
 import { Clock, Close, Delete } from "@element-plus/icons-vue";
@@ -133,7 +133,7 @@ import { Clock, Close, Delete } from "@element-plus/icons-vue";
 const HISTORY_KEY = "menu_search_history";
 const MAX_HISTORY = 5;
 
-const permissionStore = usePermissionStore();
+const permission스토어 = usePermission스토어();
 const isModalVisible = ref(false);
 const searchKeyword = ref("");
 const searchInputRef = ref();
@@ -214,7 +214,7 @@ function handleKeyDown(e: KeyboardEvent) {
 
 // 키보드 이벤트 리스너 추가
 onMounted(() => {
-  loadRoutes(permissionStore.routes);
+  loadRoutes(permission스토어.routes);
   loadSearchHistory();
   document.addEventListener("keydown", handleKeyDown);
 });

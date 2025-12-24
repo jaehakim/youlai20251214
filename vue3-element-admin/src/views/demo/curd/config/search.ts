@@ -5,12 +5,12 @@ const searchConfig: ISearchConfig = {
   permP참조ix: "sys:user",
   formItems: [
     {
-      tips: "支持模糊검색",
+      tips: "지원模糊검색",
       type: "input",
       label: "关키字",
       prop: "키words",
       attrs: {
-        placeholder: "사용자이름/닉네임/手机号",
+        placeholder: "사용자이름/닉네임/휴대폰",
         clearable: true,
         style: { width: "200px" },
       },
@@ -29,7 +29,7 @@ const searchConfig: ISearchConfig = {
         style: { width: "200px" },
       },
       // async initFn(formItem) {
-      //   // 注意:만약initFn함수不是箭头함수,this会指에此설정항목객체,那么也就可以用this来替代形参formItem
+      //   // 주의:만약initFn함수아님예箭头함수,this회의指에이설정항목객체,那么也就可以用this来替代形参formItem
       //   formItem.attrs.data = await DeptAPI.getOptions();
       // },
     },
@@ -46,12 +46,12 @@ const searchConfig: ISearchConfig = {
     },
     {
       type: "date-picker",
-      label: "创建시사이",
+      label: "생성시사이",
       prop: "createTime",
       attrs: {
         type: "daterange",
         "range-separator": "~",
-        "start-placeholder": "开始시사이",
+        "start-placeholder": "시작시사이",
         "end-placeholder": "截止시사이",
         "value-format": "YYYY-MM-DD",
         style: { width: "200px" },

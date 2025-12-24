@@ -4,32 +4,32 @@ import { onMounted, onBeforeUnmount, nextTick } from "vue";
 import AiCommandApi from "@/api/ai";
 
 /**
- * AI 작업처리器（简化版）
+ * AI 작업처리기기（简化版）
  *
- * 可以是简단일함수，也可以是설정객체
+ * 可以예简단일함수，也可以예설정객체
  */
-export type AiActionHandler<T = any> =
+export type Ai액션Handler<T = any> =
   | ((args: T) => Promise<void> | void)
   | {
       /** 함수 실행 */
       execute: (args: T) => Promise<void> | void;
-      /** 是否필요해야确认（기본값 true） */
+      /** 여부필요해야확인（기본값 true） */
       needConfirm?: boolean;
-      /** 确认메시지（支持함수或문자열） */
+      /** 확인메시지（지원함수또는문자열） */
       confirmMessage?: string | ((args: T) => string);
-      /** 성공메시지（支持함수或문자열） */
+      /** 성공메시지（지원함수또는문자열） */
       successMessage?: string | ((args: T) => string);
-      /** 是否호출백엔드 API（기본값 false，만약로 true 그러면자동호출 executeCommand） */
+      /** 여부호출백엔드 API（기본값 false，만약로 true 그러면자동호출 executeCommand） */
       callBackendApi?: boolean;
     };
 
 /**
  * AI 작업설정
  */
-export interface UseAiActionOptions {
-  /** 작업매핑表：함수이름 -> 처리器 */
-  actionHandlers?: Record<string, AiActionHandler>;
-  /** 데이터새로고침함수（작업完成후호출） */
+export interface UseAi액션Options {
+  /** 작업매핑테이블：함수이름 -> 처리기기 */
+  actionHandlers?: Record<string, Ai액션Handler>;
+  /** 데이터새로고침함수（작업완료후호출） */
   onRefresh?: () => Promise<void> | void;
   /** 자동검색처리함수 */
   onAutoSearch?: (키words: string) => void;
@@ -40,25 +40,25 @@ export interface UseAiActionOptions {
 /**
  * AI 작업 Composable
  *
- * 统하나처리 AI 助手传递의작업，支持：
+ * 통계하나처리 AI 도우미传递의작업，지원：
  * - 자동검색（通거치 키words + autoSearch 파라미터）
- * - 실행 AI 작업（通거치 aiAction 파라미터）
- * - 설정化의작업처리器
+ * - 실행 AI 작업（通거치 ai액션 파라미터）
+ * - 설정化의작업처리기기
  */
-export function useAiAction(options: UseAiActionOptions = {}) {
+export function useAi액션(options: UseAi액션Options = {}) {
   const route = useRoute();
   const { actionHandlers = {}, onRefresh, onAutoSearch, currentRoute = route.path } = options;
 
-  // 용도跟踪是否已언마운트，방지에언마운트후실행콜백
+  // 용도跟踪여부이미언마운트，방지에언마운트후실행콜백
   let isUnmounted = false;
 
   /**
-   * 실행 AI 작업（统하나처리确认、실행、反馈流程）
+   * 실행 AI 작업（통계하나처리확인、실행、피드백流程）
    */
-  async function executeAiAction(action: any) {
+  async function executeAi액션(action: any) {
     if (isUnmounted) return;
 
-    // 兼容两种입参：{ functionName, arguments } 或 { functionCall: { name, arguments } }
+    // 兼容两种입参：{ functionName, arguments } 또는 { functionCall: { name, arguments } }
     const fnCall = action.functionCall ?? {
       name: action.functionName,
       arguments: action.arguments,
@@ -69,7 +69,7 @@ export function useAiAction(options: UseAiActionOptions = {}) {
       return;
     }
 
-    // 조회对应의처리器
+    // 조회对应의처리기기
     const handler = actionHandlers[fnCall.name];
     if (!handler) {
       ElMessage.warning(`暂지원하지 않음작업: ${fnCall.name}`);
@@ -77,25 +77,25 @@ export function useAiAction(options: UseAiActionOptions = {}) {
     }
 
     try {
-      // 判断처리器타입（함수 or 설정객체）
+      // 判断처리기기타입（함수 or 설정객체）
       const isSimpleFunction = typeof handler === "function";
 
       if (isSimpleFunction) {
         // 简단일함수形式：直接실행
         await handler(fnCall.arguments);
       } else {
-        // 설정객체形式：统하나처리确认、실행、反馈
+        // 설정객체形式：통계하나처리확인、실행、피드백
         const config = handler;
 
-        // 1. 确认阶段（기본값필요해야确认）
+        // 1. 확인阶段（기본값필요해야확인）
         if (config.needConfirm !== false) {
           const confirmMsg =
             typeof config.confirmMessage === "function"
               ? config.confirmMessage(fnCall.arguments)
-              : config.confirmMessage || "确认실행此작업하나？";
+              : config.confirmMessage || "확인실행이작업하나？";
 
-          await ElMessageBox.confirm(confirmMsg, "AI 助手작업确认", {
-            confirmButtonText: "确认실행",
+          await ElMessageBox.confirm(confirmMsg, "AI 도우미작업확인", {
+            confirmButtonText: "확인실행",
             cancelButtonText: "취소",
             type: "warning",
             dangerouslyUseHTMLString: true,
@@ -120,7 +120,7 @@ export function useAiAction(options: UseAiActionOptions = {}) {
           await config.execute(fnCall.arguments);
         }
 
-        // 3. 성공反馈
+        // 3. 성공피드백
         const successMsg =
           typeof config.successMessage === "function"
             ? config.successMessage(fnCall.arguments)
@@ -135,7 +135,7 @@ export function useAiAction(options: UseAiActionOptions = {}) {
     } catch (error: any) {
       // 처리취소작업
       if (error === "cancel") {
-        ElMessage.info("已취소작업");
+        ElMessage.info("이미취소작업");
         return;
       }
 
@@ -164,17 +164,17 @@ export function useAiAction(options: UseAiActionOptions = {}) {
       confirmMessage,
     } = options;
 
-    // 만약필요해야确认，先显示确认对话框
+    // 만약필요해야확인，先표시확인다이얼로그
     if (needConfirm && confirmMessage) {
       try {
-        await ElMessageBox.confirm(confirmMessage, "AI 助手작업确认", {
-          confirmButtonText: "确认실행",
+        await ElMessageBox.confirm(confirmMessage, "AI 도우미작업확인", {
+          confirmButtonText: "확인실행",
           cancelButtonText: "취소",
           type: "warning",
           dangerouslyUseHTMLString: true,
         });
       } catch {
-        ElMessage.info("已취소작업");
+        ElMessage.info("이미취소작업");
         return;
       }
     }
@@ -206,30 +206,30 @@ export function useAiAction(options: UseAiActionOptions = {}) {
     if (onAutoSearch) {
       onAutoSearch(키words);
     } else {
-      ElMessage.info(`AI 助手已로귀사자동검색：${키words}`);
+      ElMessage.info(`AI 도우미이미로귀사자동검색：${키words}`);
     }
   }
 
   /**
    * 초기화：처리 URL 파라미터의 AI 작업
    *
-   * 注意：此메서드오직처리 AI 관련파라미터，不负责페이지데이터의初始加载
-   * 페이지데이터加载应由컴포넌트의 onMounted 훅自行처리
+   * 주의：이메서드오직처리 AI 관련파라미터，아님负责페이지데이터의初始로드
+   * 페이지데이터로드应由컴포넌트의 onMounted 훅自행처리
    */
   async function init() {
     if (isUnmounted) return;
 
-    // 检查是否有 AI 助手传递의파라미터
+    // 확인여부있음 AI 도우미传递의파라미터
     const 키words = route.query.키words as string;
     const autoSearch = route.query.autoSearch as string;
-    const aiActionParam = route.query.aiAction as string;
+    const ai액션Param = route.query.ai액션 as string;
 
     // 만약없음任何 AI 파라미터，直接돌아가기
-    if (!키words && !autoSearch && !aiActionParam) {
+    if (!키words && !autoSearch && !ai액션Param) {
       return;
     }
 
-    // 에 nextTick 내실행，보장페이지데이터已加载
+    // 에 nextTick 내실행，보장페이지데이터이미로드
     nextTick(async () => {
       if (isUnmounted) return;
 
@@ -239,10 +239,10 @@ export function useAiAction(options: UseAiActionOptions = {}) {
       }
 
       // 2. 처리 AI 작업
-      if (aiActionParam) {
+      if (ai액션Param) {
         try {
-          const aiAction = JSON.parse(decodeURIComponent(aiActionParam));
-          await executeAiAction(aiAction);
+          const ai액션 = JSON.parse(decodeURIComponent(ai액션Param));
+          await executeAi액션(ai액션);
         } catch (error) {
           console.error("파싱 AI 작업실패:", error);
           ElMessage.error("AI 작업파라미터파싱실패");
@@ -256,13 +256,13 @@ export function useAiAction(options: UseAiActionOptions = {}) {
     init();
   });
 
-  // 컴포넌트언마운트시清理
+  // 컴포넌트언마운트시정리
   onBeforeUnmount(() => {
     isUnmounted = true;
   });
 
   return {
-    executeAiAction,
+    executeAi액션,
     executeCommand,
     handleAutoSearch,
     init,

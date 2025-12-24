@@ -2,11 +2,11 @@ import { 저장소 } from "@/저장소";
 import DictAPI, { type DictItemOption } from "@/api/system/dict-api";
 import { STORAGE_KEYS } from "@/constants";
 
-export const useDictStore = defineStore("dict", () => {
+export const useDict스토어 = define스토어("dict", () => {
   // 사전데이터캐시
   const dictCache = useStorage<Record<string, DictItemOption[]>>(STORAGE_KEYS.DICT_CACHE, {});
 
-  // 요청큐（방지重复요청）
+  // 요청큐（방지중복요청）
   const requestQueue: Record<string, Promise<void>> = {};
 
   /**
@@ -19,12 +19,12 @@ export const useDictStore = defineStore("dict", () => {
   };
 
   /**
-   * 加载사전데이터（만약캐시내없음그러면요청）
+   * 로드사전데이터（만약캐시내없음그러면요청）
    * @param dictCode 사전인코딩
    */
   const loadDictItems = async (dictCode: string) => {
     if (dictCache.value[dictCode]) return;
-    // 방지重复요청
+    // 방지중복요청
     if (!requestQueue[dictCode]) {
       requestQueue[dictCode] = DictAPI.getDictItems(dictCode)
         .then((data) => {
@@ -32,7 +32,7 @@ export const useDictStore = defineStore("dict", () => {
           Reflect.deleteProperty(requestQueue, dictCode);
         })
         .catch((error) => {
-          // 요청실패，清理큐，허용재시도
+          // 요청실패，정리큐，허용재시도
           Reflect.deleteProperty(requestQueue, dictCode);
           throw error;
         });
@@ -60,7 +60,7 @@ export const useDictStore = defineStore("dict", () => {
   };
 
   /**
-   * 清비어있음사전캐시
+   * 정리비어있음사전캐시
    */
   const clearDictCache = () => {
     dictCache.value = {};
@@ -74,6 +74,6 @@ export const useDictStore = defineStore("dict", () => {
   };
 });
 
-export function useDictStoreHook() {
-  return useDictStore(저장소);
+export function useDict스토어Hook() {
+  return useDict스토어(저장소);
 }

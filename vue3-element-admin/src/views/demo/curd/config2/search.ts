@@ -11,38 +11,38 @@ const searchConfig: ISearchConfig = {
     {
       tips: { effect: "light", placement: "top", content: "사용자 정의텍스트提示" },
       type: "input",
-      label: "输입框",
+      label: "출력입프레임",
       prop: "testInput",
       attrs: { placeholder: "입력해주세요", clearable: true },
       events: {
         change: (e) => {
-          console.log("输입框의값: ", e);
-          // 级联작업示例，필요해야사용reactive提前定义배열
+          console.log("출력입프레임의값: ", e);
+          // 级联작업예제，필요해야사용reactive提前정의배열
           // selectOptions.push({ label: e, value: e });
         },
       },
     },
     {
       type: "input-number",
-      label: "숫자输입框",
+      label: "숫자출력입프레임",
       prop: "testInputNumber",
       attrs: { placeholder: "입력해주세요", controls: false },
     },
     {
       type: "select",
-      label: "下拉선택框",
+      label: "下拉선택프레임",
       prop: "testSelect",
       attrs: { placeholder: "全部", clearable: true },
       options: stateArr as any,
       events: {
         change(e) {
-          console.log("选의값: ", e);
+          console.log("선택의값: ", e);
         },
       },
     },
     {
       type: "tree-select",
-      label: "트리形선택框",
+      label: "트리形선택프레임",
       prop: "testTreeSelect",
       attrs: {
         placeholder: "선택해주세요",
@@ -53,7 +53,7 @@ const searchConfig: ISearchConfig = {
         clearable: true,
       },
       // async initFn(formItem) {
-      //   // 注意:만약initFn함수不是箭头함수,this会指에此설정항목객체,那么也就可以用this来替代形参formItem
+      //   // 주의:만약initFn함수아님예箭头함수,this회의指에이설정항목객체,那么也就可以用this来替代形参formItem
       //   formItem.attrs.data = await DeptAPI.getOptions();
       // },
     },
@@ -107,14 +107,14 @@ const searchConfig: ISearchConfig = {
       attrs: {
         type: "daterange",
         "range-separator": "~",
-        "start-placeholder": "开始시사이",
+        "start-placeholder": "시작시사이",
         "end-placeholder": "截止시사이",
         "value-format": "YYYY-MM-DD",
       },
     },
     {
       type: "date-picker",
-      label: "日期선택자",
+      label: "날짜선택자",
       prop: "testDataPicker",
       attrs: { placeholder: "선택해주세요", type: "date" },
     },
@@ -132,13 +132,13 @@ const searchConfig: ISearchConfig = {
     },
     {
       type: "input-tag",
-      label: "标签선택자",
+      label: "태그선택자",
       prop: "testInputTags",
       attrs: { placeholder: "선택해주세요", clearable: true },
     },
     {
       type: "custom-tag",
-      label: "标签선택자",
+      label: "태그선택자",
       prop: "testCustomTags",
       attrs: {
         buttonAttrs: { btnText: "+ New Tag" },

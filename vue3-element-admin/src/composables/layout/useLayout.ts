@@ -1,51 +1,51 @@
-import { useAppStore, useSettingsStore } from "@/저장소";
+import { useApp스토어, useSettings스토어 } from "@/저장소";
 import { defaultSettings } from "@/settings";
 
 /**
  * 레이아웃 관련의通用逻辑
  */
 export function useLayout() {
-  const appStore = useAppStore();
-  const settingsStore = useSettingsStore();
+  const app스토어 = useApp스토어();
+  const settings스토어 = useSettings스토어();
 
-  // 계算当前레이아웃模式
-  const currentLayout = computed(() => settingsStore.layout);
+  // 계算当前레이아웃모드
+  const currentLayout = computed(() => settings스토어.layout);
 
   // 측엣지열펼치기상태
-  const isSidebarOpen = computed(() => appStore.sidebar.opened);
+  const isSidebarOpen = computed(() => app스토어.sidebar.opened);
 
-  // 是否显示标签뷰
-  const isShowTagsView = computed(() => settingsStore.showTagsView);
+  // 여부표시태그뷰
+  const isShowTagsView = computed(() => settings스토어.showTagsView);
 
-  // 是否显示설정面板
+  // 여부표시설정패널
   const isShowSettings = computed(() => defaultSettings.showSettings);
 
-  // 是否显示Logo
-  const isShowLogo = computed(() => settingsStore.showAppLogo);
+  // 여부표시Logo
+  const isShowLogo = computed(() => settings스토어.showAppLogo);
 
-  // 是否모바일 기기
-  const isMobile = computed(() => appStore.device === "mobile");
+  // 여부모바일 기기
+  const isMobile = computed(() => app스토어.device === "mobile");
 
-  // 레이아웃CSS类
+  // 레이아웃CSS클래스
   const layoutClass = computed(() => ({
-    hideSidebar: !appStore.sidebar.opened,
-    openSidebar: appStore.sidebar.opened,
-    mobile: appStore.device === "mobile",
-    [`layout-${settingsStore.layout}`]: true,
+    hideSidebar: !app스토어.sidebar.opened,
+    openSidebar: app스토어.sidebar.opened,
+    mobile: app스토어.device === "mobile",
+    [`layout-${settings스토어.layout}`]: true,
   }));
 
   /**
    * 처리切换측엣지열의펼치기/접기상태
    */
   function toggleSidebar() {
-    appStore.toggleSidebar();
+    app스토어.toggleSidebar();
   }
 
   /**
    * 닫기측엣지열（모바일）
    */
   function closeSidebar() {
-    appStore.closeSideBar();
+    app스토어.closeSideBar();
   }
 
   return {

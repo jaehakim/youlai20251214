@@ -118,7 +118,7 @@ type ToolFunctionCall = {
 };
 
 // 통합 동작 설명 ("이동", "이동+실행", "실행만" 세 가지 시나리오 구분)
-type AiAction =
+type Ai액션 =
   | {
       type: "navigate";
       path: string;
@@ -140,7 +140,7 @@ type AiAction =
 
 type AiResponse = {
   explanation: string;
-  action: AiAction | null;
+  action: Ai액션 | null;
 };
 
 const router = useRouter();
@@ -185,7 +185,7 @@ const handleExecute = async () => {
   const directNavigation = tryDirectNavigate(rawCommand);
   if (directNavigation && directNavigation.action) {
     response.value = directNavigation;
-    await executeAction(directNavigation.action);
+    await execute액션(directNavigation.action);
     return;
   }
 
@@ -208,7 +208,7 @@ const handleExecute = async () => {
     }
 
     // AI가 반환한 작업 유형 분석
-    const action = parseAction(result, rawCommand);
+    const action = parse액션(result, rawCommand);
     response.value = {
       explanation: result.explanation ?? "명령 분석 완료, 작업 실행 준비 중",
       action,
@@ -216,7 +216,7 @@ const handleExecute = async () => {
 
     // 사용자 확인 후 실행 대기
     if (action) {
-      await executeAction(action);
+      await execute액션(action);
     }
   } catch (error: any) {
     console.error("AI 명령 실행 실패:", error);
@@ -323,7 +323,7 @@ const tryDirectNavigate = (rawCommand: string): AiResponse | null => {
   }
 
   const keyword = extractKeywordFromCommand(rawCommand);
-  const action: AiAction = {
+  const action: Ai액션 = {
     type: "navigate",
     path: routeInfo.path,
     pageName: routeInfo.name,
@@ -337,7 +337,7 @@ const tryDirectNavigate = (rawCommand: string): AiResponse | null => {
 };
 
 // AI가 반환한 작업 유형 분석
-const parseAction = (result: any, rawCommand: string): AiAction | null => {
+const parse액션 = (result: any, rawCommand: string): Ai액션 | null => {
   const cmd = normalizeText(rawCommand);
   const primaryCall = result.functionCalls?.[0];
   const functionName = primaryCall?.name;
@@ -436,7 +436,7 @@ let navigationTimer: ReturnType<typeof setTimeout> | null = null;
 let executeTimer: ReturnType<typeof setTimeout> | null = null;
 
 // 작업 실행
-const executeAction = async (action: AiAction) => {
+const execute액션 = async (action: Ai액션) => {
   // 🎯 신규: 이동 및 작업 실행
   if (action.type === "navigate-and-execute") {
     ElMessage.success(`${action.pageName}로 이동 중이며 작업을 실행합니다...`);
@@ -451,7 +451,7 @@ const executeAction = async (action: AiAction) => {
       navigationTimer = null;
       const queryParams: any = {
         // URL 파라미터를 통해 AI 작업 정보 전달
-        aiAction: encodeURIComponent(
+        ai액션: encodeURIComponent(
           JSON.stringify({
             functionName: action.functionCall.name,
             arguments: action.functionCall.arguments,

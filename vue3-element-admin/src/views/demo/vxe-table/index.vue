@@ -191,12 +191,12 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
   },
   // 사용자 정의열설정항목
   customConfig: {
-    // 여부허용열选내
+    // 여부허용열선택내
     checkMethod: ({ column }) => !["username"].includes(column.field),
   },
-  // 复选框설정항목
+  // 체크박스설정항목
   checkboxConfig: {
-    // 여부보유선택상태（需해야有 row-config.keyField）
+    // 여부보유선택상태（需해야있음 row-config.keyField）
     // reserve: true,
   },
   // 펼치기행설정항목（지원하지 않음虚拟스크롤）
@@ -221,7 +221,7 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
         span: 4,
         field: "username",
         title: "사용자명",
-        // 前缀설정항목
+        // 접두사설정항목
         titlePrefix: {
           useHTML: true,
           content:
@@ -339,7 +339,7 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
   proxyConfig: {
     // 여부自动로딩조회데이터
     autoLoad: true,
-    // 활성화动态序号프록시（페이지네이션之후索引自动计算为当前页의起始序号）
+    // 활성화动态序号프록시（페이지네이션之후인덱스自动计算为当前页의起始序号）
     seq: true,
     // 양식프록시
     form: true,
@@ -347,7 +347,7 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
     filter: true,
     // 여부프록시정렬（오직 sort-config.remote=true 시유효）
     sort: true,
-    // 조회响应의값설정
+    // 조회응답의값설정
     response: {
       // 오직 pager-config 설정됨유효，응답 결과내조회데이터목록의속성（페이지네이션 시나리오）
       result: "result",
@@ -472,7 +472,7 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
   },
 });
 const gridEvents: VxeGridListeners<RowMeta> = {
-  // 오직 form-config 설정시유효，양식초기화시会触发该事개
+  // 오직 form-config 설정시유효，양식초기화시회의触发该事개
   formReset() {
     console.log("Form Reset");
   },

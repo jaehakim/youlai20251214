@@ -26,7 +26,7 @@ export const QueryTypeEnum: Record<string, OptionType> = {
   /** 小于等于 */
   LE: { value: 8, label: "<=" },
 
-  /** 不等于 */
+  /** 아님等于 */
   NE: { value: 9, label: "!=" },
 
   /** 左模糊일치 */

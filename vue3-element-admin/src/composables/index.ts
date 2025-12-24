@@ -8,7 +8,7 @@ export { useLayout } from "./layout/useLayout";
 export { useLayoutMenu } from "./layout/useLayoutMenu";
 export { useDeviceDetection } from "./layout/useDeviceDetection";
 
-export { useAiAction } from "./useAiAction";
-export type { UseAiActionOptions, AiActionHandler } from "./useAiAction";
+export { useAi액션 } from "./useAi액션";
+export type { UseAi액션Options, Ai액션Handler } from "./useAi액션";
 
 export { useTableSelection } from "./useTableSelection";

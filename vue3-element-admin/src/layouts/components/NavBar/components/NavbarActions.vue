@@ -1,5 +1,5 @@
 <template>
-  <div :class="['navbar-actions', navbarActionsClass]">
+  <div :class="['navbar-actions', navbar액션sClass]">
     <!-- 데스크톱 도구 항목 -->
     <template v-if="isDesktop">
       <!-- 검색 -->
@@ -32,8 +32,8 @@
     <div class="navbar-actions__item">
       <el-dropdown trigger="click">
         <div class="user-profile">
-          <img class="user-profile__avatar" :src="userStore.userInfo.avatar" />
-          <span class="user-profile__name">{{ userStore.userInfo.username }}</span>
+          <img class="user-profile__avatar" :src="user스토어.userInfo.avatar" />
+          <span class="user-profile__name">{{ user스토어.userInfo.username }}</span>
         </div>
         <template #dropdown>
           <el-dropdown-menu>
@@ -64,7 +64,7 @@ import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "vue-router";
 import { defaultSettings } from "@/settings";
 import { DeviceEnum } from "@/enums/settings/device-enum";
-import { useAppStore, useSettingsStore, useUserStore } from "@/store";
+import { useApp스토어, useSettings스토어, useUser스토어 } from "@/store";
 import { SidebarColor, ThemeMode } from "@/enums/settings/theme-enum";
 import { LayoutMode } from "@/enums";
 
@@ -76,15 +76,15 @@ import LangSelect from "@/components/LangSelect/index.vue";
 import Notification from "@/components/Notification/index.vue";
 
 const { t } = useI18n();
-const appStore = useAppStore();
-const settingStore = useSettingsStore();
-const userStore = useUserStore();
+const app스토어 = useApp스토어();
+const setting스토어 = useSettings스토어();
+const user스토어 = useUser스토어();
 
 const route = useRoute();
 const router = useRouter();
 
 // 데스크톱 장치 여부
-const isDesktop = computed(() => appStore.device === DeviceEnum.DESKTOP);
+const isDesktop = computed(() => app스토어.device === DeviceEnum.DESKTOP);
 
 /**
  * 개인 센터 페이지 열기
@@ -94,8 +94,8 @@ function handleProfileClick() {
 }
 
 // 테마 및 사이드바 색상 구성표에 따라 스타일 클래스 선택
-const navbarActionsClass = computed(() => {
-  const { theme, sidebarColorScheme, layout } = settingStore;
+const navbar액션sClass = computed(() => {
+  const { theme, sidebarColorScheme, layout } = setting스토어;
 
   // 어두운 테마에서 모든 레이아웃이 흰색 텍스트를 사용합니다
   if (theme === ThemeMode.DARK) {
@@ -129,7 +129,7 @@ function logout() {
     type: "warning",
     lockScroll: false,
   }).then(() => {
-    userStore.logout().then(() => {
+    user스토어.logout().then(() => {
       router.push(`/login?redirect=${route.fullPath}`);
     });
   });
@@ -139,7 +139,7 @@ function logout() {
  * 시스템 설정 페이지 열기
  */
 function handleSettingsClick() {
-  settingStore.settingsVisible = true;
+  setting스토어.settingsVisible = true;
 }
 </script>
 

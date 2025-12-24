@@ -35,7 +35,7 @@ declare global {
   const debouncedWatch: (typeof import("@vueuse/core"))["debouncedWatch"];
   const defineAsyncComponent: (typeof import("vue"))["defineAsyncComponent"];
   const defineComponent: (typeof import("vue"))["defineComponent"];
-  const defineStore: (typeof import("pinia"))["defineStore"];
+  const define스토어: (typeof import("pinia"))["define스토어"];
   const eagerComputed: (typeof import("@vueuse/core"))["eagerComputed"];
   const effectScope: (typeof import("vue"))["effectScope"];
   const extendRef: (typeof import("@vueuse/core"))["extendRef"];
@@ -52,10 +52,10 @@ declare global {
   const isReadonly: (typeof import("vue"))["isReadonly"];
   const isRef: (typeof import("vue"))["isRef"];
   const makeDestructurable: (typeof import("@vueuse/core"))["makeDestructurable"];
-  const mapActions: (typeof import("pinia"))["mapActions"];
-  const mapGetters: (typeof import("pinia"))["mapGetters"];
+  const map액션s: (typeof import("pinia"))["map액션s"];
+  const map게터s: (typeof import("pinia"))["map게터s"];
   const mapState: (typeof import("pinia"))["mapState"];
-  const mapStores: (typeof import("pinia"))["mapStores"];
+  const map스토어s: (typeof import("pinia"))["map스토어s"];
   const mapWritableState: (typeof import("pinia"))["mapWritableState"];
   const markRaw: (typeof import("vue"))["markRaw"];
   const nextTick: (typeof import("vue"))["nextTick"];
@@ -98,7 +98,7 @@ declare global {
   const resolveRef: (typeof import("@vueuse/core"))["resolveRef"];
   const resolveUnref: (typeof import("@vueuse/core"))["resolveUnref"];
   const setActivePinia: (typeof import("pinia"))["setActivePinia"];
-  const setMapStoreSuffix: (typeof import("pinia"))["setMapStoreSuffix"];
+  const setMap스토어Suffix: (typeof import("pinia"))["setMap스토어Suffix"];
   const shallowReactive: (typeof import("vue"))["shallowReactive"];
   const shallowReadonly: (typeof import("vue"))["shallowReadonly"];
   const shallowRef: (typeof import("vue"))["shallowRef"];
@@ -210,7 +210,7 @@ declare global {
   const useMouse: (typeof import("@vueuse/core"))["useMouse"];
   const useMouseInElement: (typeof import("@vueuse/core"))["useMouseInElement"];
   const useMousePressed: (typeof import("@vueuse/core"))["useMousePressed"];
-  const useMutationObserver: (typeof import("@vueuse/core"))["useMutationObserver"];
+  const use뮤테이션Observer: (typeof import("@vueuse/core"))["use뮤테이션Observer"];
   const useNavigatorLanguage: (typeof import("@vueuse/core"))["useNavigatorLanguage"];
   const useNetwork: (typeof import("@vueuse/core"))["useNetwork"];
   const useNow: (typeof import("@vueuse/core"))["useNow"];
@@ -360,7 +360,7 @@ declare module "vue" {
     readonly debouncedWatch: UnwrapRef<(typeof import("@vueuse/core"))["debouncedWatch"]>;
     readonly defineAsyncComponent: UnwrapRef<(typeof import("vue"))["defineAsyncComponent"]>;
     readonly defineComponent: UnwrapRef<(typeof import("vue"))["defineComponent"]>;
-    readonly defineStore: UnwrapRef<(typeof import("pinia"))["defineStore"]>;
+    readonly define스토어: UnwrapRef<(typeof import("pinia"))["define스토어"]>;
     readonly eagerComputed: UnwrapRef<(typeof import("@vueuse/core"))["eagerComputed"]>;
     readonly effectScope: UnwrapRef<(typeof import("vue"))["effectScope"]>;
     readonly extendRef: UnwrapRef<(typeof import("@vueuse/core"))["extendRef"]>;
@@ -377,10 +377,10 @@ declare module "vue" {
     readonly isReadonly: UnwrapRef<(typeof import("vue"))["isReadonly"]>;
     readonly isRef: UnwrapRef<(typeof import("vue"))["isRef"]>;
     readonly makeDestructurable: UnwrapRef<(typeof import("@vueuse/core"))["makeDestructurable"]>;
-    readonly mapActions: UnwrapRef<(typeof import("pinia"))["mapActions"]>;
-    readonly mapGetters: UnwrapRef<(typeof import("pinia"))["mapGetters"]>;
+    readonly map액션s: UnwrapRef<(typeof import("pinia"))["map액션s"]>;
+    readonly map게터s: UnwrapRef<(typeof import("pinia"))["map게터s"]>;
     readonly mapState: UnwrapRef<(typeof import("pinia"))["mapState"]>;
-    readonly mapStores: UnwrapRef<(typeof import("pinia"))["mapStores"]>;
+    readonly map스토어s: UnwrapRef<(typeof import("pinia"))["map스토어s"]>;
     readonly mapWritableState: UnwrapRef<(typeof import("pinia"))["mapWritableState"]>;
     readonly markRaw: UnwrapRef<(typeof import("vue"))["markRaw"]>;
     readonly nextTick: UnwrapRef<(typeof import("vue"))["nextTick"]>;
@@ -423,7 +423,7 @@ declare module "vue" {
     readonly resolveRef: UnwrapRef<(typeof import("@vueuse/core"))["resolveRef"]>;
     readonly resolveUnref: UnwrapRef<(typeof import("@vueuse/core"))["resolveUnref"]>;
     readonly setActivePinia: UnwrapRef<(typeof import("pinia"))["setActivePinia"]>;
-    readonly setMapStoreSuffix: UnwrapRef<(typeof import("pinia"))["setMapStoreSuffix"]>;
+    readonly setMap스토어Suffix: UnwrapRef<(typeof import("pinia"))["setMap스토어Suffix"]>;
     readonly shallowReactive: UnwrapRef<(typeof import("vue"))["shallowReactive"]>;
     readonly shallowReadonly: UnwrapRef<(typeof import("vue"))["shallowReadonly"]>;
     readonly shallowRef: UnwrapRef<(typeof import("vue"))["shallowRef"]>;
@@ -545,7 +545,7 @@ declare module "vue" {
     readonly useMouse: UnwrapRef<(typeof import("@vueuse/core"))["useMouse"]>;
     readonly useMouseInElement: UnwrapRef<(typeof import("@vueuse/core"))["useMouseInElement"]>;
     readonly useMousePressed: UnwrapRef<(typeof import("@vueuse/core"))["useMousePressed"]>;
-    readonly useMutationObserver: UnwrapRef<(typeof import("@vueuse/core"))["useMutationObserver"]>;
+    readonly use뮤테이션Observer: UnwrapRef<(typeof import("@vueuse/core"))["use뮤테이션Observer"]>;
     readonly useNavigatorLanguage: UnwrapRef<
       (typeof import("@vueuse/core"))["useNavigatorLanguage"]
     >;
@@ -694,7 +694,7 @@ declare module "@vue/runtime-core" {
     readonly debouncedWatch: UnwrapRef<(typeof import("@vueuse/core"))["debouncedWatch"]>;
     readonly defineAsyncComponent: UnwrapRef<(typeof import("vue"))["defineAsyncComponent"]>;
     readonly defineComponent: UnwrapRef<(typeof import("vue"))["defineComponent"]>;
-    readonly defineStore: UnwrapRef<(typeof import("pinia"))["defineStore"]>;
+    readonly define스토어: UnwrapRef<(typeof import("pinia"))["define스토어"]>;
     readonly eagerComputed: UnwrapRef<(typeof import("@vueuse/core"))["eagerComputed"]>;
     readonly effectScope: UnwrapRef<(typeof import("vue"))["effectScope"]>;
     readonly extendRef: UnwrapRef<(typeof import("@vueuse/core"))["extendRef"]>;
@@ -711,10 +711,10 @@ declare module "@vue/runtime-core" {
     readonly isReadonly: UnwrapRef<(typeof import("vue"))["isReadonly"]>;
     readonly isRef: UnwrapRef<(typeof import("vue"))["isRef"]>;
     readonly makeDestructurable: UnwrapRef<(typeof import("@vueuse/core"))["makeDestructurable"]>;
-    readonly mapActions: UnwrapRef<(typeof import("pinia"))["mapActions"]>;
-    readonly mapGetters: UnwrapRef<(typeof import("pinia"))["mapGetters"]>;
+    readonly map액션s: UnwrapRef<(typeof import("pinia"))["map액션s"]>;
+    readonly map게터s: UnwrapRef<(typeof import("pinia"))["map게터s"]>;
     readonly mapState: UnwrapRef<(typeof import("pinia"))["mapState"]>;
-    readonly mapStores: UnwrapRef<(typeof import("pinia"))["mapStores"]>;
+    readonly map스토어s: UnwrapRef<(typeof import("pinia"))["map스토어s"]>;
     readonly mapWritableState: UnwrapRef<(typeof import("pinia"))["mapWritableState"]>;
     readonly markRaw: UnwrapRef<(typeof import("vue"))["markRaw"]>;
     readonly nextTick: UnwrapRef<(typeof import("vue"))["nextTick"]>;
@@ -757,7 +757,7 @@ declare module "@vue/runtime-core" {
     readonly resolveRef: UnwrapRef<(typeof import("@vueuse/core"))["resolveRef"]>;
     readonly resolveUnref: UnwrapRef<(typeof import("@vueuse/core"))["resolveUnref"]>;
     readonly setActivePinia: UnwrapRef<(typeof import("pinia"))["setActivePinia"]>;
-    readonly setMapStoreSuffix: UnwrapRef<(typeof import("pinia"))["setMapStoreSuffix"]>;
+    readonly setMap스토어Suffix: UnwrapRef<(typeof import("pinia"))["setMap스토어Suffix"]>;
     readonly shallowReactive: UnwrapRef<(typeof import("vue"))["shallowReactive"]>;
     readonly shallowReadonly: UnwrapRef<(typeof import("vue"))["shallowReadonly"]>;
     readonly shallowRef: UnwrapRef<(typeof import("vue"))["shallowRef"]>;
@@ -879,7 +879,7 @@ declare module "@vue/runtime-core" {
     readonly useMouse: UnwrapRef<(typeof import("@vueuse/core"))["useMouse"]>;
     readonly useMouseInElement: UnwrapRef<(typeof import("@vueuse/core"))["useMouseInElement"]>;
     readonly useMousePressed: UnwrapRef<(typeof import("@vueuse/core"))["useMousePressed"]>;
-    readonly useMutationObserver: UnwrapRef<(typeof import("@vueuse/core"))["useMutationObserver"]>;
+    readonly use뮤테이션Observer: UnwrapRef<(typeof import("@vueuse/core"))["use뮤테이션Observer"]>;
     readonly useNavigatorLanguage: UnwrapRef<
       (typeof import("@vueuse/core"))["useNavigatorLanguage"]
     >;

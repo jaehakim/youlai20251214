@@ -204,11 +204,11 @@ watch(
   () => props.text,
   () => {
     if (props.typewriter) {
-      // 清除现有定시器
+      // 정리除现있음定시기기
       if (typewriterTimer) {
         clearTimeout(typewriterTimer);
       }
-      // 重新开始打字效果
+      // 다시시작打字效果
       startTypewriter();
     }
   }

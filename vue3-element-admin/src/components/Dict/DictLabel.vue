@@ -7,7 +7,7 @@
   </template>
 </template>
 <script setup lang="ts">
-import { useDictStore } from "@/store";
+import { useDict스토어 } from "@/store";
 
 const props = defineProps({
   code: String, // 사전인코딩
@@ -21,7 +21,7 @@ const label = ref("");
 const tagType = ref<"success" | "warning" | "info" | "primary" | "danger" | undefined>(); // 레이블유형
 const tagSize = ref<"default" | "large" | "small">(props.size as "default" | "large" | "small"); // 레이블크기
 
-const dictStore = useDictStore();
+const dict스토어 = useDict스토어();
 /**
  * 에 따라사전 항목의값조회对应의 label 및 tagType
  * @param dictCode 사전인코딩
@@ -30,10 +30,10 @@ const dictStore = useDictStore();
  */
 const getLabelAndTagByValue = async (dictCode: string, value: any) => {
   // 按需로딩사전데이터
-  await dictStore.loadDictItems(dictCode);
-  // 从缓存내조회사전데이터
-  const dictItems = dictStore.getDictItems(dictCode);
-  // 查找对应의사전 항목
+  await dict스토어.loadDictItems(dictCode);
+  // 从캐시내조회사전데이터
+  const dictItems = dict스토어.getDictItems(dictCode);
+  // 찾기对应의사전 항목
   const dictItem = dictItems.find((item) => item.value == value);
   return {
     label: dictItem?.label || "",
@@ -53,7 +53,7 @@ const updateLabelAndTag = async () => {
   tagType.value = newTagType as typeof tagType.value;
 };
 
-// 初始化或code变化시업데이트레이블및레이블스타일
+// 初始化또는code변경시업데이트레이블및레이블스타일
 watch(
   [() => props.code, () => props.modelValue],
   async () => {

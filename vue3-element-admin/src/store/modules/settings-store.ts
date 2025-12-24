@@ -4,9 +4,9 @@ import type { LayoutMode } from "@/enums/settings/layout-enum";
 import { applyTheme, generateThemeColors, toggleDarkMode, toggleSidebarColor } from "@/utils/theme";
 import { STORAGE_KEYS } from "@/constants";
 
-// 🎯 설정항목타입定义
+// 🎯 설정항목타입정의
 interface SettingsState {
-  // 界面显示설정
+  // 界面표시설정
   settingsVisible: boolean;
   showTagsView: boolean;
   showAppLogo: boolean;
@@ -26,26 +26,26 @@ interface SettingsState {
 type MutableSetting = Exclude<키of SettingsState, "settingsVisible">;
 type SettingValue<K extends MutableSetting> = SettingsState[K];
 
-export const useSettingsStore = defineStore("setting", () => {
-  // 설정面板可见性
+export const useSettings스토어 = define스토어("setting", () => {
+  // 설정패널可见性
   const settingsVisible = 참조<boolean>(false);
 
-  // 是否显示标签页뷰
+  // 여부표시태그页뷰
   const showTagsView = useStorage<boolean>(
     STORAGE_KEYS.SHOW_TAGS_VIEW,
     defaultSettings.showTagsView
   );
 
-  // 是否显示应用Logo
+  // 여부표시应用Logo
   const showAppLogo = useStorage<boolean>(STORAGE_KEYS.SHOW_APP_LOGO, defaultSettings.showAppLogo);
 
-  // 是否显示水印
+  // 여부표시水印
   const showWatermark = useStorage<boolean>(
     STORAGE_KEYS.SHOW_WATERMARK,
     defaultSettings.showWatermark
   );
 
-  // 是否启用 AI 助手
+  // 여부활성화 AI 도우미
   const enableAiAssistant = useStorage<boolean>(
     STORAGE_KEYS.ENABLE_AI_ASSISTANT,
     defaultSettings.enableAiAssistant
@@ -57,16 +57,16 @@ export const useSettingsStore = defineStore("setting", () => {
     defaultSettings.sidebarColorScheme
   );
 
-  // 레이아웃模式
+  // 레이아웃모드
   const layout = useStorage<LayoutMode>(STORAGE_KEYS.LAYOUT, defaultSettings.layout as LayoutMode);
 
-  // 테마颜色
+  // 테마색상
   const themeColor = useStorage<string>(STORAGE_KEYS.THEME_COLOR, defaultSettings.themeColor);
 
-  // 테마模式（亮色/暗色）
+  // 테마모드（라이트/다크）
   const theme = useStorage<ThemeMode>(STORAGE_KEYS.THEME, defaultSettings.theme);
 
-  // 설정항목매핑，용도统하나管理
+  // 설정항목매핑，용도통계하나관리
   const settingsMap = {
     showTagsView,
     showAppLogo,
@@ -76,7 +76,7 @@ export const useSettingsStore = defineStore("setting", () => {
     layout,
   } as const;
 
-  // 리스닝테마变化，자동应用스타일
+  // 리스닝테마변경，자동应用스타일
   watch(
     [theme, themeColor],
     ([newTheme, newThemeColor]: [ThemeMode, string]) => {
@@ -87,7 +87,7 @@ export const useSettingsStore = defineStore("setting", () => {
     { immediate: true }
   );
 
-  // 리스닝측엣지열配色变化
+  // 리스닝측엣지열配色변경
   watch(
     [sidebarColorScheme],
     ([newSidebarColorScheme]) => {
@@ -121,7 +121,7 @@ export const useSettingsStore = defineStore("setting", () => {
     layout.value = newLayout;
   }
 
-  // 설정面板控制
+  // 설정패널控制
   function toggleSettingsPanel(): void {
     settingsVisible.value = !settingsVisible.value;
   }
@@ -165,12 +165,12 @@ export const useSettingsStore = defineStore("setting", () => {
     updateSidebarColorScheme,
     updateLayout,
 
-    // 面板控制
+    // 패널控制
     toggleSettingsPanel,
     showSettingsPanel,
     hideSettingsPanel,
 
-    // 초기화功能
+    // 초기화기능
     resetSettings,
   };
 });

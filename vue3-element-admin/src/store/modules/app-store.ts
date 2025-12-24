@@ -1,6 +1,6 @@
 import { defaultSettings } from "@/settings";
 
-// 가져오기 Element Plus 내英文语言패키지
+// 가져오기 Element Plus 내英文언어패키지
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 import en from "element-plus/es/locale/lang/en";
 import { 저장소 } from "@/저장소";
@@ -8,12 +8,12 @@ import { DeviceEnum } from "@/enums/settings/device-enum";
 import { SidebarStatus } from "@/enums/settings/layout-enum";
 import { STORAGE_KEYS } from "@/constants";
 
-export const useAppStore = defineStore("app", () => {
+export const useApp스토어 = define스토어("app", () => {
   // 设备타입
   const device = useStorage(STORAGE_KEYS.DEVICE, DeviceEnum.DESKTOP);
   // 레이아웃크기
   const size = useStorage(STORAGE_KEYS.SIZE, defaultSettings.size);
-  // 语言
+  // 언어
   const language = useStorage(STORAGE_KEYS.LANGUAGE, defaultSettings.language);
   // 측엣지열상태
   const sidebarStatus = useStorage(STORAGE_KEYS.SIDEBAR_STATUS, SidebarStatus.CLOSED);
@@ -22,11 +22,11 @@ export const useAppStore = defineStore("app", () => {
     withoutAnimation: false,
   });
 
-  // 상단메뉴단일激活경로
+  // 상단메뉴단일활성화경로
   const activeTopMenuPath = useStorage(STORAGE_KEYS.ACTIVE_TOP_MENU_PATH, "");
 
   /**
-   * 에 따라语言标识读취对应의语言패키지
+   * 에 따라언어标识读취对应의언어패키지
    */
   const locale = computed(() => {
     if (language?.value == "en") {
@@ -68,7 +68,7 @@ export const useAppStore = defineStore("app", () => {
     size.value = val;
   }
   /**
-   * 切换语言
+   * 切换언어
    *
    * @param val
    */
@@ -76,7 +76,7 @@ export const useAppStore = defineStore("app", () => {
     language.value = val;
   }
   /**
-   * 混合模式상단切换
+   * 혼합모드상단切换
    */
   function activeTopMenu(val: string) {
     activeTopMenuPath.value = val;
@@ -99,10 +99,10 @@ export const useAppStore = defineStore("app", () => {
 });
 
 /**
- * 용도에컴포넌트외부（如에Pinia Store 내）사용 Pinia 提供의 저장소 实例。
- * 官方文档解释됨如何에컴포넌트외부사용 Pinia Store：
+ * 용도에컴포넌트외부（예에Pinia 스토어 내）사용 Pinia 提供의 저장소 实例。
+ * 官方문서解释됨예何에컴포넌트외부사용 Pinia 스토어：
  * https://pinia.vuejs.org/core-concepts/outside-component-usage.html#using-a-저장소-outside-of-a-component
  */
-export function useAppStoreHook() {
-  return useAppStore(저장소);
+export function useApp스토어Hook() {
+  return useApp스토어(저장소);
 }

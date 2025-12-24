@@ -12,7 +12,7 @@ export const enum ThemeMode {
   DARK = "dark",
 
   /**
-   * 系统자동
+   * 시스템자동
    */
   AUTO = "auto",
 }

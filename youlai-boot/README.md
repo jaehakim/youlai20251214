@@ -3,7 +3,7 @@
 ## 🎉 Gitee 2025 가장 인기 있는 오픈소스 소프트웨어 평가 참가 중
 
 <a href="https://gitee.com/activity/2025opensource?ident=I6VXEH" target="_blank">
-  <img src="https://img.shields.io/badge/🗳️_즉시 투표-支持本프로젝트-ff6b35?style=for-the-badge&logo=gitee" alt="투표" height="50"/>
+  <img src="https://img.shields.io/badge/🗳️_즉시 투표-지원本프로젝트-ff6b35?style=for-the-badge&logo=gitee" alt="투표" height="50"/>
 </a>
 
 <p>
@@ -24,21 +24,21 @@
 <div align="center">
    <img alt="logo" width="100" height="100" src="https://foruda.gitee.com/images/1733417239320800627/3c5290fe_716974.png">
    <h2>youlai-boot</h2>
-   <img alt="有来技术" src="https://img.shields.io/badge/Java -17-brightgreen.svg"/>
-   <img alt="有来技术" src="https://img.shields.io/badge/SpringBoot-3.5.6-green.svg"/>
+   <img alt="유래기술" src="https://img.shields.io/badge/Java -17-brightgreen.svg"/>
+   <img alt="유래기술" src="https://img.shields.io/badge/SpringBoot-3.5.6-green.svg"/>
    <a href="https://gitcode.com/youlai/youlai-boot" target="_blank">
-    <img alt="有来技术" src="https://gitcode.com/youlai/youlai-boot/star/badge.svg"/>
+    <img alt="유래기술" src="https://gitcode.com/youlai/youlai-boot/star/badge.svg"/>
    </a>
    <a href="https://gitee.com/youlaiorg/youlai-boot" target="_blank">
-     <img alt="有来技术" src="https://gitee.com/youlaiorg/youlai-boot/badge/star.svg"/>
+     <img alt="유래기술" src="https://gitee.com/youlaiorg/youlai-boot/badge/star.svg"/>
    </a>     
    <a href="https://github.com/haoxianrui/youlai-boot" target="_blank">
-     <img alt="有来技术" src="https://img.shields.io/github/stars/haoxianrui/youlai-boot.svg?style=social&label=Stars"/>
+     <img alt="유래기술" src="https://img.shields.io/github/stars/haoxianrui/youlai-boot.svg?style=social&label=Stars"/>
    </a>
    <br/>
-   <img alt="有来技术" src="https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg"/>
+   <img alt="유래기술" src="https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg"/>
    <a href="https://gitee.com/youlaiorg" target="_blank">
-     <img alt="有来技术" src="https://img.shields.io/badge/Author-有来开源조직-orange.svg"/>
+     <img alt="유래기술" src="https://img.shields.io/badge/Author-유래开源조직-orange.svg"/>
    </a>
 </div>
 
@@ -111,7 +111,7 @@ youlai-boot
 │   │   ├── filter                      # 필터(요청 로그, 제한)
 │   │   ├── validator                   # 검증기
 │   │   └── web                         # Web 응답 래핑(Result, PageResult 등)
-│   ├── platform                        # 平台서비스（通用서비스）
+│   ├── platform                        # 플랫폼서비스（通用서비스）
 │   │   ├── codegen                     # 코드 생성 모듈
 │   │   ├── file                        # 파일 서비스
 │   │   ├── mail                        # 이메일 서비스
@@ -120,7 +120,7 @@ youlai-boot
 │   ├── plugin                          # 플러그인 확장
 │   │   ├── knife4j                     # Knife4j 확장
 │   │   └── mybatis                     # Mybatis 확장
-│   ├── security                        # 보안框架（Spring Security）
+│   ├── security                        # 보안프레임架（Spring Security）
 │   │   ├── exception                   # 보안 예외
 │   │   ├── filter                      # 보안 필터
 │   │   ├── handler                     # 보안 핸들러

@@ -10,7 +10,7 @@
       </div>
       <!-- 작업버튼 -->
       <div class="layout__header-right">
-        <NavbarActions />
+        <Navbar액션s />
       </div>
     </div>
 
@@ -28,7 +28,7 @@ import { useLayoutMenu } from "@/composables/layout/useLayoutMenu";
 import BaseLayout from "../base/index.vue";
 import AppLogo from "../../components/AppLogo/index.vue";
 import BasicMenu from "../../components/Menu/BasicMenu.vue";
-import NavbarActions from "../../components/NavBar/components/NavbarActions.vue";
+import Navbar액션s from "../../components/NavBar/components/Navbar액션s.vue";
 import TagsView from "../../components/TagsView/index.vue";
 import AppMain from "../../components/AppMain/index.vue";
 
@@ -65,7 +65,7 @@ const isLogoCollapsed = computed(() => width.value < 768);
       min-width: 0; // 허용flex축소
       height: 100%;
 
-      // Logo스타일由AppLogo그룹개의全局스타일控制
+      // Logo스타일由AppLogo그룹개의글로벌스타일控制
       :deep(.logo) {
         flex-shrink: 0; // 방지Logo被压缩
         height: $navbar-height;
@@ -101,7 +101,7 @@ const isLogoCollapsed = computed(() => width.value < 768);
           line-height: $navbar-height;
         }
 
-        // 父메뉴激活상태 - 水平布局专用
+        // 父메뉴활성화상태 - 水平布局专用
         &.has-active-child {
           .el-sub-menu__title {
             color: var(--el-color-primary) !important;
@@ -114,7 +114,7 @@ const isLogoCollapsed = computed(() => width.value < 768);
         }
       }
 
-      // 修复子메뉴弹出位置
+      // 수정子메뉴弹出자리置
       .el-menu--popup {
         min-width: 160px;
       }

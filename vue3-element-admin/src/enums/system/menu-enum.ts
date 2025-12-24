@@ -1,4 +1,4 @@
-// 核心열거형定义
+// 核心열거형정의
 export enum MenuTypeEnum {
   CATALOG = 2, // 디렉토리
   MENU = 1, // 메뉴단일

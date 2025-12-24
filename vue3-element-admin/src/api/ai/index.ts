@@ -4,11 +4,11 @@ import request from "@/utils/request";
  * AI 명령요청 파라미터
  */
 export interface AiCommandRequest {
-  /** 사용자输입의자연어명령 */
+  /** 사용자출력입의자연어명령 */
   command: string;
   /** 当前페이지라우팅（용도上下文） */
   currentRoute?: string;
-  /** 当前激活의컴포넌트이름칭 */
+  /** 当前활성화의컴포넌트이름칭 */
   currentComponent?: string;
   /** 额外上下文정보 */
   context?: Record<string, any>;
@@ -20,7 +20,7 @@ export interface AiCommandRequest {
 export interface FunctionCall {
   /** 함수이름칭 */
   name: string;
-  /** 함수描述 */
+  /** 함수설명 */
   description?: string;
   /** 파라미터객체 */
   arguments: Record<string, any>;
@@ -32,11 +32,11 @@ export interface FunctionCall {
 export interface AiCommandResponse {
   /** 파싱日志ID（용도关联실행레코드） */
   parseLogId?: string;
-  /** 是否성공파싱 */
+  /** 여부성공파싱 */
   success: boolean;
   /** 파싱후의함수호출목록 */
   functionCalls: FunctionCall[];
-  /** AI 의理解및说明 */
+  /** AI 의理解및설명 */
   explanation?: string;
   /** 置信度 (0-1) */
   confidence?: number;
@@ -56,11 +56,11 @@ export interface AiExecuteRequest {
   originalCommand?: string;
   /** 해야실행의함수호출 */
   functionCall: FunctionCall;
-  /** 确认模式：auto=자동실행, manual=필요해야사용자确认 */
+  /** 확인모드：auto=자동실행, manual=필요해야사용자확인 */
   confirmMode?: "auto" | "manual";
-  /** 사용자确认标志 */
+  /** 사용자확인标志 */
   userConfirmed?: boolean;
-  /** 幂等性令牌（방지重复실행） */
+  /** 幂等性令牌（방지중복실행） */
   idempotencyKey?: string;
   /** 当前페이지라우팅 */
   currentRoute?: string;
@@ -70,11 +70,11 @@ export interface AiExecuteRequest {
  * AI 명령실행응답
  */
 export interface AiExecuteResponse {
-  /** 是否실행성공 */
+  /** 여부실행성공 */
   success: boolean;
   /** 실행结果데이터 */
   data?: any;
-  /** 실행结果说明 */
+  /** 실행结果설명 */
   message?: string;
   /** 影响의레코드개 */
   affectedRows?: number;
@@ -82,9 +82,9 @@ export interface AiExecuteResponse {
   error?: string;
   /** 레코드ID（용도追踪） */
   recordId?: string;
-  /** 필요해야사용자确认 */
+  /** 필요해야사용자확인 */
   requiresConfirmation?: boolean;
-  /** 确认提示정보 */
+  /** 확인提示정보 */
   confirmationPrompt?: string;
 }
 
@@ -153,7 +153,7 @@ class AiCommandApi {
   }
 
   /**
-   * 실행已파싱의명령
+   * 실행이미파싱의명령
    *
    * @param data 실행요청 파라미터
    * @returns 실행结果데이터（성공시돌아가기，실패시抛出예외）
@@ -178,7 +178,7 @@ class AiCommandApi {
   }
 
   /**
-   * 撤销명령실행（만약支持）
+   * 撤销명령실행（만약지원）
    */
   static rollbackCommand(recordId: string) {
     return request({

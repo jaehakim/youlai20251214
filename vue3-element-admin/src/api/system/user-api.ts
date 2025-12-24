@@ -212,7 +212,7 @@ const UserAPI = {
 
 export default UserAPI;
 
-/** 登录사용자정보 */
+/** 로그인사용자정보 */
 export interface UserInfo {
   /** 사용자ID */
   userId?: string;
@@ -223,13 +223,13 @@ export interface UserInfo {
   /** 닉네임 */
   nickname?: string;
 
-  /** 头像URL */
+  /** 아바타URL */
   avatar?: string;
 
   /** 역할 */
   roles: string[];
 
-  /** 权限 */
+  /** 권한 */
   perms: string[];
 }
 
@@ -246,7 +246,7 @@ export interface UserPageQuery extends PageQuery {
   /** 부서ID */
   deptId?: string;
 
-  /** 开始시사이 */
+  /** 시작시사이 */
   createTime?: [string, string];
 }
 
@@ -254,9 +254,9 @@ export interface UserPageQuery extends PageQuery {
 export interface UserPageVO {
   /** 사용자ID */
   id: string;
-  /** 사용자头像URL */
+  /** 사용자아바타URL */
   avatar?: string;
-  /** 创建시사이 */
+  /** 생성시사이 */
   createTime?: Date;
   /** 부서이름칭 */
   deptName?: string;
@@ -264,13 +264,13 @@ export interface UserPageVO {
   email?: string;
   /** 성별 */
   gender?: number;
-  /** 手机号 */
+  /** 휴대폰 */
   mobile?: string;
   /** 사용자닉네임 */
   nickname?: string;
   /** 역할이름칭，多개사용英文逗号(,)분할 */
   roleNames?: string;
-  /** 사용자상태(1:启用;0:비활성화) */
+  /** 사용자상태(1:활성화;0:비활성화) */
   status?: number;
   /** 사용자이름 */
   username?: string;
@@ -280,7 +280,7 @@ export interface UserPageVO {
 export interface UserForm {
   /** 사용자ID */
   id?: string;
-  /** 사용자头像 */
+  /** 사용자아바타 */
   avatar?: string;
   /** 부서ID */
   deptId?: string;
@@ -288,13 +288,13 @@ export interface UserForm {
   email?: string;
   /** 성별 */
   gender?: number;
-  /** 手机号 */
+  /** 휴대폰 */
   mobile?: string;
   /** 닉네임 */
   nickname?: string;
   /** 역할ID컬렉션 */
   roleIds?: number[];
-  /** 사용자상태(1:正常;0:비활성화) */
+  /** 사용자상태(1:정상;0:비활성화) */
   status?: number;
   /** 사용자이름 */
   username?: string;
@@ -311,13 +311,13 @@ export interface UserProfileVO {
   /** 닉네임 */
   nickname?: string;
 
-  /** 头像URL */
+  /** 아바타URL */
   avatar?: string;
 
   /** 성별 */
   gender?: number;
 
-  /** 手机号 */
+  /** 휴대폰 */
   mobile?: string;
 
   /** 이메일 */
@@ -329,7 +329,7 @@ export interface UserProfileVO {
   /** 역할이름칭，多개사용英文逗号(,)분할 */
   roleNames?: string;
 
-  /** 创建시사이 */
+  /** 생성시사이 */
   createTime?: Date;
 }
 
@@ -344,32 +344,32 @@ export interface UserProfileForm {
   /** 닉네임 */
   nickname?: string;
 
-  /** 头像URL */
+  /** 아바타URL */
   avatar?: string;
 
   /** 성별 */
   gender?: number;
 
-  /** 手机号 */
+  /** 휴대폰 */
   mobile?: string;
 
   /** 이메일 */
   email?: string;
 }
 
-/** 수정密码양식 */
+/** 수정비밀번호양식 */
 export interface PasswordChangeForm {
-  /** 原密码 */
+  /** 原비밀번호 */
   oldPassword?: string;
-  /** 新密码 */
+  /** 新비밀번호 */
   newPassword?: string;
-  /** 确认新密码 */
+  /** 확인新비밀번호 */
   confirmPassword?: string;
 }
 
-/** 수정手机양식 */
+/** 수정휴대폰양식 */
 export interface MobileUpdateForm {
-  /** 手机号 */
+  /** 휴대폰 */
   mobile?: string;
   /** 검증码 */
   code?: string;

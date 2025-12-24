@@ -157,7 +157,7 @@ export interface ISelectConfig<T = any> {
   // popover 컴포넌트 속성
   popover?: Partial<Omit<PopoverProps, "visible" | "v-model:visible">>;
   // 목록의 네트워크 요청 함수 (promise 반환 필요)
-  indexAction: (_queryParams: T) => Promise<any>;
+  index액션: (_queryParams: T) => Promise<any>;
   // 주 키 이름 (페이지 간 선택 필수, 기본값: id)
   pk?: string;
   // 다중 선택
@@ -260,7 +260,7 @@ function fetchPageData(isRestart = false) {
     queryParams.pageSize = pageSize;
   }
   props.selectConfig
-    .indexAction(queryParams)
+    .index액션(queryParams)
     .then((data) => {
       total.value = data.total;
       pageData.value = data.list;

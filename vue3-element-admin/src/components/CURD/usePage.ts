@@ -79,7 +79,7 @@ function usePage() {
   function handleSearchClick() {
     searchRef.value?.toggleVisible();
   }
-  // 涮选데이터
+  // 涮선택데이터
   function handleFilterChange(filterParams: IObject) {
     const queryParams = searchRef.value?.getQueryParams();
     contentRef.value?.fetchPageData({ ...queryParams, ...filterParams }, true);

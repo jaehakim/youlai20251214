@@ -3,7 +3,7 @@
     <!-- 모바일遮罩层 - 当侧边열열기시표시 -->
     <div v-if="isMobile && isSidebarOpen" class="layout__overlay" @click="closeSidebar" />
 
-    <!-- 布局내용슬롯 - 各种布局模式의具体내용 -->
+    <!-- 布局내용슬롯 - 各种布局모드의具体내용 -->
     <slot></slot>
   </div>
 </template>

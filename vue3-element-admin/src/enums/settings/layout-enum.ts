@@ -12,7 +12,7 @@ export const enum LayoutMode {
   TOP = "top",
 
   /**
-   * 混合메뉴단일레이아웃
+   * 혼합메뉴단일레이아웃
    */
   MIX = "mix",
 }

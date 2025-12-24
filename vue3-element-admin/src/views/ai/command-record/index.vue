@@ -201,8 +201,8 @@
         <el-descriptions-item label="파싱耗시">
           {{ formatNumber(currentRow.parseTime) }} ms
         </el-descriptions-item>
-        <el-descriptions-item label="Token统计">
-          输입 {{ currentRow.inputTokens || 0 }} / 输出 {{ currentRow.outputTokens || 0 }} / 총计
+        <el-descriptions-item label="Token통계计">
+          출력입 {{ currentRow.inputTokens || 0 }} / 출력 {{ currentRow.outputTokens || 0 }} / 총计
           {{ currentRow.totalTokens || 0 }}
         </el-descriptions-item>
 
@@ -210,7 +210,7 @@
           <el-input :model-value="currentRow.originalCommand" type="textarea" :rows="2" readonly />
         </el-descriptions-item>
 
-        <el-descriptions-item v-if="currentRow.explanation" label="AI说明" :span="2">
+        <el-descriptions-item v-if="currentRow.explanation" label="AI설명" :span="2">
           {{ currentRow.explanation }}
         </el-descriptions-item>
 
@@ -274,9 +274,9 @@
           <el-tag v-if="currentRow.isDangerous" type="warning" size="small">위험작업</el-tag>
           <span v-else>-</span>
         </el-descriptions-item>
-        <el-descriptions-item label="여부确认">
+        <el-descriptions-item label="여부확인">
           <span v-if="currentRow.requiresConfirmation">
-            {{ currentRow.userConfirmed ? "已确认" : "待确认" }}
+            {{ currentRow.userConfirmed ? "이미확인" : "待확인" }}
           </span>
           <span v-else>-</span>
         </el-descriptions-item>
@@ -284,7 +284,7 @@
         <el-descriptions-item label="IP주소">
           {{ currentRow.ipAddress || "-" }}
         </el-descriptions-item>
-        <el-descriptions-item label="페이지路由">
+        <el-descriptions-item label="페이지라우팅">
           {{ currentRow.currentRoute || "-" }}
         </el-descriptions-item>
         <el-descriptions-item label="User-Agent" :span="2">

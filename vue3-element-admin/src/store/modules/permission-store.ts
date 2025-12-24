@@ -7,18 +7,18 @@ import MenuAPI, { type RouteVO } from "@/api/system/menu-api";
 const modules = import.meta.glob("../../views/**/**.vue");
 const Layout = () => import("../../layouts/index.vue");
 
-export const usePermissionStore = defineStore("permission", () => {
+export const usePermission스토어 = define스토어("permission", () => {
   // 모든라우팅（静态라우팅 + 动态라우팅）
   const routes = 참조<RouteRecordRaw[]>([]);
-  // 混合레이아웃의왼쪽메뉴단일라우팅
+  // 혼합레이아웃의왼쪽메뉴단일라우팅
   const mixLayoutSideMenus = 참조<RouteRecordRaw[]>([]);
-  // 动态라우팅是否已生成
+  // 动态라우팅여부이미生成
   const isRouteGenerated = 참조(false);
 
   /** 生成动态라우팅 */
   async function generateRoutes(): Promise<RouteRecordRaw[]> {
     try {
-      const data = await MenuAPI.getRoutes(); // 조회当前登录人의메뉴단일라우팅
+      const data = await MenuAPI.getRoutes(); // 조회当前로그인人의메뉴단일라우팅
       const dynamicRoutes = transformRoutes(data);
 
       routes.value = [...constantRoutes, ...dynamicRoutes];
@@ -32,7 +32,7 @@ export const usePermissionStore = defineStore("permission", () => {
     }
   }
 
-  /** 설정混合레이아웃왼쪽메뉴단일 */
+  /** 설정혼합레이아웃왼쪽메뉴단일 */
   const setMixLayoutSideMenus = (parentPath: string) => {
     const parentMenu = routes.value.find((item) => item.path === parentPath);
     mixLayoutSideMenus.value = parentMenu?.children || [];
@@ -72,16 +72,16 @@ const transformRoutes = (routes: RouteVO[], isTopLevel: boolean = true): RouteRe
   return routes.map((route) => {
     const { component, children, ...args } = route;
 
-    // 처리컴포넌트：顶层或非Layout보유컴포넌트，내사이层Layout设로undefined
+    // 처리컴포넌트：顶层또는非Layout보유컴포넌트，내사이层Layout设로undefined
     const processedComponent = isTopLevel || component !== "Layout" ? component : undefined;
 
     const normalizedRoute = { ...args } as RouteRecordRaw;
 
     if (!processedComponent) {
-      // 多级메뉴단일의父级메뉴단일，不필요해야컴포넌트
+      // 多级메뉴단일의父级메뉴단일，아님필요해야컴포넌트
       normalizedRoute.component = undefined;
     } else {
-      // 动态가져오기컴포넌트，Layout特殊처리，找不到컴포넌트시돌아가기404
+      // 动态가져오기컴포넌트，Layout特殊처리，找아님到컴포넌트시돌아가기404
       normalizedRoute.component =
         processedComponent === "Layout"
           ? Layout
@@ -98,7 +98,7 @@ const transformRoutes = (routes: RouteVO[], isTopLevel: boolean = true): RouteRe
   });
 };
 
-/** 非컴포넌트环境사용权限저장소 */
-export function usePermissionStoreHook() {
-  return usePermissionStore(저장소);
+/** 非컴포넌트环境사용권한저장소 */
+export function usePermission스토어Hook() {
+  return usePermission스토어(저장소);
 }

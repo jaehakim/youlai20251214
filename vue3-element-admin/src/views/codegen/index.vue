@@ -742,7 +742,7 @@ const setNodeSort = (oldIndex: number, newIndex: number) => {
 /** 이전 단계 */
 function handlePrevClick() {
   if (active.value === 2) {
-    //여기서 재조회한 번데이터，처음이면코드 생성후，다시 클릭이전 단계，데이터재구성 안함조회，다시 클릭다음 단계，다시 삽입됨데이터，导致索引重复报错
+    //여기서 재조회한 번데이터，처음이면코드 생성후，다시 클릭이전 단계，데이터재구성 안함조회，다시 클릭다음 단계，다시 삽입됨데이터，원인인덱스중복오류
     genConfigFormData.value = {
       fieldConfigs: [],
     };
@@ -886,7 +886,7 @@ type FieldConfigKey = "isShowInQuery" | "isShowInList" | "isShowInForm";
 function bulkSet(key: FieldConfigKey, value: 0 | 1) {
   const list = genConfigFormData.value?.fieldConfigs || [];
   list.forEach((row: any) => {
-    // 기존 필드만 변경，保持响应式
+    // 기존 필드만 변경，保持반응형
     row[key] = value;
   });
 }
@@ -902,14 +902,14 @@ function handlePreview(tableName: string) {
   GeneratorAPI.getPreviewData(tableName, (genConfigFormData.value.pageType as any) || "classic")
     .then((data) => {
       dialog.title = `코드 생성 ${tableName}`;
-      // 그룹装树形结构完善코드
+      // 그룹装트리 구조完善코드
       const tree = buildTree(data);
-      // 缓存원본데이터디스크 쓰기용
+      // 캐시원본데이터디스크 쓰기용
       lastPreviewFiles.value = data || [];
-      // 去掉根节点“프론트/백엔드 코드”，直接展示其 children 作为하나级디렉토리
+      // 去掉根노드“프론트/백엔드 코드”，直接展示其 children 作为하나级디렉토리
       treeData.value = tree?.children ? [...tree.children] : [];
 
-      // 기본값选내첫 번째개리프 노드并설정 code 값
+      // 기본값선택내첫 번째개리프 노드그리고설정 code 값
       const firstLeafNode = findFirstLeafNode(tree);
       if (firstLeafNode) {
         code.value = firstLeafNode.content || "";
@@ -921,13 +921,13 @@ function handlePreview(tableName: string) {
 }
 
 /**
- * 递归构建树形结构
+ * 递归빌드트리 구조
  *
  * @param data - 데이터개그룹
- * @returns 树形结构根节点
+ * @returns 트리 구조根노드
  */
 function buildTree(data: { path: string; fileName: string; content: string }[]): TreeNode {
-  // 动态조회根节点
+  // 动态조회根노드
   const root: TreeNode = { label: "프론트/백엔드 코드", children: [] };
 
   data.forEach((item) => {
@@ -935,7 +935,7 @@ function buildTree(data: { path: string; fileName: string; content: string }[]):
     const separator = item.path.includes("/") ? "/" : "\\";
     const parts = item.path.split(separator);
 
-    // 定义特殊경로
+    // 정의特殊경로
     const specialPaths = [
       "src" + separator + "main",
       "java",
@@ -947,7 +947,7 @@ function buildTree(data: { path: string; fileName: string; content: string }[]):
       ),
     ];
 
-    // 检查경로의特殊部分并合并它们
+    // 확인경로의特殊부분그리고병합它们
     const mergedParts: string[] = [];
     let buffer: string[] = [];
 
@@ -972,7 +972,7 @@ function buildTree(data: { path: string; fileName: string; content: string }[]):
     let currentNode = root;
 
     mergedParts.forEach((part) => {
-      // 查找或创建当前部分의子节点
+      // 찾기또는생성当前부분의자식 노드
       let node = currentNode.children?.find((child) => child.label === part);
       if (!node) {
         node = { label: part, children: [] };
@@ -981,7 +981,7 @@ function buildTree(data: { path: string; fileName: string; content: string }[]):
       currentNode = node;
     });
 
-    // 추가파일节点
+    // 추가파일노드
     currentNode.children?.push({
       label: item.fileName,
       content: item?.content,
@@ -992,8 +992,8 @@ function buildTree(data: { path: string; fileName: string; content: string }[]):
 }
 
 /**
- * 递归查找첫 번째개리프 노드
- * @param node - 树形节点
+ * 递归찾기첫 번째개리프 노드
+ * @param node - 트리노드
  * @returns 첫 번째개리프 노드
  */
 function findFirstLeafNode(node: TreeNode): TreeNode | null {
@@ -1009,14 +1009,14 @@ function findFirstLeafNode(node: TreeNode): TreeNode | null {
   return null;
 }
 
-/** 파일树节点 Click */
+/** 파일树노드 Click */
 function handleFileTreeNodeClick(data: TreeNode) {
   if (!data.children || data.children.length === 0) {
     code.value = data.content || "";
   }
 }
 
-/** 조회파일树节点아이콘 */
+/** 조회파일树노드아이콘 */
 function getFileTreeNodeIcon(label: string) {
   if (label.endsWith(".java")) {
     return "java";
@@ -1073,7 +1073,7 @@ async function ensureDir(root: any, path: string[], force = true) {
       // @ts-ignore
       current = await current.getDirectoryHandle(segment, { create: true });
     } catch (err: any) {
-      // 若同이름파일阻塞디렉토리创建，尝试强制삭제후 재구성
+      // 若同이름파일阻塞디렉토리생성，尝试强制삭제후 재구성
       if (force && err?.name === "TypeMismatchError") {
         try {
           // @ts-ignore
@@ -1154,7 +1154,7 @@ async function isSameFile(dirHandle: any, filePath: string, content: string): Pr
   }
 }
 
-// 로템플릿의 path 映射到프론트엔드/백엔드 루트 디렉토리
+// 로템플릿의 path 매핑到프론트엔드/백엔드 루트 디렉토리
 function resolveRootForPath(p: string) {
   const normalized = p.replace(/\\/g, "/");
   const frontApp = genConfigFormData.value.frontendAppName;
@@ -1196,7 +1196,7 @@ function stripProjectRoot(p: string) {
 
 const writeGeneratedCode = async () => {
   if (!supportsFSAccess) {
-    ElMessage.warning("현재 브라우저지원하지 않음本地쓰기，선택해주세요다운로드ZIP");
+    ElMessage.warning("현재 브라우저지원하지 않음로컬쓰기，선택해주세요다운로드ZIP");
     return;
   }
   if (
@@ -1240,12 +1240,12 @@ const writeGeneratedCode = async () => {
         const relativePath = stripProjectRoot(`${item.path}/${item.fileName}`);
         writeProgress.current = relativePath;
         if (overwriteMode.value === "ifChanged") {
-          // 简단일差异：已有파일내용与待쓰내용相同그러면跳거치
+          // 简단일差异：이미있음파일내용与待쓰내용相同그러면跳거치
           // @ts-ignore
           const targetRoot = root === "frontend" ? frontendDirHandle.value : backendDirHandle.value;
           const existsSame = await isSameFile(targetRoot, relativePath, item.content || "");
           if (existsSame) {
-            // 视作성공但不쓰
+            // 视作성공但아님쓰
             writeProgress.done++;
             writeProgress.percent = Math.round((writeProgress.done / writeProgress.total) * 100);
             continue;
@@ -1287,10 +1287,10 @@ const writeGeneratedCode = async () => {
   writeRunning.value = false;
   if (failed.length) {
     ElMessage.warning(
-      `部分파일쓰기실패：${failed.length} 개，성공 프론트엔드 ${frontCount} 개/백엔드 ${backCount} 개。열기控制台보기상세`
+      `부분파일쓰기실패：${failed.length} 개，성공 프론트엔드 ${frontCount} 개/백엔드 ${backCount} 개。열기控制台보기상세`
     );
   } else {
-    ElMessage.success(`쓰기完成：프론트엔드 ${frontCount} 개파일，백엔드 ${backCount} 개파일`);
+    ElMessage.success(`쓰기완료：프론트엔드 ${frontCount} 개파일，백엔드 ${backCount} 개파일`);
   }
 };
 
@@ -1302,13 +1302,13 @@ const overwriteMode = ref<"overwrite" | "skip" | "ifChanged">("overwrite");
 const writeProgress = reactive({ total: 0, done: 0, percent: 0, current: "" });
 const writeRunning = ref(false);
 
-// 알림文本已취소展示，보유逻辑意义不大，移除。
+// 알림텍스트이미취소展示，보유逻辑意义아님大，移除。
 
 function openWriteDialog() {
   writeDialog.visible = true;
 }
 
-// 同步展示경로
+// 동기展示경로
 watch(frontendDirName, (v) => (frontendDirPath.value = v));
 watch(backendDirName, (v) => (backendDirPath.value = v));
 
@@ -1317,7 +1317,7 @@ async function confirmWrite() {
   writeDialog.visible = false;
 }
 
-/** 그룹개挂载후실행 */
+/** 그룹개마운트후실행 */
 onMounted(() => {
   handleQuery();
   cmRef.value?.destroy();

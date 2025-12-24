@@ -4,7 +4,7 @@ import type { UserPageQuery } from "@/api/system/user-api";
 import type { IContentConfig } from "@/components/CURD/types";
 
 const contentConfig: IContentConfig<UserPageQuery> = {
-  permP참조ix: "sys:user", // 不쓰不进行버튼权限검사
+  permP참조ix: "sys:user", // 아님쓰아님进행버튼권한검사
   table: {
     border: true,
     highlightCurrentRow: true,
@@ -21,24 +21,24 @@ const contentConfig: IContentConfig<UserPageQuery> = {
       list: res.list,
     };
   },
-  indexAction(params) {
+  index액션(params) {
     return UserAPI.getPage(params);
   },
-  deleteAction: UserAPI.deleteByIds,
-  importAction(file) {
+  delete액션: UserAPI.deleteByIds,
+  import액션(file) {
     return UserAPI.import("1", file);
   },
-  exportAction: UserAPI.export,
+  export액션: UserAPI.export,
   importTemplate: UserAPI.downloadTemplate,
-  importsAction(data) {
+  imports액션(data) {
     // 模拟가져오기데이터
-    console.log("importsAction", data);
+    console.log("imports액션", data);
     return Promise.resolve();
   },
-  async exportsAction(params) {
-    // 模拟조회到의是全量데이터
+  async exports액션(params) {
+    // 模拟조회到의예全양데이터
     const res = await UserAPI.getPage(params);
-    console.log("exportsAction", res.list);
+    console.log("exports액션", res.list);
     return res.list;
   },
   pk: "id",
@@ -59,7 +59,7 @@ const contentConfig: IContentConfig<UserPageQuery> = {
     { type: "selection", width: 50, align: "center" },
     { label: "编号", align: "center", prop: "id", width: 100, show: false },
     { label: "사용자이름", align: "center", prop: "username" },
-    { label: "头像", align: "center", prop: "avatar", templet: "image" },
+    { label: "아바타", align: "center", prop: "avatar", templet: "image" },
     { label: "사용자닉네임", align: "center", prop: "nickname", width: 120 },
     {
       label: "성별",
@@ -87,7 +87,7 @@ const contentConfig: IContentConfig<UserPageQuery> = {
       },
     },
     {
-      label: "手机号码",
+      label: "휴대폰 번호",
       align: "center",
       prop: "mobile",
       templet: "custom",
@@ -101,7 +101,7 @@ const contentConfig: IContentConfig<UserPageQuery> = {
       templet: "custom",
       slotName: "status",
     },
-    { label: "创建시사이", align: "center", prop: "createTime", width: 180 },
+    { label: "생성시사이", align: "center", prop: "createTime", width: 180 },
     {
       label: "작업",
       align: "center",
@@ -116,11 +116,11 @@ const contentConfig: IContentConfig<UserPageQuery> = {
         },
         {
           name: "reset_pwd",
-          text: "초기화密码",
+          text: "초기화비밀번호",
           // perm: "password-reset",
           attrs: {
             icon: "참조resh-left",
-            // color: "#626AEF", // 사용 text 속성，颜色不生效
+            // color: "#626AEF", // 사용 text 속성，색상아님生效
             style: {
               "--el-button-text-color": "#626AEF",
               "--el-button-hover-link-text-color": "#9197f4",

@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from "vue-router";
 import NProgress from "@/utils/nprogress";
 import router from "@/router";
-import { usePermissionStore, useUserStore } from "@/저장소";
+import { usePermission스토어, useUser스토어 } from "@/저장소";
 
 export function setupPermission() {
   const whiteList = ["/login"];
@@ -10,9 +10,9 @@ export function setupPermission() {
     NProgress.start();
 
     try {
-      const isLoggedIn = useUserStore().isLoggedIn();
+      const isLoggedIn = useUser스토어().isLoggedIn();
 
-      // 미登录처리
+      // 미로그인처리
       if (!isLoggedIn) {
         if (whiteList.includes(to.path)) {
           next();
@@ -23,22 +23,22 @@ export function setupPermission() {
         return;
       }
 
-      // 已登录登录页重定에
+      // 이미로그인로그인页重定에
       if (to.path === "/login") {
         next({ path: "/" });
         return;
       }
 
-      const permissionStore = usePermissionStore();
-      const userStore = useUserStore();
+      const permission스토어 = usePermission스토어();
+      const user스토어 = useUser스토어();
 
       // 动态라우팅生成
-      if (!permissionStore.isRouteGenerated) {
-        if (!userStore.userInfo?.roles?.length) {
-          await userStore.getUserInfo();
+      if (!permission스토어.isRouteGenerated) {
+        if (!user스토어.userInfo?.roles?.length) {
+          await user스토어.getUserInfo();
         }
 
-        const dynamicRoutes = await permissionStore.generateRoutes();
+        const dynamicRoutes = await permission스토어.generateRoutes();
         dynamicRoutes.forEach((route: RouteRecordRaw) => {
           router.addRoute(route);
         });
@@ -47,7 +47,7 @@ export function setupPermission() {
         return;
       }
 
-      // 라우팅404检查
+      // 라우팅404확인
       if (to.matched.length === 0) {
         next("/404");
         return;
@@ -61,9 +61,9 @@ export function setupPermission() {
 
       next();
     } catch (error) {
-      // 오류처리：초기화상태并점프转登录
+      // 오류처리：초기화상태그리고점프转로그인
       console.error("Route guard error:", error);
-      await useUserStore().resetAllState();
+      await useUser스토어().resetAllState();
       next("/login");
       NProgress.done();
     }

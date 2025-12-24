@@ -1,6 +1,6 @@
 import type { IModalConfig } from "@/components/CURD/types";
 import { DeviceEnum } from "@/enums/settings/device-enum";
-import { useAppStore } from "@/저장소";
+import { useApp스토어 } from "@/저장소";
 
 const modalConfig: IModalConfig = {
   permP참조ix: "sys:user",
@@ -9,15 +9,15 @@ const modalConfig: IModalConfig = {
   pk: "id",
   drawer: {
     title: "수정사용자",
-    size: useAppStore().device === DeviceEnum.MOBILE ? "80%" : 500,
+    size: useApp스토어().device === DeviceEnum.MOBILE ? "80%" : 500,
   },
   form: { labelPosition: "right", labelWidth: "auto" },
   beforeSubmit(data) {
     console.log("beforeSubmit", data);
   },
-  formAction(data) {
+  form액션(data) {
     // return UserAPI.update(data.id as string, data);
-    // 模拟发起网络요청수정字段
+    // 模拟发起네트워크요청수정필드
     ElMessage.success(JSON.stringify(data));
     return Promise.resolve(null);
   },
@@ -25,13 +25,13 @@ const modalConfig: IModalConfig = {
     {
       tips: { effect: "light", placement: "top", content: "사용자 정의텍스트提示" },
       type: "input",
-      label: "文本",
+      label: "텍스트",
       prop: "username",
       attrs: { placeholder: "입력해주세요", clearable: true },
     },
     {
       type: "input-number",
-      label: "百分比",
+      label: "백분율",
       prop: "percent",
       attrs: { placeholder: "입력해주세요", controls: false },
       slotName: "suffix",
@@ -67,7 +67,7 @@ const modalConfig: IModalConfig = {
       prop: "status",
       attrs: { placeholder: "全部", clearable: true },
       options: [
-        { label: "启用", value: 1 },
+        { label: "활성화", value: 1 },
         { label: "비활성화", value: 0 },
       ],
     },
@@ -79,19 +79,19 @@ const modalConfig: IModalConfig = {
         inlinePrompt: true,
         activeValue: 1,
         inactiveValue: 0,
-        activeText: "启用",
+        activeText: "활성화",
         inactiveText: "비활성화",
       },
     },
     {
       type: "input-number",
-      label: "输입框",
+      label: "출력입프레임",
       prop: "sort",
       attrs: { placeholder: "입력해주세요", controls: false },
     },
     {
       type: "date-picker",
-      label: "日期포맷",
+      label: "날짜포맷",
       prop: "createTime",
       attrs: {
         type: "datetime",

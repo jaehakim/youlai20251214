@@ -47,7 +47,7 @@ const GeneratorAPI = {
   },
 
   /**
-   * 下载 ZIP 文件
+   * 다운로드 ZIP 文件
    * @param url
    * @param fileName
    */

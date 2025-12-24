@@ -128,7 +128,7 @@ export default defineMock([
 const deptMap: Record<string, any> = {
   1: {
     id: 1,
-    name: "有来技术",
+    name: "유래기술",
     code: "YOULAI",
     parentId: 0,
     status: 1,
@@ -136,7 +136,7 @@ const deptMap: Record<string, any> = {
   },
   2: {
     id: 2,
-    name: "研发部门",
+    name: "研发부서",
     code: "RD001",
     parentId: 1,
     status: 1,
@@ -144,7 +144,7 @@ const deptMap: Record<string, any> = {
   },
   3: {
     id: 3,
-    name: "测试部门",
+    name: "테스트부서",
     code: "QA001",
     parentId: 1,
     status: 1,

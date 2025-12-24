@@ -12,12 +12,12 @@ export const enum ApiCodeEnum {
   ERROR = "B0001",
 
   /**
-   * 访问令牌无效或거치期
+   * 访问令牌无效또는거치期
    */
   ACCESS_TOKEN_INVALID = "A0230",
 
   /**
-   * 새로고침令牌无效或거치期
+   * 새로고침令牌无效또는거치期
    */
   REFRESH_TOKEN_INVALID = "A0231",
 }

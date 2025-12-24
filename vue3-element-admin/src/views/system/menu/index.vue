@@ -340,7 +340,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAppStore } from "@/store/modules/app-store";
+import { useApp스토어 } from "@/store/modules/app-store";
 import { DeviceEnum } from "@/enums/settings/device-enum";
 
 import MenuAPI, { MenuQuery, MenuForm, MenuVO } from "@/api/system/menu-api";
@@ -351,7 +351,7 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const appStore = useAppStore();
+const app스토어 = useApp스토어();
 
 const queryFormRef = ref();
 const menuFormRef = ref();
@@ -362,7 +362,7 @@ const dialog = reactive({
   visible: false,
 });
 
-const drawerSize = computed(() => (appStore.device === DeviceEnum.DESKTOP ? "600px" : "90%"));
+const drawerSize = computed(() => (app스토어.device === DeviceEnum.DESKTOP ? "600px" : "90%"));
 // 쿼리 파라미터
 const queryParams = reactive<MenuQuery>({});
 // 메뉴 테이블 데이터

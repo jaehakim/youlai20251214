@@ -13,10 +13,10 @@ import {
 import { FileSystemIconLoader } from "@iconify/utils/lib/loader/node-loaders";
 import fs from "fs";
 
-// 本地SVG图标目录
+// 로컬SVG图标目录
 const iconsDir = "./src/assets/icons";
 
-// 读取本地 SVG 目录，自动生成 safelist
+// 读取로컬 SVG 目录，自动生成 safelist
 const generateSafeList = () => {
   try {
     return fs
@@ -24,13 +24,13 @@ const generateSafeList = () => {
       .filter((file) => file.endsWith(".svg"))
       .map((file) => `i-svg:${file.replace(".svg", "")}`);
   } catch (error) {
-    console.error("无法读取图标目录:", error);
+    console.error("불가능读取图标目录:", error);
     return [];
   }
 };
 
 export default defineConfig({
-  // 自定义快捷类
+  // 自정의快捷클래스
   shortcuts: {
     "wh-full": "w-full h-full",
     "flex-center": "flex justify-center items-center",
@@ -56,17 +56,17 @@ export default defineConfig({
     presetUno(),
     presetAttributify(),
     presetIcons({
-      // 额外属性
+      // 额外속성
       extraProperties: {
         display: "inline-block",
         width: "1em",
         height: "1em",
       },
-      // 图表集合
+      // 차트集合
       collections: {
-        // svg 是图标集合名称，使用 `i-svg:图标名` 调用
+        // svg 예图标集合이름，사용 `i-svg:图标名` 调用
         svg: FileSystemIconLoader(iconsDir, (svg) => {
-          // 如果 `fill` 没有定义，则添加 `fill="currentColor"`
+          // 만약 `fill` 没있음정의，则추가 `fill="currentColor"`
           return svg.includes('fill="') ? svg : svg.replace(/^<svg /, '<svg fill="currentColor" ');
         }),
       },

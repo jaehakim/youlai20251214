@@ -36,17 +36,17 @@
 
         <div class="config-item flex-x-between">
           <span class="text-xs">{{ t("settings.showTagsView") }}</span>
-          <el-switch v-model="settingsStore.showTagsView" />
+          <el-switch v-model="settings스토어.showTagsView" />
         </div>
 
         <div class="config-item flex-x-between">
           <span class="text-xs">{{ t("settings.showAppLogo") }}</span>
-          <el-switch v-model="settingsStore.showAppLogo" />
+          <el-switch v-model="settings스토어.showAppLogo" />
         </div>
 
         <div class="config-item flex-x-between">
           <span class="text-xs">{{ t("settings.showWatermark") }}</span>
-          <el-switch v-model="settingsStore.showWatermark" />
+          <el-switch v-model="settings스토어.showWatermark" />
         </div>
         <div v-if="!isDark" class="config-item flex-x-between">
           <span class="text-xs">{{ t("settings.sidebarColorScheme") }}</span>
@@ -81,7 +81,7 @@
                   'layout-item',
                   item.className,
                   {
-                    'is-active': settingsStore.layout === item.value,
+                    'is-active': settings스토어.layout === item.value,
                   },
                 ]"
                 @click="handleLayoutChange(item.value)"
@@ -96,7 +96,7 @@
                 <!-- 레이아웃 이름 -->
                 <div class="layout-name">{{ item.label }}</div>
                 <!-- 선택 상태 표시기 -->
-                <div v-if="settingsStore.layout === item.value" class="layout-check">
+                <div v-if="settings스토어.layout === item.value" class="layout-check">
                   <el-icon><Check /></el-icon>
                 </div>
               </div>
@@ -144,7 +144,7 @@ import { DocumentCopy, RefreshLeft, Check } from "@element-plus/icons-vue";
 
 const { t } = useI18n();
 import { LayoutMode, SidebarColor, ThemeMode } from "@/enums";
-import { useSettingsStore } from "@/store";
+import { useSettings스토어 } from "@/store";
 import { themeColorPresets } from "@/settings";
 
 // 버튼 아이콘
@@ -171,19 +171,19 @@ const layoutOptions: LayoutOption[] = [
 // 통합 색상 사전 설정 사용
 const colorPresets = themeColorPresets;
 
-const settingsStore = useSettingsStore();
+const settings스토어 = useSettings스토어();
 
-const isDark = ref<boolean>(settingsStore.theme === ThemeMode.DARK);
-const sidebarColor = ref(settingsStore.sidebarColorScheme);
+const isDark = ref<boolean>(settings스토어.theme === ThemeMode.DARK);
+const sidebarColor = ref(settings스토어.sidebarColorScheme);
 
 const selectedThemeColor = computed({
-  get: () => settingsStore.themeColor,
-  set: (value) => settingsStore.updateThemeColor(value),
+  get: () => settings스토어.themeColor,
+  set: (value) => settings스토어.updateThemeColor(value),
 });
 
 const drawerVisible = computed({
-  get: () => settingsStore.settingsVisible,
-  set: (value) => (settingsStore.settingsVisible = value),
+  get: () => settings스토어.settingsVisible,
+  set: (value) => (settings스토어.settingsVisible = value),
 });
 
 /**
@@ -192,7 +192,7 @@ const drawerVisible = computed({
  * @param isDark 어두운 모드 활성화 여부
  */
 const handleThemeChange = (isDark: string | number | boolean) => {
-  settingsStore.updateTheme(isDark ? ThemeMode.DARK : ThemeMode.LIGHT);
+  settings스토어.updateTheme(isDark ? ThemeMode.DARK : ThemeMode.LIGHT);
 };
 
 /**
@@ -201,7 +201,7 @@ const handleThemeChange = (isDark: string | number | boolean) => {
  * @param val 색상 체계 이름
  */
 const changeSidebarColor = (val: any) => {
-  settingsStore.updateSidebarColorScheme(val);
+  settings스토어.updateSidebarColorScheme(val);
 };
 
 /**
@@ -210,9 +210,9 @@ const changeSidebarColor = (val: any) => {
  * @param layout - 레이아웃 모드
  */
 const handleLayoutChange = (layout: LayoutMode) => {
-  if (settingsStore.layout === layout) return;
+  if (settings스토어.layout === layout) return;
 
-  settingsStore.updateLayout(layout);
+  settings스토어.updateLayout(layout);
 };
 
 /**
@@ -247,11 +247,11 @@ const handleResetSettings = async () => {
   resetLoading.value = true;
 
   try {
-    settingsStore.resetSettings();
+    settings스토어.resetSettings();
 
     // 로컬 상태 동기화 업데이트
-    isDark.value = settingsStore.theme === ThemeMode.DARK;
-    sidebarColor.value = settingsStore.sidebarColorScheme;
+    isDark.value = settings스토어.theme === ThemeMode.DARK;
+    sidebarColor.value = settings스토어.sidebarColorScheme;
 
     ElMessage.success(t("settings.resetSuccess"));
   } catch {
@@ -269,16 +269,16 @@ const generateSettingsCode = (): string => {
     title: "pkg.name",
     version: "pkg.version",
     showSettings: true,
-    showTagsView: settingsStore.showTagsView,
-    showAppLogo: settingsStore.showAppLogo,
-    layout: `LayoutMode.${settingsStore.layout.toUpperCase()}`,
-    theme: `ThemeMode.${settingsStore.theme.toUpperCase()}`,
+    showTagsView: settings스토어.showTagsView,
+    showAppLogo: settings스토어.showAppLogo,
+    layout: `LayoutMode.${settings스토어.layout.toUpperCase()}`,
+    theme: `ThemeMode.${settings스토어.theme.toUpperCase()}`,
     size: "ComponentSize.DEFAULT",
     language: "LanguageEnum.ZH_CN",
-    themeColor: `"${settingsStore.themeColor}"`,
-    showWatermark: settingsStore.showWatermark,
+    themeColor: `"${settings스토어.themeColor}"`,
+    showWatermark: settings스토어.showWatermark,
     watermarkContent: "pkg.name",
-    sidebarColorScheme: `SidebarColor.${settingsStore.sidebarColorScheme.toUpperCase().replace("-", "_")}`,
+    sidebarColorScheme: `SidebarColor.${settings스토어.sidebarColorScheme.toUpperCase().replace("-", "_")}`,
   };
 
   return `const defaultSettings: AppSettings = {
@@ -302,7 +302,7 @@ const generateSettingsCode = (): string => {
  * 드로어 닫기 전 콜백
  */
 const handleCloseDrawer = () => {
-  settingsStore.settingsVisible = false;
+  settings스토어.settingsVisible = false;
 };
 </script>
 

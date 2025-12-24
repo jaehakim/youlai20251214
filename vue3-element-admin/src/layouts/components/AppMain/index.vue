@@ -19,11 +19,11 @@
 
 <script setup lang="ts">
 import { type RouteLocationNormalized } from "vue-router";
-import { useSettingsStore, useTagsViewStore } from "@/store";
+import { useSettings스토어, useTagsView스토어 } from "@/store";
 import variables from "@/styles/variables.module.scss";
 import Error404 from "@/views/error/404.vue";
 
-const { cachedViews } = toRefs(useTagsViewStore());
+const { cachedViews } = toRefs(useTagsView스토어());
 
 // 현재 구성 요소
 const wrapperMap = new Map<string, Component>();
@@ -60,7 +60,7 @@ const currentComponent = (component: Component, route: RouteLocationNormalized) 
 };
 
 const appMainHeight = computed(() => {
-  if (useSettingsStore().showTagsView) {
+  if (useSettings스토어().showTagsView) {
     return `calc(100vh - ${variables["navbar-height"]} - ${variables["tags-view-height"]})`;
   } else {
     return `calc(100vh - ${variables["navbar-height"]})`;

@@ -40,45 +40,45 @@ declare global {
     fullPath: string;
     /** 页签아이콘 */
     icon?: string;
-    /** 是否固定页签 */
+    /** 여부固定页签 */
     affix?: boolean;
-    /** 是否开启캐시 */
+    /** 여부开启캐시 */
     keepAlive?: boolean;
     /** 라우팅조회 파라미터 */
     query?: any;
   }
 
   /**
-   * 系统설정
+   * 시스템설정
    */
   interface AppSettings {
-    /** 系统标题 */
+    /** 시스템标题 */
     title: string;
-    /** 系统版本 */
+    /** 시스템버전 */
     version: string;
-    /** 是否显示설정 */
+    /** 여부표시설정 */
     showSettings: boolean;
-    /** 是否显示多标签导航 */
+    /** 여부표시多태그导航 */
     showTagsView: boolean;
-    /** 是否显示应用Logo */
+    /** 여부표시应用Logo */
     showAppLogo: boolean;
     /** 导航열레이아웃(left|top|mix) */
     layout: "left" | "top" | "mix";
-    /** 테마颜色 */
+    /** 테마색상 */
     themeColor: string;
-    /** 테마模式(dark|light) */
+    /** 테마모드(dark|light) */
     theme: import("@/enums/settings/theme-enum").ThemeMode;
     /** 레이아웃크기(default |large |small) */
     size: string;
-    /** 语言( zh-cn| en) */
+    /** 언어( zh-cn| en) */
     language: string;
-    /** 是否显示水印 */
+    /** 여부표시水印 */
     showWatermark: boolean;
-    /** 水印内容 */
+    /** 水印콘텐츠 */
     watermarkContent: string;
     /** 측엣지열配色方案 */
     sidebarColorScheme: "classic-blue" | "minimal-white";
-    /** 是否启用 AI 助手 */
+    /** 여부활성화 AI 도우미 */
     enableAiAssistant: boolean;
   }
 
@@ -88,7 +88,7 @@ declare global {
   interface OptionType {
     /** 값 */
     value: string | number;
-    /** 文本 */
+    /** 텍스트 */
     label: string;
     /** 子목록  */
     children?: OptionType[];

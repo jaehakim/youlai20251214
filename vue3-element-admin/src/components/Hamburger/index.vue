@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSettingsStore } from "@/store";
+import { useSettings스토어 } from "@/store";
 import { ThemeMode, SidebarColor } from "@/enums/settings/theme-enum";
 import { LayoutMode } from "@/enums/settings/layout-enum";
 
@@ -15,19 +15,19 @@ defineProps({
 
 const emit = defineEmits(["toggleClick"]);
 
-const settingsStore = useSettingsStore();
-const layout = computed(() => settingsStore.layout);
+const settings스토어 = useSettings스토어();
+const layout = computed(() => settings스토어.layout);
 
 const hamburgerClass = computed(() => {
   // 어두운 테마인 경우
-  if (settingsStore.theme === ThemeMode.DARK) {
+  if (settings스토어.theme === ThemeMode.DARK) {
     return "hamburger--white";
   }
 
   // 혼합 레이아웃 && 사이드바 색 구성 방식이 클래식 파란색인 경우
   if (
     layout.value === LayoutMode.MIX &&
-    settingsStore.sidebarColorScheme === SidebarColor.CLASSIC_BLUE
+    settings스토어.sidebarColorScheme === SidebarColor.CLASSIC_BLUE
   ) {
     return "hamburger--white";
   }

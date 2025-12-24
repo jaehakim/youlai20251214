@@ -5,7 +5,7 @@ import { deptArr } from "../config/options";
 const modalConfig: IModalConfig<UserForm> = {
   colon: true,
   dialog: {
-    title: "二级弹窗",
+    title: "二级팝업",
     width: 500,
     draggable: true,
   },
@@ -29,9 +29,9 @@ const modalConfig: IModalConfig<UserForm> = {
       attrs: { placeholder: "입력해주세요" },
     },
     {
-      label: "所属부서",
+      label: "소속부서",
       prop: "deptId",
-      rules: [{ required: true, message: "所属부서비어있을 수 없음비어있음", trigger: "change" }],
+      rules: [{ required: true, message: "소속부서비어있을 수 없음비어있음", trigger: "change" }],
       type: "tree-select",
       attrs: {
         placeholder: "선택해주세요",
@@ -51,5 +51,5 @@ const modalConfig: IModalConfig<UserForm> = {
   ],
 };
 
-// 만약有비동기데이터会수정설정의，推荐用reactive패키지裹，而纯静态설정의可以直接내보내기
+// 만약있음비동기데이터회의수정설정의，推荐用reactive패키지裹，而纯静态설정의可以直接내보내기
 export default reactive(modalConfig);

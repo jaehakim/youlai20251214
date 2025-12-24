@@ -29,17 +29,17 @@
   <img src="https://img.shields.io/badge/Element Plus-2.11.7-blue.svg"/>
   <img src="https://img.shields.io/badge/license-MIT-green.svg"/>
   <a href="https://gitee.com/youlaiorg" target="_blank">
-      <img src="https://img.shields.io/badge/Author-有来开源조직-orange.svg"/>
+      <img src="https://img.shields.io/badge/Author-유래开源조직-orange.svg"/>
   </a>
 
   <a href="https://gitee.com/youlaiorg/vue3-element-admin" target="_blank">
-    <img alt="有来技术" src="https://gitee.com/youlaiorg/vue3-element-admin/badge/star.svg"/>
+    <img alt="유래기술" src="https://gitee.com/youlaiorg/vue3-element-admin/badge/star.svg"/>
    </a>
   <a href="https://github.com/youlaitech/vue3-element-admin" target="_blank">
-    <img alt="有来技术" src="https://img.shields.io/github/stars/youlaitech/vue3-element-admin.svg?style=social&label=Stars"/>
+    <img alt="유래기술" src="https://img.shields.io/github/stars/youlaitech/vue3-element-admin.svg?style=social&label=Stars"/>
   </a>
   <a href="https://gitcode.com/youlai/vue3-element-admin" target="_blank">
-    <img alt="有来技术" src="https://gitcode.com/youlai/vue3-element-admin/star/badge.svg"/>
+    <img alt="유래기술" src="https://gitcode.com/youlai/vue3-element-admin/star/badge.svg"/>
   </a>
 
 </div>
@@ -62,7 +62,7 @@
 - **데이터 상호작용**: `Mock` 데이터 및 [온라인 인터페이스 문서](https://www.apifox.cn/apidoc/shared-195e783f-4d85-4235-a038-eec696de4ea5)를 지원하며, 대응하는 [Java](https://gitee.com/youlaiorg/youlai-boot) 및 [Node](https://gitee.com/youlaiorg/youlai-nest) 백엔드 소스코드를 제공합니다.
 
 - **시스템 기능**: 사용자 관리, 역할 관리, 메뉴 관리, 부서 관리, 사전 관리, 시스템 설정, 공지사항 등의 기능 모듈을 제공합니다.
-- **권한 관리：** 지원동적 라우트、버튼권한、역할권한和데이터권한等多种권한 관리方式。
+- **권한 관리：** 지원동적 라우트、버튼권한、역할권한그리고데이터권한等多种권한 관리方式。
 
 - **인프라 기능**: 국제화, 다중 레이아웃, 다크 모드, 전체 화면, 워터마크, 인터페이스 문서 및 코드 생성기 등의 기능을 제공합니다.
 - **지속적인 업데이트**: 프로젝트는 지속적으로 오픈소스로 업데이트되며, 도구와 의존성을 실시간으로 업데이트합니다.
@@ -238,4 +238,4 @@ server {
 
 ② 위챗에서 **`haoxianrui`**를 직접 추가하고 비고에 「프론트엔드/백엔드/풀스택」을 입력하세요.
 
-![有来技术公众号](https://foruda.gitee.com/images/1737108820762592766/3390ed0d_716974.png)
+![유래기술公众号](https://foruda.gitee.com/images/1737108820762592766/3390ed0d_716974.png)

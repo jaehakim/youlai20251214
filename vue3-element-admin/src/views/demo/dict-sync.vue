@@ -84,7 +84,7 @@
               <h4 class="mt-4 mb-3">성별 구성 요소</h4>
               <el-radio-group v-model="selectedGender">
                 <el-radio
-                  v-for="item in dictStore.getDictItems('gender')"
+                  v-for="item in dict스토어.getDictItems('gender')"
                   :key="item.value"
                   :value="item.value"
                 >
@@ -95,7 +95,7 @@
               <h4 class="mt-4 mb-3">성별 태그</h4>
               <div>
                 <el-tag
-                  v-for="item in dictStore.getDictItems('gender')"
+                  v-for="item in dict스토어.getDictItems('gender')"
                   :key="item.value"
                   :type="item.tagType || undefined"
                   class="mr-2"
@@ -128,7 +128,7 @@
             </template>
             <div class="cache-content">
               <pre class="cache-data">{{
-                JSON.stringify(dictStore.getDictItems("gender"), null, 2)
+                JSON.stringify(dict스토어.getDictItems("gender"), null, 2)
               }}</pre>
             </div>
           </el-card>
@@ -139,7 +139,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDictStoreHook } from "@/store/modules/dict-store";
+import { useDict스토어Hook } from "@/store/modules/dict-store";
 import { useDateFormat } from "@vueuse/core";
 import DictAPI, { DictItemForm } from "@/api/system/dict-api";
 import { useDictSync, DictMessage } from "@/composables";
@@ -150,7 +150,7 @@ const DICT_CODE = "gender";
 const MALE_ITEM_ID = "1";
 
 // 사전 저장소
-const dictStore = useDictStoreHook();
+const dict스토어 = useDict스토어Hook();
 // 저장 상태
 const saving = ref(false);
 // 마지막 업데이트 시간
@@ -175,7 +175,7 @@ let unregisterCallback: (() => void) | null = null;
 // 현재 선택한 사전의 캐시 상태
 const dictCacheStatus = computed(() => {
   // 사전이 캐시에 있는지 확인
-  return dictStore.getDictItems(DICT_CODE).length > 0;
+  return dict스토어.getDictItems(DICT_CODE).length > 0;
 });
 
 // WebSocket 설정
@@ -201,7 +201,7 @@ const setupWebSocket = () => {
 // 사전 구성 요소 새로고침, 강제로 사전 데이터 다시 로드
 const refreshDictComponent = async () => {
   // 여기서 사전 데이터를 다시 가져와 온디맨드 로드 트리거
-  await dictStore.loadDictItems(DICT_CODE);
+  await dict스토어.loadDictItems(DICT_CODE);
   ElMessage.success("사전 구성 요소가 새로고쳐졌습니다");
 };
 
@@ -237,7 +237,7 @@ const saveDict = async () => {
 onMounted(async () => {
   await loadMaleDict();
   // 초기 사전 데이터 로드
-  await dictStore.loadDictItems(DICT_CODE);
+  await dict스토어.loadDictItems(DICT_CODE);
   // 선택한 성별을 남성으로 초기화
   selectedGender.value = "1";
   // WebSocket 설정

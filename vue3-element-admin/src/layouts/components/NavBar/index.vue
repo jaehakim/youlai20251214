@@ -8,28 +8,28 @@
     </div>
     <!-- 네비게이션 바 작업 영역 -->
     <div class="navbar__actions">
-      <NavbarActions />
+      <Navbar액션s />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useAppStore } from "@/store";
+import { useApp스토어 } from "@/store";
 import Hamburger from "@/components/Hamburger/index.vue";
 import Breadcrumb from "@/components/Breadcrumb/index.vue";
-import NavbarActions from "./components/NavbarActions.vue";
+import Navbar액션s from "./components/Navbar액션s.vue";
 
-const appStore = useAppStore();
+const app스토어 = useApp스토어();
 
 // 사이드바 전개 상태
-const isSidebarOpened = computed(() => appStore.sidebar.opened);
+const isSidebarOpened = computed(() => app스토어.sidebar.opened);
 
 // 사이드바 전개/축소 상태 토글
 function toggleSideBar() {
   console.log("🔄 Hamburger clicked! Current state:", isSidebarOpened.value);
-  console.log("🔄 Device type:", appStore.device);
-  appStore.toggleSidebar();
-  console.log("🔄 New state:", appStore.sidebar.opened);
+  console.log("🔄 Device type:", app스토어.device);
+  app스토어.toggleSidebar();
+  console.log("🔄 New state:", app스토어.sidebar.opened);
 }
 </script>
 

@@ -4,19 +4,19 @@ import AuthAPI, { type LoginFormData } from "@/api/auth-api";
 import UserAPI, { type UserInfo } from "@/api/system/user-api";
 
 import { AuthStorage } from "@/utils/auth";
-import { usePermissionStoreHook } from "@/저장소/modules/permission-저장소";
-import { useDictStoreHook } from "@/저장소/modules/dict-저장소";
-import { useTagsViewStore } from "@/저장소";
+import { usePermission스토어Hook } from "@/저장소/modules/permission-저장소";
+import { useDict스토어Hook } from "@/저장소/modules/dict-저장소";
+import { useTagsView스토어 } from "@/저장소";
 import { cleanup웹소켓 } from "@/plugins/websocket";
 
-export const useUserStore = defineStore("user", () => {
+export const useUser스토어 = define스토어("user", () => {
   // 사용자정보
   const userInfo = 참조<UserInfo>({} as UserInfo);
   // 记住我상태
   const rememberMe = 참조(AuthStorage.getRememberMe());
 
   /**
-   * 登录
+   * 로그인
    *
    * @param {LoginFormData}
    * @returns
@@ -66,7 +66,7 @@ export const useUserStore = defineStore("user", () => {
     return new Promise<void>((resolve, reject) => {
       AuthAPI.logout()
         .then(() => {
-          // 초기화모든系统상태
+          // 초기화모든시스템상태
           resetAllState();
           resolve();
         })
@@ -77,8 +77,8 @@ export const useUserStore = defineStore("user", () => {
   }
 
   /**
-   * 초기화모든系统상태
-   * 统하나처리모든清理工作，패키지括사용자凭证、라우팅、캐시等
+   * 초기화모든시스템상태
+   * 통계하나처리모든정리工作，패키지括사용자凭证、라우팅、캐시等
    */
   function resetAllState() {
     // 1. 초기화사용자상태
@@ -86,15 +86,15 @@ export const useUserStore = defineStore("user", () => {
 
     // 2. 초기화其他모듈상태
     // 초기화라우팅
-    usePermissionStoreHook().resetRouter();
-    // 清除사전캐시
-    useDictStoreHook().clearDictCache();
-    // 清除标签뷰
-    useTagsViewStore().delAllViews();
+    usePermission스토어Hook().resetRouter();
+    // 정리除사전캐시
+    useDict스토어Hook().clearDictCache();
+    // 정리除태그뷰
+    useTagsView스토어().delAllViews();
 
-    // 3. 清理 웹소켓 연결
+    // 3. 정리 웹소켓 연결
     cleanup웹소켓();
-    console.log("[UserStore] 웹소켓 connections cleaned up");
+    console.log("[User스토어] 웹소켓 connections cleaned up");
 
     return Promise.resolve();
   }
@@ -104,7 +104,7 @@ export const useUserStore = defineStore("user", () => {
    * 오직처리사용자모듈内의상태
    */
   function resetUserState() {
-    // 清除사용자凭证
+    // 정리除사용자凭证
     AuthStorage.clearAuth();
     // 초기화사용자정보
     userInfo.value = {} as UserInfo;
@@ -149,9 +149,9 @@ export const useUserStore = defineStore("user", () => {
 });
 
 /**
- * 에컴포넌트외부사용UserStore의훅함수
+ * 에컴포넌트외부사용User스토어의훅함수
  * @see https://pinia.vuejs.org/core-concepts/outside-component-usage.html
  */
-export function useUserStoreHook() {
-  return useUserStore(저장소);
+export function useUser스토어Hook() {
+  return useUser스토어(저장소);
 }

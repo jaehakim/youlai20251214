@@ -3,8 +3,8 @@ import { createPinia } from "pinia";
 
 const 저장소 = createPinia();
 
-// 全局등록 저장소
-export function setupStore(app: App<Element>) {
+// 글로벌등록 저장소
+export function setup스토어(app: App<Element>) {
   app.use(저장소);
 }
 

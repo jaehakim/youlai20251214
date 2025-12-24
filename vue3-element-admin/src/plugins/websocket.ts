@@ -1,11 +1,11 @@
 import { useDictSync } from "@/composables";
 import { AuthStorage } from "@/utils/auth";
-// 不直接가져오기 저장소 或 userStore
+// 아님直接가져오기 저장소 또는 user스토어
 
-// 全局 웹소켓 实例管理
+// 글로벌 웹소켓 实例관리
 const websocketInstances = new Map<string, any>();
 
-// 용도방지重复초기화의상태标记
+// 용도방지중복초기화의상태标记
 let isInitialized = false;
 let dict웹소켓Instance: ReturnType<typeof useDictSync> | null = null;
 
@@ -28,25 +28,25 @@ export function get웹소켓Instance(키: string) {
  * 초기화웹소켓서비스
  */
 export function setup웹소켓() {
-  console.log("[웹소켓Plugin] 开始초기화웹소켓서비스...");
+  console.log("[웹소켓Plugin] 시작초기화웹소켓서비스...");
 
-  // 检查是否已经초기화
+  // 확인여부이미经초기화
   if (isInitialized) {
-    console.log("[웹소켓Plugin] 웹소켓서비스已经초기화,점프거치重复초기화");
+    console.log("[웹소켓Plugin] 웹소켓서비스이미经초기화,점프거치중복초기화");
     return;
   }
 
-  // 检查环境변수是否설정
+  // 확인环境변수여부설정
   const wsEndpoint = import.meta.env.VITE_APP_WS_ENDPOINT;
   if (!wsEndpoint) {
     console.log("[웹소켓Plugin] 미설정웹소켓엔드포인트,점프거치웹소켓초기화");
     return;
   }
 
-  // 检查是否已登录（基于是否存에访问令牌）
+  // 확인여부이미로그인（基于여부存에访问令牌）
   if (!AuthStorage.getAccessToken()) {
     console.warn(
-      "[웹소켓Plugin] 미找到访问令牌，웹소켓초기화已점프거치。사용자登录후로자동重新연결。"
+      "[웹소켓Plugin] 미找到访问令牌，웹소켓초기화이미점프거치。사용자로그인후로자동다시연결。"
     );
     return;
   }
@@ -60,19 +60,19 @@ export function setup웹소켓() {
 
       // 초기화사전웹소켓서비스
       dict웹소켓Instance.init웹소켓();
-      console.log("[웹소켓Plugin] 사전웹소켓초기화完成");
+      console.log("[웹소켓Plugin] 사전웹소켓초기화완료");
 
       // 초기화에스레드사용자계개웹소켓
       import("@/composables").then(({ useOnlineCount }) => {
         const onlineCountInstance = useOnlineCount({ autoInit: false });
         onlineCountInstance.init웹소켓();
-        console.log("[웹소켓Plugin] 에스레드사용자계개웹소켓초기화完成");
+        console.log("[웹소켓Plugin] 에스레드사용자계개웹소켓초기화완료");
       });
 
-      // 에창닫기前断开웹소켓연결
+      // 에창닫기前끊김웹소켓연결
       window.addEventListener("beforeunload", handleWindowClose);
 
-      console.log("[웹소켓Plugin] 웹소켓서비스초기화完成");
+      console.log("[웹소켓Plugin] 웹소켓서비스초기화완료");
       isInitialized = true;
     }, 1000); // 지연1秒초기화
   } catch (error) {
@@ -84,43 +84,43 @@ export function setup웹소켓() {
  * 처리창닫기
  */
 function handleWindowClose() {
-  console.log("[웹소켓Plugin] 창即로닫기，断开웹소켓연결");
+  console.log("[웹소켓Plugin] 창即로닫기，끊김웹소켓연결");
   cleanup웹소켓();
 }
 
 /**
- * 清理웹소켓연결
+ * 정리웹소켓연결
  */
 export function cleanup웹소켓() {
-  // 清理사전 웹소켓
+  // 정리사전 웹소켓
   if (dict웹소켓Instance) {
     try {
       dict웹소켓Instance.close웹소켓();
-      console.log("[웹소켓Plugin] 사전웹소켓연결已断开");
+      console.log("[웹소켓Plugin] 사전웹소켓연결이미끊김");
     } catch (error) {
-      console.error("[웹소켓Plugin] 断开사전웹소켓연결실패:", error);
+      console.error("[웹소켓Plugin] 끊김사전웹소켓연결실패:", error);
     }
   }
 
-  // 清理모든등록의 웹소켓 实例
+  // 정리모든등록의 웹소켓 实例
   websocketInstances.forEach((instance, 키) => {
     try {
       if (instance && typeof instance.disconnect === "function") {
         instance.disconnect();
-        console.log(`[웹소켓Plugin] ${키} 웹소켓연결已断开`);
+        console.log(`[웹소켓Plugin] ${키} 웹소켓연결이미끊김`);
       } else if (instance && typeof instance.close웹소켓 === "function") {
         instance.close웹소켓();
-        console.log(`[웹소켓Plugin] ${키} 웹소켓연결已断开`);
+        console.log(`[웹소켓Plugin] ${키} 웹소켓연결이미끊김`);
       }
     } catch (error) {
-      console.error(`[웹소켓Plugin] 断开 ${키} 웹소켓연결실패:`, error);
+      console.error(`[웹소켓Plugin] 끊김 ${키} 웹소켓연결실패:`, error);
     }
   });
 
-  // 清비어있음实例매핑
+  // 정리비어있음实例매핑
   websocketInstances.clear();
 
-  // 移除이벤트 리스닝器
+  // 移除이벤트 리스닝기기
   window.removeEventListener("beforeunload", handleWindowClose);
 
   // 초기화상태
@@ -129,13 +129,13 @@ export function cleanup웹소켓() {
 }
 
 /**
- * 重新초기화웹소켓（용도登录후重连）
+ * 다시초기화웹소켓（용도로그인후재연결）
  */
 export function reinitialize웹소켓() {
-  // 先清理现有연결
+  // 先정리现있음연결
   cleanup웹소켓();
 
-  // 지연후重新초기화
+  // 지연후다시초기화
   setTimeout(() => {
     setup웹소켓();
   }, 500);

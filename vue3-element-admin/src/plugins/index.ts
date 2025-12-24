@@ -3,7 +3,7 @@ import type { App } from "vue";
 import { setupDirective } from "@/directives";
 import { setupI18n } from "@/lang";
 import { setupRouter } from "@/router";
-import { setupStore } from "@/저장소";
+import { setup스토어 } from "@/저장소";
 import { setupElIcons } from "./icons";
 import { setupPermission } from "./permission";
 import { setup웹소켓 } from "./websocket";
@@ -17,8 +17,8 @@ export default {
     // 라우팅(router)
     setupRouter(app);
     // 상태 관리(저장소)
-    setupStore(app);
-    // 国际化
+    setup스토어(app);
+    // 국제화
     setupI18n(app);
     // Element-plus아이콘
     setupElIcons(app);

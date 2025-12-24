@@ -1,5 +1,5 @@
 /**
- * 语言열거형
+ * 언어열거형
  */
 export const enum LanguageEnum {
   /**

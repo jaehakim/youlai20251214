@@ -74,7 +74,7 @@ import RoleAPI from "@/api/system/role-api";
 import type { UserForm, UserPageQuery } from "@/api/system/user-api";
 import type { IObject, IModalConfig, IContentConfig, ISearchConfig } from "@/components/CURD/types";
 import { DeviceEnum } from "@/enums/settings/device-enum";
-import { useAppStore } from "@/store";
+import { useApp스토어 } from "@/store";
 import usePage from "@/components/CURD/usePage";
 
 defineOptions({
@@ -183,22 +183,22 @@ const contentConfig: IContentConfig<UserPageQuery> = reactive({
       list: res.list,
     };
   },
-  indexAction(params: any) {
+  index액션(params: any) {
     return UserAPI.getPage(params);
   },
-  deleteAction: UserAPI.deleteByIds,
-  importAction(file: File) {
+  delete액션: UserAPI.deleteByIds,
+  import액션(file: File) {
     return UserAPI.import("1", file);
   },
-  exportAction: UserAPI.export,
+  export액션: UserAPI.export,
   importTemplate: UserAPI.downloadTemplate,
-  importsAction(data: any) {
-    console.log("importsAction", data);
+  imports액션(data: any) {
+    console.log("imports액션", data);
     return Promise.resolve();
   },
-  async exportsAction(params: any) {
+  async exports액션(params: any) {
     const res = await UserAPI.getPage(params);
-    console.log("exportsAction", res.list);
+    console.log("exports액션", res.list);
     return res.list;
   },
   pk: "id",
@@ -303,7 +303,7 @@ const addModalConfig: IModalConfig<UserForm> = reactive({
   form: {
     labelWidth: 100,
   },
-  formAction: UserAPI.create,
+  form액션: UserAPI.create,
   beforeSubmit(data: any) {
     console.log("제출 전 처리", data);
   },
@@ -417,13 +417,13 @@ const editModalConfig: IModalConfig<UserForm> = reactive({
   component: "drawer",
   drawer: {
     title: "사용자 수정",
-    size: useAppStore().device === DeviceEnum.MOBILE ? "80%" : 500,
+    size: useApp스토어().device === DeviceEnum.MOBILE ? "80%" : 500,
   },
   pk: "id",
   beforeSubmit(data: any) {
     console.log("수정 전 처리", data);
   },
-  formAction(data: any) {
+  form액션(data: any) {
     return UserAPI.update(data.id as string, data);
   },
   formItems: [

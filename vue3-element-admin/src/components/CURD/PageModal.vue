@@ -207,12 +207,12 @@ const handleSubmit = useThrottleFn(() => {
     if (typeof props.modalConfig.beforeSubmit === "function") {
       props.modalConfig.beforeSubmit(formData);
     }
-    if (!props.modalConfig?.formAction) {
+    if (!props.modalConfig?.form액션) {
       emit("customSubmit", formData);
       handleClose();
       return;
     }
-    props.modalConfig.formAction(formData).then(() => {
+    props.modalConfig.form액션(formData).then(() => {
       if (props.modalConfig.component === "drawer") {
         ElMessage.success(`${props.modalConfig.drawer?.title}성공`);
       } else {

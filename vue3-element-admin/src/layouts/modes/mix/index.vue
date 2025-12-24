@@ -15,12 +15,12 @@
 
         <!-- 右侧작업영역 -->
         <div class="layout__header-actions">
-          <NavbarActions />
+          <Navbar액션s />
         </div>
       </div>
     </div>
 
-    <!-- 주요내용영역容器 -->
+    <!-- 주요내용영역컨테이너 -->
     <div class="layout__container">
       <!-- 왼쪽메뉴열 -->
       <div class="layout__sidebar--left" :class="{ 'layout__sidebar--collapsed': !isSidebarOpen }">
@@ -64,14 +64,14 @@ import { useLayout, useLayoutMenu } from "@/composables";
 import BaseLayout from "../base/index.vue";
 import AppLogo from "../../components/AppLogo/index.vue";
 import MixTopMenu from "../../components/Menu/MixTopMenu.vue";
-import NavbarActions from "../../components/NavBar/components/NavbarActions.vue";
+import Navbar액션s from "../../components/NavBar/components/Navbar액션s.vue";
 import TagsView from "../../components/TagsView/index.vue";
 import AppMain from "../../components/AppMain/index.vue";
 import MenuItem from "../../components/Menu/components/MenuItem.vue";
 import Hamburger from "@/components/Hamburger/index.vue";
 import variables from "@/styles/variables.module.scss";
 import { isExternal } from "@/utils/index";
-import { useAppStore, usePermissionStore } from "@/store";
+import { useApp스토어, usePermission스토어 } from "@/store";
 
 const route = useRoute();
 
@@ -87,7 +87,7 @@ const { width } = useWindowSize();
 // 소형 스크린 기기에서만（모바일 기기）일 때만 접기Logo（오직표시아이콘，숨기기텍스트）
 const isLogoCollapsed = computed(() => width.value < 768);
 
-// 当前激活의메뉴
+// 当前활성화의메뉴
 const activeLeftMenuPath = computed(() => {
   const { meta, path } = route;
   // 만약설정됨activeMenu，그러면사용
@@ -98,8 +98,8 @@ const activeLeftMenuPath = computed(() => {
 });
 
 /**
- * 파싱경로 - 混合模式下，왼쪽메뉴예从顶级메뉴下의子메뉴开始의
- * 所以需해야拼接顶级메뉴경로
+ * 파싱경로 - 혼합모드下，왼쪽메뉴예从최상위메뉴下의子메뉴시작의
+ * 所以需해야拼接최상위메뉴경로
  */
 function resolvePath(routePath: string) {
   if (isExternal(routePath)) {
@@ -112,25 +112,25 @@ function resolvePath(routePath: string) {
   return `${activeTopMenuPath.value}/${routePath}`;
 }
 
-// 监听路由变化，보장왼쪽메뉴能随TagsView切换而正确激活
+// 감시라우팅변경，보장왼쪽메뉴能随TagsView切换而正确활성화
 watch(
   () => route.path,
   (newPath: string) => {
-    // 조회顶级경로
+    // 조회최상위경로
     const topMenuPath =
       newPath.split("/").filter(Boolean).length > 1 ? newPath.match(/^\/[^/]+/)?.[0] || "/" : "/";
 
-    // 만약当前경로属于当前激活의상단메뉴
+    // 만약当前경로属于当前활성화의상단메뉴
     if (newPath.startsWith(activeTopMenuPath.value)) {
       // no-op
     }
-    // 만약경로改变됨顶级메뉴，보장상단메뉴및왼쪽메뉴都업데이트
+    // 만약경로改变됨최상위메뉴，보장상단메뉴및왼쪽메뉴都업데이트
     else if (topMenuPath !== activeTopMenuPath.value) {
-      const appStore = useAppStore();
-      const permissionStore = usePermissionStore();
+      const app스토어 = useApp스토어();
+      const permission스토어 = usePermission스토어();
 
-      appStore.activeTopMenu(topMenuPath);
-      permissionStore.setMixLayoutSideMenus(topMenuPath);
+      app스토어.activeTopMenu(topMenuPath);
+      permission스토어.setMixLayoutSideMenus(topMenuPath);
     }
   },
   { immediate: true }

@@ -1,4 +1,4 @@
-import { useDictStoreHook } from "@/저장소/modules/dict-저장소";
+import { useDict스토어Hook } from "@/저장소/modules/dict-저장소";
 import { useStomp } from "./useStomp";
 import type { IMessage } from "@stomp/stompjs";
 
@@ -23,27 +23,27 @@ export type DictMessage = DictChangeMessage;
 export type DictChangeCallback = (message: DictChangeMessage) => void;
 
 /**
- * 全局단일例实例
+ * 글로벌단일例实例
  */
 let singletonInstance: ReturnType<typeof createDictSyncComposable> | null = null;
 
 /**
- * 创建사전동기조합式함수（내부工厂함수）
+ * 생성사전동기조합式함수（내부工厂함수）
  */
 function createDictSyncComposable() {
-  const dictStore = useDictStoreHook();
+  const dict스토어 = useDict스토어Hook();
 
-  // 사용优化후의 useStomp
+  // 사용최적화후의 useStomp
   const stomp = useStomp({
     reconnectDelay: 20000,
     connectionTimeout: 15000,
     useExponentialBackoff: false,
     maxReconnectAttempts: 3,
-    autoRe저장소Subscriptions: true, // 자동恢复구독
+    autoRe저장소Subscriptions: true, // 자동복구구독
     debug: false,
   });
 
-  // 사전테마地址
+  // 사전테마주소
   const DICT_TOPIC = "/topic/dict";
 
   // 메시지콜백함수목록
@@ -69,10 +69,10 @@ function createDictSyncComposable() {
         return;
       }
 
-      console.log(`[DictSync] 사전 "${dictCode}" 已업데이트，清除本地캐시`);
+      console.log(`[DictSync] 사전 "${dictCode}" 이미업데이트，정리除로컬캐시`);
 
-      // 清除캐시，대기按필요加载
-      dictStore.removeDictItem(dictCode);
+      // 정리除캐시，대기按필요로드
+      dict스토어.removeDictItem(dictCode);
 
       // 실행모든등록의콜백함수
       messageCallbacks.value.forEach((callback) => {
@@ -88,50 +88,50 @@ function createDictSyncComposable() {
   };
 
   /**
-   * 초기화 웹소켓 연결并구독사전테마
+   * 초기화 웹소켓 연결그리고구독사전테마
    */
   const initialize = () => {
-    // 检查是否설정됨 웹소켓 엔드포인트
+    // 확인여부설정됨 웹소켓 엔드포인트
     const wsEndpoint = import.meta.env.VITE_APP_WS_ENDPOINT;
     if (!wsEndpoint) {
-      console.log("[DictSync] 미설정 웹소켓 엔드포인트，점프거치사전동기功能");
+      console.log("[DictSync] 미설정 웹소켓 엔드포인트，점프거치사전동기기능");
       return;
     }
 
     console.log("[DictSync] 초기화사전동기서비스...");
 
-    // 建立 웹소켓 연결
+    // 구축 웹소켓 연결
     stomp.connect();
 
-    // 구독사전테마（useStomp 会자동처리重连후의구독恢复）
+    // 구독사전테마（useStomp 회의자동처리재연결후의구독복구）
     subscriptionId = stomp.subscribe(DICT_TOPIC, handleDictChangeMessage);
 
     if (subscriptionId) {
-      console.log(`[DictSync] 已구독사전테마: ${DICT_TOPIC}`);
+      console.log(`[DictSync] 이미구독사전테마: ${DICT_TOPIC}`);
     } else {
-      console.log(`[DictSync] 暂存사전테마구독，대기연결建立후자동구독`);
+      console.log(`[DictSync] 暂存사전테마구독，대기연결구축후자동구독`);
     }
   };
 
   /**
-   * 닫기 웹소켓 연결并清理资源
+   * 닫기 웹소켓 연결그리고정리资源
    */
   const cleanup = () => {
-    console.log("[DictSync] 清理사전동기서비스...");
+    console.log("[DictSync] 정리사전동기서비스...");
 
-    // 취소구독（만약有의话）
+    // 취소구독（만약있음의话）
     if (subscriptionId) {
       stomp.unsubscribe(subscriptionId);
       subscriptionId = null;
     }
 
-    // 也可以通거치테마地址취소구독
+    // 也可以通거치테마주소취소구독
     stomp.unsubscribeDestination(DICT_TOPIC);
 
-    // 断开연결
+    // 끊김연결
     stomp.disconnect();
 
-    // 清비어있음콜백목록
+    // 정리비어있음콜백목록
     messageCallbacks.value = [];
   };
 
@@ -168,15 +168,15 @@ function createDictSyncComposable() {
     close웹소켓: cleanup,
     onDictMessage: onDictChange,
 
-    // 용도测试및调试
+    // 용도테스트및调试
     handleDictChangeMessage,
   };
 }
 
 /**
- * 사전동기조합式함수（단일例模式）
+ * 사전동기조합式함수（단일例모드）
  *
- * 용도리스닝백엔드사전변경并자동동기到프론트엔드캐시
+ * 용도리스닝백엔드사전변경그리고자동동기到프론트엔드캐시
  *
  * @example
  * ```ts
@@ -187,13 +187,13 @@ function createDictSyncComposable() {
  *
  * // 등록콜백
  * const unsubscribe = dictSync.onDictChange((message) => {
- *   console.log('사전已업데이트:', message.dictCode);
+ *   console.log('사전이미업데이트:', message.dictCode);
  * });
  *
  * // 취소등록
  * unsubscribe();
  *
- * // 清理（에应用退出시호출）
+ * // 정리（에应用退出시호출）
  * dictSync.cleanup();
  * ```
  */

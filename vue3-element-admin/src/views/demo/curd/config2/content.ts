@@ -1,15 +1,15 @@
 import type { IContentConfig } from "@/components/CURD/types";
 
 const contentConfig: IContentConfig = {
-  // permP참조ix: "sys:demo", // 不쓰不进行버튼权限검사
+  // permP참조ix: "sys:demo", // 아님쓰아님进행버튼권한검사
   table: {
     showOverflowTooltip: true,
   },
   pagePosition: "right",
   toolbar: [],
-  indexAction(params) {
-    // 模拟发起网络요청조회목록데이터
-    console.log("indexAction:", params);
+  index액션(params) {
+    // 模拟发起네트워크요청조회목록데이터
+    console.log("index액션:", params);
     return Promise.resolve({
       total: 2,
       list: [
@@ -44,19 +44,19 @@ const contentConfig: IContentConfig = {
       ],
     });
   },
-  modifyAction(data) {
-    // 模拟发起网络요청수정字段
-    // console.log("modifyAction:", data);
+  modify액션(data) {
+    // 模拟发起네트워크요청수정필드
+    // console.log("modify액션:", data);
     ElMessage.success(JSON.stringify(data));
     return Promise.resolve(null);
   },
   cols: [
     { type: "index", width: 50, align: "center" },
     { label: "ID", align: "center", prop: "id", show: false },
-    { label: "文本", align: "center", prop: "username" },
+    { label: "텍스트", align: "center", prop: "username" },
     { label: "그래프片", align: "center", prop: "avatar", templet: "image" },
     {
-      label: "百分比",
+      label: "백분율",
       align: "center",
       prop: "percent",
       templet: "percent",
@@ -91,18 +91,18 @@ const contentConfig: IContentConfig = {
       templet: "switch",
       activeValue: 1,
       inactiveValue: 0,
-      activeText: "启用",
+      activeText: "활성화",
       inactiveText: "비활성화",
     },
     {
-      label: "输입框",
+      label: "출력입프레임",
       align: "center",
       prop: "sort",
       templet: "input",
       inputType: "number",
     },
     {
-      label: "日期포맷",
+      label: "날짜포맷",
       align: "center",
       prop: "createTime",
       minWidth: 120,
@@ -124,7 +124,7 @@ const contentConfig: IContentConfig = {
           perm: "delete",
           attrs: { icon: "delete", type: "danger" },
           render(row) {
-            // 에 따라조건，显示或隐藏
+            // 에 따라조건，표시또는隐藏
             return row.id !== 1;
           },
         },

@@ -227,7 +227,7 @@ const userMap: Record<string, any> = {
   2: {
     id: 2,
     username: "admin",
-    nickname: "系统管理员",
+    nickname: "시스템 관리자",
     mobile: "17621210366",
     gender: 1,
     avatar: "https://foruda.gitee.com/images/1723603502796844527/03cdca2a_716974.gif",
@@ -239,7 +239,7 @@ const userMap: Record<string, any> = {
   3: {
     id: 3,
     username: "test",
-    nickname: "测试小用户",
+    nickname: "테스트 사용자",
     mobile: "17621210366",
     gender: 1,
     avatar: "https://foruda.gitee.com/images/1723603502796844527/03cdca2a_716974.gif",

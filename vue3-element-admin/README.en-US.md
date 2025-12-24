@@ -7,17 +7,17 @@
   <img src="https://img.shields.io/badge/Element Plus-2.11.2-blue.svg"/>
   <img src="https://img.shields.io/badge/license-MIT-green.svg"/>
   <a href="https://gitee.com/youlaiorg" target="_blank">
-      <img src="https://img.shields.io/badge/Author-有来开源조직-orange.svg"/>
+      <img src="https://img.shields.io/badge/Author-유래开源조직-orange.svg"/>
   </a>
 
   <a href="https://gitee.com/youlaiorg/vue3-element-admin" target="_blank">
-    <img alt="有来技术" src="https://gitee.com/youlaiorg/vue3-element-admin/badge/star.svg"/>
+    <img alt="유래기술" src="https://gitee.com/youlaiorg/vue3-element-admin/badge/star.svg"/>
    </a>
   <a href="https://github.com/youlaitech/vue3-element-admin" target="_blank">
-    <img alt="有来技术" src="https://img.shields.io/github/stars/youlaitech/vue3-element-admin.svg?style=social&label=Stars"/>
+    <img alt="유래기술" src="https://img.shields.io/github/stars/youlaitech/vue3-element-admin.svg?style=social&label=Stars"/>
   </a>
   <a href="https://gitcode.com/youlai/vue3-element-admin" target="_blank">
-    <img alt="有来技术" src="https://gitcode.com/youlai/vue3-element-admin/star/badge.svg"/>
+    <img alt="유래기술" src="https://gitcode.com/youlai/vue3-element-admin/star/badge.svg"/>
   </a>
 
 </div>

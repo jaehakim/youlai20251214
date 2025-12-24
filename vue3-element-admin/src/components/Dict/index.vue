@@ -42,9 +42,9 @@
 </template>
 
 <script setup lang="ts">
-import { useDictStore } from "@/store";
+import { useDict스토어 } from "@/store";
 
-const dictStore = useDictStore();
+const dict스토어 = useDict스토어();
 
 const props = defineProps({
   code: {
@@ -117,7 +117,7 @@ function handleChange(val: any) {
 
 // 사전 데이터 가져오기
 onMounted(async () => {
-  await dictStore.loadDictItems(props.code);
-  options.value = dictStore.getDictItems(props.code);
+  await dict스토어.loadDictItems(props.code);
+  options.value = dict스토어.getDictItems(props.code);
 });
 </script>

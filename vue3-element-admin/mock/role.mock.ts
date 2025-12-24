@@ -13,39 +13,39 @@ export default defineMock([
         },
         {
           value: 4,
-          label: "系统管理员1",
+          label: "시스템 관리자1",
         },
         {
           value: 5,
-          label: "系统管理员2",
+          label: "시스템 관리자2",
         },
         {
           value: 6,
-          label: "系统管理员3",
+          label: "시스템 관리자3",
         },
         {
           value: 7,
-          label: "系统管理员4",
+          label: "시스템 관리자4",
         },
         {
           value: 8,
-          label: "系统管理员5",
+          label: "시스템 관리자5",
         },
         {
           value: 9,
-          label: "系统管理员6",
+          label: "시스템 관리자6",
         },
         {
           value: 10,
-          label: "系统管理员7",
+          label: "시스템 관리자7",
         },
         {
           value: 11,
-          label: "系统管理员8",
+          label: "시스템 관리자8",
         },
         {
           value: 12,
-          label: "系统管理员9",
+          label: "시스템 관리자9",
         },
         {
           value: 3,
@@ -83,7 +83,7 @@ export default defineMock([
           },
           {
             id: 4,
-            name: "系统管理员1",
+            name: "시스템 관리자1",
             code: "ADMIN1",
             status: 1,
             sort: 2,
@@ -92,7 +92,7 @@ export default defineMock([
           },
           {
             id: 5,
-            name: "系统管理员2",
+            name: "시스템 관리자2",
             code: "ADMIN2",
             status: 1,
             sort: 2,
@@ -101,7 +101,7 @@ export default defineMock([
           },
           {
             id: 6,
-            name: "系统管理员3",
+            name: "시스템 관리자3",
             code: "ADMIN3",
             status: 1,
             sort: 2,
@@ -110,7 +110,7 @@ export default defineMock([
           },
           {
             id: 7,
-            name: "系统管理员4",
+            name: "시스템 관리자4",
             code: "ADMIN4",
             status: 1,
             sort: 2,
@@ -119,7 +119,7 @@ export default defineMock([
           },
           {
             id: 8,
-            name: "系统管理员5",
+            name: "시스템 관리자5",
             code: "ADMIN5",
             status: 1,
             sort: 2,
@@ -128,7 +128,7 @@ export default defineMock([
           },
           {
             id: 9,
-            name: "系统管理员6",
+            name: "시스템 관리자6",
             code: "ADMIN6",
             status: 1,
             sort: 2,
@@ -137,7 +137,7 @@ export default defineMock([
           },
           {
             id: 10,
-            name: "系统管理员7",
+            name: "시스템 관리자7",
             code: "ADMIN7",
             status: 1,
             sort: 2,
@@ -146,7 +146,7 @@ export default defineMock([
           },
           {
             id: 11,
-            name: "系统管理员8",
+            name: "시스템 관리자8",
             code: "ADMIN8",
             status: 1,
             sort: 2,
@@ -260,7 +260,7 @@ const roleMap: Record<string, any> = {
   },
   4: {
     id: 4,
-    name: "系统管理员1",
+    name: "시스템 관리자1",
     code: "ADMIN1",
     status: 1,
     sort: 2,
@@ -269,7 +269,7 @@ const roleMap: Record<string, any> = {
   },
   5: {
     id: 5,
-    name: "系统管理员2",
+    name: "시스템 관리자2",
     code: "ADMIN2",
     status: 1,
     sort: 2,
@@ -279,7 +279,7 @@ const roleMap: Record<string, any> = {
 
   6: {
     id: 6,
-    name: "系统管理员3",
+    name: "시스템 관리자3",
     code: "ADMIN3",
     status: 1,
     sort: 2,
@@ -288,7 +288,7 @@ const roleMap: Record<string, any> = {
   },
   7: {
     id: 7,
-    name: "系统管理员4",
+    name: "시스템 관리자4",
     code: "ADMIN4",
     status: 1,
     sort: 2,
@@ -297,7 +297,7 @@ const roleMap: Record<string, any> = {
   },
   8: {
     id: 8,
-    name: "系统管理员5",
+    name: "시스템 관리자5",
     code: "ADMIN5",
     status: 1,
     sort: 2,
@@ -306,7 +306,7 @@ const roleMap: Record<string, any> = {
   },
   9: {
     id: 9,
-    name: "系统管理员6",
+    name: "시스템 관리자6",
     code: "ADMIN6",
     status: 1,
     sort: 2,
@@ -315,7 +315,7 @@ const roleMap: Record<string, any> = {
   },
   10: {
     id: 10,
-    name: "系统管理员7",
+    name: "시스템 관리자7",
     code: "ADMIN7",
     status: 1,
     sort: 2,
@@ -324,7 +324,7 @@ const roleMap: Record<string, any> = {
   },
   11: {
     id: 11,
-    name: "系统管理员8",
+    name: "시스템 관리자8",
     code: "ADMIN8",
     status: 1,
     sort: 2,

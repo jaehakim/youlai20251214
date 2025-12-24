@@ -231,7 +231,7 @@
               <el-option
                 label="전체 데이터 (모든 페이지의 데이터)"
                 :value="ExportsOriginEnum.REMOTE"
-                :disabled="contentConfig.exportsAction === undefined"
+                :disabled="contentConfig.exports액션 === undefined"
               />
             </el-select>
           </el-form-item>
@@ -511,9 +511,9 @@ function handleDelete(id?: number | string) {
     type: "warning",
   })
     .then(function () {
-      if (props.contentConfig.deleteAction) {
+      if (props.contentConfig.delete액션) {
         props.contentConfig
-          .deleteAction(ids)
+          .delete액션(ids)
           .then(() => {
             ElMessage.success("삭제 성공");
             removeIds.value = [];
@@ -523,7 +523,7 @@ function handleDelete(id?: number | string) {
           })
           .catch(() => {});
       } else {
-        ElMessage.error("deleteAction이 구성되지 않았습니다");
+        ElMessage.error("delete액션이 구성되지 않았습니다");
       }
     })
     .catch(() => {});
@@ -590,8 +590,8 @@ function handleExports() {
   });
   worksheet.columns = columns;
   if (exportsFormData.origin === ExportsOriginEnum.REMOTE) {
-    if (props.contentConfig.exportsAction) {
-      props.contentConfig.exportsAction(lastFormData).then((res) => {
+    if (props.contentConfig.exports액션) {
+      props.contentConfig.exports액션(lastFormData).then((res) => {
         worksheet.addRows(res);
         workbook.xlsx
           .writeBuffer()
@@ -601,7 +601,7 @@ function handleExports() {
           .catch((error) => console.log(error));
       });
     } else {
-      ElMessage.error("exportsAction이 구성되지 않았습니다");
+      ElMessage.error("exports액션이 구성되지 않았습니다");
     }
   } else {
     worksheet.addRows(
@@ -680,12 +680,12 @@ function handleCloseImportModal() {
 }
 // 파일 가져오기
 function handleImport() {
-  const importAction = props.contentConfig.importAction;
-  if (importAction === undefined) {
-    ElMessage.error("importAction이 구성되지 않았습니다");
+  const import액션 = props.contentConfig.import액션;
+  if (import액션 === undefined) {
+    ElMessage.error("import액션이 구성되지 않았습니다");
     return;
   }
-  importAction(importFormData.files[0].raw as File).then(() => {
+  import액션(importFormData.files[0].raw as File).then(() => {
     ElMessage.success("데이터 가져오기 성공");
     handleCloseImportModal();
     handleRefresh(true);
@@ -693,9 +693,9 @@ function handleImport() {
 }
 // 가져오기
 function handleImports() {
-  const importsAction = props.contentConfig.importsAction;
-  if (importsAction === undefined) {
-    ElMessage.error("importsAction이 구성되지 않았습니다");
+  const imports액션 = props.contentConfig.imports액션;
+  if (imports액션 === undefined) {
+    ElMessage.error("imports액션이 구성되지 않았습니다");
     return;
   }
   // 선택한 파일 가져오기
@@ -740,7 +740,7 @@ function handleImports() {
             ElMessage.error("구문 분석된 데이터가 없습니다");
             return;
           }
-          importsAction(data).then(() => {
+          imports액션(data).then(() => {
             ElMessage.success("데이터 가져오기 성공");
             handleCloseImportModal();
             handleRefresh(true);
@@ -790,7 +790,7 @@ function handleToolbar(name: string) {
 function handleOperate(data: IOperateData) {
   switch (data.name) {
     case "delete":
-      if (props.contentConfig?.deleteAction) {
+      if (props.contentConfig?.delete액션) {
         handleDelete(data.row[pk]);
       } else {
         emit("operateClick", data);
@@ -804,14 +804,14 @@ function handleOperate(data: IOperateData) {
 
 // 속성수정
 function handleModify(field: string, value: boolean | string | number, row: Record<string, any>) {
-  if (props.contentConfig.modifyAction) {
-    props.contentConfig.modifyAction({
+  if (props.contentConfig.modify액션) {
+    props.contentConfig.modify액션({
       [pk]: row[pk],
       field,
       value,
     });
   } else {
-    ElMessage.error("미설정modifyAction");
+    ElMessage.error("미설정modify액션");
   }
 }
 
@@ -825,7 +825,7 @@ function handleCurrentChange(value: number) {
   handleRefresh();
 }
 
-// 远程데이터필터
+// 원격데이터필터
 let filterParams: IObject = {};
 function handleFilterChange(newFilters: any) {
   const filters: IObject = {};
@@ -859,7 +859,7 @@ function fetchPageData(formData: IObject = {}, isRestart = false) {
     pagination.currentPage = 1;
   }
   props.contentConfig
-    .indexAction(
+    .index액션(
       showPagination
         ? {
             [request.pageName]: pagination.currentPage,
@@ -887,8 +887,8 @@ fetchPageData();
 
 // 내보내기Excel
 function exportPageData(formData: IObject = {}) {
-  if (props.contentConfig.exportAction) {
-    props.contentConfig.exportAction(formData).then((response) => {
+  if (props.contentConfig.export액션) {
+    props.contentConfig.export액션(formData).then((response) => {
       const fileData = response.data;
       const fileName = decodeURI(
         response.headers["content-disposition"].split(";")[1].split("=")[1]
@@ -896,11 +896,11 @@ function exportPageData(formData: IObject = {}) {
       saveXlsx(fileData, fileName);
     });
   } else {
-    ElMessage.error("미설정exportAction");
+    ElMessage.error("미설정export액션");
   }
 }
 
-// 浏览器저장파일
+// 浏览기기저장파일
 function saveXlsx(fileData: any, fileName: string) {
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8";

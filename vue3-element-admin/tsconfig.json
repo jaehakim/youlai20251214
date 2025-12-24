@@ -9,22 +9,22 @@
       "@/*": ["src/*"]
     },
 
-    // 严格性和类型检查相关配置
+    // 严格性그리고유형확인相关설정
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
 
-    // 模块和兼容性相关配置
+    // 모듈그리고兼容性相关설정
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
 
-    // 调试和兼容性相关配置
+    // 调试그리고兼容性相关설정
     "sourceMap": true,
     "useDefineForClassFields": true,
     "allowJs": true,
 
-    // 类型声明相关配置
+    // 유형声明相关설정
     "types": ["node", "vite/client", "element-plus/global"]
   },
 

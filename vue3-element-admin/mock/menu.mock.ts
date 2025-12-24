@@ -516,7 +516,7 @@ export default defineMock([
               component: "demo/ai-command",
               name: "/function/ai-command",
               meta: {
-                title: "AI 命令助手",
+                title: "AI 命令도우미",
                 icon: "el-icon-MagicStick",
                 hidden: false,
                 keepAlive: true,
@@ -1617,209 +1617,209 @@ export default defineMock([
       data: [
         {
           value: "1",
-          label: "系统管理",
+          label: "시스템 관리",
           children: [
             {
               value: "2",
-              label: "用户管理",
+              label: "사용자 관리",
               children: [
                 {
                   value: "105",
-                  label: "用户查询",
+                  label: "사용자조회",
                 },
                 {
                   value: "31",
-                  label: "用户新增",
+                  label: "사용자신규",
                 },
                 {
                   value: "32",
-                  label: "用户编辑",
+                  label: "사용자편집",
                 },
                 {
                   value: "33",
-                  label: "用户删除",
+                  label: "사용자삭제",
                 },
                 {
                   value: "88",
-                  label: "重置密码",
+                  label: "초기화비밀번호",
                 },
                 {
                   value: "106",
-                  label: "用户导入",
+                  label: "사용자가져오기",
                 },
                 {
                   value: "107",
-                  label: "用户导出",
+                  label: "사용자내보내기",
                 },
               ],
             },
             {
               value: "3",
-              label: "角色管理",
+              label: "역할 관리",
               children: [
                 {
                   value: "139",
-                  label: "角色查询",
+                  label: "역할조회",
                 },
                 {
                   value: "70",
-                  label: "角色新增",
+                  label: "역할신규",
                 },
                 {
                   value: "71",
-                  label: "角色编辑",
+                  label: "역할편집",
                 },
                 {
                   value: "72",
-                  label: "角色删除",
+                  label: "역할삭제",
                 },
               ],
             },
             {
               value: "4",
-              label: "菜单管理",
+              label: "메뉴 관리",
               children: [
                 {
                   value: "73",
-                  label: "菜单新增",
+                  label: "메뉴신규",
                 },
                 {
                   value: "140",
-                  label: "菜单查询",
+                  label: "메뉴조회",
                 },
                 {
                   value: "75",
-                  label: "菜单删除",
+                  label: "메뉴삭제",
                 },
                 {
                   value: "74",
-                  label: "菜单编辑",
+                  label: "메뉴편집",
                 },
               ],
             },
             {
               value: "5",
-              label: "部门管理",
+              label: "부서 관리",
               children: [
                 {
                   value: "76",
-                  label: "部门新增",
+                  label: "부서신규",
                 },
                 {
                   value: "141",
-                  label: "部门查询",
+                  label: "부서조회",
                 },
                 {
                   value: "77",
-                  label: "部门编辑",
+                  label: "부서편집",
                 },
                 {
                   value: "78",
-                  label: "部门删除",
+                  label: "부서삭제",
                 },
               ],
             },
             {
               value: "6",
-              label: "字典管理",
+              label: "사전 관리",
               children: [
                 {
                   value: "79",
-                  label: "字典新增",
+                  label: "사전신규",
                 },
                 {
                   value: "142",
-                  label: "字典查询",
+                  label: "사전조회",
                 },
                 {
                   value: "81",
-                  label: "字典编辑",
+                  label: "사전편집",
                 },
                 {
                   value: "84",
-                  label: "字典删除",
+                  label: "사전삭제",
                 },
               ],
             },
             {
               value: "117",
-              label: "系统日志",
+              label: "시스템日志",
             },
             {
               value: "135",
-              label: "字典项",
+              label: "사전项",
               children: [
                 {
                   value: "143",
-                  label: "字典项查询",
+                  label: "사전项조회",
                 },
                 {
                   value: "136",
-                  label: "字典项新增",
+                  label: "사전项신규",
                 },
                 {
                   value: "137",
-                  label: "字典项编辑",
+                  label: "사전项편집",
                 },
                 {
                   value: "138",
-                  label: "字典项删除",
+                  label: "사전项삭제",
                 },
               ],
             },
             {
               value: "120",
-              label: "系统配置",
+              label: "시스템설정",
               children: [
                 {
                   value: "121",
-                  label: "系统配置查询",
+                  label: "시스템설정조회",
                 },
                 {
                   value: "122",
-                  label: "系统配置新增",
+                  label: "시스템설정신규",
                 },
                 {
                   value: "123",
-                  label: "系统配置修改",
+                  label: "시스템설정수정",
                 },
                 {
                   value: "124",
-                  label: "系统配置删除",
+                  label: "시스템설정삭제",
                 },
                 {
                   value: "125",
-                  label: "系统配置刷新",
+                  label: "시스템설정새로고침",
                 },
               ],
             },
             {
               value: "126",
-              label: "通知公告",
+              label: "어드바이스公告",
               children: [
                 {
                   value: "127",
-                  label: "通知查询",
+                  label: "어드바이스조회",
                 },
                 {
                   value: "128",
-                  label: "通知新增",
+                  label: "어드바이스신규",
                 },
                 {
                   value: "129",
-                  label: "通知编辑",
+                  label: "어드바이스편집",
                 },
                 {
                   value: "130",
-                  label: "通知删除",
+                  label: "어드바이스삭제",
                 },
                 {
                   value: "133",
-                  label: "通知发布",
+                  label: "어드바이스릴리스",
                 },
                 {
                   value: "134",
-                  label: "通知撤回",
+                  label: "어드바이스撤回",
                 },
               ],
             },
@@ -1827,17 +1827,17 @@ export default defineMock([
         },
         {
           value: "118",
-          label: "系统工具",
+          label: "시스템工具",
           children: [
             {
               value: "119",
-              label: "代码生成",
+              label: "코드 생성",
             },
           ],
         },
         {
           value: "40",
-          label: "接口文档",
+          label: "인터페이스문서",
           children: [
             {
               value: "41",
@@ -1847,7 +1847,7 @@ export default defineMock([
         },
         {
           value: "26",
-          label: "平台文档",
+          label: "플랫폼문서",
           children: [
             {
               value: "102",
@@ -1855,29 +1855,29 @@ export default defineMock([
             },
             {
               value: "30",
-              label: "平台文档(外链)",
+              label: "플랫폼문서(外链)",
             },
           ],
         },
         {
           value: "20",
-          label: "多级菜单",
+          label: "多级메뉴",
           children: [
             {
               value: "21",
-              label: "菜单一级",
+              label: "메뉴一级",
               children: [
                 {
                   value: "22",
-                  label: "菜单二级",
+                  label: "메뉴二级",
                   children: [
                     {
                       value: "23",
-                      label: "菜单三级-1",
+                      label: "메뉴三级-1",
                     },
                     {
                       value: "24",
-                      label: "菜单三级-2",
+                      label: "메뉴三级-2",
                     },
                   ],
                 },
@@ -1887,7 +1887,7 @@ export default defineMock([
         },
         {
           value: "36",
-          label: "组件封装",
+          label: "컴포넌트封装",
           children: [
             {
               value: "108",
@@ -1895,43 +1895,43 @@ export default defineMock([
             },
             {
               value: "109",
-              label: "列表选择器",
+              label: "목록선택择기기",
             },
             {
               value: "37",
-              label: "富文本编辑器",
+              label: "富텍스트편집기기",
             },
             {
               value: "38",
-              label: "图片上传",
+              label: "이미지업로드",
             },
             {
               value: "39",
-              label: "图标选择器",
+              label: "图标선택择기기",
             },
             {
               value: "95",
-              label: "字典组件",
+              label: "사전컴포넌트",
             },
           ],
         },
         {
           value: "110",
-          label: "路由参数",
+          label: "라우트매개변수",
           children: [
             {
               value: "111",
-              label: "参数(type=1)",
+              label: "매개변수(type=1)",
             },
             {
               value: "112",
-              label: "参数(type=2)",
+              label: "매개변수(type=2)",
             },
           ],
         },
         {
           value: "89",
-          label: "功能演示",
+          label: "기능演示",
           children: [
             {
               value: "97",
@@ -2006,12 +2006,12 @@ export default defineMock([
   },
 ]);
 
-// 菜单映射表数据
+// 메뉴매핑테이블데이터
 const menuMap: Record<string, any> = {
   1: {
     id: 1,
     parentId: 0,
-    name: "系统管理",
+    name: "시스템 관리",
     type: "CATALOG",
     routeName: "",
     routePath: "/system",
@@ -2028,7 +2028,7 @@ const menuMap: Record<string, any> = {
   2: {
     id: 2,
     parentId: 1,
-    name: "用户管理",
+    name: "사용자 관리",
     type: "MENU",
     routeName: "User",
     routePath: "user",
@@ -2044,7 +2044,7 @@ const menuMap: Record<string, any> = {
   3: {
     id: 3,
     parentId: 1,
-    name: "角色管理",
+    name: "역할 관리",
     type: "MENU",
     routeName: "Role",
     routePath: "role",
@@ -2060,7 +2060,7 @@ const menuMap: Record<string, any> = {
   4: {
     id: 4,
     parentId: 1,
-    name: "菜单管理",
+    name: "메뉴 관리",
     type: "MENU",
     routeName: "Menu",
     routePath: "menu",
@@ -2076,7 +2076,7 @@ const menuMap: Record<string, any> = {
   5: {
     id: 5,
     parentId: 1,
-    name: "部门管理",
+    name: "부서 관리",
     type: "MENU",
     routeName: "Dept",
     routePath: "dept",
@@ -2092,7 +2092,7 @@ const menuMap: Record<string, any> = {
   6: {
     id: 6,
     parentId: 1,
-    name: "字典管理",
+    name: "사전 관리",
     type: "MENU",
     routeName: "Dict",
     routePath: "dict",

@@ -1,12 +1,12 @@
 import router from "@/router";
 import { ElButton } from "element-plus";
-import { useTagsViewStore } from "@/저장소";
+import { useTagsView스토어 } from "@/저장소";
 
 export default defineComponent({
   name: "ToDetail",
   setup() {
     const route = useRoute();
-    const tagsViewStore = useTagsViewStore();
+    const tagsView스토어 = useTagsView스토어();
 
     // 점프转상세
     const navigateToDetail = async (id: number) => {
@@ -15,7 +15,7 @@ export default defineComponent({
         query: { message: `msg${id}` },
       });
       // 更改标题
-      tagsViewStore.updateTagName(route.fullPath, `상세页캐시(id=${id})`);
+      tagsView스토어.updateTagName(route.fullPath, `상세页캐시(id=${id})`);
     };
     return () =>
       h("div", null, [

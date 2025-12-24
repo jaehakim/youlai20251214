@@ -32,8 +32,8 @@ export const constantRoutes: RouteRecordRaw[] = [
       {
         path: "dashboard",
         component: () => import("@/views/dashboard/index.vue"),
-        // 용도 keep-alive 功能，필요해야与 SFC 내자동推导或显式声明의컴포넌트이름칭하나致
-        // 参考文档: https://cn.vuejs.org/guide/built-ins/keep-alive.html#include-exclude
+        // 용도 keep-alive 기능，필요해야与 SFC 내자동推导또는显式声明의컴포넌트이름칭하나致
+        // 参考문서: https://cn.vuejs.org/guide/built-ins/keep-alive.html#include-exclude
         name: "Dashboard",
         meta: {
           title: "dashboard",
@@ -62,7 +62,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         path: "my-notice",
         name: "MyNotice",
         component: () => import("@/views/system/notice/components/MyNotice.vue"),
-        meta: { title: "我의通知", icon: "user", hidden: true },
+        meta: { title: "我의어드바이스", icon: "user", hidden: true },
       },
       {
         path: "/detail/:id(\\d+)",
@@ -75,16 +75,16 @@ export const constantRoutes: RouteRecordRaw[] = [
 ];
 
 /**
- * 创建라우팅
+ * 생성라우팅
  */
 const router = createRouter({
   history: createWebHashHistory(),
   routes: constantRoutes,
-  // 새로고침시，滚动条位置还原
+  // 새로고침시，스크롤条자리置还原
   scrollBehavior: () => ({ left: 0, top: 0 }),
 });
 
-// 全局등록 router
+// 글로벌등록 router
 export function setupRouter(app: App<Element>) {
   app.use(router);
 }

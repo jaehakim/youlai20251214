@@ -1,25 +1,25 @@
-export const useTagsViewStore = defineStore("tagsView", () => {
+export const useTagsView스토어 = define스토어("tagsView", () => {
   const visitedViews = 참조<TagView[]>([]);
   const cachedViews = 참조<string[]>([]);
   const router = useRouter();
   const route = useRoute();
 
   /**
-   * 추가已访问뷰到已访问뷰목록내
+   * 추가이미访问뷰到이미访问뷰목록내
    */
   function addVisitedView(view: TagView) {
-    // 이미存에于已访问의뷰목록내或者是重定에地址，그러면不再추가
+    // 이미存에于이미访问의뷰목록내또는者예重定에주소，그러면아님再추가
     if (view.path.startsWith("/redirect")) {
       return;
     }
     if (visitedViews.value.some((v) => v.path === view.path)) {
       return;
     }
-    // 만약뷰是固定의（affix），그러면에已访问의뷰목록의开头추가
+    // 만약뷰예固定의（affix），그러면에이미访问의뷰목록의开头추가
     if (view.affix) {
       visitedViews.value.unshift(view);
     } else {
-      // 만약뷰不是固定의，그러면에已访问의뷰목록의末尾추가
+      // 만약뷰아님예固定의，그러면에이미访问의뷰목록의末尾추가
       visitedViews.value.push(view);
     }
   }
@@ -28,7 +28,7 @@ export const useTagsViewStore = defineStore("tagsView", () => {
    * 추가캐시뷰到캐시뷰목록내
    */
   function addCachedView({ fullPath, keepAlive }: TagView) {
-    // 만약캐시뷰이름칭已经存에于캐시뷰목록내，그러면不再추가
+    // 만약캐시뷰이름칭이미经存에于캐시뷰목록내，그러면아님再추가
     if (cachedViews.value.includes(fullPath)) {
       return;
     }
@@ -40,12 +40,12 @@ export const useTagsViewStore = defineStore("tagsView", () => {
   }
 
   /**
-   * 从已访问뷰목록내삭제指定의뷰
+   * 从이미访问뷰목록내삭제指定의뷰
    */
   function delVisitedView(view: TagView) {
     return new Promise((resolve) => {
       for (const [i, v] of visitedViews.value.entries()) {
-        // 找到与指定뷰경로일치의뷰，에已访问뷰목록내삭제该뷰
+        // 找到与指定뷰경로일치의뷰，에이미访问뷰목록내삭제该뷰
         if (v.path === view.path) {
           visitedViews.value.splice(i, 1);
           break;
@@ -98,9 +98,9 @@ export const useTagsViewStore = defineStore("tagsView", () => {
   }
 
   /**
-   * 에 따라경로업데이트标签이름칭
+   * 에 따라경로업데이트태그이름칭
    * @param fullPath 경로
-   * @param title 标签이름칭
+   * @param title 태그이름칭
    */
   function updateTagName(fullPath: string, title: string) {
     const tag = visitedViews.value.find((tag: TagView) => tag.fullPath === fullPath);
