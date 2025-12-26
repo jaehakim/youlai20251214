@@ -4,9 +4,28 @@
 
 
 -- ----------------------------
--- 1. 데이터베이스 생성
+-- 1. 데이터베이스 생성 (한글 깨짐 방지를 위해 utf8mb4 권장)
 -- ----------------------------
 CREATE DATABASE IF NOT EXISTS youlai_boot CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
+
+-- 2. 사용자 계정 생성 (외부 접속 허용 여부에 따라 선택)
+-- 2-1. 모든 IP에서 접속 허용 (일반적인 개발/운영 환경)
+CREATE USER 'youlai'@'%' IDENTIFIED BY '123456';
+-- 2-2. (보안 강화) 로컬(localhost)에서만 접속 허용 시
+-- CREATE USER 'youlai'@'localhost' IDENTIFIED BY '123456';
+
+-- 3. 권한 부여 (해당 DB에 대한 모든 권한 부여)
+-- 주의: 생성할 때 사용한 호스트('%' 또는 'localhost')와 일치해야 함
+GRANT ALL PRIVILEGES ON youlai_boot.* TO 'youlai'@'%';
+
+-- 4. 권한 적용 (메모리에 반영)
+FLUSH PRIVILEGES;
+
+-- 5. 생성된 권한 확인 (선택 사항)
+SHOW GRANTS FOR 'youlai'@'%';
+
+
+
 
 
 -- ----------------------------
