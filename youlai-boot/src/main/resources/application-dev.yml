@@ -5,7 +5,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://www.youlai.tech:3306/youlai_boot?zeroDateTimeBehavior=convertTonull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true&allowMultiQueries=true
+    url: jdbc:mysql://localhost:32769/youlai_boot?zeroDateTimeBehavior=convertTonull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&autoReconnect=true&allowMultiQueries=true
     username: youlai
     password: 123456
   data:
@@ -191,7 +191,7 @@ knife4j:
   # 프로덕션 환경 설정
   production: false # true로 설정하면 프로덕션 환경에서 문서를 표시하지 않음, false는 문서 표시(일반적으로 개발 환경에서 사용)
   setting:
-    language: zh_CN
+    language: en
 
 # xxl-job 정기 작업 설정
 xxl:
