@@ -24,8 +24,8 @@
 
 <script setup lang="ts">
 import selectConfig from "./config/select";
-import { useDict스토어 } from "@/store";
-const dict스토어 = useDict스토어();
+import { useDictStore } from "@/store";
+const dictStore = useDictStore();
 interface IUser {
   id: string;
   username: string;
@@ -45,7 +45,7 @@ function handleConfirm(data: IUser[]) {
 }
 const text = computed(() => {
   // 사전 데이터 가져오기
-  const dictData = dict스토어.getDictItems("gender");
+  const dictData = dictStore.getDictItems("gender");
   const genderLabel = dictData.find((item: any) => item.value == selectedUser.value?.gender)?.label;
   return selectedUser.value
     ? `${selectedUser.value.username} - ${genderLabel} - ${selectedUser.value.deptName}`

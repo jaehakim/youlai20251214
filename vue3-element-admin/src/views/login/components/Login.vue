@@ -114,12 +114,12 @@
 import type { FormInstance } from "element-plus";
 import AuthAPI, { type LoginFormData } from "@/api/auth-api";
 import router from "@/router";
-import { useUser스토어 } from "@/store";
+import { useUserStore } from "@/store";
 import CommonWrapper from "@/components/CommonWrapper/index.vue";
 import { AuthStorage } from "@/utils/auth";
 
 const { t } = useI18n();
-const user스토어 = useUser스토어();
+const userStore = useUserStore();
 const route = useRoute();
 
 onMounted(() => getCaptcha());
@@ -196,7 +196,7 @@ async function handleLoginSubmit() {
     loading.value = true;
 
     // 2. 로그인 실행
-    await user스토어.login(loginFormData.value);
+    await userStore.login(loginFormData.value);
 
     const redirectPath = (route.query.redirect as string) || "/";
 

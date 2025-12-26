@@ -69,8 +69,8 @@
               :class="[
                 message.type === 'tip' ? 'system-notice' : 'chat-message',
                 {
-                  'chat-message--sent': message.sender === user스토어.userInfo.username,
-                  'chat-message--received': message.sender !== user스토어.userInfo.username,
+                  'chat-message--sent': message.sender === userStore.userInfo.username,
+                  'chat-message--received': message.sender !== userStore.userInfo.username,
                 },
               ]"
             >
@@ -78,8 +78,8 @@
                 <div class="chat-message__content">
                   <div
                     :class="{
-                      'chat-message__sender': message.sender === user스토어.userInfo.username,
-                      'chat-message__receiver': message.sender !== user스토어.userInfo.username,
+                      'chat-message__sender': message.sender === userStore.userInfo.username,
+                      'chat-message__receiver': message.sender !== userStore.userInfo.username,
                     }"
                   >
                     {{ message.sender }}
@@ -98,9 +98,9 @@
 
 <script setup lang="ts">
 import { useStomp } from "@/composables/websocket/useStomp";
-import { useUser스토어Hook } from "@/store/modules/user-store";
+import { useUserStoreHook } from "@/store/modules/user-store";
 
-const user스토어 = useUser스토어Hook();
+const userStore = useUserStoreHook();
 // WebSocket 주소를 수동으로 조정하기 위함
 const socketEndpoint = ref(import.meta.env.VITE_APP_WS_ENDPOINT);
 // 연결 상태 동기화
@@ -113,7 +113,7 @@ const messages = ref<MessageType[]>([]);
 // 브로드캐스트 메시지 내용
 const topicMessage = ref("친구들, 시스템이 최신 상태로 복구되었습니다.");
 // 1:1 메시지 내용(기본 예제)
-const queneMessage = ref("Hi, " + user스토어.userInfo.username + " 이것은 1:1 메시지 예제입니다!");
+const queneMessage = ref("Hi, " + userStore.userInfo.username + " 이것은 1:1 메시지 예제입니다!");
 const receiver = ref("root");
 
 // useStomp hook 호출, 기본적으로 socketEndpoint 및 토큰 사용(여기서는 getAccessToken() 사용)
@@ -170,7 +170,7 @@ function sendToAll() {
     // 구독 모드를 직접 사용하여 브로드캐스트 메시지 처리
     subscribe("/app/broadcast", () => {});
     messages.value.push({
-      sender: user스토어.userInfo.username,
+      sender: userStore.userInfo.username,
       content: topicMessage.value,
     });
   }
@@ -182,7 +182,7 @@ function sendToUser() {
     // 구독 모드를 사용하여 1:1 메시지 처리
     subscribe(`/app/sendToUser/${receiver.value}`, () => {});
     messages.value.push({
-      sender: user스토어.userInfo.username,
+      sender: userStore.userInfo.username,
       content: queneMessage.value,
     });
   }

@@ -74,7 +74,7 @@ import RoleAPI from "@/api/system/role-api";
 import type { UserForm, UserPageQuery } from "@/api/system/user-api";
 import type { IObject, IModalConfig, IContentConfig, ISearchConfig } from "@/components/CURD/types";
 import { DeviceEnum } from "@/enums/settings/device-enum";
-import { useApp스토어 } from "@/store";
+import { useAppStore } from "@/store";
 import usePage from "@/components/CURD/usePage";
 
 defineOptions({
@@ -417,7 +417,7 @@ const editModalConfig: IModalConfig<UserForm> = reactive({
   component: "drawer",
   drawer: {
     title: "사용자 수정",
-    size: useApp스토어().device === DeviceEnum.MOBILE ? "80%" : 500,
+    size: useAppStore().device === DeviceEnum.MOBILE ? "80%" : 500,
   },
   pk: "id",
   beforeSubmit(data: any) {

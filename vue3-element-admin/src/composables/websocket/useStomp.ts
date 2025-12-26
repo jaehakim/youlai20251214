@@ -212,7 +212,7 @@ export function useStomp(options: UseStompOptions = {}) {
     };
 
     // 웹소켓 닫힘
-    stompClient.value.on웹소켓Close = (event) => {
+    stompClient.value.onWebSocketClose = (event) => {
       connectionState.value = ConnectionState.DISCONNECTED;
       log(`웹소켓이 닫힘: code=${event?.code}, reason=${event?.reason}`);
 

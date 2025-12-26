@@ -8,7 +8,7 @@
           <el-dropdown-item
             v-for="item of sizeOptions"
             :key="item.value"
-            :disabled="app스토어.size == item.value"
+            :disabled="appStore.size == item.value"
             :command="item.value"
           >
             {{ item.label }}
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { ComponentSize } from "@/enums/settings/layout-enum";
-import { useApp스토어 } from "@/store/modules/app-store";
+import { useAppStore } from "@/store/modules/app-store";
 
 const { t } = useI18n();
 const sizeOptions = computed(() => {
@@ -32,9 +32,9 @@ const sizeOptions = computed(() => {
   ];
 });
 
-const app스토어 = useApp스토어();
+const appStore = useAppStore();
 function handleSizeChange(size: string) {
-  app스토어.changeSize(size);
+  appStore.changeSize(size);
   ElMessage.success(t("sizeSelect.message.success"));
 }
 </script>

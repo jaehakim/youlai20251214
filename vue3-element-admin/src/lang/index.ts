@@ -1,11 +1,11 @@
 import type { App } from "vue";
 import { createI18n } from "vue-i18n";
-import { useApp스토어Hook } from "@/저장소/modules/app-저장소";
+import { useAppStoreHook } from "@/store/modules/app-store";
 // 로컬언어패키지
 import enLocale from "./package/en.json";
 import zhCnLocale from "./package/zh-cn.json";
 
-const app스토어 = useApp스토어Hook();
+const appStore = useAppStoreHook();
 
 const messages = {
   "zh-cn": zhCnLocale,
@@ -14,7 +14,7 @@ const messages = {
 
 const i18n = createI18n({
   legacy: false,
-  locale: app스토어.language,
+  locale: appStore.language,
   messages,
   globalInjection: true,
 });

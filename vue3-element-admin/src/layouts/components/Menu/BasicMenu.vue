@@ -3,7 +3,7 @@
   <el-menu
     ref="menuRef"
     :default-active="activeMenuPath"
-    :collapse="!app스토어.sidebar.opened"
+    :collapse="!appStore.sidebar.opened"
     :background-color="menuThemeProps.backgroundColor"
     :text-color="menuThemeProps.textColor"
     :active-text-color="menuThemeProps.activeTextColor"
@@ -30,7 +30,7 @@ import path from "path-browserify";
 import type { MenuInstance } from "element-plus";
 import type { RouteRecordRaw } from "vue-router";
 import { SidebarColor } from "@/enums/settings/theme-enum";
-import { useSettings스토어, useApp스토어 } from "@/store";
+import { useSettingsStore, useAppStore } from "@/store";
 import { isExternal } from "@/utils/index";
 import MenuItem from "./components/MenuItem.vue";
 import variables from "@/styles/variables.module.scss";
@@ -53,18 +53,18 @@ const props = defineProps({
 });
 
 const menuRef = ref<MenuInstance>();
-const settings스토어 = useSettings스토어();
-const app스토어 = useApp스토어();
+const settingsStore = useSettingsStore();
+const appStore = useAppStore();
 const currentRoute = useRoute();
 
 // 확장된 메뉴 항목 인덱스 저장
 const expandedMenuIndexes = ref<string[]>([]);
 
 // 테마 가져오기
-const theme = computed(() => settings스토어.theme);
+const theme = computed(() => settingsStore.theme);
 
 // 밝은 테마의 사이드바 색상 구성표 가져오기
-const sidebarColorScheme = computed(() => settings스토어.sidebarColorScheme);
+const sidebarColorScheme = computed(() => settingsStore.sidebarColorScheme);
 
 // 메뉴 테마 속성
 const menuThemeProps = computed(() => {

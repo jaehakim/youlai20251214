@@ -8,7 +8,7 @@ import AiCommandApi from "@/api/ai";
  *
  * 단순 함수이거나 설정 객체일 수 있음
  */
-export type Ai액션Handler<T = any> =
+export type AiActionHandler<T = any> =
   | ((args: T) => Promise<void> | void)
   | {
       /** 함수 실행 */
@@ -26,9 +26,9 @@ export type Ai액션Handler<T = any> =
 /**
  * AI 작업 설정
  */
-export interface UseAi액션Options {
+export interface UseAiActionOptions {
   /** 작업 매핑 테이블: 함수 이름 -> 처리기 */
-  actionHandlers?: Record<string, Ai액션Handler>;
+  actionHandlers?: Record<string, AiActionHandler>;
   /** 데이터 새로고침 함수(작업 완료 후 호출) */
   onRefresh?: () => Promise<void> | void;
   /** 자동 검색 처리 함수 */
@@ -45,7 +45,7 @@ export interface UseAi액션Options {
  * - AI 작업 실행(ai액션 파라미터로)
  * - 설정 가능한 작업 처리기
  */
-export function useAi액션(options: UseAi액션Options = {}) {
+export function useAiAction(options: UseAiActionOptions = {}) {
   const route = useRoute();
   const { actionHandlers = {}, onRefresh, onAutoSearch, currentRoute = route.path } = options;
 

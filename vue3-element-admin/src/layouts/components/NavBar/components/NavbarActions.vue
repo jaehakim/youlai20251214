@@ -32,8 +32,8 @@
     <div class="navbar-actions__item">
       <el-dropdown trigger="click">
         <div class="user-profile">
-          <img class="user-profile__avatar" :src="user스토어.userInfo.avatar" />
-          <span class="user-profile__name">{{ user스토어.userInfo.username }}</span>
+          <img class="user-profile__avatar" :src="userStore.userInfo.avatar" />
+          <span class="user-profile__name">{{ userStore.userInfo.username }}</span>
         </div>
         <template #dropdown>
           <el-dropdown-menu>
@@ -64,7 +64,7 @@ import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "vue-router";
 import { defaultSettings } from "@/settings";
 import { DeviceEnum } from "@/enums/settings/device-enum";
-import { useApp스토어, useSettings스토어, useUser스토어 } from "@/store";
+import { useAppStore, useSettingsStore, useUserStore } from "@/store";
 import { SidebarColor, ThemeMode } from "@/enums/settings/theme-enum";
 import { LayoutMode } from "@/enums";
 
@@ -76,15 +76,15 @@ import LangSelect from "@/components/LangSelect/index.vue";
 import Notification from "@/components/Notification/index.vue";
 
 const { t } = useI18n();
-const app스토어 = useApp스토어();
-const setting스토어 = useSettings스토어();
-const user스토어 = useUser스토어();
+const appStore = useAppStore();
+const setting스토어 = useSettingsStore();
+const userStore = useUserStore();
 
 const route = useRoute();
 const router = useRouter();
 
 // 데스크톱 장치 여부
-const isDesktop = computed(() => app스토어.device === DeviceEnum.DESKTOP);
+const isDesktop = computed(() => appStore.device === DeviceEnum.DESKTOP);
 
 /**
  * 개인 센터 페이지 열기
@@ -129,7 +129,7 @@ function logout() {
     type: "warning",
     lockScroll: false,
   }).then(() => {
-    user스토어.logout().then(() => {
+    userStore.logout().then(() => {
       router.push(`/login?redirect=${route.fullPath}`);
     });
   });

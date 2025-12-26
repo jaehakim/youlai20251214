@@ -71,7 +71,7 @@ import MenuItem from "../../components/Menu/components/MenuItem.vue";
 import Hamburger from "@/components/Hamburger/index.vue";
 import variables from "@/styles/variables.module.scss";
 import { isExternal } from "@/utils/index";
-import { useApp스토어, usePermission스토어 } from "@/store";
+import { useAppStore, usePermissionStore } from "@/store";
 
 const route = useRoute();
 
@@ -126,11 +126,11 @@ watch(
     }
     // 경로가 최상위 메뉴로 변경되면, 상단 메뉴 및 왼쪽 메뉴 모두 업데이트 보장
     else if (topMenuPath !== activeTopMenuPath.value) {
-      const app스토어 = useApp스토어();
-      const permission스토어 = usePermission스토어();
+      const appStore = useAppStore();
+      const permissionStore = usePermissionStore();
 
-      app스토어.activeTopMenu(topMenuPath);
-      permission스토어.setMixLayoutSideMenus(topMenuPath);
+      appStore.activeTopMenu(topMenuPath);
+      permissionStore.setMixLayoutSideMenus(topMenuPath);
     }
   },
   { immediate: true }

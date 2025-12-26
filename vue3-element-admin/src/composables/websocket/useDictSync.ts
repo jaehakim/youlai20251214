@@ -1,4 +1,4 @@
-import { useDict스토어Hook } from "@/저장소/modules/dict-저장소";
+import { useDictStoreHook } from "@/store/modules/dict-store";
 import { useStomp } from "./useStomp";
 import type { IMessage } from "@stomp/stompjs";
 
@@ -31,7 +31,7 @@ let singletonInstance: ReturnType<typeof createDictSyncComposable> | null = null
  * 사전 동기화 컴포저블 생성(내부 팩토리 함수)
  */
 function createDictSyncComposable() {
-  const dict스토어 = useDict스토어Hook();
+  const dictStore = useDictStoreHook();
 
   // 최적화된 useStomp 사용
   const stomp = useStomp({
@@ -72,7 +72,7 @@ function createDictSyncComposable() {
       console.log(`[DictSync] 사전 "${dictCode}" 업데이트됨, 로컬 캐시 정리`);
 
       // 캐시 정리, 필요시 로드 대기
-      dict스토어.removeDictItem(dictCode);
+      dictStore.removeDictItem(dictCode);
 
       // 모든 등록된 콜백 함수 실행
       messageCallbacks.value.forEach((callback) => {
@@ -164,8 +164,8 @@ function createDictSyncComposable() {
     onDictChange,
 
     // 별칭 메서드(하위 호환용)
-    init웹소켓: initialize,
-    close웹소켓: cleanup,
+    initWebSocket: initialize,
+    closeWebSocket: cleanup,
     onDictMessage: onDictChange,
 
     // 테스트 및 디버그용

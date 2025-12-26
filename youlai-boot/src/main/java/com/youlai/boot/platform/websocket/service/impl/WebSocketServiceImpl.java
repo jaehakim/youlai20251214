@@ -2,8 +2,8 @@ package com.youlai.boot.platform.websocket.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.youlai.boot.platform.websocket.service.WebSocketService;
 import com.youlai.boot.system.model.dto.DictEventDTO;
-import com.youlai.boot.platform.websocket.service.웹소켓Service;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class 웹소켓ServiceImpl implements 웹소켓Service {
+public class WebSocketServiceImpl implements WebSocketService {
 
     // ==================== 온라인 사용자 관리 ====================
 
@@ -55,7 +55,7 @@ public class 웹소켓ServiceImpl implements 웹소켓Service {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public 웹소켓ServiceImpl(ObjectMapper objectMapper) {
+    public WebSocketServiceImpl(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 

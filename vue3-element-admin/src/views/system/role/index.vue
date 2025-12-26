@@ -212,7 +212,7 @@
 </template>
 
 <script setup lang="ts">
-import { useApp스토어 } from "@/store/modules/app-store";
+import { useAppStore } from "@/store/modules/app-store";
 import { DeviceEnum } from "@/enums/settings/device-enum";
 
 import RoleAPI, { RolePageVO, RoleForm, RolePageQuery } from "@/api/system/role-api";
@@ -223,7 +223,7 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const app스토어 = useApp스토어();
+const appStore = useAppStore();
 
 const queryFormRef = ref();
 const roleFormRef = ref();
@@ -249,7 +249,7 @@ const dialog = reactive({
   visible: false,
 });
 
-const drawerSize = computed(() => (app스토어.device === DeviceEnum.DESKTOP ? "600px" : "90%"));
+const drawerSize = computed(() => (appStore.device === DeviceEnum.DESKTOP ? "600px" : "90%"));
 
 // 역할 양식
 const formData = reactive<RoleForm>({

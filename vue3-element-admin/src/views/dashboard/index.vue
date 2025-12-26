@@ -9,7 +9,7 @@
         <div class="flex-1 flex items-start">
           <img
             class="w80px h80px rounded-full"
-            :src="user스토어.userInfo.avatar + '?imageView2/1/w/80/h/80'"
+            :src="userStore.userInfo.avatar + '?imageView2/1/w/80/h/80'"
           />
           <div class="ml-5">
             <p>{{ greetings }}</p>
@@ -355,7 +355,7 @@ defineOptions({
 
 import { dayjs } from "element-plus";
 import LogAPI, { VisitStatsVO, VisitTrendVO } from "@/api/system/log-api";
-import { useUser스토어 } from "@/store/modules/user-store";
+import { useUserStore } from "@/store/modules/user-store";
 import { formatGrowthRate } from "@/utils";
 import { useTransition, useDateFormat } from "@vueuse/core";
 import { Connection, Failed } from "@element-plus/icons-vue";
@@ -389,7 +389,7 @@ interface VersionItem {
   tag?: string; // 버전 태그 (선택 사항)
 }
 
-const user스토어 = useUser스토어();
+const userStore = useUserStore();
 
 // 현재 공지 사항 목록
 const vesionList = ref<VersionItem[]>([
@@ -425,7 +425,7 @@ const currentDate = new Date();
 // 인사말: 현재 시간에 따라 다른 인사말 반환
 const greetings = computed(() => {
   const hours = currentDate.getHours();
-  const nickname = user스토어.userInfo.nickname;
+  const nickname = userStore.userInfo.nickname;
   if (hours >= 6 && hours < 8) {
     return "아침이 밝아오고 있습니다. 좋은 아침입니다🌅!";
   } else if (hours >= 8 && hours < 12) {

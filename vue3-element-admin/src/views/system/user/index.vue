@@ -260,14 +260,14 @@ import DeptAPI from "@/api/system/dept-api";
 import RoleAPI from "@/api/system/role-api";
 
 // ==================== 5. 스토어 ====================
-import { useApp스토어 } from "@/store/modules/app-store";
-import { useUser스토어 } from "@/store";
+import { useAppStore } from "@/store/modules/app-store";
+import { useUserStore } from "@/store";
 
 // ==================== 6. Enums ====================
 import { DeviceEnum } from "@/enums/settings/device-enum";
 
 // ==================== 7. Composables ====================
-import { useAi액션, useTableSelection } from "@/composables";
+import { useAiAction, useTableSelection } from "@/composables";
 
 // ==================== 8. 컴포넌트 ====================
 import DeptTree from "./components/DeptTree.vue";
@@ -280,8 +280,8 @@ defineOptions({
 });
 
 // ==================== 스토어 인스턴스 ====================
-const app스토어 = useApp스토어();
-const user스토어 = useUser스토어();
+const appStore = useAppStore();
+const userStore = useUserStore();
 
 // ==================== 반응형 상태 ====================
 
@@ -323,7 +323,7 @@ const importDialogVisible = ref(false);
 /**
  * 드로어 크기(반응형)
  */
-const drawerSize = computed(() => (app스토어.device === DeviceEnum.DESKTOP ? "600px" : "90%"));
+const drawerSize = computed(() => (appStore.device === DeviceEnum.DESKTOP ? "600px" : "90%"));
 
 // ==================== 양식 검증 규칙 ====================
 
@@ -529,7 +529,7 @@ function handleDelete(id?: string): void {
   }
 
   // 안전 검사: 현재 로그인한 사용자 삭제 방지
-  const currentUserId = user스토어.userInfo?.userId;
+  const currentUserId = userStore.userInfo?.userId;
   if (currentUserId) {
     const isCurrentUserInList = id
       ? id === currentUserId
@@ -608,7 +608,7 @@ async function handleExport(): Promise<void> {
 }
 
 // ==================== AI 어시스턴트 관련 ====================
-useAi액션({
+useAiAction({
   actionHandlers: {
     /**
      * AI 사용자 닉네임 변경
@@ -658,7 +658,7 @@ useAi액션({
  * 컴포넌트 마운트 시 데이터 초기화
  *
  * 주의: URL에 AI 매개변수(예: 검색 키워드)가 있으면
- * useAi액션이 nextTick에서 다시 검색을 실행합니다. 이는 예상된 동작입니다.
+ * useAiAction이 nextTick에서 다시 검색을 실행합니다. 이는 예상된 동작입니다.
  */
 onMounted(() => {
   handleQuery();

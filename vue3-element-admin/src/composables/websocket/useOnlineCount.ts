@@ -1,6 +1,6 @@
 import { 참조, watch, onMounted, onUnmounted, getCurrentInstance } from "vue";
 import { useStomp } from "./useStomp";
-import { register웹소켓Instance } from "@/plugins/websocket";
+import { registerWebSocketInstance } from "@/plugins/websocket";
 import { AuthStorage } from "@/utils/auth";
 
 /**
@@ -41,7 +41,7 @@ function createOnlineCountComposable() {
   let subscriptionId: string | null = null;
 
   // 전역 인스턴스 관리자에 등록
-  register웹소켓Instance("onlineCount", stomp);
+  registerWebSocketInstance("onlineCount", stomp);
 
   /**
    * 온라인 사용자 수 메시지 처리
@@ -162,8 +162,8 @@ function createOnlineCountComposable() {
     cleanup,
 
     // 별칭 메서드(하위 호환용)
-    init웹소켓: initialize,
-    close웹소켓: cleanup,
+    initWebSocket: initialize,
+    closeWebSocket: cleanup,
   };
 }
 

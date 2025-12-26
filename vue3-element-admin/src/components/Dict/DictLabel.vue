@@ -7,7 +7,7 @@
   </template>
 </template>
 <script setup lang="ts">
-import { useDict스토어 } from "@/store";
+import { useDictStore } from "@/store";
 
 const props = defineProps({
   code: String, // 사전인코딩
@@ -21,7 +21,7 @@ const label = ref("");
 const tagType = ref<"success" | "warning" | "info" | "primary" | "danger" | undefined>(); // 레이블유형
 const tagSize = ref<"default" | "large" | "small">(props.size as "default" | "large" | "small"); // 레이블크기
 
-const dict스토어 = useDict스토어();
+const dictStore = useDictStore();
 /**
  * 사전 항목의 값에 따라 해당하는 label 및 tagType 조회
  * @param dictCode 사전인코딩
@@ -30,9 +30,9 @@ const dict스토어 = useDict스토어();
  */
 const getLabelAndTagByValue = async (dictCode: string, value: any) => {
   // 필요에 따라 사전 데이터 로딩
-  await dict스토어.loadDictItems(dictCode);
+  await dictStore.loadDictItems(dictCode);
   // 캐시에서 사전 데이터 조회
-  const dictItems = dict스토어.getDictItems(dictCode);
+  const dictItems = dictStore.getDictItems(dictCode);
   // 해당하는 사전 항목 찾기
   const dictItem = dictItems.find((item) => item.value == value);
   return {

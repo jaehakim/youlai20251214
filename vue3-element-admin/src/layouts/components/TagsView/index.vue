@@ -14,8 +14,8 @@
           h-26px
           cursor-pointer
           :closable="!tag.affix"
-          :effect="tagsView스토어.isActive(tag) ? 'dark' : 'light'"
-          :type="tagsView스토어.isActive(tag) ? 'primary' : 'info'"
+          :effect="tagsViewStore.isActive(tag) ? 'dark' : 'light'"
+          :type="tagsViewStore.isActive(tag) ? 'primary' : 'info'"
           @click.middle="handleMiddleClick(tag)"
           @contextmenu.prevent="(event: MouseEvent) => openContextMenu(tag, event)"
           @close="closeSelectedTag(tag)"
@@ -71,7 +71,7 @@
 import { useRoute, useRouter, type RouteRecordRaw } from "vue-router";
 import { resolve } from "path-browserify";
 import { translateRouteTitle } from "@/utils/i18n";
-import { usePermission스토어, useTagsView스토어 } from "@/store";
+import { usePermissionStore, useTagsViewStore } from "@/store";
 
 interface ContextMenu {
   visible: boolean;
@@ -83,10 +83,10 @@ const router = useRouter();
 const route = useRoute();
 
 // 상태 관리
-const permission스토어 = usePermission스토어();
-const tagsView스토어 = useTagsView스토어();
+const permissionStore = usePermissionStore();
+const tagsViewStore = useTagsViewStore();
 
-const { visitedViews } = storeToRefs(tagsView스토어);
+const { visitedViews } = storeToRefs(tagsViewStore);
 
 // 현재 선택된 태그
 const selectedTag = ref<TagView | null>(null);
@@ -162,11 +162,11 @@ const extractAffixTags = (routes: RouteRecordRaw[], basePath = "/"): TagView[] =
  * 고정 태그 초기화
  */
 const initAffixTags = () => {
-  const affixTags = extractAffixTags(permission스토어.routes);
+  const affixTags = extractAffixTags(permissionStore.routes);
 
   affixTags.forEach((tag) => {
     if (tag.name) {
-      tagsView스토어.addVisitedView(tag);
+      tagsViewStore.addVisitedView(tag);
     }
   });
 };
@@ -177,7 +177,7 @@ const initAffixTags = () => {
 const addCurrentTag = () => {
   if (!route.meta?.title) return;
 
-  tagsView스토어.addView({
+  tagsViewStore.addView({
     name: route.name as string,
     title: route.meta.title,
     path: route.path,
@@ -196,7 +196,7 @@ const updateCurrentTag = () => {
     const currentTag = routePathMap.value.get(route.path);
 
     if (currentTag && currentTag.fullPath !== route.fullPath) {
-      tagsView스토어.updateVisitedView({
+      tagsViewStore.updateVisitedView({
         name: route.name as string,
         title: route.meta?.title || "",
         path: route.path,
@@ -260,7 +260,7 @@ const handleScroll = (event: WheelEvent) => {
 const refreshSelectedTag = (tag: TagView | null) => {
   if (!tag) return;
 
-  tagsView스토어.delCachedView(tag);
+  tagsViewStore.delCachedView(tag);
   nextTick(() => {
     router.replace("/redirect" + tag.fullPath);
   });
@@ -272,9 +272,9 @@ const refreshSelectedTag = (tag: TagView | null) => {
 const closeSelectedTag = (tag: TagView | null) => {
   if (!tag) return;
 
-  tagsView스토어.delView(tag).then((result: any) => {
-    if (tagsView스토어.isActive(tag)) {
-      tagsView스토어.toLastView(result.visitedViews, tag);
+  tagsViewStore.delView(tag).then((result: any) => {
+    if (tagsViewStore.isActive(tag)) {
+      tagsViewStore.toLastView(result.visitedViews, tag);
     }
   });
 };
@@ -285,11 +285,11 @@ const closeSelectedTag = (tag: TagView | null) => {
 const closeLeftTags = () => {
   if (!selectedTag.value) return;
 
-  tagsView스토어.delLeftViews(selectedTag.value).then((result: any) => {
+  tagsViewStore.delLeftViews(selectedTag.value).then((result: any) => {
     const hasCurrentRoute = result.visitedViews.some((item: TagView) => item.path === route.path);
 
     if (!hasCurrentRoute) {
-      tagsView스토어.toLastView(result.visitedViews);
+      tagsViewStore.toLastView(result.visitedViews);
     }
   });
 };
@@ -300,11 +300,11 @@ const closeLeftTags = () => {
 const closeRightTags = () => {
   if (!selectedTag.value) return;
 
-  tagsView스토어.delRightViews(selectedTag.value).then((result: any) => {
+  tagsViewStore.delRightViews(selectedTag.value).then((result: any) => {
     const hasCurrentRoute = result.visitedViews.some((item: TagView) => item.path === route.path);
 
     if (!hasCurrentRoute) {
-      tagsView스토어.toLastView(result.visitedViews);
+      tagsViewStore.toLastView(result.visitedViews);
     }
   });
 };
@@ -316,7 +316,7 @@ const closeOtherTags = () => {
   if (!selectedTag.value) return;
 
   router.push(selectedTag.value);
-  tagsView스토어.delOtherViews(selectedTag.value).then(() => {
+  tagsViewStore.delOtherViews(selectedTag.value).then(() => {
     updateCurrentTag();
   });
 };
@@ -325,8 +325,8 @@ const closeOtherTags = () => {
  * 모든 태그 닫기
  */
 const closeAllTags = (tag: TagView | null) => {
-  tagsView스토어.delAllViews().then((result: any) => {
-    tagsView스토어.toLastView(result.visitedViews, tag || undefined);
+  tagsViewStore.delAllViews().then((result: any) => {
+    tagsViewStore.toLastView(result.visitedViews, tag || undefined);
   });
 };
 

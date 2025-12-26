@@ -1,5 +1,5 @@
 import type { InternalAxiosRequestConfig } from "axios";
-import { useUser스토어Hook } from "@/저장소/modules/user-저장소";
+import { useUserStoreHook } from "@/store/modules/user-store";
 import { AuthStorage, redirectToLogin } from "@/utils/auth";
 
 /**
@@ -39,7 +39,7 @@ export function useTokenRefresh() {
       if (!isRefreshingToken) {
         isRefreshingToken = true;
 
-        useUser스토어Hook()
+        useUserStoreHook()
           .참조reshToken()
           .then(() => {
             // 새로고침 성공, 모든 대기 요청 재시도

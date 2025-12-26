@@ -38,20 +38,20 @@ defineOptions({
 });
 
 import { LocationQueryRaw, RouteRecordRaw } from "vue-router";
-import { usePermission스토어, useApp스토어, useSettings스토어 } from "@/store";
+import { usePermissionStore, useAppStore, useSettingsStore } from "@/store";
 import variables from "@/styles/variables.module.scss";
 import { SidebarColor } from "@/enums/settings/theme-enum";
 
 const router = useRouter();
-const app스토어 = useApp스토어();
-const permission스토어 = usePermission스토어();
-const settings스토어 = useSettings스토어();
+const appStore = useAppStore();
+const permissionStore = usePermissionStore();
+const settingsStore = useSettingsStore();
 
 // 테마 가져오기
-const theme = computed(() => settings스토어.theme);
+const theme = computed(() => settingsStore.theme);
 
 // 밝은 테마의 사이드바 색상 구성표 가져오기
-const sidebarColorScheme = computed(() => settings스토어.sidebarColorScheme);
+const sidebarColorScheme = computed(() => settingsStore.sidebarColorScheme);
 
 // 상단 메뉴 목록
 const topMenus = ref<RouteRecordRaw[]>([]);
@@ -100,14 +100,14 @@ const handleMenuSelect = (routePath: string) => {
  */
 const updateMenuState = (topMenuPath: string, skipNavigation = false) => {
   // 다르면 업데이트, 중복 작업 방지
-  if (topMenuPath !== app스토어.activeTopMenuPath) {
-    app스토어.activeTopMenu(topMenuPath); // 활성화된 상단 메뉴 설정
-    permission스토어.setMixLayoutSideMenus(topMenuPath); // 혼합 레이아웃 왼쪽 메뉴 설정
+  if (topMenuPath !== appStore.activeTopMenuPath) {
+    appStore.activeTopMenu(topMenuPath); // 활성화된 상단 메뉴 설정
+    permissionStore.setMixLayoutSideMenus(topMenuPath); // 혼합 레이아웃 왼쪽 메뉴 설정
   }
 
   // 메뉴 클릭 및 상태가 변경된 경우에만 네비게이션 수행
   if (!skipNavigation) {
-    navigateToFirstLeftMenu(permission스토어.mixLayoutSideMenus); // 왼쪽 첫 번째 메뉴로 이동
+    navigateToFirstLeftMenu(permissionStore.mixLayoutSideMenus); // 왼쪽 첫 번째 메뉴로 이동
   }
 };
 
@@ -135,17 +135,17 @@ const navigateToFirstLeftMenu = (menus: RouteRecordRaw[]) => {
 };
 
 // 현재 라우트 경로의 상단 메뉴 경로 가져오기
-const activeTopMenuPath = computed(() => app스토어.activeTopMenuPath);
+const activeTopMenuPath = computed(() => appStore.activeTopMenuPath);
 
 onMounted(() => {
-  topMenus.value = permission스토어.routes.filter((item) => !item.meta || !item.meta.hidden);
+  topMenus.value = permissionStore.routes.filter((item) => !item.meta || !item.meta.hidden);
   // 상단 메뉴 초기화
   const currentTopMenuPath =
     useRoute().path.split("/").filter(Boolean).length > 1
       ? useRoute().path.match(/^\/[^/]+/)?.[0] || "/"
       : "/";
-  app스토어.activeTopMenu(currentTopMenuPath); // 활성화된 상단 메뉴 설정
-  permission스토어.setMixLayoutSideMenus(currentTopMenuPath); // 혼합 레이아웃 왼쪽 메뉴 설정
+  appStore.activeTopMenu(currentTopMenuPath); // 활성화된 상단 메뉴 설정
+  permissionStore.setMixLayoutSideMenus(currentTopMenuPath); // 혼합 레이아웃 왼쪽 메뉴 설정
 });
 
 // 라우트 변화 감시, 상단 메뉴 및 왼쪽 메뉴의 활성화 상태 동시 업데이트

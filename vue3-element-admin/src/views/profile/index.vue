@@ -6,7 +6,7 @@
         <el-card class="user-card">
           <div class="user-info">
             <div class="avatar-wrapper">
-              <el-avatar :src="user스토어.userInfo.avatar" :size="100" />
+              <el-avatar :src="userStore.userInfo.avatar" :size="100" />
               <el-button
                 type="info"
                 class="avatar-edit-btn"
@@ -233,11 +233,11 @@ import UserAPI, {
 } from "@/api/system/user-api";
 
 import FileAPI from "@/api/file-api";
-import { useUser스토어Hook } from "@/store";
+import { useUserStoreHook } from "@/store";
 
 import { Camera } from "@element-plus/icons-vue";
 
-const user스토어 = useUser스토어Hook();
+const userStore = useUserStoreHook();
 
 const userProfile = ref<UserProfileVO>({});
 
@@ -457,7 +457,7 @@ const handleFileChange = async (event: Event) => {
         avatar: data.url,
       });
       // 사용자 아바타 업데이트
-      user스토어.userInfo.avatar = data.url;
+      userStore.userInfo.avatar = data.url;
     } catch (error) {
       console.error("아바타 업로드 실패: " + error);
       ElMessage.error("아바타 업로드 실패");
