@@ -1,4 +1,4 @@
-import { computed, 참조 } from "vue";
+import { computed, ref } from "vue";
 
 /**
  * 테이블 행 선택 Composable
@@ -16,7 +16,7 @@ export function useTableSelection<T extends { id: string | number }>() {
   /**
    * 선택된 데이터 항목 ID 목록
    */
-  const selectedIds = 참조<(string | number)[]>([]);
+  const selectedIds = ref<(string | number)[]>([]);
 
   /**
    * 테이블 선택 항목 변경 처리

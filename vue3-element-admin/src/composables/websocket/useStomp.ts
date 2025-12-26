@@ -1,4 +1,5 @@
 import { Client, type IMessage, type StompSubscription } from "@stomp/stompjs";
+import { ref, computed, readonly, watch } from "vue";
 import { AuthStorage } from "@/utils/auth";
 
 export interface UseStompOptions {
@@ -19,7 +20,7 @@ export interface UseStompOptions {
   /** 디버그 로그 활성화 여부 */
   debug?: boolean;
   /** 재연결 시 자동 구독 복구 여부, 기본값 true */
-  autoRe저장소Subscriptions?: boolean;
+  autoRestoreSubscriptions?: boolean;
 }
 
 /**
@@ -57,20 +58,20 @@ export function useStomp(options: UseStompOptions = {}) {
   const defaultBrokerURL = import.meta.env.VITE_APP_WS_ENDPOINT || "";
 
   const config = {
-    brokerURL: 참조(options.brokerURL ?? defaultBrokerURL),
+    brokerURL: ref(options.brokerURL ?? defaultBrokerURL),
     reconnectDelay: options.reconnectDelay ?? 15000,
     connectionTimeout: options.connectionTimeout ?? 10000,
     useExponentialBackoff: options.useExponentialBackoff ?? false,
     maxReconnectAttempts: options.maxReconnectAttempts ?? 3,
     maxReconnectDelay: options.maxReconnectDelay ?? 60000,
-    autoRe저장소Subscriptions: options.autoRe저장소Subscriptions ?? true,
+    autoRestoreSubscriptions: options.autoRestoreSubscriptions ?? true,
     debug: options.debug ?? false,
   };
 
   // ==================== 상태 관리 ====================
-  const connectionState = 참조<ConnectionState>(ConnectionState.DISCONNECTED);
+  const connectionState = ref<ConnectionState>(ConnectionState.DISCONNECTED);
   const isConnected = computed(() => connectionState.value === ConnectionState.CONNECTED);
-  const reconnectAttempts = 참조(0);
+  const reconnectAttempts = ref(0);
 
   // ==================== 타이머 관리 ====================
   let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
@@ -83,7 +84,7 @@ export function useStomp(options: UseStompOptions = {}) {
   const subscriptionRegistry = new Map<string, SubscriptionConfig>();
 
   // ==================== 클라이언트 인스턴스 ====================
-  const stompClient = 참조<Client | null>(null);
+  const stompClient = ref<Client | null>(null);
   let isManualDisconnect = false;
 
   // ==================== 유틸리티 함수 ====================
@@ -122,8 +123,8 @@ export function useStomp(options: UseStompOptions = {}) {
   /**
    * 모든 구독 복구
    */
-  const re저장소Subscriptions = () => {
-    if (!config.autoRe저장소Subscriptions || subscriptionRegistry.size === 0) {
+  const restoreSubscriptions = () => {
+    if (!config.autoRestoreSubscriptions || subscriptionRegistry.size === 0) {
       return;
     }
 
@@ -194,7 +195,7 @@ export function useStomp(options: UseStompOptions = {}) {
       log("웹소켓 연결이 수립되었습니다");
 
       // 자동 구독 복구
-      re저장소Subscriptions();
+      restoreSubscriptions();
     };
 
     // 연결 해제

@@ -10,7 +10,7 @@
       </div>
       <!-- 작업버튼 -->
       <div class="layout__header-right">
-        <Navbar액션s />
+        <NavbarActions />
       </div>
     </div>
 
@@ -28,7 +28,7 @@ import { useLayoutMenu } from "@/composables/layout/useLayoutMenu";
 import BaseLayout from "../base/index.vue";
 import AppLogo from "../../components/AppLogo/index.vue";
 import BasicMenu from "../../components/Menu/BasicMenu.vue";
-import Navbar액션s from "../../components/NavBar/components/Navbar액션s.vue";
+import NavbarActions from "../../components/NavBar/components/NavbarActions.vue";
 import TagsView from "../../components/TagsView/index.vue";
 import AppMain from "../../components/AppMain/index.vue";
 

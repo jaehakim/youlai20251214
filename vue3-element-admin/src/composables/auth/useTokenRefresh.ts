@@ -18,7 +18,7 @@ export function useTokenRefresh() {
   /**
    * Token 새로고침 및 요청 재시도
    */
-  async function 참조reshTokenAndRetry(
+  async function refreshTokenAndRetry(
     config: InternalAxiosRequestConfig,
     httpRequest: any
   ): Promise<any> {
@@ -40,7 +40,7 @@ export function useTokenRefresh() {
         isRefreshingToken = true;
 
         useUserStoreHook()
-          .참조reshToken()
+          .refreshToken()
           .then(() => {
             // 새로고침 성공, 모든 대기 요청 재시도
             pendingRequests.forEach((callback) => {
@@ -54,14 +54,14 @@ export function useTokenRefresh() {
             pendingRequests.length = 0;
           })
           .catch(async (error) => {
-            console.error("Token 참조resh failed:", error);
+            console.error("Token refresh failed:", error);
             // 새로고침 실패, 먼저 모든 대기 요청 reject 후 큐 비우기
             const failedRequests = [...pendingRequests];
             pendingRequests.length = 0;
 
             // 모든 대기 요청 거부
             failedRequests.forEach(() => {
-              reject(new Error("Token 참조resh failed"));
+              reject(new Error("Token refresh failed"));
             });
 
             // 로그인 페이지로 이동
@@ -85,7 +85,7 @@ export function useTokenRefresh() {
   }
 
   return {
-    참조reshTokenAndRetry,
+    refreshTokenAndRetry,
     getRefreshStatus,
   };
 }

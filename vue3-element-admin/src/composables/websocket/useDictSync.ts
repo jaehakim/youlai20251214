@@ -39,7 +39,7 @@ function createDictSyncComposable() {
     connectionTimeout: 15000,
     useExponentialBackoff: false,
     maxReconnectAttempts: 3,
-    autoRe저장소Subscriptions: true, // 자동 구독 복구
+    autoRestoreSubscriptions: true, // 자동 구독 복구
     debug: false,
   });
 
@@ -47,7 +47,7 @@ function createDictSyncComposable() {
   const DICT_TOPIC = "/topic/dict";
 
   // 메시지 콜백 함수 목록
-  const messageCallbacks = 참조<DictChangeCallback[]>([]);
+  const messageCallbacks = ref<DictChangeCallback[]>([]);
 
   // 구독 ID(구독 취소용)
   let subscriptionId: string | null = null;

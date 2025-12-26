@@ -1,4 +1,4 @@
-import { 참조, watch, onMounted, onUnmounted, getCurrentInstance } from "vue";
+import { ref, watch, onMounted, onUnmounted, getCurrentInstance, readonly } from "vue";
 import { useStomp } from "./useStomp";
 import { registerWebSocketInstance } from "@/plugins/websocket";
 import { AuthStorage } from "@/utils/auth";
@@ -21,8 +21,8 @@ let globalInstance: ReturnType<typeof createOnlineCountComposable> | null = null
  */
 function createOnlineCountComposable() {
   // ==================== 상태 관리 ====================
-  const onlineUserCount = 참조(0);
-  const lastUpdateTime = 참조(0);
+  const onlineUserCount = ref(0);
+  const lastUpdateTime = ref(0);
 
   // ==================== 웹소켓 클라이언트 ====================
   const stomp = useStomp({
@@ -30,7 +30,7 @@ function createOnlineCountComposable() {
     maxReconnectAttempts: 3,
     connectionTimeout: 10000,
     useExponentialBackoff: true,
-    autoRe저장소Subscriptions: true, // 자동 구독 복구
+    autoRestoreSubscriptions: true, // 자동 구독 복구
     debug: false,
   });
 

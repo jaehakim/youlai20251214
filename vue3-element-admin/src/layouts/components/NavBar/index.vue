@@ -8,7 +8,7 @@
     </div>
     <!-- 네비게이션 바 작업 영역 -->
     <div class="navbar__actions">
-      <Navbar액션s />
+      <NavbarActions />
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@
 import { useAppStore } from "@/store";
 import Hamburger from "@/components/Hamburger/index.vue";
 import Breadcrumb from "@/components/Breadcrumb/index.vue";
-import Navbar액션s from "./components/Navbar액션s.vue";
+import NavbarActions from "./components/NavbarActions.vue";
 
 const appStore = useAppStore();
 

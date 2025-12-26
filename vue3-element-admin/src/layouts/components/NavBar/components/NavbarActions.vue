@@ -1,5 +1,5 @@
 <template>
-  <div :class="['navbar-actions', navbar액션sClass]">
+  <div :class="['navbar-actions', navbarActionsClass]">
     <!-- 데스크톱 도구 항목 -->
     <template v-if="isDesktop">
       <!-- 검색 -->
@@ -94,7 +94,7 @@ function handleProfileClick() {
 }
 
 // 테마 및 사이드바 색상 구성표에 따라 스타일 클래스 선택
-const navbar액션sClass = computed(() => {
+const navbarActionsClass = computed(() => {
   const { theme, sidebarColorScheme, layout } = setting스토어;
 
   // 어두운 테마에서 모든 레이아웃이 흰색 텍스트를 사용합니다

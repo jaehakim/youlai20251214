@@ -15,7 +15,7 @@
 
         <!-- 우측 작업 영역 -->
         <div class="layout__header-actions">
-          <Navbar액션s />
+          <NavbarActions />
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@ import { useLayout, useLayoutMenu } from "@/composables";
 import BaseLayout from "../base/index.vue";
 import AppLogo from "../../components/AppLogo/index.vue";
 import MixTopMenu from "../../components/Menu/MixTopMenu.vue";
-import Navbar액션s from "../../components/NavBar/components/Navbar액션s.vue";
+import NavbarActions from "../../components/NavBar/components/NavbarActions.vue";
 import TagsView from "../../components/TagsView/index.vue";
 import AppMain from "../../components/AppMain/index.vue";
 import MenuItem from "../../components/Menu/components/MenuItem.vue";
