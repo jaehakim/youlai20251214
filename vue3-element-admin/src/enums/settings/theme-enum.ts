@@ -1,32 +1,32 @@
 /**
- * 테마열거형
+ * 테마 열거형
  */
 export const enum ThemeMode {
   /**
-   * 明亮테마
+   * 밝은 테마
    */
   LIGHT = "light",
   /**
-   * 暗黑테마
+   * 어두운 테마
    */
   DARK = "dark",
 
   /**
-   * 시스템자동
+   * 시스템 자동
    */
   AUTO = "auto",
 }
 
 /**
- * 측엣지열配色方案열거형
+ * 사이드바 색상 구성 열거형
  */
 export const enum SidebarColor {
   /**
-   * 经典蓝
+   * 클래식 블루
    */
   CLASSIC_BLUE = "classic-blue",
   /**
-   * 极简白
+   * 미니멀 화이트
    */
   MINIMAL_WHITE = "minimal-white",
 }

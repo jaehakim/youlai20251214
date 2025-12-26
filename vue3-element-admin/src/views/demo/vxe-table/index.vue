@@ -118,7 +118,7 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
   autoResize: true,
   // 테이블 바닥글 표시 여부
   showFooter: true,
-  // 테이블 푸터데이터（우선级比 footerMethod 高）
+  // 테이블 푸터 데이터 (우선순위가 footerMethod보다 높음)
   // footerData: [
   //   {
   //     username: "-",
@@ -129,7 +129,7 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
   //     createTime: "-",
   //   },
   // ],
-  // 테이블 푸터의데이터조회메서드，돌아가기하나개二维개그룹
+  // 테이블 푸터의 데이터 조회 메서드, 2차원 배열 반환
   footerMethod({ columns, data }) {
     return [
       columns.map((column, columnIndex) => {
@@ -142,14 +142,14 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
       }),
     ];
   },
-  // 열설정
+  // 열 설정
   columns: [
     { type: "checkbox", width: 60 },
     {
       type: "expand",
       width: 60,
       slots: {
-        // 오직 type=expand 유효，사용자 정의펼치기후의내용템플릿
+        // type=expand일 때만 유효, 펼치기 후의 내용 템플릿 사용자 정의
         content: "column-expand",
       },
     },
@@ -167,7 +167,7 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
         { label: "활성화", value: true },
         { label: "비활성화", value: false },
       ],
-      // 데이터필터，오직 filters 유효，필터여부허용다중 선택
+      // 데이터 필터, filters일 때만 유효, 다중 선택 필터 허용 여부
       filterMultiple: false,
       formatter({ cellValue }) {
         return cellValue === true ? "활성화" : "비활성화";
@@ -184,55 +184,55 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
       },
     },
   ],
-  // 열설정정보
+  // 열 설정 정보
   columnConfig: {
-    // 每하나열여부활성화열宽调整
+    // 각 열의 열 너비 조정 활성화 여부
     resizable: true,
   },
-  // 사용자 정의열설정항목
+  // 사용자 정의 열 설정 항목
   customConfig: {
-    // 여부허용열선택내
+    // 열 선택 허용 여부
     checkMethod: ({ column }) => !["username"].includes(column.field),
   },
-  // 체크박스설정항목
+  // 체크박스 설정 항목
   checkboxConfig: {
-    // 여부보유선택상태（需해야있음 row-config.keyField）
+    // 선택 상태 유지 여부 (row-config.keyField 필요)
     // reserve: true,
   },
-  // 펼치기행설정항목（지원하지 않음虚拟스크롤）
+  // 펼치기 행 설정 항목 (가상 스크롤 지원하지 않음)
   expandConfig: {
-    // 펼치기열표시의필드명，可以直接표시在단일元格내
+    // 펼치기 열에 표시할 필드명, 셀 내에 직접 표시 가능
     // labelField: "username",
-    // 每次오직能펼치기하나행
+    // 매번 한 행만 펼치기 가능
     accordion: true,
   },
-  // 행설정정보
+  // 행 설정 정보
   rowConfig: {
-    // 사용자 정의행데이터唯하나주요키의필드명
+    // 사용자 정의 행 데이터의 고유 주요 키 필드명
     keyField: "id",
-    // 当鼠标点击행시，여부해야高亮当前행
+    // 마우스로 행 클릭 시, 현재 행 하이라이트 여부
     isCurrent: true,
   },
-  // 양식설정항목
+  // 양식 설정 항목
   formConfig: {
-    // 항목설정
+    // 항목 설정
     items: [
       {
         span: 4,
         field: "username",
         title: "사용자명",
-        // 접두사설정항목
+        // 접두사 설정 항목
         titlePrefix: {
           useHTML: true,
           content:
-            '点击链接：<a class="link" href="https://vxetable.cn" target="_blank">vxe-table官网</a>',
+            '링크 클릭: <a class="link" href="https://vxetable.cn" target="_blank">vxe-table 공식 사이트</a>',
           icon: "vxe-icon-question-circle-fill",
         },
-        // 항목렌더러설정항목
+        // 항목 렌더러 설정 항목
         itemRender: {
-          // 렌더러이름
+          // 렌더러 이름
           name: "VxeInput",
-          // 渲染의파라미터
+          // 렌더링 파라미터
           props: {
             type: "text",
             clearable: true,
@@ -244,7 +244,7 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
         span: 4,
         field: "roles",
         title: "역할",
-        // 기본값접기
+        // 기본값 접기
         folding: true,
         itemRender: {
           name: "VxeSelect",
@@ -262,11 +262,11 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
       //   span: 4,
       //   field: "roles",
       //   title: "역할",
-      //   // 기본값접기
+      //   // 기본값 접기
       //   folding: true,
       //   // 슬롯
       //   slots: {
-      //     // 사용자 정의양식항목
+      //     // 사용자 정의 양식 항목
       //     default: "form-roles",
       //   },
       // },
@@ -287,75 +287,75 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
       },
     ],
   },
-  // 工具열설정
+  // 도구 모음 설정
   toolbarConfig: {
-    // 가져오기버튼 설정（설정 필요 "import-config"）
+    // 가져오기 버튼 설정 ("import-config" 설정 필요)
     import: true,
-    // 내보내기버튼 설정（설정 필요 "export-config"）
+    // 내보내기 버튼 설정 ("export-config" 설정 필요)
     export: true,
-    // 인쇄버튼 설정（설정 필요 "print-config"）
+    // 인쇄 버튼 설정 ("print-config" 설정 필요)
     print: true,
-    // 새로고침버튼 설정
+    // 새로고침 버튼 설정
     refresh: true,
-    // 여부허용最大化표시
+    // 최대화 표시 허용 여부
     zoom: true,
-    // 사용자 정의열설정
+    // 사용자 정의 열 설정
     custom: true,
-    //슬롯
+    // 슬롯
     slots: {
-      // 버튼목록
+      // 버튼 목록
       buttons: "toolbar-btns",
     },
   },
-  // 가져오기설정항목
+  // 가져오기 설정 항목
   importConfig: {},
-  // 내보내기설정항목
+  // 내보내기 설정 항목
   exportConfig: {
-    // 指定열
+    // 지정된 열
     columns: [{ field: "phone" }, { field: "email" }, { field: "status" }, { field: "createTime" }],
   },
-  // 인쇄설정항목
+  // 인쇄 설정 항목
   printConfig: {},
-  // 필터설정항목
+  // 필터 설정 항목
   filterConfig: {
-    // 모든열여부사용서버 측필터
+    // 모든 열에서 서버 측 필터 사용 여부
     remote: false,
   },
-  // 정렬설정항목
+  // 정렬 설정 항목
   sortConfig: {
-    // 모든열여부사용서버 측정렬
+    // 모든 열에서 서버 측 정렬 사용 여부
     remote: false,
-    // 여부활성화多열그룹合필터
+    // 다중 열 조합 정렬 활성화 여부
     multiple: false,
-    // 오직 multiple 유효，여부按照先후触发顺序进행정렬
+    // multiple일 때만 유효, 트리거 순서에 따라 정렬 여부
     chronological: true,
   },
-  // 페이지네이션설정항목
+  // 페이지네이션 설정 항목
   pagerConfig: {
     enabled: true,
     pageSize: 10,
   },
-  // 데이터프록시설정항목
+  // 데이터 프록시 설정 항목
   proxyConfig: {
-    // 여부自动로딩조회데이터
+    // 자동으로 조회 데이터 로딩 여부
     autoLoad: true,
-    // 활성화动态序号프록시（페이지네이션之후인덱스自动计算为当前页의起始序号）
+    // 동적 순번 프록시 활성화 (페이지네이션 후 인덱스가 현재 페이지의 시작 순번으로 자동 계산)
     seq: true,
-    // 양식프록시
+    // 양식 프록시
     form: true,
-    // 여부프록시필터（오직 filter-config.remote=true 시유효）
+    // 필터 프록시 여부 (filter-config.remote=true일 때만 유효)
     filter: true,
-    // 여부프록시정렬（오직 sort-config.remote=true 시유효）
+    // 정렬 프록시 여부 (sort-config.remote=true일 때만 유효)
     sort: true,
-    // 조회응답의값설정
+    // 조회 응답 값 설정
     response: {
-      // 오직 pager-config 설정됨유효，응답 결과내조회데이터목록의속성（페이지네이션 시나리오）
+      // pager-config 설정 시 유효, 응답 결과 내 조회 데이터 목록의 속성 (페이지네이션 시나리오)
       result: "result",
-      // 오직 pager-config 설정됨유효，응답 결과내조회페이지네이션의속성（페이지네이션 시나리오）
+      // pager-config 설정 시 유효, 응답 결과 내 조회 페이지네이션의 속성 (페이지네이션 시나리오)
       total: "total",
     },
     ajax: {
-      // 接收 Promise
+      // Promise 수신
       query: ({ page: { currentPage, pageSize }, form, filters, sort, sorts }) => {
         console.log({ currentPage, pageSize, form, filters, sort, sorts });
         return new Promise<{ total: number; result: RowMeta[] }>((resolve) => {
@@ -472,7 +472,7 @@ const gridOptions = reactive<VxeGridProps<RowMeta>>({
   },
 });
 const gridEvents: VxeGridListeners<RowMeta> = {
-  // 오직 form-config 설정시유효，양식초기화시회의触发该事개
+  // form-config 설정 시 유효, 양식 초기화 시 해당 이벤트 트리거
   formReset() {
     console.log("Form Reset");
   },
@@ -482,13 +482,13 @@ const gridEvents: VxeGridListeners<RowMeta> = {
 // #region vxe-modal
 const xModal = ref<VxeModalInstance>();
 const modalOptions = reactive<VxeModalProps>({
-  // 창의제목
+  // 창 제목
   title: "",
-  // 여부허용点击遮罩层닫기창
+  // 마스크 레이어 클릭으로 창 닫기 허용 여부
   maskClosable: true,
-  // 여부허용按 Esc 키닫기창
+  // Esc 키로 창 닫기 허용 여부
   escClosable: true,
-  // 在창숨기기之前실행
+  // 창 숨기기 전 실행
   beforeHideMethod: () => {
     xForm.value?.clearValidate();
     return Promise.resolve();
@@ -499,16 +499,16 @@ const modalOptions = reactive<VxeModalProps>({
 // #region vxe-form
 const xForm = ref<VxeFormInstance>();
 const formOptions = reactive<VxeFormProps>({
-  // 모든항목의栅格占据의열개
+  // 모든 항목의 그리드가 차지하는 열 수
   span: 24,
-  // 모든항목의제목宽度
+  // 모든 항목의 제목 너비
   titleWidth: 100,
-  // 양식데이터
+  // 양식 데이터
   data: {
     username: "",
     password: "",
   },
-  // 항목목록
+  // 항목 목록
   items: [
     {
       field: "username",

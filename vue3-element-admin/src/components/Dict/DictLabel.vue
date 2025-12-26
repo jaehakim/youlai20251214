@@ -23,17 +23,17 @@ const tagSize = ref<"default" | "large" | "small">(props.size as "default" | "la
 
 const dict스토어 = useDict스토어();
 /**
- * 에 따라사전 항목의값조회对应의 label 및 tagType
+ * 사전 항목의 값에 따라 해당하는 label 및 tagType 조회
  * @param dictCode 사전인코딩
  * @param value 사전 항목의값
- * @returns 패키지含 label 및 tagType 의对象
+ * @returns label 및 tagType을 포함하는 객체
  */
 const getLabelAndTagByValue = async (dictCode: string, value: any) => {
-  // 按需로딩사전데이터
+  // 필요에 따라 사전 데이터 로딩
   await dict스토어.loadDictItems(dictCode);
-  // 从캐시내조회사전데이터
+  // 캐시에서 사전 데이터 조회
   const dictItems = dict스토어.getDictItems(dictCode);
-  // 찾기对应의사전 항목
+  // 해당하는 사전 항목 찾기
   const dictItem = dictItems.find((item) => item.value == value);
   return {
     label: dictItem?.label || "",
@@ -53,7 +53,7 @@ const updateLabelAndTag = async () => {
   tagType.value = newTagType as typeof tagType.value;
 };
 
-// 初始化또는code변경시업데이트레이블및레이블스타일
+// 초기화 또는 code 변경 시 레이블 및 레이블 스타일 업데이트
 watch(
   [() => props.code, () => props.modelValue],
   async () => {

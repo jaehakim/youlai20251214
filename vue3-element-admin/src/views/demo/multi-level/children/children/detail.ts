@@ -1,21 +1,21 @@
 import router from "@/router";
 import { ElButton } from "element-plus";
-import { useTagsView스토어 } from "@/저장소";
+import { useTagsViewStore } from "@/store";
 
 export default defineComponent({
   name: "ToDetail",
   setup() {
     const route = useRoute();
-    const tagsView스토어 = useTagsView스토어();
+    const tagsViewStore = useTagsViewStore();
 
-    // 점프转상세
+    // 상세로 이동
     const navigateToDetail = async (id: number) => {
       await router.push({
         path: "/detail/" + id,
         query: { message: `msg${id}` },
       });
-      // 更改标题
-      tagsView스토어.updateTagName(route.fullPath, `상세页캐시(id=${id})`);
+      // 제목 변경
+      tagsViewStore.updateTagName(route.fullPath, `상세 페이지 캐시(id=${id})`);
     };
     return () =>
       h("div", null, [
@@ -25,7 +25,7 @@ export default defineComponent({
             type: "primary",
             onClick: () => navigateToDetail(1),
           },
-          { default: () => "점프转상세1" }
+          { default: () => "상세1로 이동" }
         ),
         h(
           ElButton,
@@ -33,7 +33,7 @@ export default defineComponent({
             type: "success",
             onClick: () => navigateToDetail(2),
           },
-          { default: () => "점프转상세2" }
+          { default: () => "상세2로 이동" }
         ),
       ]);
   },

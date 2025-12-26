@@ -1,7 +1,7 @@
-// 核心열거형정의
+// 핵심 열거형 정의
 export enum MenuTypeEnum {
   CATALOG = 2, // 디렉토리
-  MENU = 1, // 메뉴단일
+  MENU = 1, // 메뉴
   BUTTON = 4, // 버튼
-  EXTLINK = 3, // 外链
+  EXTLINK = 3, // 외부 링크
 }

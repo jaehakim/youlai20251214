@@ -10,7 +10,7 @@ export default defineMock([
         list: [
           {
             id: 1,
-            title: "v2.12.0 신규시스템日志，访问趋势통계计기능。",
+            title: "v2.12.0 시스템 로그 및 접속 통계 기능 추가",
             publishStatus: 1,
             type: 1,
             publisherName: "시스템 관리자",
@@ -23,7 +23,7 @@ export default defineMock([
           },
           {
             id: 2,
-            title: "v2.13.0 신규메뉴검색。",
+            title: "v2.13.0 메뉴 검색 기능 추가",
             publishStatus: 1,
             type: 1,
             publisherName: "시스템 관리자",
@@ -36,7 +36,7 @@ export default defineMock([
           },
           {
             id: 3,
-            title: "\r\nv2.14.0 신규个人中心。",
+            title: "\r\nv2.14.0 개인 센터 추가",
             publishStatus: 1,
             type: 1,
             publisherName: "시스템 관리자",
@@ -49,7 +49,7 @@ export default defineMock([
           },
           {
             id: 4,
-            title: "v2.15.0 로그인페이지改造。",
+            title: "v2.15.0 로그인 페이지 개선",
             publishStatus: 1,
             type: 1,
             publisherName: "시스템 관리자",
@@ -62,7 +62,7 @@ export default defineMock([
           },
           {
             id: 5,
-            title: "v2.16.0 어드바이스公告、사전번역컴포넌트。",
+            title: "v2.16.0 공지 사항 및 사전 번역 컴포넌트 추가",
             publishStatus: 1,
             type: 1,
             publisherName: "시스템 관리자",
@@ -75,7 +75,7 @@ export default defineMock([
           },
           {
             id: 6,
-            title: "시스템将于本周六凌晨 2 点进행维护，预计维护시간为 2 小时。",
+            title: "시스템은 이번 주 토요일 새벽 2시에 유지보수 예정이며, 예상 소요 시간은 2시간입니다.",
             publishStatus: 1,
             type: 2,
             publisherName: "시스템 관리자",
@@ -88,7 +88,7 @@ export default defineMock([
           },
           {
             id: 7,
-            title: "最近发现一些钓鱼이메일，请大家提高警惕，아님要点击陌生链接。",
+            title: "최근 피싱 이메일이 발견되었습니다. 주의하시고 알 수 없는 링크를 클릭하지 마세요.",
             publishStatus: 1,
             type: 3,
             publisherName: "시스템 관리자",
@@ -101,7 +101,7 @@ export default defineMock([
           },
           {
             id: 8,
-            title: "国庆假期从 10 월 1 日至 10 월 7 日放假，共 7 天。",
+            title: "국경절 휴가는 10월 1일부터 10월 7일까지 총 7일간입니다.",
             publishStatus: 1,
             type: 4,
             publisherName: "시스템 관리자",
@@ -114,7 +114,7 @@ export default defineMock([
           },
           {
             id: 9,
-            title: "회사将在 10 월 15 日举办新产品릴리스회의，敬请期待。",
+            title: "회사는 10월 15일에 신제품 출시 회의를 개최합니다. 많은 기대 바랍니다.",
             publishStatus: 1,
             type: 5,
             publisherName: "시스템 관리자",
@@ -127,7 +127,7 @@ export default defineMock([
           },
           {
             id: 10,
-            title: "v2.16.1 버전수정了 WebSocket 중복연결원인的后台스레드阻塞문제，최적화了어드바이스公告。",
+            title: "v2.16.1 버전에서 WebSocket 중복 연결로 인한 백엔드 스레드 차단 문제 수정 및 공지 사항 최적화",
             publishStatus: 1,
             type: 1,
             publisherName: "시스템 관리자",
@@ -219,7 +219,7 @@ export default defineMock([
         list: [
           {
             id: 10,
-            title: "v2.16.1 버전수정了 WebSocket 중복연결원인的后台스레드阻塞문제，최적화了어드바이스公告。",
+            title: "v2.16.1 버전에서 WebSocket 중복 연결로 인한 백엔드 스레드 차단 문제 수정 및 공지 사항 최적화",
             type: 1,
             level: "L",
             publisherName: "시스템 관리자",
@@ -228,7 +228,7 @@ export default defineMock([
           },
           {
             id: 9,
-            title: "회사将在 10 월 15 日举办新产品릴리스회의，敬请期待。",
+            title: "회사는 10월 15일에 신제품 출시 회의를 개최합니다. 많은 기대 바랍니다.",
             type: 5,
             level: "L",
             publisherName: "시스템 관리자",
@@ -237,7 +237,7 @@ export default defineMock([
           },
           {
             id: 8,
-            title: "国庆假期从 10 월 1 日至 10 월 7 日放假，共 7 天。",
+            title: "국경절 휴가는 10월 1일부터 10월 7일까지 총 7일간입니다.",
             type: 4,
             level: "L",
             publisherName: "시스템 관리자",
@@ -246,7 +246,7 @@ export default defineMock([
           },
           {
             id: 7,
-            title: "最近发现一些钓鱼이메일，请大家提高警惕，아님要点击陌生链接。",
+            title: "최근 피싱 이메일이 발견되었습니다. 주의하시고 알 수 없는 링크를 클릭하지 마세요.",
             type: 3,
             level: "L",
             publisherName: "시스템 관리자",
@@ -255,7 +255,7 @@ export default defineMock([
           },
           {
             id: 6,
-            title: "시스템将于本周六凌晨 2 点进행维护，预计维护시간为 2 小时。",
+            title: "시스템은 이번 주 토요일 새벽 2시에 유지보수 예정이며, 예상 소요 시간은 2시간입니다.",
             type: 2,
             level: "L",
             publisherName: "시스템 관리자",
@@ -274,7 +274,7 @@ export default defineMock([
 const noticeMap: Record<string, any> = {
   1: {
     id: 1,
-    title: "v2.12.0 신규시스템日志，访问趋势통계计기능。",
+    title: "v2.12.0 시스템 로그 및 접속 통계 기능 추가",
     publishStatus: 1,
     type: 1,
     publisherName: "시스템 관리자",
@@ -288,7 +288,7 @@ const noticeMap: Record<string, any> = {
   },
   2: {
     id: 2,
-    title: "v2.13.0 신규메뉴검색。",
+    title: "v2.13.0 메뉴 검색 기능 추가",
     publishStatus: 1,
     type: 1,
     publisherName: "시스템 관리자",
@@ -302,7 +302,7 @@ const noticeMap: Record<string, any> = {
   },
   3: {
     id: 3,
-    title: "\r\nv2.14.0 신규个人中心。",
+    title: "\r\nv2.14.0 개인 센터 추가",
     publishStatus: 1,
     type: 1,
     publisherName: "시스템 관리자",
@@ -316,7 +316,7 @@ const noticeMap: Record<string, any> = {
   },
   4: {
     id: 4,
-    title: "v2.15.0 로그인페이지改造。",
+    title: "v2.15.0 로그인 페이지 개선",
     publishStatus: 1,
     type: 1,
     publisherName: "시스템 관리자",
@@ -331,7 +331,7 @@ const noticeMap: Record<string, any> = {
 
   5: {
     id: 5,
-    title: "v2.16.0 어드바이스公告、사전번역컴포넌트。",
+    title: "v2.16.0 공지 사항 및 사전 번역 컴포넌트 추가",
     publishStatus: 1,
     type: 1,
     publisherName: "시스템 관리자",
@@ -345,7 +345,7 @@ const noticeMap: Record<string, any> = {
   },
   6: {
     id: 6,
-    title: "시스템将于本周六凌晨 2 点进행维护，预计维护시간为 2 小时。",
+    title: "시스템은 이번 주 토요일 새벽 2시에 유지보수가 진행되며, 예상 유지보수 시간은 2시간입니다.",
     publishStatus: 1,
     type: 2,
     publisherName: "시스템 관리자",
@@ -359,7 +359,7 @@ const noticeMap: Record<string, any> = {
   },
   7: {
     id: 7,
-    title: "最近发现一些钓鱼이메일，请大家提高警惕，아님要点击陌生链接。",
+    title: "최근 일부 피싱 이메일이 발견되었으니, 경각심을 높이시고 모르는 링크를 클릭하지 마세요.",
     publishStatus: 1,
     type: 3,
     publisherName: "시스템 관리자",
@@ -373,7 +373,7 @@ const noticeMap: Record<string, any> = {
   },
   8: {
     id: 8,
-    title: "国庆假期从 10 월 1 日至 10 월 7 日放假，共 7 天。",
+    title: "국경절 휴가는 10월 1일부터 10월 7일까지 총 7일간입니다.",
     publishStatus: 1,
     type: 4,
     publisherName: "시스템 관리자",
@@ -387,7 +387,7 @@ const noticeMap: Record<string, any> = {
   },
   9: {
     id: 9,
-    title: "회사将在 10 월 15 日举办新产品릴리스회의，敬请期待。",
+    title: "회사는 10월 15일에 신제품 출시 발표회를 개최할 예정이니 기대해 주세요.",
     publishStatus: 1,
     type: 5,
     publisherName: "시스템 관리자",
@@ -401,7 +401,7 @@ const noticeMap: Record<string, any> = {
   },
   10: {
     id: 10,
-    title: "v2.16.1 버전수정了 WebSocket 중복연결원인的后台스레드阻塞문제，최적화了어드바이스公告。",
+    title: "v2.16.1 버전에서 WebSocket 중복 연결로 인한 백그라운드 스레드 차단 문제를 수정하고, 공지사항을 최적화했습니다.",
     publishStatus: 1,
     type: 1,
     publisherName: "시스템 관리자",

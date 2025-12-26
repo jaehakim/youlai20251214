@@ -83,304 +83,304 @@
 # 2.11.0 (2024/5/27)
 
 ## ✨ feat
-- 메뉴 라우팅 파라미터 설정 추가（author by [haoxianrui](https://github.com/haoxianrui)）
-- 목록 선택 컴포넌트 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 목록 선택 컴포넌트 사용 예제 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- defaultToolbar 구성 파라미터 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 폼 팝업 drawer 모드 지원（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 폼 항목 computed 및 watchEffect 구성 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- switch 속성 수정 지원（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 폼 항목 텍스트 유형 지원 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 목록 열에 show 구성 항목 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 검색 폼 표시/숨김 제어 지원（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- input 속성 수정 지원（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- search 구성 새로운 함수 기능 확장（author by [xiudaozhe](https://github.com/xiudaozhe)）
-- 테이블 새 열 설정 제어（author by [haoxianrui](https://github.com/haoxianrui)）
-- 검색 확장 및 축소 추가（author by [haoxianrui](https://github.com/haoxianrui)）
-- watch 함수 구성 항목 파라미터 반환 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 메뉴 라우팅 파라미터 설정 추가 (author by [haoxianrui](https://github.com/haoxianrui))
+- 목록 선택 컴포넌트 추가 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 목록 선택 컴포넌트 사용 예제 추가 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- defaultToolbar 구성 파라미터 추가 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 폼 팝업 drawer 모드 지원 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 폼 항목 computed 및 watchEffect 구성 추가 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- switch 속성 수정 지원 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 폼 항목 텍스트 유형 지원 추가 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 목록 열에 show 구성 항목 추가 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 검색 폼 표시/숨김 제어 지원 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- input 속성 수정 지원 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- search 구성 새로운 함수 기능 확장 (author by [xiudaozhe](https://github.com/xiudaozhe))
+- 테이블 새 열 설정 제어 (author by [haoxianrui](https://github.com/haoxianrui))
+- 검색 확장 및 축소 추가 (author by [haoxianrui](https://github.com/haoxianrui))
+- watch 함수 구성 항목 파라미터 반환 추가 (author by [cshaptx4869](https://github.com/cshaptx4869))
 
 ## ♻️ refactor
-- 아이콘 선택 컴포넌트 리팩토링（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 목록 선택 컴포넌트 기본 스타일 리팩토링（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 대화 폼 컴포넌트 및 목록 선택 컴포넌트 강화（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- routeMeta에 alwaysShow 필드 선언 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 페이지 매김 컴포넌트 오버플로우 스크롤 효과 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 로그인 폼 Ref 유형 수정（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 테이블 새로 고침 버튼 클릭 시 페이지 번호 리셋 안 함（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 필터 열이 특정 높이를 초과하면 스크롤（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- initFn 함수 최적화 강화, 폼 항목에 initFn 함수 추가（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- watch, computed, watchEffect 호출 리팩토링（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 작업 성공 알림 수정（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- PageSearch를 card를 컨테이너로 변경, 스타일을 unocss로 변경（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 홈 페이지 로딩 애니메이션 효과 최적화（author by [haoxianrui](https://github.com/haoxianrui)）
+- 아이콘 선택 컴포넌트 리팩토링 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 목록 선택 컴포넌트 기본 스타일 리팩토링 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 대화 폼 컴포넌트 및 목록 선택 컴포넌트 강화 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- routeMeta에 alwaysShow 필드 선언 추가 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 페이지 매김 컴포넌트 오버플로우 스크롤 효과 추가 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 로그인 폼 Ref 유형 수정 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 테이블 새로 고침 버튼 클릭 시 페이지 번호 리셋 안 함 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 필터 열이 특정 높이를 초과하면 스크롤 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- initFn 함수 최적화 강화, 폼 항목에 initFn 함수 추가 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- watch, computed, watchEffect 호출 리팩토링 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 작업 성공 알림 수정 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- PageSearch를 card를 컨테이너로 변경, 스타일을 unocss로 변경 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 홈 페이지 로딩 애니메이션 효과 최적화 (author by [haoxianrui](https://github.com/haoxianrui))
 
 
 ## 🐛 fix
-- 라우팅여부항상 표시아님제한只있음최상위디렉토리才있음의설정，열기至메뉴 （author by [haoxianrui](https://github.com/haoxianrui)）
-- sockjs-client 오류 global is not defined 원인개발 환경불가능열기 WebSocket 페이지문제수정 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 发送사용자重启비밀번호기능，최소为6자리문자（小于6자리로그인时허용 안 함의문제） （author by [dreamnyj](https://gitee.com/dreamnyj)）
-- 수정시스템설정패널스크롤条문제（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 수정폼슬롯무효문제（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 수정tagsview새로고침손실query문제（author by [xiudaozhe](https://github.com/xiudaozhe)）
+- 라우팅 항상 표시 여부 제한을 최상위 디렉토리에만 적용하고 메뉴까지 확장 (author by [haoxianrui](https://github.com/haoxianrui))
+- sockjs-client 오류 global is not defined 원인으로 개발 환경에서 WebSocket 페이지를 열 수 없는 문제 수정 (author by [haoxianrui](https://github.com/haoxianrui))
+- 사용자 비밀번호 재설정 기능, 최소 6자리 문자 필요 (6자리 미만 로그인 불가 문제) (author by [dreamnyj](https://gitee.com/dreamnyj))
+- 시스템 설정 패널 스크롤바 문제 수정 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 폼 슬롯 무효 문제 수정 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- tagsview 새로고침 시 query 손실 문제 수정 (author by [xiudaozhe](https://github.com/xiudaozhe))
 
 ## 📦️ build
-- 업그레이드 NPM 패키지버전至최신 （author by [haoxianrui](https://github.com/haoxianrui)）
+- NPM 패키지 버전을 최신으로 업그레이드 (author by [haoxianrui](https://github.com/haoxianrui))
 
 ## ⚙️ ci
-- 规整脚本실행命令（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 스크립트 실행 명령 정리 (author by [cshaptx4869](https://github.com/cshaptx4869))
 
 
 # 2.10.1 (2024/5/4)
 
 ## ♻️ refactor
-- 抽离CURD의사용부분코드为Hooks实现（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 수정CURD가져오기권한点标识名（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- cURD폼필드지원watch감시（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- cURD폼input지원number修饰（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- cURD폼컴포넌트지원checkbox체크박스프레임（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 최적화axios응답데이터TS타입안내（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 수정CURD폼컴포넌트自정의타입의attrs传값（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 동기초기화비밀번호버튼권한标识重命名（author by [haoxianrui](https://github.com/haoxianrui)）
-- 重构API为静态메서드实现모듈化관리，그리고将types.ts重命名为model.ts用于存放인터페이스模型정의（author by [haoxianrui](https://github.com/haoxianrui)）
+- CURD 사용 부분 코드를 Hooks로 분리하여 구현 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- CURD 가져오기 권한 포인트 식별자명 수정 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- CURD 폼 필드 watch 감시 지원 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- CURD 폼 input number 수정자 지원 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- CURD 폼 컴포넌트 checkbox 체크박스 지원 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- axios 응답 데이터 TS 타입 안내 최적화 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- CURD 폼 컴포넌트 사용자 정의 타입의 attrs 전달 값 수정 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 비밀번호 초기화 버튼 권한 식별자 이름 변경 동기화 (author by [haoxianrui](https://github.com/haoxianrui))
+- API를 정적 메서드로 리팩토링하여 모듈화 관리 구현, types.ts를 model.ts로 이름 변경하여 인터페이스 모델 정의 저장 (author by [haoxianrui](https://github.com/haoxianrui))
 
 
 ## 🐛 fix
-- sockjs-client 오류 global is not defined 원인개발 환경불가능열기 WebSocket 페이지문제수정 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 테마색상설정覆盖暗黑모드下el-table행활성화의背景色문제수정 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 수정因API 인터페이스调整而影响의调用페이지의문제 （author by [haoxianrui](https://github.com/haoxianrui)）
+- sockjs-client 오류 global is not defined 원인으로 개발 환경에서 WebSocket 페이지를 열 수 없는 문제 수정 (author by [haoxianrui](https://github.com/haoxianrui))
+- 테마 색상 설정이 다크 모드에서 el-table 행 활성화 배경색을 덮어쓰는 문제 수정 (author by [haoxianrui](https://github.com/haoxianrui))
+- API 인터페이스 조정으로 인한 호출 페이지 영향 문제 수정 (author by [haoxianrui](https://github.com/haoxianrui))
 
 ## 📦️ build
-- 업그레이드 NPM 패키지버전至최신 （author by [haoxianrui](https://github.com/haoxianrui)）
+- NPM 패키지 버전을 최신으로 업그레이드 (author by [haoxianrui](https://github.com/haoxianrui))
 
 
 # 2.10.0 (2024/4/26)
 ## ✨ feat
-- 封装增删改查컴포넌트（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 통합 vite-plugin-vue-devtools 플러그인（author by [Tricker39](https://github.com/Tricker39)）
-- 增加CURD설정化实现（author by [cshaptx4869](https://github.com/cshaptx4869)）
+- CURD 컴포넌트 캡슐화 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- vite-plugin-vue-devtools 플러그인 통합 (author by [Tricker39](https://github.com/Tricker39))
+- CURD 설정화 구현 추가 (author by [cshaptx4869](https://github.com/cshaptx4869))
 
 
 # 2.9.3 (2024/04/14)
 ## ✨ feat
-- 增加vue파일코드片段（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 메뉴 hover 背景色추가값글로벌SCSS변수进행控制（author by [haoxianrui](https://github.com/haoxianrui)）
+- vue 파일 코드 스니펫 추가 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 메뉴 hover 배경색을 글로벌 SCSS 변수로 제어하도록 추가 (author by [haoxianrui](https://github.com/haoxianrui))
 
 ## ♻️ refactor
-- 加强基础국제화（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 增加언어그리고布局大小열거형타입（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 增加侧边栏상태열거형타입（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 사용布局열거형替换字面양（author by [haoxianrui](https://github.com/haoxianrui)）
-- 콘솔사용静态데이터循环渲染（author by [april](mailto:april@zen-game.cn)）
-- 로컬캐시의 token 변수重命名（author by [haoxianrui](https://github.com/haoxianrui)）
-- 完善 Vite 环境변수타입声明（author by [haoxianrui](https://github.com/haoxianrui)）
+- 기본 국제화 강화 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 언어 및 레이아웃 크기 열거형 타입 추가 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 사이드바 상태 열거형 타입 추가 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 레이아웃 열거형으로 리터럴 값 대체 (author by [haoxianrui](https://github.com/haoxianrui))
+- 콘솔에서 정적 데이터 순환 렌더링 사용 (author by [april](mailto:april@zen-game.cn))
+- 로컬 캐시의 token 변수 이름 변경 (author by [haoxianrui](https://github.com/haoxianrui))
+- Vite 환경 변수 타입 선언 완성 (author by [haoxianrui](https://github.com/haoxianrui))
 
 ## 🐛 fix
-- 수정빌드时안내iconComponent.name可能为undefined의오류 （author by [wangji1042](https://github.com/wangji1042)）
-- 수정浏览기기비밀번호自动填充时可能存在의오류 （author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 수정eslint오류（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 移动端下点击左侧메뉴노드后닫기侧边栏（author by [haoxianrui](https://github.com/haoxianrui)）
-- 추가 size 타입断言수정타입오류（author by [haoxianrui](https://github.com/haoxianrui)）
+- 빌드 시 iconComponent.name이 undefined일 수 있다는 오류 안내 수정 (author by [wangji1042](https://github.com/wangji1042))
+- 브라우저 비밀번호 자동 입력 시 발생할 수 있는 오류 수정 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- eslint 오류 수정 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 모바일에서 왼쪽 메뉴 노드 클릭 후 사이드바 닫기 (author by [haoxianrui](https://github.com/haoxianrui))
+- size 타입 단언 추가로 타입 오류 수정 (author by [haoxianrui](https://github.com/haoxianrui))
 
 ## 📦️ build
-- husky9.x버전适配 （author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 업그레이드 npm 패키지버전至최신（author by [haoxianrui](https://github.com/haoxianrui)）
+- husky 9.x 버전 적용 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- npm 패키지 버전을 최신으로 업그레이드 (author by [haoxianrui](https://github.com/haoxianrui))
 
 # 2.9.2 (2024/03/05)
 ## ✨ feat
-- vscode개발扩展推荐（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 完善基础增删改查Mock인터페이스（author by [haoxianrui](https://github.com/haoxianrui)）
+- vscode 개발 확장 추천 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 기본 CURD Mock 인터페이스 완성 (author by [haoxianrui](https://github.com/haoxianrui))
 
 ## ♻️ refactor
-- 수정login비밀번호프레임기능实现（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 弱化페이지进入动画效果（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 취소推荐TypeScript Vue Plugin （author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 网站로드动画替换 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 최적화테마그리고테마色감시，避免多个페이지중복初始化 （author by [haoxianrui](https://github.com/haoxianrui)）
+- login 비밀번호 입력창 기능 구현 수정 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 페이지 진입 애니메이션 효과 약화 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- TypeScript Vue Plugin 추천 취소 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 웹사이트 로드 애니메이션 교체 (author by [haoxianrui](https://github.com/haoxianrui))
+- 테마 및 테마 색상 감시 최적화, 여러 페이지에서 중복 초기화 방지 (author by [haoxianrui](https://github.com/haoxianrui))
 
 ## 🐛 fix
-- AppMain 高度在非固定头部아님正确원인出现스크롤条문제수정 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 수정혼합모드开启固定Head时의스타일문제 （author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 설정패널통계一폰트 크기 （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- AppMain 높이가 비고정 헤더에서 정확하지 않아 스크롤바가 나타나는 문제 수정 (author by [haoxianrui](https://github.com/haoxianrui))
+- 혼합 모드에서 고정 헤드 활성화 시 스타일 문제 수정 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 설정 패널 폰트 크기 통일 (author by [cshaptx4869](https://github.com/cshaptx4869))
 
 ## 📦️build
-- 通过env설정控制mock서비스 （author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 업그레이드依赖패키지至최신버전 （author by [haoxianrui](https://github.com/haoxianrui)）
-- 정의vite글로벌상수替换프로젝트标题그리고버전 （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- env 설정으로 mock 서비스 제어 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 의존성 패키지를 최신 버전으로 업그레이드 (author by [haoxianrui](https://github.com/haoxianrui))
+- vite 글로벌 상수로 프로젝트 제목 및 버전 대체 정의 (author by [cshaptx4869](https://github.com/cshaptx4869))
 
 # 2.9.1 (2024/02/28)
 ## ♻️ refactor
-- 프로젝트설정버튼移入navbar（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 최적화user데이터정의（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 통계一설정栏의 SVG 图标风格
+- 프로젝트 설정 버튼을 navbar로 이동 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- user 데이터 정의 최적화 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 설정 바의 SVG 아이콘 스타일 통일
 
 ## 🐛 fix
-- 规整一些개발依赖（author by [cshaptx4869](https://github.com/cshaptx4869)）
-- 수정로그인页테마切换문제 （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 일부 개발 의존성 정리 (author by [cshaptx4869](https://github.com/cshaptx4869))
+- 로그인 페이지 테마 전환 문제 수정 (author by [cshaptx4869](https://github.com/cshaptx4869))
 
 ## 🚀 pref
 
-- 压缩이미지资源  （author by [cshaptx4869](https://github.com/cshaptx4869)）
+- 이미지 리소스 압축 (author by [cshaptx4869](https://github.com/cshaptx4869))
 
 
 # 2.9.0 (2024/02/25)
 
 ## ✨ feat
-- 引入 animate.css 动画라이브러리
-- 신규水印그리고설정
-- 동적 라우트메뉴지원 element plus 의图标
+- animate.css 애니메이션 라이브러리 도입
+- 워터마크 및 설정 추가
+- 동적 라우트 메뉴 element plus 아이콘 지원
 
 ## ♻️ refactor
-- Layout 布局重构그리고相关문제수정
-- sass 사용 @use 替代 @import 引入外部파일指令
+- Layout 레이아웃 리팩토링 및 관련 문제 수정
+- sass에서 @import 대신 @use로 외부 파일 지시문 사용
 
 ## 🐛 fix
-- 수정관리페이지부분팝업불가능열기문제
-- 테마색상설정버튼 hover 等未변경문제수정
+- 관리 페이지 일부 팝업 열리지 않는 문제 수정
+- 테마 색상 설정 버튼 hover 등 미변경 문제 수정
 
 
 # 2.8.1 (2024/01/10)
 
 ## ✨ feat
-- 替换 Mock 解决方案 vite-plugin-mock 为 vite-plugin-mock-dev-server 适配 Vite5
+- Mock 솔루션을 vite-plugin-mock에서 vite-plugin-mock-dev-server로 교체하여 Vite5에 적용
 
 # 2.8.0 (2023/12/27)
 
 ## ⬆️ chore
-- 업그레이드 Vite4 至 Vite5
+- Vite4에서 Vite5로 업그레이드
 
 # 2.7.1 (2023/12/12)
 
 ## ♻️ refactor
-- 将패킹后의파일进행분류 （author by [ityangzhiwen](https://gitee.com/ityangzhiwen)）
+- 패키징 후 파일 분류 수행 (author by [ityangzhiwen](https://gitee.com/ityangzhiwen))
 
 # 2.7.0 (2023/11/19)
 
 ## ♻️ refactor
-- 코드重构최적화
-- 수정自动가져오기컴포넌트타입声明파일경로
-- 完善 typescript 타입
+- 코드 리팩토링 최적화
+- 자동 가져오기 컴포넌트 타입 선언 파일 경로 수정
+- typescript 타입 완성
 
 ## 🐛 fix
-- 수정관리페이지부분팝업불가능열기문제
+- 관리 페이지 일부 팝업 열리지 않는 문제 수정
 
 
 # 2.7.0 (2023/11/19)
 
 ## ♻️ refactor
-- 코드重构
-- 수정自动가져오기컴포넌트타입声明파일경로
-- 完善 typescript 타입
+- 코드 리팩토링
+- 자동 가져오기 컴포넌트 타입 선언 파일 경로 수정
+- typescript 타입 완성
 
 ## 🐛 fix
-- 수정관리페이지부분팝업불가능열기문제
+- 관리 페이지 일부 팝업 열리지 않는 문제 수정
 
 
 # 2.6.3 (2023/10/22)
 
-## ✨ feat
-- 메뉴 관리신규디렉토리只있음一级子라우팅여부항상 표시(alwaysShow)그리고라우팅페이지여부캐시(keepAlive)의설정
-- API 문서신규 swagger、knife4j
-- 引入그리고지원 tsx
+- 메뉴 관리에 디렉토리에 1급 하위 라우팅만 있는 경우 항상 표시(alwaysShow) 및 라우팅 페이지 캐시(keepAlive) 설정 추가
+- API 문서에 swagger, knife4j 추가
+- tsx 도입 및 지원
+- tsx 도입 및 지원
 
-## ♻️ refactor
-- 코드瘦身，整理그리고삭제未사용의 svg
+- 코드 다이어트, 미사용 svg 정리 및 삭제
+- 콘솔 스타일 최적화
 - 콘솔스타일최적화
 
-## 🐛 fix
-- 메뉴栏折叠그리고확장의图标暗黑모드표시문제수정
+- 메뉴 접기 및 펼치기 아이콘 다크 모드 표시 문제 수정
+- 메뉴 접기 및 펼치기 아이콘 다크 모드 표시 문제 수정
 
 
 # 2.6.2 (2023/10/11)
 
-## 🐛 fix
-- 테마설정未持久化문제
-- UnoCSS 플러그인无智能안내
+- 테마 설정 미영구화 문제
+- UnoCSS 플러그인 스마트 안내 없음
+- UnoCSS 플러그인 스마트 안내 없음
 
-## ♻️ refactor
-- WebSocket 演示스타일그리고코드최적화
-- 사용자 관리코드重构
+- WebSocket 데모 스타일 및 코드 최적화
+- 사용자 관리 코드 리팩토링
+- 사용자 관리 코드 리팩토링
 
 # 2.6.1 (2023/9/4)
 
-## 🐛 fix
-- 导航顶部모드、혼합모드스타일在固定 Header 出现의스타일문제수정
-- 固定 Header 没있음持久化문제수정
-- 사전回显兼容 String 그리고 Number 타입
-
+- 내비게이션 상단 모드, 혼합 모드 스타일이 고정 헤더에서 나타나는 스타일 문제 수정
+- 고정 헤더 영구화 없음 문제 수정
+- 사전이 String 및 Number 타입 호환 표시
+- 사전이 String 및 Number 타입 호환 표시
+# 2.6.0 (2023/8/24)
 # 2.6.0 (2023/8/24)💥💥💥
 
-## ✨ feat
-- 导航顶部모드、혼합모드지원（author by [april-tong](https://april-tong.com/)）
-- 플랫폼문서(内嵌)（author by [april-tong](https://april-tong.com/)）
+- 내비게이션 상단 모드, 혼합 모드 지원 (author by [april-tong](https://april-tong.com/))
+- 플랫폼 문서 (내장) (author by [april-tong](https://april-tong.com/))
+- 플랫폼 문서 (내장) (author by [april-tong](https://april-tong.com/))
 
 # 2.5.0 (2023/8/8)
 
-## ✨ feat
-- 신규 Mock（author by [ygcaicn](https://github.com/ygcaicn)）
-- 아이콘 데모（author by [ygcaicn](https://github.com/ygcaicn)）
+- Mock 추가 (author by [ygcaicn](https://github.com/ygcaicn))
+- 아이콘 데모 (author by [ygcaicn](https://github.com/ygcaicn))
+- 아이콘 데모 (author by [ygcaicn](https://github.com/ygcaicn))
 
-## 🐛 fix
+- 사전 Number 타입 지원
 - 사전지원 Number 타입
 
 # 2.4.1 (2023/7/20)
 
-## ✨ feat
-- 整合 vite-plugin-compression 플러그인패킹최적화(3.66MB → 1.58MB) （author by [april-tong](https://april-tong.com/)）
-- 사전컴포넌트封装（author by [haoxr](https://juejin.cn/user/4187394044331261/posts)）
+- vite-plugin-compression 플러그인 통합으로 패키징 최적화 (3.66MB -> 1.58MB) (author by [april-tong](https://april-tong.com/))
+- 사전 컴포넌트 캡슐화 (author by [haoxr](https://juejin.cn/user/4187394044331261/posts))
+- 사전 컴포넌트 캡슐화 (author by [haoxr](https://juejin.cn/user/4187394044331261/posts))
 
-## 🐛 fix
-- 페이지네이션컴포넌트hidden无效
-- 서명불가능저장至后端
-- Git 커밋 stylelint 校验부분机기기오류
+- 페이지네이션 컴포넌트 hidden 무효
+- 서명 백엔드에 저장 불가
+- Git 커밋 stylelint 검증 일부 기기 오류
+- Git 커밋 stylelint 검증 일부 기기 오류
 
 # 2.4.0 (2023/6/17)
 
-## ✨ feat
-- 신규컴포넌트태그 제거입력프레임（author by [april-tong](https://april-tong.com/)）
-- 신규컴포넌트서명（author by [april-tong](https://april-tong.com/)）
-- 신규컴포넌트표（author by [april-tong](https://april-tong.com/)）
-- Echarts 차트추가다운로드기능 author by [april-tong](https://april-tong.com/)）
+- 신규 컴포넌트 태그 제거 입력창 (author by [april-tong](https://april-tong.com/))
+- 신규 컴포넌트 서명 (author by [april-tong](https://april-tong.com/))
+- 신규 컴포넌트 표 (author by [april-tong](https://april-tong.com/))
+- Echarts 차트 다운로드 기능 추가 (author by [april-tong](https://april-tong.com/))
+- Echarts 차트 다운로드 기능 추가 (author by [april-tong](https://april-tong.com/))
 
-## ♻️ refactor
-- 제한패키지관리기기为 pnpm 그리고 node 버전16+
-- 사용자 정의 컴포넌트自动가져오기설정
-- 검색프레임스타일写法최적화
+- 패키지 관리자를 pnpm으로 제한 및 node 버전 16+
+- 사용자 정의 컴포넌트 자동 가져오기 설정
+- 검색창 스타일 작성법 최적화
+- 검색창 스타일 작성법 최적화
 
-## 🐛 fix
-- 사용자가져오기의부서回显成숫자문제수정
+- 사용자 가져오기 시 부서가 숫자로 표시되는 문제 수정
+- 사용자 가져오기 시 부서가 숫자로 표시되는 문제 수정
 
-## ⬆️ chore
+- element-plus 버전 업그레이드 2.3.5 -> 2.3.6
 - element-plus 버전업그레이드 2.3.5 → 2.3.6
 
 # 2.3.1 (2023/5/21)
 
-## 🔄 refactor
+- 컴포넌트 예제 파일 이름 최적화
 - 컴포넌트예제파일이름최적화
 
 # 2.2.2 (2023/5/11)
 
-## ✨ feat
-- 컴포넌트封装예제추가源码주소
-- 역할、메뉴、부서、필드버튼추가권한控制
+- 컴포넌트 캡슐화 예제에 소스코드 주소 추가
+- 역할, 메뉴, 부서, 필드 버튼에 권한 제어 추가
+- 역할, 메뉴, 부서, 필드 버튼에 권한 제어 추가
 
 
 # 2.3.0 (2023/5/12)
 
-## ⬆️ chore
-- vue 버전업그레이드 3.2.45 → 3.3.1 ([CHANGELOG](https://github.com/vuejs/core/blob/main/CHANGELOG.md))
+- vue 버전 업그레이드 3.2.45 -> 3.3.1 ([CHANGELOG](https://github.com/vuejs/core/blob/main/CHANGELOG.md))
+- vite 버전 업그레이드 4.3.1 -> 4.3.5
 - vite 버전업그레이드 4.3.1 → 4.3.5
 
-## ♻️ refactor
-- 사용 vue 3.3 버전新기능 `defineOptions` 在 `setup` 정의컴포넌트이름，제거중복의 `script` 태그 제거
+- vue 3.3 버전 신기능 `defineOptions`를 `setup`에서 사용하여 컴포넌트 이름 정의, 중복 `script` 태그 제거
+- vue 3.3 버전 신기능 `defineOptions`를 `setup`에서 사용하여 컴포넌트 이름 정의, 중복 `script` 태그 제거
 
 # 2.2.2 (2023/5/11)
 
-## ✨ feat
--  사용자신규커밋추가 `vueUse` 의 `useDebounceFn` 함수实现버튼防抖节流
+- 사용자 신규 커밋에 `vueUse`의 `useDebounceFn` 함수 추가로 버튼 디바운스/쓰로틀 구현
+- 사용자 신규 커밋에 `vueUse`의 `useDebounceFn` 함수 추가로 버튼 디바운스/쓰로틀 구현
 
 
 # 2.2.1 (2023/4/25)
 
-## 🐛 fix
-- 图标선택기기컴포넌트사용 `onClickOutside` 未排除下拉弹出프레임元素원인불가능입력검색。
+- 아이콘 선택기 컴포넌트에서 `onClickOutside` 사용 시 드롭다운 팝업 요소가 제외되지 않아 입력 검색 불가 문제
+- 아이콘 선택기 컴포넌트에서 `onClickOutside` 사용 시 드롭다운 팝업 요소가 제외되지 않아 입력 검색 불가 문제
 

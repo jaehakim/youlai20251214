@@ -1,15 +1,15 @@
 import type { IContentConfig } from "@/components/CURD/types";
 
 const contentConfig: IContentConfig = {
-  // permP참조ix: "sys:demo", // 아님쓰아님进행버튼권한검사
+  // permPrefix: "sys:demo", // 작성하지 않으면 버튼 권한 검사를 수행하지 않음
   table: {
     showOverflowTooltip: true,
   },
   pagePosition: "right",
   toolbar: [],
-  index액션(params) {
-    // 模拟发起네트워크요청조회목록데이터
-    console.log("index액션:", params);
+  indexAction(params) {
+    // 네트워크 요청을 시뮬레이션하여 목록 데이터 조회
+    console.log("indexAction:", params);
     return Promise.resolve({
       total: 2,
       list: [
@@ -44,9 +44,9 @@ const contentConfig: IContentConfig = {
       ],
     });
   },
-  modify액션(data) {
-    // 模拟发起네트워크요청수정필드
-    // console.log("modify액션:", data);
+  modifyAction(data) {
+    // 네트워크 요청을 시뮬레이션하여 필드 수정
+    // console.log("modifyAction:", data);
     ElMessage.success(JSON.stringify(data));
     return Promise.resolve(null);
   },
@@ -54,7 +54,7 @@ const contentConfig: IContentConfig = {
     { type: "index", width: 50, align: "center" },
     { label: "ID", align: "center", prop: "id", show: false },
     { label: "텍스트", align: "center", prop: "username" },
-    { label: "그래프片", align: "center", prop: "avatar", templet: "image" },
+    { label: "이미지", align: "center", prop: "avatar", templet: "image" },
     {
       label: "백분율",
       align: "center",
@@ -62,20 +62,20 @@ const contentConfig: IContentConfig = {
       templet: "percent",
     },
     {
-      label: "货币符",
+      label: "통화 기호",
       align: "center",
       prop: "price",
       templet: "price",
       priceFormat: "$",
     },
-    { label: "链接", align: "center", prop: "url", width: 180, templet: "url" },
+    { label: "링크", align: "center", prop: "url", width: 180, templet: "url" },
     { label: "아이콘", align: "center", prop: "icon", templet: "icon" },
     {
-      label: "목록값",
+      label: "목록 값",
       align: "center",
       prop: "gender",
       templet: "list",
-      selectList: { "0": "女", "1": "男" },
+      selectList: { "0": "여", "1": "남" },
     },
     {
       label: "사용자 정의",
@@ -95,14 +95,14 @@ const contentConfig: IContentConfig = {
       inactiveText: "비활성화",
     },
     {
-      label: "출력입프레임",
+      label: "입력창",
       align: "center",
       prop: "sort",
       templet: "input",
       inputType: "number",
     },
     {
-      label: "날짜포맷",
+      label: "날짜 포맷",
       align: "center",
       prop: "createTime",
       minWidth: 120,
@@ -110,7 +110,7 @@ const contentConfig: IContentConfig = {
       dateFormat: "YYYY/MM/DD HH:mm:ss",
     },
     {
-      label: "작업열",
+      label: "작업",
       align: "center",
       fixed: "right",
       width: 220,
@@ -120,11 +120,11 @@ const contentConfig: IContentConfig = {
         "edit",
         {
           name: "delete",
-          text: "展示삭제",
+          text: "삭제 표시",
           perm: "delete",
           attrs: { icon: "delete", type: "danger" },
           render(row) {
-            // 에 따라조건，표시또는隐藏
+            // 조건에 따라 표시 또는 숨김
             return row.id !== 1;
           },
         },

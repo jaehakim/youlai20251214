@@ -13,7 +13,7 @@
           <MixTopMenu />
         </div>
 
-        <!-- 右侧작업영역 -->
+        <!-- 우측 작업 영역 -->
         <div class="layout__header-actions">
           <Navbar액션s />
         </div>
@@ -42,7 +42,7 @@
             />
           </el-menu>
         </el-scrollbar>
-        <!-- 侧边열切换버튼 -->
+        <!-- 사이드바 전환 버튼 -->
         <div class="layout__sidebar-toggle">
           <Hamburger :is-active="isSidebarOpen" @toggle-click="toggleSidebar" />
         </div>
@@ -84,13 +84,13 @@ const { sideMenuRoutes, activeTopMenuPath } = useLayoutMenu();
 // 반응형 창 크기
 const { width } = useWindowSize();
 
-// 소형 스크린 기기에서만（모바일 기기）일 때만 접기Logo（오직표시아이콘，숨기기텍스트）
+// 소형 스크린 기기에서만(모바일 기기)일 때만 Logo 접기(아이콘만 표시, 텍스트 숨기기)
 const isLogoCollapsed = computed(() => width.value < 768);
 
-// 当前활성화의메뉴
+// 현재 활성화된 메뉴
 const activeLeftMenuPath = computed(() => {
   const { meta, path } = route;
-  // 만약설정됨activeMenu，그러면사용
+  // activeMenu가 설정되어 있으면 사용
   if ((meta?.activeMenu as unknown as string) && typeof meta.activeMenu === "string") {
     return meta.activeMenu as unknown as string;
   }
@@ -98,8 +98,8 @@ const activeLeftMenuPath = computed(() => {
 });
 
 /**
- * 파싱경로 - 혼합모드下，왼쪽메뉴예从최상위메뉴下의子메뉴시작의
- * 所以需해야拼接최상위메뉴경로
+ * 경로 파싱 - 혼합 모드에서 왼쪽 메뉴는 최상위 메뉴 아래의 하위 메뉴부터 시작
+ * 따라서 최상위 메뉴 경로를 결합해야 함
  */
 function resolvePath(routePath: string) {
   if (isExternal(routePath)) {
@@ -112,19 +112,19 @@ function resolvePath(routePath: string) {
   return `${activeTopMenuPath.value}/${routePath}`;
 }
 
-// 감시라우팅변경，보장왼쪽메뉴能随TagsView切换而正确활성화
+// 라우팅 변경 감시, 왼쪽 메뉴가 TagsView 전환에 따라 올바르게 활성화되도록 보장
 watch(
   () => route.path,
   (newPath: string) => {
-    // 조회최상위경로
+    // 최상위 경로 조회
     const topMenuPath =
       newPath.split("/").filter(Boolean).length > 1 ? newPath.match(/^\/[^/]+/)?.[0] || "/" : "/";
 
-    // 만약当前경로属于当前활성화의상단메뉴
+    // 현재 경로가 현재 활성화된 상단 메뉴에 속하면
     if (newPath.startsWith(activeTopMenuPath.value)) {
       // no-op
     }
-    // 만약경로改变됨최상위메뉴，보장상단메뉴및왼쪽메뉴都업데이트
+    // 경로가 최상위 메뉴로 변경되면, 상단 메뉴 및 왼쪽 메뉴 모두 업데이트 보장
     else if (topMenuPath !== activeTopMenuPath.value) {
       const app스토어 = useApp스토어();
       const permission스토어 = usePermission스토어();

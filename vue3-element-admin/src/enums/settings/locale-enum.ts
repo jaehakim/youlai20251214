@@ -1,14 +1,14 @@
 /**
- * 언어열거형
+ * 언어 열거형
  */
 export const enum LanguageEnum {
   /**
-   * 내文
+   * 중국어
    */
   ZH_CN = "zh-cn",
 
   /**
-   * 英文
+   * 영어
    */
   EN = "en",
 }

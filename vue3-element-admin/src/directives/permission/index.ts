@@ -1,35 +1,35 @@
 import type { Directive, DirectiveBinding } from "vue";
 
-import { useUser스토어 } from "@/저장소";
+import { useUserStore } from "@/store";
 import { ROLE_ROOT } from "@/constants";
 
 /**
- * 버튼권한
+ * 버튼 권한
  */
 export const hasPerm: Directive = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
     const requiredPerms = binding.value;
 
-    // 검사传입의권한값여부合法
+    // 전달된 권한 값이 유효한지 검사
     if (!requiredPerms || (typeof requiredPerms !== "string" && !Array.isArray(requiredPerms))) {
       throw new Error(
-        "필요해야提供권한标识！例예：v-has-perm=\"'sys:user:add'\" 또는 v-has-perm=\"['sys:user:add', 'sys:user:edit']\""
+        "권한 식별자를 제공해야 합니다! 예: v-has-perm=\"'sys:user:add'\" 또는 v-has-perm=\"['sys:user:add', 'sys:user:edit']\""
       );
     }
 
-    const { roles, perms } = useUser스토어().userInfo;
+    const { roles, perms } = useUserStore().userInfo;
 
-    // 슈퍼 관리자拥있음모든권한，만약예"*:*:*"권한标识，그러면아님필요해야进행권한검사
+    // 슈퍼 관리자는 모든 권한을 가집니다. "*:*:*" 권한 식별자인 경우 권한 검사를 수행하지 않음
     if (roles.includes(ROLE_ROOT) || requiredPerms.includes("*:*:*")) {
       return;
     }
 
-    // 확인권한
+    // 권한 확인
     const hasAuth = Array.isArray(requiredPerms)
       ? requiredPerms.some((perm) => perms.includes(perm))
       : perms.includes(requiredPerms);
 
-    // 만약없음권한，移除该元素
+    // 권한이 없으면 해당 요소 제거
     if (!hasAuth && el.parentNode) {
       el.parentNode.removeChild(el);
     }
@@ -37,27 +37,27 @@ export const hasPerm: Directive = {
 };
 
 /**
- * 역할권한지시문
+ * 역할 권한 지시문
  */
 export const hasRole: Directive = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
     const requiredRoles = binding.value;
 
-    // 검사传입의역할값여부合法
+    // 전달된 역할 값이 유효한지 검사
     if (!requiredRoles || (typeof requiredRoles !== "string" && !Array.isArray(requiredRoles))) {
       throw new Error(
-        "필요해야提供역할标识！例예：v-has-role=\"'ADMIN'\" 또는 v-has-role=\"['ADMIN', 'TEST']\""
+        "역할 식별자를 제공해야 합니다! 예: v-has-role=\"'ADMIN'\" 또는 v-has-role=\"['ADMIN', 'TEST']\""
       );
     }
 
-    const { roles } = useUser스토어().userInfo;
+    const { roles } = useUserStore().userInfo;
 
-    // 확인여부있음对应역할권한
+    // 해당 역할 권한이 있는지 확인
     const hasAuth = Array.isArray(requiredRoles)
       ? requiredRoles.some((role) => roles.includes(role))
       : roles.includes(requiredRoles);
 
-    // 만약없음권한，移除元素
+    // 권한이 없으면 요소 제거
     if (!hasAuth && el.parentNode) {
       el.parentNode.removeChild(el);
     }

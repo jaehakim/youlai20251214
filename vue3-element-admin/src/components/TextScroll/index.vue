@@ -204,11 +204,11 @@ watch(
   () => props.text,
   () => {
     if (props.typewriter) {
-      // 정리除现있음定시기기
+      // 기존 타이머 정리
       if (typewriterTimer) {
         clearTimeout(typewriterTimer);
       }
-      // 다시시작打字效果
+      // 타자기 효과 다시 시작
       startTypewriter();
     }
   }
@@ -299,7 +299,7 @@ watch(
     }
   }
 
-  // 추가유형스타일
+  // 유형별 스타일 추가
   &.text-scroll--default {
     background-color: var(--el-color-primary-light-9) !important;
     border-color: var(--el-color-primary);
@@ -383,7 +383,7 @@ watch(
   }
 }
 
-// 추가打字机效果의커서스타일
+// 타자기 효과의 커서 스타일 추가
 .text-scroll-content .scroll-item {
   &::after {
     content: "";
@@ -392,7 +392,7 @@ watch(
   }
 }
 
-// 오직在활성화打字机效果시표시커서
+// 타자기 효과 활성화 시에만 커서 표시
 .text-scroll-container[typewriter] .text-scroll-content .scroll-item::after {
   content: "|";
   opacity: 0;

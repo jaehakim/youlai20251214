@@ -1,16 +1,16 @@
 // https://cn.vitejs.dev/guide/env-and-mode
 
-// TypeScript 타입提示都로 string： https://github.com/vitejs/vite/issues/6930
+// TypeScript 타입 힌트가 string으로 표시됨: https://github.com/vitejs/vite/issues/6930
 interface ImportMetaEnv {
-  /** 应用포트 */
+  /** 애플리케이션 포트 */
   VITE_APP_PORT: number;
-  /** 应用이름칭 */
+  /** 애플리케이션 명칭 */
   VITE_APP_NAME: string;
-  /** API 기본경로(프록시접두사) */
+  /** API 기본 경로(프록시 접두사) */
   VITE_APP_BASE_API: string;
   /** API 주소 */
   VITE_APP_API_URL: string;
-  /** 여부开启 Mock 서비스 */
+  /** Mock 서비스 활성화 여부 */
   VITE_MOCK_DEV_SERVER: boolean;
 }
 
@@ -19,7 +19,7 @@ interface ImportMeta {
 }
 
 /**
- * 플랫폼의이름칭、버전、실행所필요의`node`버전、依赖、빌드시사이의타입提示
+ * 플랫폼 명칭, 버전, 실행에 필요한 node 버전, 의존성, 빌드 시간 타입 힌트
  */
 declare const __APP_INFO__: {
   pkg: {

@@ -2,8 +2,8 @@ import type { App } from "vue";
 
 import { hasPerm } from "./permission";
 
-// 글로벌등록 directive
+// 글로벌 directive 등록
 export function setupDirective(app: App<Element>) {
-  // 使 v-hasPerm 에모든컴포넌트내都可用
+  // v-hasPerm을 모든 컴포넌트에서 사용 가능하도록 함
   app.directive("hasPerm", hasPerm);
 }

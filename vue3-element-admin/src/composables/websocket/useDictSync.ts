@@ -3,57 +3,57 @@ import { useStomp } from "./useStomp";
 import type { IMessage } from "@stomp/stompjs";
 
 /**
- * 사전변경메시지结构
+ * 사전 변경 메시지 구조
  */
 export interface DictChangeMessage {
-  /** 사전인코딩 */
+  /** 사전 코드 */
   dictCode: string;
-  /** 시사이戳 */
+  /** 타임스탬프 */
   timestamp: number;
 }
 
 /**
- * 사전메시지别이름（에후兼容）
+ * 사전 메시지 별칭(하위 호환용)
  */
 export type DictMessage = DictChangeMessage;
 
 /**
- * 사전변경이벤트콜백함수타입
+ * 사전 변경 이벤트 콜백 함수 타입
  */
 export type DictChangeCallback = (message: DictChangeMessage) => void;
 
 /**
- * 글로벌단일例实例
+ * 전역 싱글톤 인스턴스
  */
 let singletonInstance: ReturnType<typeof createDictSyncComposable> | null = null;
 
 /**
- * 생성사전동기조합式함수（내부工厂함수）
+ * 사전 동기화 컴포저블 생성(내부 팩토리 함수)
  */
 function createDictSyncComposable() {
   const dict스토어 = useDict스토어Hook();
 
-  // 사용최적화후의 useStomp
+  // 최적화된 useStomp 사용
   const stomp = useStomp({
     reconnectDelay: 20000,
     connectionTimeout: 15000,
     useExponentialBackoff: false,
     maxReconnectAttempts: 3,
-    autoRe저장소Subscriptions: true, // 자동복구구독
+    autoRe저장소Subscriptions: true, // 자동 구독 복구
     debug: false,
   });
 
-  // 사전테마주소
+  // 사전 토픽 주소
   const DICT_TOPIC = "/topic/dict";
 
-  // 메시지콜백함수목록
+  // 메시지 콜백 함수 목록
   const messageCallbacks = 참조<DictChangeCallback[]>([]);
 
-  // 구독 ID（용도취소구독）
+  // 구독 ID(구독 취소용)
   let subscriptionId: string | null = null;
 
   /**
-   * 처리사전변경이벤트
+   * 사전 변경 이벤트 처리
    */
   const handleDictChangeMessage = (message: IMessage) => {
     if (!message.body) {
@@ -65,86 +65,86 @@ function createDictSyncComposable() {
       const { dictCode } = data;
 
       if (!dictCode) {
-        console.warn("[DictSync] 收到无效의사전변경메시지：缺少 dictCode");
+        console.warn("[DictSync] 유효하지 않은 사전 변경 메시지 수신: dictCode 누락");
         return;
       }
 
-      console.log(`[DictSync] 사전 "${dictCode}" 이미업데이트，정리除로컬캐시`);
+      console.log(`[DictSync] 사전 "${dictCode}" 업데이트됨, 로컬 캐시 정리`);
 
-      // 정리除캐시，대기按필요로드
+      // 캐시 정리, 필요시 로드 대기
       dict스토어.removeDictItem(dictCode);
 
-      // 실행모든등록의콜백함수
+      // 모든 등록된 콜백 함수 실행
       messageCallbacks.value.forEach((callback) => {
         try {
           callback(data);
         } catch (error) {
-          console.error("[DictSync] 콜백함수실행실패:", error);
+          console.error("[DictSync] 콜백 함수 실행 실패:", error);
         }
       });
     } catch (error) {
-      console.error("[DictSync] 파싱사전변경메시지실패:", error);
+      console.error("[DictSync] 사전 변경 메시지 파싱 실패:", error);
     }
   };
 
   /**
-   * 초기화 웹소켓 연결그리고구독사전테마
+   * 웹소켓 연결 초기화 및 사전 토픽 구독
    */
   const initialize = () => {
-    // 확인여부설정됨 웹소켓 엔드포인트
+    // 웹소켓 엔드포인트 설정 여부 확인
     const wsEndpoint = import.meta.env.VITE_APP_WS_ENDPOINT;
     if (!wsEndpoint) {
-      console.log("[DictSync] 미설정 웹소켓 엔드포인트，점프거치사전동기기능");
+      console.log("[DictSync] 웹소켓 엔드포인트 미설정, 사전 동기화 기능 건너뜀");
       return;
     }
 
-    console.log("[DictSync] 초기화사전동기서비스...");
+    console.log("[DictSync] 사전 동기화 서비스 초기화...");
 
-    // 구축 웹소켓 연결
+    // 웹소켓 연결 수립
     stomp.connect();
 
-    // 구독사전테마（useStomp 회의자동처리재연결후의구독복구）
+    // 사전 토픽 구독(useStomp가 재연결 후 구독 복구 자동 처리)
     subscriptionId = stomp.subscribe(DICT_TOPIC, handleDictChangeMessage);
 
     if (subscriptionId) {
-      console.log(`[DictSync] 이미구독사전테마: ${DICT_TOPIC}`);
+      console.log(`[DictSync] 사전 토픽 구독됨: ${DICT_TOPIC}`);
     } else {
-      console.log(`[DictSync] 暂存사전테마구독，대기연결구축후자동구독`);
+      console.log(`[DictSync] 사전 토픽 구독 임시 저장, 연결 수립 후 자동 구독 대기`);
     }
   };
 
   /**
-   * 닫기 웹소켓 연결그리고정리资源
+   * 웹소켓 연결 닫기 및 리소스 정리
    */
   const cleanup = () => {
-    console.log("[DictSync] 정리사전동기서비스...");
+    console.log("[DictSync] 사전 동기화 서비스 정리...");
 
-    // 취소구독（만약있음의话）
+    // 구독 취소(있는 경우)
     if (subscriptionId) {
       stomp.unsubscribe(subscriptionId);
       subscriptionId = null;
     }
 
-    // 也可以通거치테마주소취소구독
+    // 토픽 주소로도 구독 취소 가능
     stomp.unsubscribeDestination(DICT_TOPIC);
 
-    // 끊김연결
+    // 연결 해제
     stomp.disconnect();
 
-    // 정리비어있음콜백목록
+    // 콜백 목록 비우기
     messageCallbacks.value = [];
   };
 
   /**
-   * 등록사전변경콜백함수
+   * 사전 변경 콜백 함수 등록
    *
-   * @param callback 콜백함수
-   * @returns 돌아가기하나개취소등록의함수
+   * @param callback 콜백 함수
+   * @returns 등록 취소 함수 반환
    */
   const onDictChange = (callback: DictChangeCallback) => {
     messageCallbacks.value.push(callback);
 
-    // 돌아가기취소등록의함수
+    // 등록 취소 함수 반환
     return () => {
       const index = messageCallbacks.value.indexOf(callback);
       if (index !== -1) {
@@ -163,37 +163,37 @@ function createDictSyncComposable() {
     cleanup,
     onDictChange,
 
-    // 别이름메서드（에후兼容）
+    // 별칭 메서드(하위 호환용)
     init웹소켓: initialize,
     close웹소켓: cleanup,
     onDictMessage: onDictChange,
 
-    // 용도테스트및调试
+    // 테스트 및 디버그용
     handleDictChangeMessage,
   };
 }
 
 /**
- * 사전동기조합式함수（단일例모드）
+ * 사전 동기화 컴포저블(싱글톤 모드)
  *
- * 용도리스닝백엔드사전변경그리고자동동기到프론트엔드캐시
+ * 백엔드 사전 변경 감시 및 프론트엔드 캐시 자동 동기화용
  *
  * @example
  * ```ts
  * const dictSync = useDictSync();
  *
- * // 초기화（에应用启动시호출）
+ * // 초기화(앱 시작 시 호출)
  * dictSync.initialize();
  *
- * // 등록콜백
+ * // 콜백 등록
  * const unsubscribe = dictSync.onDictChange((message) => {
- *   console.log('사전이미업데이트:', message.dictCode);
+ *   console.log('사전 업데이트됨:', message.dictCode);
  * });
  *
- * // 취소등록
+ * // 등록 취소
  * unsubscribe();
  *
- * // 정리（에应用退出시호출）
+ * // 정리(앱 종료 시 호출)
  * dictSync.cleanup();
  * ```
  */

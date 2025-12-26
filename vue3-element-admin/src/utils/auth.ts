@@ -1,6 +1,6 @@
 import { Storage } from "./storage";
 import { AUTH_KEYS, ROLE_ROOT } from "@/constants";
-import { useUser스토어Hook } from "@/store/modules/user-store";
+import { useUserStoreHook } from "@/store/modules/user-store";
 import router from "@/router";
 
 // 로컬 자격 증명 및 선호도 읽기/쓰기 담당
@@ -48,7 +48,7 @@ export const AuthStorage = {
  * 권한 판단
  */
 export function hasPerm(value: string | string[], type: "button" | "role" = "button"): boolean {
-  const { roles, perms } = useUser스토어Hook().userInfo;
+  const { roles, perms } = useUserStoreHook().userInfo;
 
   if (!roles || !perms) {
     return false;
@@ -76,7 +76,7 @@ export async function redirectToLogin(message: string = "다시 로그인해주�
     duration: 3000,
   });
 
-  await useUser스토어Hook().resetAllState();
+  await useUserStoreHook().resetAllState();
 
   try {
     // 로그인 페이지로 이동, 로그인 후 리디렉션을 위해 현재 라우트 유지

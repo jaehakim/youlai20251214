@@ -1,24 +1,24 @@
 import type { RouteRecordRaw } from "vue-router";
 import { constantRoutes } from "@/router";
-import { 저장소 } from "@/저장소";
+import { store } from "@/store";
 import router from "@/router";
 
 import MenuAPI, { type RouteVO } from "@/api/system/menu-api";
 const modules = import.meta.glob("../../views/**/**.vue");
 const Layout = () => import("../../layouts/index.vue");
 
-export const usePermission스토어 = define스토어("permission", () => {
-  // 모든라우팅（静态라우팅 + 动态라우팅）
-  const routes = 참조<RouteRecordRaw[]>([]);
-  // 혼합레이아웃의왼쪽메뉴단일라우팅
-  const mixLayoutSideMenus = 참조<RouteRecordRaw[]>([]);
-  // 动态라우팅여부이미生成
-  const isRouteGenerated = 참조(false);
+export const usePermissionStore = defineStore("permission", () => {
+  // 모든 라우트 (정적 라우트 + 동적 라우트)
+  const routes = ref<RouteRecordRaw[]>([]);
+  // 혼합 레이아웃의 왼쪽 메뉴 라우트
+  const mixLayoutSideMenus = ref<RouteRecordRaw[]>([]);
+  // 동적 라우트 생성 여부
+  const isRouteGenerated = ref(false);
 
-  /** 生成动态라우팅 */
+  /** 동적 라우트 생성 */
   async function generateRoutes(): Promise<RouteRecordRaw[]> {
     try {
-      const data = await MenuAPI.getRoutes(); // 조회当前로그인人의메뉴단일라우팅
+      const data = await MenuAPI.getRoutes(); // 현재 로그인한 사용자의 메뉴 라우트 조회
       const dynamicRoutes = transformRoutes(data);
 
       routes.value = [...constantRoutes, ...dynamicRoutes];
@@ -26,21 +26,21 @@ export const usePermission스토어 = define스토어("permission", () => {
 
       return dynamicRoutes;
     } catch (error) {
-      // 라우팅生成실패，초기화상태
+      // 라우트 생성 실패, 상태 초기화
       isRouteGenerated.value = false;
       throw error;
     }
   }
 
-  /** 설정혼합레이아웃왼쪽메뉴단일 */
+  /** 혼합 레이아웃 왼쪽 메뉴 설정 */
   const setMixLayoutSideMenus = (parentPath: string) => {
     const parentMenu = routes.value.find((item) => item.path === parentPath);
     mixLayoutSideMenus.value = parentMenu?.children || [];
   };
 
-  /** 초기화라우팅상태 */
+  /** 라우트 상태 초기화 */
   const resetRouter = () => {
-    // 移除动态추가의라우팅
+    // 동적으로 추가된 라우트 제거
     const constantRouteNames = new Set(constantRoutes.map((route) => route.name).filter(Boolean));
     routes.value.forEach((route) => {
       if (route.name && !constantRouteNames.has(route.name)) {
@@ -48,7 +48,7 @@ export const usePermission스토어 = define스토어("permission", () => {
       }
     });
 
-    // 초기화모든상태
+    // 모든 상태 초기화
     routes.value = [...constantRoutes];
     mixLayoutSideMenus.value = [];
     isRouteGenerated.value = false;
@@ -65,23 +65,23 @@ export const usePermission스토어 = define스토어("permission", () => {
 });
 
 /**
- * 변환백엔드라우팅데이터로Vue Router설정
- * 처리컴포넌트경로매핑및Layout层级嵌套
+ * 백엔드 라우트 데이터를 Vue Router 설정으로 변환
+ * 컴포넌트 경로 매핑 및 Layout 계층 중첩 처리
  */
 const transformRoutes = (routes: RouteVO[], isTopLevel: boolean = true): RouteRecordRaw[] => {
   return routes.map((route) => {
     const { component, children, ...args } = route;
 
-    // 처리컴포넌트：顶层또는非Layout보유컴포넌트，내사이层Layout设로undefined
+    // 컴포넌트 처리: 최상위 또는 비 Layout 컴포넌트 유지, 중간 레벨 Layout은 undefined로 설정
     const processedComponent = isTopLevel || component !== "Layout" ? component : undefined;
 
     const normalizedRoute = { ...args } as RouteRecordRaw;
 
     if (!processedComponent) {
-      // 多级메뉴단일의父级메뉴단일，아님필요해야컴포넌트
+      // 다중 레벨 메뉴의 상위 메뉴, 컴포넌트 필요 없음
       normalizedRoute.component = undefined;
     } else {
-      // 动态가져오기컴포넌트，Layout特殊처리，找아님到컴포넌트시돌아가기404
+      // 컴포넌트 동적 임포트, Layout 특수 처리, 컴포넌트를 찾지 못하면 404 반환
       normalizedRoute.component =
         processedComponent === "Layout"
           ? Layout
@@ -89,7 +89,7 @@ const transformRoutes = (routes: RouteVO[], isTopLevel: boolean = true): RouteRe
             modules[`../../views/error/404.vue`];
     }
 
-    // 递归처리子라우팅
+    // 자식 라우트 재귀 처리
     if (children && children.length > 0) {
       normalizedRoute.children = transformRoutes(children, false);
     }
@@ -98,7 +98,7 @@ const transformRoutes = (routes: RouteVO[], isTopLevel: boolean = true): RouteRe
   });
 };
 
-/** 非컴포넌트环境사용권한저장소 */
-export function usePermission스토어Hook() {
-  return usePermission스토어(저장소);
+/** 컴포넌트 외부에서 권한 스토어 사용 */
+export function usePermissionStoreHook() {
+  return usePermissionStore(store);
 }

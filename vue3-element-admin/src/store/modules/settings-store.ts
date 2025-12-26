@@ -4,69 +4,69 @@ import type { LayoutMode } from "@/enums/settings/layout-enum";
 import { applyTheme, generateThemeColors, toggleDarkMode, toggleSidebarColor } from "@/utils/theme";
 import { STORAGE_KEYS } from "@/constants";
 
-// 🎯 설정항목타입정의
+// 설정 항목 타입 정의
 interface SettingsState {
-  // 界面표시설정
+  // 인터페이스 표시 설정
   settingsVisible: boolean;
   showTagsView: boolean;
   showAppLogo: boolean;
   showWatermark: boolean;
   enableAiAssistant: boolean;
 
-  // 레이아웃설정
+  // 레이아웃 설정
   layout: LayoutMode;
   sidebarColorScheme: string;
 
-  // 테마설정
+  // 테마 설정
   theme: ThemeMode;
   themeColor: string;
 }
 
-// 🎯 可변경의설정항목타입
-type MutableSetting = Exclude<키of SettingsState, "settingsVisible">;
+// 변경 가능한 설정 항목 타입
+type MutableSetting = Exclude<keyof SettingsState, "settingsVisible">;
 type SettingValue<K extends MutableSetting> = SettingsState[K];
 
-export const useSettings스토어 = define스토어("setting", () => {
-  // 설정패널可见性
-  const settingsVisible = 참조<boolean>(false);
+export const useSettingsStore = defineStore("setting", () => {
+  // 설정 패널 표시 여부
+  const settingsVisible = ref<boolean>(false);
 
-  // 여부표시태그页뷰
+  // 태그 뷰 표시 여부
   const showTagsView = useStorage<boolean>(
     STORAGE_KEYS.SHOW_TAGS_VIEW,
     defaultSettings.showTagsView
   );
 
-  // 여부표시应用Logo
+  // 앱 로고 표시 여부
   const showAppLogo = useStorage<boolean>(STORAGE_KEYS.SHOW_APP_LOGO, defaultSettings.showAppLogo);
 
-  // 여부표시水印
+  // 워터마크 표시 여부
   const showWatermark = useStorage<boolean>(
     STORAGE_KEYS.SHOW_WATERMARK,
     defaultSettings.showWatermark
   );
 
-  // 여부활성화 AI 도우미
+  // AI 도우미 활성화 여부
   const enableAiAssistant = useStorage<boolean>(
     STORAGE_KEYS.ENABLE_AI_ASSISTANT,
     defaultSettings.enableAiAssistant
   );
 
-  // 측엣지열配色方案
+  // 사이드바 색상 구성
   const sidebarColorScheme = useStorage<string>(
     STORAGE_KEYS.SIDEBAR_COLOR_SCHEME,
     defaultSettings.sidebarColorScheme
   );
 
-  // 레이아웃모드
+  // 레이아웃 모드
   const layout = useStorage<LayoutMode>(STORAGE_KEYS.LAYOUT, defaultSettings.layout as LayoutMode);
 
-  // 테마색상
+  // 테마 색상
   const themeColor = useStorage<string>(STORAGE_KEYS.THEME_COLOR, defaultSettings.themeColor);
 
-  // 테마모드（라이트/다크）
+  // 테마 모드 (라이트/다크)
   const theme = useStorage<ThemeMode>(STORAGE_KEYS.THEME, defaultSettings.theme);
 
-  // 설정항목매핑，용도통계하나관리
+  // 설정 항목 매핑, 통합 관리용
   const settingsMap = {
     showTagsView,
     showAppLogo,
@@ -76,7 +76,7 @@ export const useSettings스토어 = define스토어("setting", () => {
     layout,
   } as const;
 
-  // 리스닝테마변경，자동应用스타일
+  // 테마 변경 감시, 자동 스타일 적용
   watch(
     [theme, themeColor],
     ([newTheme, newThemeColor]: [ThemeMode, string]) => {
@@ -87,7 +87,7 @@ export const useSettings스토어 = define스토어("setting", () => {
     { immediate: true }
   );
 
-  // 리스닝측엣지열配色변경
+  // 사이드바 색상 변경 감시
   watch(
     [sidebarColorScheme],
     ([newSidebarColorScheme]) => {
@@ -96,15 +96,15 @@ export const useSettings스토어 = define스토어("setting", () => {
     { immediate: true }
   );
 
-  // 通用설정업데이트메서드
-  function updateSetting<K extends 키of typeof settingsMap>(키: K, value: SettingValue<K>): void {
-    const setting = settingsMap[키];
+  // 범용 설정 업데이트 메서드
+  function updateSetting<K extends keyof typeof settingsMap>(key: K, value: SettingValue<K>): void {
+    const setting = settingsMap[key];
     if (setting) {
       (setting as Ref<any>).value = value;
     }
   }
 
-  // 테마업데이트메서드
+  // 테마 업데이트 메서드
   function updateTheme(newTheme: ThemeMode): void {
     theme.value = newTheme;
   }
@@ -121,7 +121,7 @@ export const useSettings스토어 = define스토어("setting", () => {
     layout.value = newLayout;
   }
 
-  // 설정패널控制
+  // 설정 패널 제어
   function toggleSettingsPanel(): void {
     settingsVisible.value = !settingsVisible.value;
   }
@@ -134,7 +134,7 @@ export const useSettings스토어 = define스토어("setting", () => {
     settingsVisible.value = false;
   }
 
-  // 초기화모든설정
+  // 모든 설정 초기화
   function resetSettings(): void {
     showTagsView.value = defaultSettings.showTagsView;
     showAppLogo.value = defaultSettings.showAppLogo;
@@ -158,19 +158,19 @@ export const useSettings스토어 = define스토어("setting", () => {
     themeColor,
     theme,
 
-    // 업데이트메서드
+    // 업데이트 메서드
     updateSetting,
     updateTheme,
     updateThemeColor,
     updateSidebarColorScheme,
     updateLayout,
 
-    // 패널控制
+    // 패널 제어
     toggleSettingsPanel,
     showSettingsPanel,
     hideSettingsPanel,
 
-    // 초기화기능
+    // 초기화 기능
     resetSettings,
   };
 });

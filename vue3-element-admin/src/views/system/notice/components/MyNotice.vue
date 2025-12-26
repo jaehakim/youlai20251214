@@ -131,7 +131,7 @@ const queryParams = reactive<NoticePageQuery>({
 const noticeDialogVisible = ref(false);
 const noticeDetail = ref<NoticeDetailVO | null>(null);
 
-// 조회알림공지사항
+// 알림 공지사항 조회
 function handleQuery() {
   loading.value = true;
   NoticeAPI.getMyNoticePage(queryParams)
@@ -144,14 +144,14 @@ function handleQuery() {
     });
 }
 
-// 초기화알림공지사항조회
+// 알림 공지사항 조회 초기화
 function handleResetQuery() {
   queryFormRef.value!.resetFields();
   queryParams.pageNum = 1;
   handleQuery();
 }
 
-// 阅读알림공지사항
+// 알림 공지사항 읽기
 function handleReadNotice(id: string) {
   NoticeAPI.getDetail(id).then((data) => {
     noticeDialogVisible.value = true;

@@ -1,11 +1,11 @@
-import { 참조 } from "vue";
+import { ref } from "vue";
 import type { IObject, PageContentInstance, PageModalInstance, PageSearchInstance } from "./types";
 
 function usePage() {
-  const searchRef = 참조<PageSearchInstance>();
-  const contentRef = 참조<PageContentInstance>();
-  const addModalRef = 참조<PageModalInstance>();
-  const editModalRef = 참조<PageModalInstance>();
+  const searchRef = ref<PageSearchInstance>();
+  const contentRef = ref<PageContentInstance>();
+  const addModalRef = ref<PageModalInstance>();
+  const editModalRef = ref<PageModalInstance>();
 
   // 검색
   function handleQueryClick(queryParams: IObject) {
@@ -63,23 +63,23 @@ function usePage() {
       editModalRef.value?.setFormData(from ? from : row);
     }
   }
-  // 양식제출
+  // 양식 제출
   function handleSubmitClick() {
-    //에 따라检索조건새로고침목록데이터
+    // 검색 조건에 따라 목록 데이터 새로고침
     const queryParams = searchRef.value?.getQueryParams();
     contentRef.value?.fetchPageData(queryParams, true);
   }
   // 내보내기
   function handleExportClick() {
-    // 에 따라检索조건내보내기데이터
+    // 검색 조건에 따라 데이터 내보내기
     const queryParams = searchRef.value?.getQueryParams();
     contentRef.value?.exportPageData(queryParams);
   }
-  // 검색显隐
+  // 검색 표시/숨김
   function handleSearchClick() {
     searchRef.value?.toggleVisible();
   }
-  // 涮선택데이터
+  // 필터 데이터
   function handleFilterChange(filterParams: IObject) {
     const queryParams = searchRef.value?.getQueryParams();
     contentRef.value?.fetchPageData({ ...queryParams, ...filterParams }, true);

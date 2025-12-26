@@ -2,28 +2,28 @@ import { Client, type IMessage, type StompSubscription } from "@stomp/stompjs";
 import { AuthStorage } from "@/utils/auth";
 
 export interface UseStompOptions {
-  /** 웹소켓 주소，아님传시사용 VITE_APP_WS_ENDPOINT 环境변수 */
+  /** 웹소켓 주소, 미전달 시 VITE_APP_WS_ENDPOINT 환경변수 사용 */
   brokerURL?: string;
-  /** 용도鉴权의 token，아님传시사용 getAccessToken() 의반환값 */
+  /** 인증용 token, 미전달 시 getAccessToken()의 반환값 사용 */
   token?: string;
-  /** 재연결지연，단일자리毫秒，기본값로 15000 */
+  /** 재연결 지연, 단위 밀리초, 기본값 15000 */
   reconnectDelay?: number;
-  /** 연결시간초과시사이，단일자리毫秒，기본값로 10000 */
+  /** 연결 타임아웃 시간, 단위 밀리초, 기본값 10000 */
   connectionTimeout?: number;
-  /** 여부开启指개退避재연결정책 */
+  /** 지수 백오프 재연결 정책 활성화 여부 */
   useExponentialBackoff?: boolean;
-  /** 最大재연결次개，기본값로 3 */
+  /** 최대 재연결 횟수, 기본값 3 */
   maxReconnectAttempts?: number;
-  /** 最大재연결지연，단일자리毫秒，기본값로 60000 */
+  /** 최대 재연결 지연, 단위 밀리초, 기본값 60000 */
   maxReconnectDelay?: number;
-  /** 여부开启调试日志 */
+  /** 디버그 로그 활성화 여부 */
   debug?: boolean;
-  /** 여부에재연결시자동복구구독，기본값로 true */
+  /** 재연결 시 자동 구독 복구 여부, 기본값 true */
   autoRe저장소Subscriptions?: boolean;
 }
 
 /**
- * 구독설정정보
+ * 구독 설정 정보
  */
 interface SubscriptionConfig {
   destination: string;
@@ -31,7 +31,7 @@ interface SubscriptionConfig {
 }
 
 /**
- * 연결상태열거형
+ * 연결 상태 열거형
  */
 enum ConnectionState {
   DISCONNECTED = "DISCONNECTED",
@@ -41,19 +41,19 @@ enum ConnectionState {
 }
 
 /**
- * STOMP 웹소켓 연결관리조합式함수
+ * STOMP 웹소켓 연결 관리 컴포저블 함수
  *
- * 核心기능：
- * - 자동연결관리（연결、끊김、재연결）
- * - 구독관리（구독、취소구독、자동복구）
- * - 心점프检测
- * - Token 자동새로고침
+ * 핵심 기능:
+ * - 자동 연결 관리(연결, 연결 해제, 재연결)
+ * - 구독 관리(구독, 구독 취소, 자동 복구)
+ * - 하트비트 감지
+ * - Token 자동 갱신
  *
- * @param options 설정옵션
- * @returns STOMP 클라이언트작업인터페이스
+ * @param options 설정 옵션
+ * @returns STOMP 클라이언트 작업 인터페이스
  */
 export function useStomp(options: UseStompOptions = {}) {
-  // ==================== 설정초기화 ====================
+  // ==================== 설정 초기화 ====================
   const defaultBrokerURL = import.meta.env.VITE_APP_WS_ENDPOINT || "";
 
   const config = {
@@ -72,24 +72,24 @@ export function useStomp(options: UseStompOptions = {}) {
   const isConnected = computed(() => connectionState.value === ConnectionState.CONNECTED);
   const reconnectAttempts = 참조(0);
 
-  // ==================== 定시기기관리 ====================
+  // ==================== 타이머 관리 ====================
   let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   let connectionTimeoutTimer: ReturnType<typeof setTimeout> | null = null;
 
-  // ==================== 구독관리 ====================
-  // 活动구독：저장소当前 STOMP 구독객체
+  // ==================== 구독 관리 ====================
+  // 활성 구독: 현재 STOMP 구독 객체 저장
   const activeSubscriptions = new Map<string, StompSubscription>();
-  // 구독설정등록테이블：용도자동복구구독
+  // 구독 설정 레지스트리: 자동 구독 복구용
   const subscriptionRegistry = new Map<string, SubscriptionConfig>();
 
-  // ==================== 클라이언트实例 ====================
+  // ==================== 클라이언트 인스턴스 ====================
   const stompClient = 참조<Client | null>(null);
   let isManualDisconnect = false;
 
-  // ==================== 工具함수 ====================
+  // ==================== 유틸리티 함수 ====================
 
   /**
-   * 정리모든定시기기
+   * 모든 타이머 정리
    */
   const clearAllTimers = () => {
     if (reconnectTimer) {
@@ -103,7 +103,7 @@ export function useStomp(options: UseStompOptions = {}) {
   };
 
   /**
-   * 日志출력（지원调试모드控制）
+   * 로그 출력(디버그 모드 제어 지원)
    */
   const log = (...args: any[]) => {
     if (config.debug) {
@@ -120,115 +120,115 @@ export function useStomp(options: UseStompOptions = {}) {
   };
 
   /**
-   * 복구모든구독
+   * 모든 구독 복구
    */
   const re저장소Subscriptions = () => {
     if (!config.autoRe저장소Subscriptions || subscriptionRegistry.size === 0) {
       return;
     }
 
-    log(`시작복구 ${subscriptionRegistry.size} 개구독...`);
+    log(`${subscriptionRegistry.size}개 구독 복구 시작...`);
 
     for (const [destination, subscriptionConfig] of subscriptionRegistry.entries()) {
       try {
         performSubscribe(destination, subscriptionConfig.callback);
       } catch (error) {
-        logError(`복구구독 ${destination} 실패:`, error);
+        logError(`구독 복구 실패 ${destination}:`, error);
       }
     }
   };
 
   /**
-   * 초기화 STOMP 클라이언트
+   * STOMP 클라이언트 초기화
    */
   const initializeClient = () => {
-    // 만약클라이언트이미存에且处于活动상태，直接돌아가기
+    // 클라이언트가 이미 존재하고 활성 상태이면 바로 반환
     if (stompClient.value && (stompClient.value.active || stompClient.value.connected)) {
-      log("STOMP 클라이언트이미存에且处于活动상태，점프거치초기화");
+      log("STOMP 클라이언트가 이미 존재하고 활성 상태입니다, 초기화 건너뜀");
       return;
     }
 
-    // 확인 웹소켓 엔드포인트여부설정
+    // 웹소켓 엔드포인트 설정 여부 확인
     if (!config.brokerURL.value) {
-      logWarn("웹소켓 연결실패: 미설정 웹소켓 엔드포인트 URL");
+      logWarn("웹소켓 연결 실패: 웹소켓 엔드포인트 URL이 설정되지 않음");
       return;
     }
 
-    // 每次연결前다시조회최신令牌
+    // 매 연결 전 최신 토큰 조회
     const accessToken = AuthStorage.getAccessToken();
     if (!accessToken) {
-      logWarn("웹소켓 연결실패：권한 부여令牌로비어있음，요청先로그인");
+      logWarn("웹소켓 연결 실패: 인증 토큰이 비어있음, 먼저 로그인하세요");
       return;
     }
 
-    // 정리旧클라이언트
+    // 이전 클라이언트 정리
     if (stompClient.value) {
       try {
         stompClient.value.deactivate();
       } catch (error) {
-        logWarn("정리旧클라이언트시出错:", error);
+        logWarn("이전 클라이언트 정리 중 오류:", error);
       }
       stompClient.value = null;
     }
 
-    // 생성 STOMP 클라이언트
+    // STOMP 클라이언트 생성
     stompClient.value = new Client({
       brokerURL: config.brokerURL.value,
       connectHeaders: {
         Authorization: `Bearer ${accessToken}`,
       },
       debug: config.debug ? (msg) => console.log("[STOMP]", msg) : () => {},
-      reconnectDelay: 0, // 비활성화内置재연결，사용사용자 정의재연결逻辑
+      reconnectDelay: 0, // 내장 재연결 비활성화, 커스텀 재연결 로직 사용
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
     });
 
-    // ==================== 이벤트 리스닝기기 ====================
+    // ==================== 이벤트 리스너 ====================
 
-    // 연결성공
+    // 연결 성공
     stompClient.value.onConnect = () => {
       connectionState.value = ConnectionState.CONNECTED;
       reconnectAttempts.value = 0;
       clearAllTimers();
 
-      log("✅ 웹소켓 연결이미구축");
+      log("웹소켓 연결이 수립되었습니다");
 
-      // 자동복구구독
+      // 자동 구독 복구
       re저장소Subscriptions();
     };
 
-    // 연결끊김
+    // 연결 해제
     stompClient.value.onDisconnect = () => {
       connectionState.value = ConnectionState.DISCONNECTED;
-      log("❌ 웹소켓 연결이미끊김");
+      log("웹소켓 연결이 해제되었습니다");
 
-      // 정리비어있음活动구독（但보유구독설정용도복구）
+      // 활성 구독 정리(구독 설정은 복구용으로 유지)
       activeSubscriptions.clear();
 
-      // 만약아님예手动끊김且미达到最大재연결次개，그러면尝试재연결
+      // 수동 연결 해제가 아니고 최대 재연결 횟수에 도달하지 않았으면 재연결 시도
       if (!isManualDisconnect && reconnectAttempts.value < config.maxReconnectAttempts) {
         scheduleReconnect();
       }
     };
 
-    // 웹소켓 닫기
+    // 웹소켓 닫힘
     stompClient.value.on웹소켓Close = (event) => {
       connectionState.value = ConnectionState.DISCONNECTED;
-      log(`웹소켓 이미닫기: code=${event?.code}, reason=${event?.reason}`);
+      log(`웹소켓이 닫힘: code=${event?.code}, reason=${event?.reason}`);
 
-      // 만약예手动끊김，아님재연결
+      // 수동 연결 해제인 경우 재연결하지 않음
       if (isManualDisconnect) {
-        log("手动끊김연결，아님进행재연결");
+        log("수동 연결 해제, 재연결하지 않음");
         return;
       }
 
-      // 对于예외닫기，尝试재연결
+      // 비정상 닫힘인 경우 재연결 시도
       if (
         event?.code &&
         [1000, 1006, 1008, 1011].includes(event.code) &&
         reconnectAttempts.value < config.maxReconnectAttempts
       ) {
-        log("检测到연결예외닫기，로尝试재연결");
+        log("연결 비정상 닫힘 감지, 재연결 시도");
         scheduleReconnect();
       }
     };
@@ -238,7 +238,7 @@ export function useStomp(options: UseStompOptions = {}) {
       logError("STOMP 오류:", frame.headers, frame.body);
       connectionState.value = ConnectionState.DISCONNECTED;
 
-      // 확인여부예권한 부여오류
+      // 인증 오류 여부 확인
       const isAuthError =
         frame.headers?.message?.includes("Unauthorized") ||
         frame.body?.includes("Unauthorized") ||
@@ -246,31 +246,31 @@ export function useStomp(options: UseStompOptions = {}) {
         frame.body?.includes("401");
 
       if (isAuthError) {
-        logWarn("웹소켓 권한 부여오류，중지재연결");
-        isManualDisconnect = true; // 권한 부여오류아님进행재연결
+        logWarn("웹소켓 인증 오류, 재연결 중지");
+        isManualDisconnect = true; // 인증 오류 시 재연결하지 않음
       }
     };
   };
 
   /**
-   * 调度재연결任务
+   * 재연결 작업 스케줄링
    */
   const scheduleReconnect = () => {
-    // 만약正에연결또는手动끊김，아님재연결
+    // 연결 중이거나 수동 연결 해제인 경우 재연결하지 않음
     if (connectionState.value === ConnectionState.CONNECTING || isManualDisconnect) {
       return;
     }
 
-    // 확인여부达到最大재연결次개
+    // 최대 재연결 횟수 도달 여부 확인
     if (reconnectAttempts.value >= config.maxReconnectAttempts) {
-      logError(`이미达到最大재연결次개 (${config.maxReconnectAttempts})，중지재연결`);
+      logError(`최대 재연결 횟수 도달 (${config.maxReconnectAttempts}), 재연결 중지`);
       return;
     }
 
     reconnectAttempts.value++;
     connectionState.value = ConnectionState.RECONNECTING;
 
-    // 계算재연결지연（지원指개退避）
+    // 재연결 지연 계산(지수 백오프 지원)
     const delay = config.useExponentialBackoff
       ? Math.min(
           config.reconnectDelay * Math.pow(2, reconnectAttempts.value - 1),
@@ -278,92 +278,92 @@ export function useStomp(options: UseStompOptions = {}) {
         )
       : config.reconnectDelay;
 
-    log(`准备재연결 (${reconnectAttempts.value}/${config.maxReconnectAttempts})，지연 ${delay}ms`);
+    log(`재연결 준비 (${reconnectAttempts.value}/${config.maxReconnectAttempts}), 지연 ${delay}ms`);
 
-    // 정리除之前의재연결계시기기
+    // 이전 재연결 타이머 정리
     if (reconnectTimer) {
       clearTimeout(reconnectTimer);
     }
 
-    // 설정재연결계시기기
+    // 재연결 타이머 설정
     reconnectTimer = setTimeout(() => {
       if (connectionState.value !== ConnectionState.CONNECTED && !isManualDisconnect) {
-        log(`시작第 ${reconnectAttempts.value} 次재연결...`);
+        log(`${reconnectAttempts.value}번째 재연결 시작...`);
         connect();
       }
     }, delay);
   };
 
-  // 리스닝 brokerURL 의변경，자동다시초기화
+  // brokerURL 변경 감지, 자동 재초기화
   watch(config.brokerURL, (newURL, oldURL) => {
     if (newURL !== oldURL) {
-      log(`웹소켓 엔드포인트이미更改: ${oldURL} -> ${newURL}`);
+      log(`웹소켓 엔드포인트 변경됨: ${oldURL} -> ${newURL}`);
 
-      // 끊김当前연결
+      // 현재 연결 해제
       if (stompClient.value && stompClient.value.connected) {
         stompClient.value.deactivate();
       }
 
-      // 다시초기화클라이언트
+      // 클라이언트 재초기화
       initializeClient();
     }
   });
 
-  // 초기화클라이언트
+  // 클라이언트 초기화
   initializeClient();
 
-  // ==================== 公共인터페이스 ====================
+  // ==================== 공개 인터페이스 ====================
 
   /**
-   * 구축 웹소켓 연결
+   * 웹소켓 연결 수립
    */
   const connect = () => {
-    // 초기화手动끊김标志
+    // 수동 연결 해제 플래그 초기화
     isManualDisconnect = false;
 
-    // 확인여부설정됨 웹소켓 엔드포인트
+    // 웹소켓 엔드포인트 설정 여부 확인
     if (!config.brokerURL.value) {
-      logError("웹소켓 연결실패: 미설정 웹소켓 엔드포인트 URL");
+      logError("웹소켓 연결 실패: 웹소켓 엔드포인트 URL이 설정되지 않음");
       return;
     }
 
-    // 방지중복연결
+    // 중복 연결 방지
     if (connectionState.value === ConnectionState.CONNECTING) {
-      log("웹소켓 正에연결내，점프거치중복연결요청");
+      log("웹소켓 연결 중, 중복 연결 요청 건너뜀");
       return;
     }
 
-    // 만약클라이언트아님存에，先초기화
+    // 클라이언트가 없으면 먼저 초기화
     if (!stompClient.value) {
       initializeClient();
     }
 
     if (!stompClient.value) {
-      logError("STOMP 클라이언트초기화실패");
+      logError("STOMP 클라이언트 초기화 실패");
       return;
     }
 
-    // 避免중복연결：확인여부이미연결
+    // 중복 연결 방지: 이미 연결되어 있는지 확인
     if (stompClient.value.connected) {
-      log("웹소켓 이미연결，점프거치중복연결");
+      log("웹소켓 이미 연결됨, 중복 연결 건너뜀");
       connectionState.value = ConnectionState.CONNECTED;
       return;
     }
 
-    // 설정연결상태
+    // 연결 상태 설정
     connectionState.value = ConnectionState.CONNECTING;
 
-    // 설정연결시간초과
+    // 연결 타임아웃 설정
     if (connectionTimeoutTimer) {
       clearTimeout(connectionTimeoutTimer);
     }
 
     connectionTimeoutTimer = setTimeout(() => {
       if (connectionState.value === ConnectionState.CONNECTING) {
-        logWarn("웹소켓 연결시간초과");
+        logWarn("웹소켓 연결 타임아웃");
         connectionState.value = ConnectionState.DISCONNECTED;
 
-        // 시간초과후尝试재연결
+        // 타임아웃 후 재연결 시도
         if (!isManualDisconnect && reconnectAttempts.value < config.maxReconnectAttempts) {
           scheduleReconnect();
         }
@@ -372,19 +372,19 @@ export function useStomp(options: UseStompOptions = {}) {
 
     try {
       stompClient.value.activate();
-      log("正에구축 웹소켓 연결...");
+      log("웹소켓 연결 수립 중...");
     } catch (error) {
-      logError("활성화 웹소켓 연결실패:", error);
+      logError("웹소켓 연결 활성화 실패:", error);
       connectionState.value = ConnectionState.DISCONNECTED;
     }
   };
 
   /**
-   * 실행구독작업（내부메서드）
+   * 구독 작업 실행(내부 메서드)
    */
   const performSubscribe = (destination: string, callback: (message: IMessage) => void): string => {
     if (!stompClient.value || !stompClient.value.connected) {
-      logWarn(`尝试구독 ${destination} 실패: 클라이언트미연결`);
+      logWarn(`구독 시도 실패 ${destination}: 클라이언트가 연결되지 않음`);
       return "";
     }
 
@@ -392,38 +392,38 @@ export function useStomp(options: UseStompOptions = {}) {
       const subscription = stompClient.value.subscribe(destination, callback);
       const subscriptionId = subscription.id;
       activeSubscriptions.set(subscriptionId, subscription);
-      log(`✓ 구독성공: ${destination} (ID: ${subscriptionId})`);
+      log(`구독 성공: ${destination} (ID: ${subscriptionId})`);
       return subscriptionId;
     } catch (error) {
-      logError(`구독 ${destination} 실패:`, error);
+      logError(`구독 실패 ${destination}:`, error);
       return "";
     }
   };
 
   /**
-   * 구독指定테마
+   * 지정 토픽 구독
    *
-   * @param destination 대상테마주소（예：/topic/message）
-   * @param callback 接收到메시지시의콜백함수
-   * @returns 구독 ID，용도후续취소구독
+   * @param destination 대상 토픽 주소(예: /topic/message)
+   * @param callback 메시지 수신 시 콜백 함수
+   * @returns 구독 ID, 이후 구독 취소에 사용
    */
   const subscribe = (destination: string, callback: (message: IMessage) => void): string => {
-    // 저장구독설정到등록테이블，용도断스레드재연결후자동복구
+    // 구독 설정을 레지스트리에 저장, 연결 해제 후 재연결 시 자동 복구용
     subscriptionRegistry.set(destination, { destination, callback });
 
-    // 만약이미연결，立即구독
+    // 이미 연결된 경우 즉시 구독
     if (stompClient.value?.connected) {
       return performSubscribe(destination, callback);
     }
 
-    log(`暂存구독설정: ${destination}，로에연결구축후자동구독`);
+    log(`구독 설정 임시 저장: ${destination}, 연결 수립 후 자동 구독됨`);
     return "";
   };
 
   /**
-   * 취소구독
+   * 구독 취소
    *
-   * @param subscriptionId 구독 ID（由 subscribe 메서드돌아가기）
+   * @param subscriptionId 구독 ID(subscribe 메서드에서 반환)
    */
   const unsubscribe = (subscriptionId: string) => {
     const subscription = activeSubscriptions.get(subscriptionId);
@@ -431,74 +431,74 @@ export function useStomp(options: UseStompOptions = {}) {
       try {
         subscription.unsubscribe();
         activeSubscriptions.delete(subscriptionId);
-        log(`✓ 이미취소구독: ${subscriptionId}`);
+        log(`구독 취소됨: ${subscriptionId}`);
       } catch (error) {
-        logWarn(`취소구독 ${subscriptionId} 시出错:`, error);
+        logWarn(`구독 취소 중 오류 ${subscriptionId}:`, error);
       }
     }
   };
 
   /**
-   * 취소指定테마의구독（从등록테이블내移除）
+   * 지정 토픽의 구독 취소(레지스트리에서 제거)
    *
-   * @param destination 테마주소
+   * @param destination 토픽 주소
    */
   const unsubscribeDestination = (destination: string) => {
-    // 从등록테이블내移除
+    // 레지스트리에서 제거
     subscriptionRegistry.delete(destination);
 
-    // 취소모든일치该테마의活动구독
+    // 해당 토픽의 모든 활성 구독 취소
     for (const [id, subscription] of activeSubscriptions.entries()) {
-      // 주의：STOMP 의 subscription 객체없음直接暴露 destination，
-      // 这里简化처리，实际사용시可能필요해야额外维护 id -> destination 의매핑
+      // 주의: STOMP의 subscription 객체는 destination을 직접 노출하지 않음,
+      // 여기서는 간소화 처리, 실제 사용 시 id -> destination 매핑 추가 관리 필요할 수 있음
       try {
         subscription.unsubscribe();
         activeSubscriptions.delete(id);
       } catch (error) {
-        logWarn(`취소구독 ${id} 시出错:`, error);
+        logWarn(`구독 취소 중 오류 ${id}:`, error);
       }
     }
 
-    log(`✓ 이미移除테마구독설정: ${destination}`);
+    log(`토픽 구독 설정 제거됨: ${destination}`);
   };
 
   /**
-   * 끊김 웹소켓 연결
+   * 웹소켓 연결 해제
    *
-   * @param clearSubscriptions 여부정리除구독등록테이블（기본값로 true）
+   * @param clearSubscriptions 구독 레지스트리 정리 여부(기본값 true)
    */
   const disconnect = (clearSubscriptions = true) => {
-    // 설정手动끊김标志
+    // 수동 연결 해제 플래그 설정
     isManualDisconnect = true;
 
-    // 정리除모든定시기기
+    // 모든 타이머 정리
     clearAllTimers();
 
-    // 취소모든活动구독
+    // 모든 활성 구독 취소
     for (const [id, subscription] of activeSubscriptions.entries()) {
       try {
         subscription.unsubscribe();
       } catch (error) {
-        logWarn(`취소구독 ${id} 시出错:`, error);
+        logWarn(`구독 취소 중 오류 ${id}:`, error);
       }
     }
     activeSubscriptions.clear();
 
-    // 선택：정리除구독등록테이블
+    // 선택: 구독 레지스트리 정리
     if (clearSubscriptions) {
       subscriptionRegistry.clear();
-      log("이미정리除모든구독설정");
+      log("모든 구독 설정이 정리됨");
     }
 
-    // 끊김연결
+    // 연결 해제
     if (stompClient.value) {
       try {
         if (stompClient.value.connected || stompClient.value.active) {
           stompClient.value.deactivate();
-          log("✓ 웹소켓 연결이미주요动끊김");
+          log("웹소켓 연결이 수동으로 해제됨");
         }
       } catch (error) {
-        logError("끊김 웹소켓 연결시出错:", error);
+        logError("웹소켓 연결 해제 중 오류:", error);
       }
       stompClient.value = null;
     }
@@ -507,23 +507,23 @@ export function useStomp(options: UseStompOptions = {}) {
     reconnectAttempts.value = 0;
   };
 
-  // ==================== 돌아가기公共인터페이스 ====================
+  // ==================== 공개 인터페이스 반환 ====================
   return {
     // 상태
     connectionState: readonly(connectionState),
     isConnected,
     reconnectAttempts: readonly(reconnectAttempts),
 
-    // 연결관리
+    // 연결 관리
     connect,
     disconnect,
 
-    // 구독관리
+    // 구독 관리
     subscribe,
     unsubscribe,
     unsubscribeDestination,
 
-    // 통계계정보
+    // 통계 정보
     getActiveSubscriptionCount: () => activeSubscriptions.size,
     getRegisteredSubscriptionCount: () => subscriptionRegistry.size,
   };

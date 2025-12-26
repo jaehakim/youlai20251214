@@ -516,7 +516,7 @@ export default defineMock([
               component: "demo/ai-command",
               name: "/function/ai-command",
               meta: {
-                title: "AI 命令도우미",
+                title: "AI 명령 도우미",
                 icon: "el-icon-MagicStick",
                 hidden: false,
                 keepAlive: true,
@@ -1743,83 +1743,83 @@ export default defineMock([
             },
             {
               value: "117",
-              label: "시스템日志",
+              label: "시스템 로그",
             },
             {
               value: "135",
-              label: "사전项",
+              label: "사전 항목",
               children: [
                 {
                   value: "143",
-                  label: "사전项조회",
+                  label: "사전 항목 조회",
                 },
                 {
                   value: "136",
-                  label: "사전项신규",
+                  label: "사전 항목 신규",
                 },
                 {
                   value: "137",
-                  label: "사전项편집",
+                  label: "사전 항목 편집",
                 },
                 {
                   value: "138",
-                  label: "사전项삭제",
+                  label: "사전 항목 삭제",
                 },
               ],
             },
             {
               value: "120",
-              label: "시스템설정",
+              label: "시스템 설정",
               children: [
                 {
                   value: "121",
-                  label: "시스템설정조회",
+                  label: "시스템 설정 조회",
                 },
                 {
                   value: "122",
-                  label: "시스템설정신규",
+                  label: "시스템 설정 신규",
                 },
                 {
                   value: "123",
-                  label: "시스템설정수정",
+                  label: "시스템 설정 수정",
                 },
                 {
                   value: "124",
-                  label: "시스템설정삭제",
+                  label: "시스템 설정 삭제",
                 },
                 {
                   value: "125",
-                  label: "시스템설정새로고침",
+                  label: "시스템 설정 새로고침",
                 },
               ],
             },
             {
               value: "126",
-              label: "어드바이스公告",
+              label: "공지 사항",
               children: [
                 {
                   value: "127",
-                  label: "어드바이스조회",
+                  label: "공지 조회",
                 },
                 {
                   value: "128",
-                  label: "어드바이스신규",
+                  label: "공지 신규",
                 },
                 {
                   value: "129",
-                  label: "어드바이스편집",
+                  label: "공지 편집",
                 },
                 {
                   value: "130",
-                  label: "어드바이스삭제",
+                  label: "공지 삭제",
                 },
                 {
                   value: "133",
-                  label: "어드바이스릴리스",
+                  label: "공지 발행",
                 },
                 {
                   value: "134",
-                  label: "어드바이스撤回",
+                  label: "공지 철회",
                 },
               ],
             },
@@ -1827,7 +1827,7 @@ export default defineMock([
         },
         {
           value: "118",
-          label: "시스템工具",
+          label: "시스템 도구",
           children: [
             {
               value: "119",
@@ -1837,7 +1837,7 @@ export default defineMock([
         },
         {
           value: "40",
-          label: "인터페이스문서",
+          label: "API 문서",
           children: [
             {
               value: "41",
@@ -1847,37 +1847,37 @@ export default defineMock([
         },
         {
           value: "26",
-          label: "플랫폼문서",
+          label: "플랫폼 문서",
           children: [
             {
               value: "102",
-              label: "document",
+              label: "문서",
             },
             {
               value: "30",
-              label: "플랫폼문서(外链)",
+              label: "플랫폼 문서(외부링크)",
             },
           ],
         },
         {
           value: "20",
-          label: "多级메뉴",
+          label: "다단계 메뉴",
           children: [
             {
               value: "21",
-              label: "메뉴一级",
+              label: "1단계 메뉴",
               children: [
                 {
                   value: "22",
-                  label: "메뉴二级",
+                  label: "2단계 메뉴",
                   children: [
                     {
                       value: "23",
-                      label: "메뉴三级-1",
+                      label: "3단계 메뉴-1",
                     },
                     {
                       value: "24",
-                      label: "메뉴三级-2",
+                      label: "3단계 메뉴-2",
                     },
                   ],
                 },
@@ -1887,51 +1887,51 @@ export default defineMock([
         },
         {
           value: "36",
-          label: "컴포넌트封装",
+          label: "컴포넌트 캡슐화",
           children: [
             {
               value: "108",
-              label: "增删改查",
+              label: "CURD",
             },
             {
               value: "109",
-              label: "목록선택择기기",
+              label: "목록 선택기",
             },
             {
               value: "37",
-              label: "富텍스트편집기기",
+              label: "리치 텍스트 에디터",
             },
             {
               value: "38",
-              label: "이미지업로드",
+              label: "이미지 업로드",
             },
             {
               value: "39",
-              label: "图标선택择기기",
+              label: "아이콘 선택기",
             },
             {
               value: "95",
-              label: "사전컴포넌트",
+              label: "사전 컴포넌트",
             },
           ],
         },
         {
           value: "110",
-          label: "라우트매개변수",
+          label: "라우트 파라미터",
           children: [
             {
               value: "111",
-              label: "매개변수(type=1)",
+              label: "파라미터(type=1)",
             },
             {
               value: "112",
-              label: "매개변수(type=2)",
+              label: "파라미터(type=2)",
             },
           ],
         },
         {
           value: "89",
-          label: "기능演示",
+          label: "기능 데모",
           children: [
             {
               value: "97",
@@ -1943,7 +1943,7 @@ export default defineMock([
             },
             {
               value: "91",
-              label: "敬请期待...",
+              label: "준비 중...",
             },
           ],
         },
@@ -2006,7 +2006,7 @@ export default defineMock([
   },
 ]);
 
-// 메뉴매핑테이블데이터
+// 메뉴 매핑 테이블 데이터
 const menuMap: Record<string, any> = {
   1: {
     id: 1,

@@ -212,18 +212,18 @@ const UserAPI = {
 
 export default UserAPI;
 
-/** 로그인사용자정보 */
+/** 로그인 사용자 정보 */
 export interface UserInfo {
-  /** 사용자ID */
+  /** 사용자 ID */
   userId?: string;
 
-  /** 사용자이름 */
+  /** 사용자 이름 */
   username?: string;
 
   /** 닉네임 */
   nickname?: string;
 
-  /** 아바타URL */
+  /** 아바타 URL */
   avatar?: string;
 
   /** 역할 */
@@ -234,55 +234,55 @@ export interface UserInfo {
 }
 
 /**
- * 사용자페이지네이션조회객체
+ * 사용자 페이지네이션 조회 객체
  */
 export interface UserPageQuery extends PageQuery {
-  /** 검색关키字 */
-  키words?: string;
+  /** 검색 키워드 */
+  keywords?: string;
 
-  /** 사용자상태 */
+  /** 사용자 상태 */
   status?: number;
 
-  /** 부서ID */
+  /** 부서 ID */
   deptId?: string;
 
-  /** 시작시사이 */
+  /** 시작 시간 */
   createTime?: [string, string];
 }
 
-/** 사용자페이지네이션객체 */
+/** 사용자 페이지네이션 객체 */
 export interface UserPageVO {
-  /** 사용자ID */
+  /** 사용자 ID */
   id: string;
-  /** 사용자아바타URL */
+  /** 사용자 아바타 URL */
   avatar?: string;
-  /** 생성시사이 */
+  /** 생성 시간 */
   createTime?: Date;
-  /** 부서이름칭 */
+  /** 부서 명칭 */
   deptName?: string;
-  /** 사용자이메일 */
+  /** 사용자 이메일 */
   email?: string;
   /** 성별 */
   gender?: number;
   /** 휴대폰 */
   mobile?: string;
-  /** 사용자닉네임 */
+  /** 사용자 닉네임 */
   nickname?: string;
-  /** 역할이름칭，多개사용英文逗号(,)분할 */
+  /** 역할 명칭, 여러 개는 영문 쉼표(,)로 구분 */
   roleNames?: string;
-  /** 사용자상태(1:활성화;0:비활성화) */
+  /** 사용자 상태(1:활성화;0:비활성화) */
   status?: number;
-  /** 사용자이름 */
+  /** 사용자 이름 */
   username?: string;
 }
 
-/** 사용자양식타입 */
+/** 사용자 양식 타입 */
 export interface UserForm {
-  /** 사용자ID */
+  /** 사용자 ID */
   id?: string;
-  /** 사용자아바타 */
+  /** 사용자 아바타 */
   avatar?: string;
-  /** 부서ID */
+  /** 부서 ID */
   deptId?: string;
   /** 이메일 */
   email?: string;
@@ -292,26 +292,26 @@ export interface UserForm {
   mobile?: string;
   /** 닉네임 */
   nickname?: string;
-  /** 역할ID컬렉션 */
+  /** 역할 ID 컬렉션 */
   roleIds?: number[];
-  /** 사용자상태(1:정상;0:비활성화) */
+  /** 사용자 상태(1:정상;0:비활성화) */
   status?: number;
-  /** 사용자이름 */
+  /** 사용자 이름 */
   username?: string;
 }
 
-/** 개人내心사용자정보 */
+/** 개인 센터 사용자 정보 */
 export interface UserProfileVO {
-  /** 사용자ID */
+  /** 사용자 ID */
   id?: string;
 
-  /** 사용자이름 */
+  /** 사용자 이름 */
   username?: string;
 
   /** 닉네임 */
   nickname?: string;
 
-  /** 아바타URL */
+  /** 아바타 URL */
   avatar?: string;
 
   /** 성별 */
@@ -323,28 +323,28 @@ export interface UserProfileVO {
   /** 이메일 */
   email?: string;
 
-  /** 부서이름칭 */
+  /** 부서 명칭 */
   deptName?: string;
 
-  /** 역할이름칭，多개사용英文逗号(,)분할 */
+  /** 역할 명칭, 여러 개는 영문 쉼표(,)로 구분 */
   roleNames?: string;
 
-  /** 생성시사이 */
+  /** 생성 시간 */
   createTime?: Date;
 }
 
-/** 개人내心사용자정보양식 */
+/** 개인 센터 사용자 정보 양식 */
 export interface UserProfileForm {
-  /** 사용자ID */
+  /** 사용자 ID */
   id?: string;
 
-  /** 사용자이름 */
+  /** 사용자 이름 */
   username?: string;
 
   /** 닉네임 */
   nickname?: string;
 
-  /** 아바타URL */
+  /** 아바타 URL */
   avatar?: string;
 
   /** 성별 */
@@ -357,28 +357,28 @@ export interface UserProfileForm {
   email?: string;
 }
 
-/** 수정비밀번호양식 */
+/** 비밀번호 수정 양식 */
 export interface PasswordChangeForm {
-  /** 原비밀번호 */
+  /** 기존 비밀번호 */
   oldPassword?: string;
-  /** 新비밀번호 */
+  /** 새 비밀번호 */
   newPassword?: string;
-  /** 확인新비밀번호 */
+  /** 새 비밀번호 확인 */
   confirmPassword?: string;
 }
 
-/** 수정휴대폰양식 */
+/** 휴대폰 수정 양식 */
 export interface MobileUpdateForm {
   /** 휴대폰 */
   mobile?: string;
-  /** 검증码 */
+  /** 인증 코드 */
   code?: string;
 }
 
-/** 수정이메일양식 */
+/** 이메일 수정 양식 */
 export interface EmailUpdateForm {
   /** 이메일 */
   email?: string;
-  /** 검증码 */
+  /** 인증 코드 */
   code?: string;
 }

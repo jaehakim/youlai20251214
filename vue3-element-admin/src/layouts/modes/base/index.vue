@@ -1,9 +1,9 @@
 <template>
   <div class="layout" :class="layoutClass">
-    <!-- 모바일遮罩层 - 当侧边열열기시표시 -->
+    <!-- 모바일 오버레이 레이어 - 사이드바 열릴 때 표시 -->
     <div v-if="isMobile && isSidebarOpen" class="layout__overlay" @click="closeSidebar" />
 
-    <!-- 布局내용슬롯 - 各种布局모드의具体내용 -->
+    <!-- 레이아웃 콘텐츠 슬롯 - 다양한 레이아웃 모드의 구체적인 콘텐츠 -->
     <slot></slot>
   </div>
 </template>

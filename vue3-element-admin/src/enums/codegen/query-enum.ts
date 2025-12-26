@@ -1,37 +1,37 @@
 /**
- * 조회타입열거형
+ * 조회 타입 열거형
  */
 export const QueryTypeEnum: Record<string, OptionType> = {
-  /** 等于 */
+  /** 같음 */
   EQ: { value: 1, label: "=" },
 
-  /** 模糊일치 */
+  /** 부분 일치 */
   LIKE: { value: 2, label: "LIKE '%s%'" },
 
-  /** 패키지含 */
+  /** 포함 */
   IN: { value: 3, label: "IN" },
 
   /** 범위 */
   BETWEEN: { value: 4, label: "BETWEEN" },
 
-  /** 大于 */
+  /** 보다 큼 */
   GT: { value: 5, label: ">" },
 
-  /** 大于等于 */
+  /** 크거나 같음 */
   GE: { value: 6, label: ">=" },
 
-  /** 小于 */
+  /** 보다 작음 */
   LT: { value: 7, label: "<" },
 
-  /** 小于等于 */
+  /** 작거나 같음 */
   LE: { value: 8, label: "<=" },
 
-  /** 아님等于 */
+  /** 같지 않음 */
   NE: { value: 9, label: "!=" },
 
-  /** 左模糊일치 */
+  /** 왼쪽 부분 일치 */
   LIKE_LEFT: { value: 10, label: "LIKE '%s'" },
 
-  /** 右模糊일치 */
+  /** 오른쪽 부분 일치 */
   LIKE_RIGHT: { value: 11, label: "LIKE 's%'" },
 };

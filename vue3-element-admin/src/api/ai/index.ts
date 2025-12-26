@@ -1,100 +1,100 @@
 import request from "@/utils/request";
 
 /**
- * AI 명령요청 파라미터
+ * AI 명령 요청 파라미터
  */
 export interface AiCommandRequest {
-  /** 사용자출력입의자연어명령 */
+  /** 사용자가 입력한 자연어 명령 */
   command: string;
-  /** 当前페이지라우팅（용도上下文） */
+  /** 현재 페이지 라우팅 (컨텍스트용) */
   currentRoute?: string;
-  /** 当前활성화의컴포넌트이름칭 */
+  /** 현재 활성화된 컴포넌트 명칭 */
   currentComponent?: string;
-  /** 额外上下文정보 */
+  /** 추가 컨텍스트 정보 */
   context?: Record<string, any>;
 }
 
 /**
- * 함수호출파라미터
+ * 함수 호출 파라미터
  */
 export interface FunctionCall {
-  /** 함수이름칭 */
+  /** 함수 명칭 */
   name: string;
-  /** 함수설명 */
+  /** 함수 설명 */
   description?: string;
-  /** 파라미터객체 */
+  /** 파라미터 객체 */
   arguments: Record<string, any>;
 }
 
 /**
- * AI 명령파싱응답
+ * AI 명령 파싱 응답
  */
 export interface AiCommandResponse {
-  /** 파싱日志ID（용도关联실행레코드） */
+  /** 파싱 로그 ID (실행 레코드 연결용) */
   parseLogId?: string;
-  /** 여부성공파싱 */
+  /** 파싱 성공 여부 */
   success: boolean;
-  /** 파싱후의함수호출목록 */
+  /** 파싱 후 함수 호출 목록 */
   functionCalls: FunctionCall[];
-  /** AI 의理解및설명 */
+  /** AI의 이해 및 설명 */
   explanation?: string;
-  /** 置信度 (0-1) */
+  /** 신뢰도 (0-1) */
   confidence?: number;
-  /** 오류정보 */
+  /** 오류 정보 */
   error?: string;
-  /** 원본 LLM 응답（용도调试） */
+  /** 원본 LLM 응답 (디버깅용) */
   rawResponse?: string;
 }
 
 /**
- * AI 명령실행요청
+ * AI 명령 실행 요청
  */
 export interface AiExecuteRequest {
-  /** 关联의파싱日志ID */
+  /** 연결된 파싱 로그 ID */
   parseLogId?: string;
-  /** 원본명령（용도审계） */
+  /** 원본 명령 (감사용) */
   originalCommand?: string;
-  /** 해야실행의함수호출 */
+  /** 실행할 함수 호출 */
   functionCall: FunctionCall;
-  /** 확인모드：auto=자동실행, manual=필요해야사용자확인 */
+  /** 확인 모드: auto=자동 실행, manual=사용자 확인 필요 */
   confirmMode?: "auto" | "manual";
-  /** 사용자확인标志 */
+  /** 사용자 확인 플래그 */
   userConfirmed?: boolean;
-  /** 幂等性令牌（방지중복실행） */
+  /** 멱등성 토큰 (중복 실행 방지) */
   idempotencyKey?: string;
-  /** 当前페이지라우팅 */
+  /** 현재 페이지 라우팅 */
   currentRoute?: string;
 }
 
 /**
- * AI 명령실행응답
+ * AI 명령 실행 응답
  */
 export interface AiExecuteResponse {
-  /** 여부실행성공 */
+  /** 실행 성공 여부 */
   success: boolean;
-  /** 실행结果데이터 */
+  /** 실행 결과 데이터 */
   data?: any;
-  /** 실행结果설명 */
+  /** 실행 결과 설명 */
   message?: string;
-  /** 影响의레코드개 */
+  /** 영향받은 레코드 수 */
   affectedRows?: number;
-  /** 오류정보 */
+  /** 오류 정보 */
   error?: string;
-  /** 레코드ID（용도追踪） */
+  /** 레코드 ID (추적용) */
   recordId?: string;
-  /** 필요해야사용자확인 */
+  /** 사용자 확인 필요 여부 */
   requiresConfirmation?: boolean;
-  /** 확인提示정보 */
+  /** 확인 프롬프트 정보 */
   confirmationPrompt?: string;
 }
 
 export interface AiCommandRecordPageQuery extends PageQuery {
-  키words?: string;
+  keywords?: string;
   executeStatus?: string;
   parseSuccess?: boolean;
   userId?: number;
   isDangerous?: boolean;
-  제공r?: string;
+  provider?: string;
   model?: string;
   functionName?: string;
   createTime?: [string, string];
@@ -105,7 +105,7 @@ export interface AiCommandRecordVO {
   userId: number;
   username: string;
   originalCommand: string;
-  제공r?: string;
+  provider?: string;
   model?: string;
   parseSuccess?: boolean;
   functionCalls?: string;
@@ -139,10 +139,10 @@ export interface AiCommandRecordVO {
  */
 class AiCommandApi {
   /**
-   * 파싱자연어명령
+   * 자연어 명령 파싱
    *
-   * @param data 명령요청 파라미터
-   * @returns 파싱结果
+   * @param data 명령 요청 파라미터
+   * @returns 파싱 결과
    */
   static parseCommand(data: AiCommandRequest): Promise<AiCommandResponse> {
     return request<any, AiCommandResponse>({
@@ -153,10 +153,10 @@ class AiCommandApi {
   }
 
   /**
-   * 실행이미파싱의명령
+   * 파싱된 명령 실행
    *
-   * @param data 실행요청 파라미터
-   * @returns 실행结果데이터（성공시돌아가기，실패시抛出예외）
+   * @param data 실행 요청 파라미터
+   * @returns 실행 결과 데이터 (성공시 반환, 실패시 예외 발생)
    */
   static executeCommand(data: AiExecuteRequest): Promise<any> {
     return request<any, any>({
@@ -167,7 +167,7 @@ class AiCommandApi {
   }
 
   /**
-   * 조회명령레코드페이지네이션목록
+   * 명령 레코드 페이지네이션 목록 조회
    */
   static getCommandRecordPage(queryParams: AiCommandRecordPageQuery) {
     return request<any, PageResult<AiCommandRecordVO[]>>({
@@ -178,7 +178,7 @@ class AiCommandApi {
   }
 
   /**
-   * 撤销명령실행（만약지원）
+   * 명령 실행 취소 (지원하는 경우)
    */
   static rollbackCommand(recordId: string) {
     return request({

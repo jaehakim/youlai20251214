@@ -38,7 +38,7 @@
       <!-- 로그인 페이지 하단 저작권 -->
       <el-text size="small" class="py-2.5! fixed bottom-0 text-center">
         Copyright © 2021 - 2025 youlai.tech All Rights Reserved.
-        <a href="http://beian.miit.gov.cn/" target="_blank">皖ICP备20006496号-2</a>
+        <a href="http://beian.miit.gov.cn/" target="_blank">ICP 등록번호: 皖ICP备20006496号-2</a>
       </el-text>
     </div>
   </div>

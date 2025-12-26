@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from "vue-router";
 import NProgress from "@/utils/nprogress";
 import router from "@/router";
-import { usePermission스토어, useUser스토어 } from "@/저장소";
+import { usePermissionStore, useUserStore } from "@/store";
 
 export function setupPermission() {
   const whiteList = ["/login"];
@@ -10,9 +10,9 @@ export function setupPermission() {
     NProgress.start();
 
     try {
-      const isLoggedIn = useUser스토어().isLoggedIn();
+      const isLoggedIn = useUserStore().isLoggedIn();
 
-      // 미로그인처리
+      // 비로그인 처리
       if (!isLoggedIn) {
         if (whiteList.includes(to.path)) {
           next();
@@ -23,22 +23,22 @@ export function setupPermission() {
         return;
       }
 
-      // 이미로그인로그인页重定에
+      // 이미 로그인된 상태에서 로그인 페이지 리디렉션
       if (to.path === "/login") {
         next({ path: "/" });
         return;
       }
 
-      const permission스토어 = usePermission스토어();
-      const user스토어 = useUser스토어();
+      const permissionStore = usePermissionStore();
+      const userStore = useUserStore();
 
-      // 动态라우팅生成
-      if (!permission스토어.isRouteGenerated) {
-        if (!user스토어.userInfo?.roles?.length) {
-          await user스토어.getUserInfo();
+      // 동적 라우팅 생성
+      if (!permissionStore.isRouteGenerated) {
+        if (!userStore.userInfo?.roles?.length) {
+          await userStore.getUserInfo();
         }
 
-        const dynamicRoutes = await permission스토어.generateRoutes();
+        const dynamicRoutes = await permissionStore.generateRoutes();
         dynamicRoutes.forEach((route: RouteRecordRaw) => {
           router.addRoute(route);
         });
@@ -47,13 +47,13 @@ export function setupPermission() {
         return;
       }
 
-      // 라우팅404확인
+      // 라우팅 404 확인
       if (to.matched.length === 0) {
         next("/404");
         return;
       }
 
-      // 动态标题설정
+      // 동적 제목 설정
       const title = (to.params.title as string) || (to.query.title as string);
       if (title) {
         to.meta.title = title;
@@ -61,9 +61,9 @@ export function setupPermission() {
 
       next();
     } catch (error) {
-      // 오류처리：초기화상태그리고점프转로그인
+      // 오류 처리: 상태 초기화 및 로그인 페이지로 이동
       console.error("Route guard error:", error);
-      await useUser스토어().resetAllState();
+      await useUserStore().resetAllState();
       next("/login");
       NProgress.done();
     }

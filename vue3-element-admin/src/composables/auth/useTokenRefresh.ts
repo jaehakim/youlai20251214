@@ -3,27 +3,27 @@ import { useUser스토어Hook } from "@/저장소/modules/user-저장소";
 import { AuthStorage, redirectToLogin } from "@/utils/auth";
 
 /**
- * 재시도요청의콜백함수타입
+ * 재시도 요청 콜백 함수 타입
  */
 type RetryCallback = () => void;
 
 /**
- * Token새로고침조합式함수
+ * Token 새로고침 컴포저블 함수
  */
 export function useTokenRefresh() {
-  // Token 새로고침관련상태
+  // Token 새로고침 관련 상태
   let isRefreshingToken = false;
   const pendingRequests: RetryCallback[] = [];
 
   /**
-   * 새로고침 Token 그리고재시도요청
+   * Token 새로고침 및 요청 재시도
    */
   async function 참조reshTokenAndRetry(
     config: InternalAxiosRequestConfig,
     httpRequest: any
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      // 封装필요해야재시도의요청
+      // 재시도가 필요한 요청 래핑
       const retryRequest = () => {
         const newToken = AuthStorage.getAccessToken();
         if (newToken && config.headers) {
@@ -32,17 +32,17 @@ export function useTokenRefresh() {
         httpRequest(config).then(resolve).catch(reject);
       };
 
-      // 로요청加입대기큐
+      // 요청을 대기 큐에 추가
       pendingRequests.push(retryRequest);
 
-      // 만약없음正에새로고침，그러면시작새로고침流程
+      // 새로고침 중이 아니면 새로고침 프로세스 시작
       if (!isRefreshingToken) {
         isRefreshingToken = true;
 
         useUser스토어Hook()
           .참조reshToken()
           .then(() => {
-            // 새로고침성공，재시도모든대기의요청
+            // 새로고침 성공, 모든 대기 요청 재시도
             pendingRequests.forEach((callback) => {
               try {
                 callback();
@@ -50,22 +50,22 @@ export function useTokenRefresh() {
                 console.error("Retry request error:", error);
               }
             });
-            // 정리비어있음큐
+            // 큐 비우기
             pendingRequests.length = 0;
           })
           .catch(async (error) => {
             console.error("Token 참조resh failed:", error);
-            // 새로고침실패，先 reject 모든대기의요청，再정리비어있음큐
+            // 새로고침 실패, 먼저 모든 대기 요청 reject 후 큐 비우기
             const failedRequests = [...pendingRequests];
             pendingRequests.length = 0;
 
-            // 거부모든대기의요청
+            // 모든 대기 요청 거부
             failedRequests.forEach(() => {
               reject(new Error("Token 참조resh failed"));
             });
 
-            // 점프转로그인页
-            await redirectToLogin("로그인상태이미무효，요청다시로그인");
+            // 로그인 페이지로 이동
+            await redirectToLogin("로그인 상태가 만료되었습니다, 다시 로그인하세요");
           })
           .finally(() => {
             isRefreshingToken = false;
@@ -75,7 +75,7 @@ export function useTokenRefresh() {
   }
 
   /**
-   * 조회새로고침상태（용도외부判断）
+   * 새로고침 상태 조회(외부 판단용)
    */
   function getRefreshStatus() {
     return {

@@ -277,7 +277,7 @@ export default defineMock([
 const dictMap: Record<string, any> = {
   1: {
     id: 1,
-    name: "性别",
+    name: "성별",
     dictCode: "gender",
     status: 1,
   },
@@ -288,7 +288,7 @@ const dictItemMap: Record<string, any> = {
   1: {
     id: 1,
     value: "1",
-    label: "男",
+    label: "남",
     sort: 1,
     status: 1,
     tagType: "primary",
@@ -296,7 +296,7 @@ const dictItemMap: Record<string, any> = {
   2: {
     id: 2,
     value: "2",
-    label: "女",
+    label: "여",
     sort: 2,
     status: 1,
     tagType: "danger",
@@ -304,7 +304,7 @@ const dictItemMap: Record<string, any> = {
   3: {
     id: 3,
     value: "0",
-    label: "保密",
+    label: "비공개",
     sort: 3,
     status: 1,
     tagType: "info",

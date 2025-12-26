@@ -41,7 +41,7 @@ const { routes } = useLayoutMenu();
 // 반응형 창 크기
 const { width } = useWindowSize();
 
-// 소형 스크린 기기에서만（모바일 기기）일 때만 접기Logo（오직표시아이콘，숨기기텍스트）
+// 소형 스크린 기기에서만(모바일 기기)일 때만 Logo 접기(아이콘만 표시, 텍스트 숨기기)
 const isLogoCollapsed = computed(() => width.value < 768);
 </script>
 
@@ -62,19 +62,19 @@ const isLogoCollapsed = computed(() => width.value < 768);
       display: flex;
       flex: 1;
       align-items: center;
-      min-width: 0; // 허용flex축소
+      min-width: 0; // flex 축소 허용
       height: 100%;
 
-      // Logo스타일由AppLogo그룹개의글로벌스타일控制
+      // Logo 스타일은 AppLogo 컴포넌트의 글로벌 스타일이 제어
       :deep(.logo) {
-        flex-shrink: 0; // 방지Logo被压缩
+        flex-shrink: 0; // Logo 압축 방지
         height: $navbar-height;
       }
     }
 
     &-right {
       display: flex;
-      flex-shrink: 0; // 방지작업버튼被压缩
+      flex-shrink: 0; // 작업 버튼 압축 방지
       align-items: center;
       height: 100%;
       padding-left: 12px;
@@ -83,9 +83,9 @@ const isLogoCollapsed = computed(() => width.value < 768);
     // 메뉴스타일
     :deep(.el-menu--horizontal) {
       flex: 1;
-      min-width: 0; // 허용메뉴축소
+      min-width: 0; // 메뉴 축소 허용
       height: $navbar-height;
-      overflow: hidden; // 방지메뉴溢出
+      overflow: hidden; // 메뉴 넘침 방지
       line-height: $navbar-height;
       background-color: transparent;
       border: none;
@@ -101,7 +101,7 @@ const isLogoCollapsed = computed(() => width.value < 768);
           line-height: $navbar-height;
         }
 
-        // 父메뉴활성화상태 - 水平布局专用
+        // 부모 메뉴 활성화 상태 - 수평 레이아웃 전용
         &.has-active-child {
           .el-sub-menu__title {
             color: var(--el-color-primary) !important;
@@ -114,7 +114,7 @@ const isLogoCollapsed = computed(() => width.value < 768);
         }
       }
 
-      // 수정子메뉴弹出자리置
+      // 하위 메뉴 팝업 위치 수정
       .el-menu--popup {
         min-width: 160px;
       }
@@ -127,7 +127,7 @@ const isLogoCollapsed = computed(() => width.value < 768);
   }
 }
 
-// 当存在TagsView시의스타일调整
+// TagsView가 있을 때의 스타일 조정
 .hasTagsView {
   :deep(.app-main) {
     height: calc(100vh - $navbar-height - $tags-view-height) !important;

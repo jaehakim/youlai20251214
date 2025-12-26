@@ -1,51 +1,51 @@
-export const useTagsView스토어 = define스토어("tagsView", () => {
-  const visitedViews = 참조<TagView[]>([]);
-  const cachedViews = 참조<string[]>([]);
+export const useTagsViewStore = defineStore("tagsView", () => {
+  const visitedViews = ref<TagView[]>([]);
+  const cachedViews = ref<string[]>([]);
   const router = useRouter();
   const route = useRoute();
 
   /**
-   * 추가이미访问뷰到이미访问뷰목록내
+   * 방문한 뷰를 방문 뷰 목록에 추가
    */
   function addVisitedView(view: TagView) {
-    // 이미存에于이미访问의뷰목록내또는者예重定에주소，그러면아님再추가
+    // 이미 방문한 뷰 목록에 존재하거나 리다이렉트 경로인 경우 추가하지 않음
     if (view.path.startsWith("/redirect")) {
       return;
     }
     if (visitedViews.value.some((v) => v.path === view.path)) {
       return;
     }
-    // 만약뷰예固定의（affix），그러면에이미访问의뷰목록의开头추가
+    // 뷰가 고정(affix)인 경우 방문 뷰 목록 앞에 추가
     if (view.affix) {
       visitedViews.value.unshift(view);
     } else {
-      // 만약뷰아님예固定의，그러면에이미访问의뷰목록의末尾추가
+      // 뷰가 고정이 아닌 경우 방문 뷰 목록 끝에 추가
       visitedViews.value.push(view);
     }
   }
 
   /**
-   * 추가캐시뷰到캐시뷰목록내
+   * 캐시 뷰를 캐시 뷰 목록에 추가
    */
   function addCachedView({ fullPath, keepAlive }: TagView) {
-    // 만약캐시뷰이름칭이미经存에于캐시뷰목록내，그러면아님再추가
+    // 캐시 뷰 이름이 이미 캐시 뷰 목록에 존재하면 추가하지 않음
     if (cachedViews.value.includes(fullPath)) {
       return;
     }
 
-    // 만약뷰필요해야캐시（keepAlive），그러면로其라우팅이름칭추가到캐시뷰목록내
+    // 뷰가 캐시가 필요한 경우(keepAlive) 라우트 이름을 캐시 뷰 목록에 추가
     if (keepAlive) {
       cachedViews.value.push(fullPath);
     }
   }
 
   /**
-   * 从이미访问뷰목록내삭제指定의뷰
+   * 방문 뷰 목록에서 지정된 뷰 삭제
    */
   function delVisitedView(view: TagView) {
     return new Promise((resolve) => {
       for (const [i, v] of visitedViews.value.entries()) {
-        // 找到与指定뷰경로일치의뷰，에이미访问뷰목록내삭제该뷰
+        // 지정된 뷰 경로와 일치하는 뷰를 찾아 방문 뷰 목록에서 삭제
         if (v.path === view.path) {
           visitedViews.value.splice(i, 1);
           break;
@@ -98,9 +98,9 @@ export const useTagsView스토어 = define스토어("tagsView", () => {
   }
 
   /**
-   * 에 따라경로업데이트태그이름칭
+   * 경로에 따라 태그 이름 업데이트
    * @param fullPath 경로
-   * @param title 태그이름칭
+   * @param title 태그 이름
    */
   function updateTagName(fullPath: string, title: string) {
     const tag = visitedViews.value.find((tag: TagView) => tag.fullPath === fullPath);
@@ -210,7 +210,7 @@ export const useTagsView스토어 = define스토어("tagsView", () => {
   }
 
   /**
-   * 닫기当前tagView
+   * 현재 tagView 닫기
    */
   function closeCurrentView() {
     const tags: TagView = {

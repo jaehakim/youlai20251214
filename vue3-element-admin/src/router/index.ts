@@ -3,7 +3,7 @@ import { createRouter, createWebHashHistory, type RouteRecordRaw } from "vue-rou
 
 export const Layout = () => import("@/layouts/index.vue");
 
-// 静态라우팅
+// 정적 라우팅
 export const constantRoutes: RouteRecordRaw[] = [
   {
     path: "/redirect",
@@ -32,8 +32,8 @@ export const constantRoutes: RouteRecordRaw[] = [
       {
         path: "dashboard",
         component: () => import("@/views/dashboard/index.vue"),
-        // 용도 keep-alive 기능，필요해야与 SFC 내자동推导또는显式声明의컴포넌트이름칭하나致
-        // 参考문서: https://cn.vuejs.org/guide/built-ins/keep-alive.html#include-exclude
+        // keep-alive 기능 사용, SFC 내 자동 추론 또는 명시적 선언된 컴포넌트 이름과 일치해야 함
+        // 참고 문서: https://cn.vuejs.org/guide/built-ins/keep-alive.html#include-exclude
         name: "Dashboard",
         meta: {
           title: "dashboard",
@@ -56,35 +56,35 @@ export const constantRoutes: RouteRecordRaw[] = [
         path: "profile",
         name: "Profile",
         component: () => import("@/views/profile/index.vue"),
-        meta: { title: "개人내心", icon: "user", hidden: true },
+        meta: { title: "개인 센터", icon: "user", hidden: true },
       },
       {
         path: "my-notice",
         name: "MyNotice",
         component: () => import("@/views/system/notice/components/MyNotice.vue"),
-        meta: { title: "我의어드바이스", icon: "user", hidden: true },
+        meta: { title: "내 공지", icon: "user", hidden: true },
       },
       {
         path: "/detail/:id(\\d+)",
         name: "DemoDetail",
         component: () => import("@/views/demo/detail.vue"),
-        meta: { title: "상세页캐시", icon: "user", hidden: true, keepAlive: true },
+        meta: { title: "상세 페이지 캐시", icon: "user", hidden: true, keepAlive: true },
       },
     ],
   },
 ];
 
 /**
- * 생성라우팅
+ * 라우터 생성
  */
 const router = createRouter({
   history: createWebHashHistory(),
   routes: constantRoutes,
-  // 새로고침시，스크롤条자리置还原
+  // 새로고침 시 스크롤 위치 복원
   scrollBehavior: () => ({ left: 0, top: 0 }),
 });
 
-// 글로벌등록 router
+// 글로벌 라우터 등록
 export function setupRouter(app: App<Element>) {
   app.use(router);
 }

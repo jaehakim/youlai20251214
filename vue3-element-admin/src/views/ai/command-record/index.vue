@@ -179,10 +179,10 @@
           {{ currentRow.username }}
         </el-descriptions-item>
 
-        <el-descriptions-item label="AI提供商">
+        <el-descriptions-item label="AI 제공자">
           {{ currentRow.provider || "-" }}
         </el-descriptions-item>
-        <el-descriptions-item label="AI模型">
+        <el-descriptions-item label="AI 모델">
           {{ currentRow.model || "-" }}
         </el-descriptions-item>
 
@@ -191,30 +191,30 @@
             {{ currentRow.parseSuccess ? "성공" : "실패" }}
           </el-tag>
         </el-descriptions-item>
-        <el-descriptions-item label="置信度">
+        <el-descriptions-item label="신뢰도">
           <span v-if="currentRow.confidence !== undefined && currentRow.confidence !== null">
             {{ (currentRow.confidence * 100).toFixed(0) }}%
           </span>
           <span v-else>-</span>
         </el-descriptions-item>
 
-        <el-descriptions-item label="파싱耗시">
+        <el-descriptions-item label="파싱 소요시간">
           {{ formatNumber(currentRow.parseTime) }} ms
         </el-descriptions-item>
-        <el-descriptions-item label="Token통계计">
-          출력입 {{ currentRow.inputTokens || 0 }} / 출력 {{ currentRow.outputTokens || 0 }} / 총计
+        <el-descriptions-item label="Token 통계">
+          입력 {{ currentRow.inputTokens || 0 }} / 출력 {{ currentRow.outputTokens || 0 }} / 총계
           {{ currentRow.totalTokens || 0 }}
         </el-descriptions-item>
 
-        <el-descriptions-item label="원본명령" :span="2">
+        <el-descriptions-item label="원본 명령어" :span="2">
           <el-input :model-value="currentRow.originalCommand" type="textarea" :rows="2" readonly />
         </el-descriptions-item>
 
-        <el-descriptions-item v-if="currentRow.explanation" label="AI설명" :span="2">
+        <el-descriptions-item v-if="currentRow.explanation" label="AI 설명" :span="2">
           {{ currentRow.explanation }}
         </el-descriptions-item>
 
-        <el-descriptions-item v-if="currentRow.functionCalls" label="함수개호출" :span="2">
+        <el-descriptions-item v-if="currentRow.functionCalls" label="함수 호출" :span="2">
           <el-input
             :model-value="formatJson(currentRow.functionCalls)"
             type="textarea"
@@ -223,11 +223,11 @@
           />
         </el-descriptions-item>
 
-        <el-descriptions-item v-if="currentRow.parseErrorMessage" label="파싱오류" :span="2">
+        <el-descriptions-item v-if="currentRow.parseErrorMessage" label="파싱 오류" :span="2">
           <el-alert :title="currentRow.parseErrorMessage" type="error" :closable="false" />
         </el-descriptions-item>
 
-        <el-descriptions-item label="함수개이름">
+        <el-descriptions-item label="함수명">
           {{ currentRow.functionName || "-" }}
         </el-descriptions-item>
         <el-descriptions-item label="실행 상태">
@@ -241,14 +241,14 @@
           <span v-else>-</span>
         </el-descriptions-item>
 
-        <el-descriptions-item label="실행耗시">
+        <el-descriptions-item label="실행 소요시간">
           {{ formatNumber(currentRow.executionTime) }} ms
         </el-descriptions-item>
-        <el-descriptions-item label="影响행개">
+        <el-descriptions-item label="영향 행수">
           {{ formatNumber(currentRow.affectedRows) }}
         </el-descriptions-item>
 
-        <el-descriptions-item v-if="currentRow.functionArguments" label="실행파라미터" :span="2">
+        <el-descriptions-item v-if="currentRow.functionArguments" label="실행 파라미터" :span="2">
           <el-input
             :model-value="formatJson(currentRow.functionArguments)"
             type="textarea"
@@ -266,25 +266,25 @@
           />
         </el-descriptions-item>
 
-        <el-descriptions-item v-if="currentRow.executeErrorMessage" label="실행오류" :span="2">
+        <el-descriptions-item v-if="currentRow.executeErrorMessage" label="실행 오류" :span="2">
           <el-alert :title="currentRow.executeErrorMessage" type="error" :closable="false" />
         </el-descriptions-item>
 
-        <el-descriptions-item label="위험작업">
-          <el-tag v-if="currentRow.isDangerous" type="warning" size="small">위험작업</el-tag>
+        <el-descriptions-item label="위험 작업">
+          <el-tag v-if="currentRow.isDangerous" type="warning" size="small">위험 작업</el-tag>
           <span v-else>-</span>
         </el-descriptions-item>
-        <el-descriptions-item label="여부확인">
+        <el-descriptions-item label="확인 여부">
           <span v-if="currentRow.requiresConfirmation">
-            {{ currentRow.userConfirmed ? "이미확인" : "待확인" }}
+            {{ currentRow.userConfirmed ? "확인 완료" : "확인 대기" }}
           </span>
           <span v-else>-</span>
         </el-descriptions-item>
 
-        <el-descriptions-item label="IP주소">
+        <el-descriptions-item label="IP 주소">
           {{ currentRow.ipAddress || "-" }}
         </el-descriptions-item>
-        <el-descriptions-item label="페이지라우팅">
+        <el-descriptions-item label="페이지 라우팅">
           {{ currentRow.currentRoute || "-" }}
         </el-descriptions-item>
         <el-descriptions-item label="User-Agent" :span="2">
@@ -294,7 +294,7 @@
         <el-descriptions-item label="생성 시간">
           {{ currentRow.createTime }}
         </el-descriptions-item>
-        <el-descriptions-item label="업데이트시간">
+        <el-descriptions-item label="업데이트 시간">
           {{ currentRow.updateTime || "-" }}
         </el-descriptions-item>
         <el-descriptions-item label="비고" :span="2">
@@ -341,7 +341,7 @@ const detailDialogVisible = ref(false);
 const currentRow = ref<AiCommandRecordVO>();
 
 const statusText: Record<string, string> = {
-  pending: "待실행",
+  pending: "실행 대기",
   success: "성공",
   failed: "실패",
 };

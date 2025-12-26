@@ -9,40 +9,40 @@ const searchConfig: ISearchConfig = {
   cardAttrs: { shadow: "hover", style: { "margin-bottom": "12px" } },
   formItems: [
     {
-      tips: { effect: "light", placement: "top", content: "사용자 정의텍스트提示" },
+      tips: { effect: "light", placement: "top", content: "사용자 정의 텍스트 힌트" },
       type: "input",
-      label: "출력입프레임",
+      label: "입력창",
       prop: "testInput",
       attrs: { placeholder: "입력해주세요", clearable: true },
       events: {
         change: (e) => {
-          console.log("출력입프레임의값: ", e);
-          // 级联작업예제，필요해야사용reactive提前정의배열
+          console.log("입력창 값: ", e);
+          // 연쇄 작업 예제, reactive를 사용하여 배열을 미리 정의해야 함
           // selectOptions.push({ label: e, value: e });
         },
       },
     },
     {
       type: "input-number",
-      label: "숫자출력입프레임",
+      label: "숫자 입력창",
       prop: "testInputNumber",
       attrs: { placeholder: "입력해주세요", controls: false },
     },
     {
       type: "select",
-      label: "下拉선택프레임",
+      label: "드롭다운 선택창",
       prop: "testSelect",
-      attrs: { placeholder: "全部", clearable: true },
+      attrs: { placeholder: "전체", clearable: true },
       options: stateArr as any,
       events: {
         change(e) {
-          console.log("선택의값: ", e);
+          console.log("선택한 값: ", e);
         },
       },
     },
     {
       type: "tree-select",
-      label: "트리形선택프레임",
+      label: "트리 선택창",
       prop: "testTreeSelect",
       attrs: {
         placeholder: "선택해주세요",
@@ -53,18 +53,18 @@ const searchConfig: ISearchConfig = {
         clearable: true,
       },
       // async initFn(formItem) {
-      //   // 주의:만약initFn함수아님예箭头함수,this회의指에이설정항목객체,那么也就可以用this来替代形参formItem
+      //   // 주의: initFn 함수가 화살표 함수가 아닌 경우, this는 이 설정 항목 객체를 가리키므로 형식 매개변수 formItem 대신 this를 사용할 수 있음
       //   formItem.attrs.data = await DeptAPI.getOptions();
       // },
     },
     {
       type: "cascader",
-      label: "级联선택자",
+      label: "연쇄 선택기",
       prop: "testCascader",
       attrs: {
         placeholder: "선택해주세요",
         clearable: true,
-        속성: {
+        props: {
           expandTrigger: "hover",
           label: "label",
           value: "value",
@@ -102,43 +102,43 @@ const searchConfig: ISearchConfig = {
     },
     {
       type: "date-picker",
-      label: "범위선택자",
+      label: "범위 선택기",
       prop: "createAt",
       attrs: {
         type: "daterange",
         "range-separator": "~",
-        "start-placeholder": "시작시사이",
-        "end-placeholder": "截止시사이",
+        "start-placeholder": "시작시간",
+        "end-placeholder": "종료시간",
         "value-format": "YYYY-MM-DD",
       },
     },
     {
       type: "date-picker",
-      label: "날짜선택자",
+      label: "날짜 선택기",
       prop: "testDataPicker",
       attrs: { placeholder: "선택해주세요", type: "date" },
     },
     {
       type: "time-picker",
-      label: "시사이선택자",
+      label: "시간 선택기",
       prop: "testTimePicker",
       attrs: { placeholder: "선택해주세요", clearable: true },
     },
     {
       type: "time-select",
-      label: "시사이선택",
+      label: "시간 선택",
       prop: "testTimeSelect",
       attrs: { placeholder: "선택해주세요", clearable: true },
     },
     {
       type: "input-tag",
-      label: "태그선택자",
+      label: "태그 선택기",
       prop: "testInputTags",
       attrs: { placeholder: "선택해주세요", clearable: true },
     },
     {
       type: "custom-tag",
-      label: "태그선택자",
+      label: "태그 선택기",
       prop: "testCustomTags",
       attrs: {
         buttonAttrs: { btnText: "+ New Tag" },

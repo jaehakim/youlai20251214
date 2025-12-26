@@ -470,7 +470,7 @@ const pagination = reactive(
     ? { ...defaultPagination, ...props.contentConfig.pagination }
     : defaultPagination
 );
-// 페이지네이션관련의요청 파라미터
+// 페이지네이션 관련 요청 파라미터
 const request = props.contentConfig.request ?? {
   pageName: "pageNum",
   limitName: "pageSize",
@@ -802,7 +802,7 @@ function handleOperate(data: IOperateData) {
   }
 }
 
-// 속성수정
+// 속성 수정
 function handleModify(field: string, value: boolean | string | number, row: Record<string, any>) {
   if (props.contentConfig.modify액션) {
     props.contentConfig.modify액션({
@@ -811,11 +811,11 @@ function handleModify(field: string, value: boolean | string | number, row: Reco
       value,
     });
   } else {
-    ElMessage.error("미설정modify액션");
+    ElMessage.error("modify액션이 설정되지 않았습니다");
   }
 }
 
-// 페이지네이션切换
+// 페이지네이션 전환
 function handleSizeChange(value: number) {
   pagination.pageSize = value;
   handleRefresh();
@@ -848,13 +848,13 @@ function getFilterParams() {
   return filterParams;
 }
 
-// 조회페이지네이션데이터
+// 페이지네이션 데이터 조회
 let lastFormData = {};
 function fetchPageData(formData: IObject = {}, isRestart = false) {
   loading.value = true;
-  // 上한 번검색 조건
+  // 이전 검색 조건
   lastFormData = formData;
-  // 초기화페이지
+  // 페이지 초기화
   if (isRestart) {
     pagination.currentPage = 1;
   }
@@ -885,7 +885,7 @@ function fetchPageData(formData: IObject = {}, isRestart = false) {
 }
 fetchPageData();
 
-// 내보내기Excel
+// Excel 내보내기
 function exportPageData(formData: IObject = {}) {
   if (props.contentConfig.export액션) {
     props.contentConfig.export액션(formData).then((response) => {
@@ -896,11 +896,11 @@ function exportPageData(formData: IObject = {}) {
       saveXlsx(fileData, fileName);
     });
   } else {
-    ElMessage.error("미설정export액션");
+    ElMessage.error("export액션이 설정되지 않았습니다");
   }
 }
 
-// 浏览기기저장파일
+// 브라우저 파일 저장
 function saveXlsx(fileData: any, fileName: string) {
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8";
@@ -919,7 +919,7 @@ function saveXlsx(fileData: any, fileName: string) {
   window.URL.revokeObjectURL(downloadUrl);
 }
 
-// 暴露의속성및메서드
+// 노출된 속성 및 메서드
 defineExpose({ fetchPageData, exportPageData, getFilterParams, getSelectionData, handleRefresh });
 </script>
 

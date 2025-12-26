@@ -4,12 +4,12 @@ import type { ISelectConfig } from "@/components/TableSelect/index.vue";
 const selectConfig: ISelectConfig = {
   pk: "id",
   width: "70%",
-  placeholder: "선택해주세요사용자",
+  placeholder: "사용자를 선택해주세요",
   formItems: [
     {
       type: "input",
-      label: "关키字",
-      prop: "키words",
+      label: "키워드",
+      prop: "keywords",
       attrs: {
         placeholder: "사용자이름/닉네임/휴대폰",
         clearable: true,
@@ -31,7 +31,7 @@ const selectConfig: ISelectConfig = {
             children: [
               {
                 value: 2,
-                label: "研发부서",
+                label: "연구개발부서",
               },
               {
                 value: 3,
@@ -54,7 +54,7 @@ const selectConfig: ISelectConfig = {
       label: "상태",
       prop: "status",
       attrs: {
-        placeholder: "全部",
+        placeholder: "전체",
         clearable: true,
         style: {
           width: "100px",
@@ -67,13 +67,13 @@ const selectConfig: ISelectConfig = {
     },
     {
       type: "date-picker",
-      label: "생성시사이",
+      label: "생성시간",
       prop: "createAt",
       attrs: {
         type: "daterange",
         "range-separator": "~",
-        "start-placeholder": "시작시사이",
-        "end-placeholder": "截止시사이",
+        "start-placeholder": "시작시간",
+        "end-placeholder": "종료시간",
         "value-format": "YYYY-MM-DD",
         style: {
           width: "240px",
@@ -81,7 +81,7 @@ const selectConfig: ISelectConfig = {
       },
     },
   ],
-  index액션(params) {
+  indexAction(params) {
     if ("createAt" in params) {
       const createAt = params.createAt as string[];
       if (createAt?.length > 1) {
@@ -94,7 +94,7 @@ const selectConfig: ISelectConfig = {
   },
   tableColumns: [
     { type: "selection", width: 50, align: "center" },
-    { label: "编号", align: "center", prop: "id", width: 100 },
+    { label: "번호", align: "center", prop: "id", width: 100 },
     { label: "사용자이름", align: "center", prop: "username" },
     { label: "사용자닉네임", align: "center", prop: "nickname", width: 120 },
     {
@@ -114,7 +114,7 @@ const selectConfig: ISelectConfig = {
       templet: "custom",
       slotName: "status",
     },
-    { label: "생성시사이", align: "center", prop: "createTime", width: 180 },
+    { label: "생성시간", align: "center", prop: "createTime", width: 180 },
   ],
 };
 

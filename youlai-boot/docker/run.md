@@ -7,7 +7,7 @@
 docker-compose -f ./docker-compose.yml -p youlai-boot up -d
 ```
 
-- p youlai-boot 指定命名空间，避免与其他컨테이너충돌，这里方便관리，통계一관리그리고언마운트
+- p youlai-boot는 네임스페이스를 지정하여 다른 컨테이너와의 충돌을 방지하며, 관리의 편의를 위해 통합 관리 및 언마운트합니다.
 
 ## 제거
 ```bash

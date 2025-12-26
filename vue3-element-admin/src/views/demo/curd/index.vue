@@ -143,7 +143,7 @@ const {
   handleFilterChange,
 } = usePage();
 
-// 其他工具열
+// 기타 도구 모음
 function handleToolbarClick(name: string) {
   console.log(name);
   if (name === "custom1") {
@@ -156,14 +156,14 @@ const handleOperateClick = (data: IObject) => {
   if (data.name === "detail") {
     editModalConfig.drawer = { ...editModalConfig.drawer, title: "보기" };
     handleViewClick(data.row, async () => {
-      // 로딩下拉데이터源，제안在初始化설정항목 initFn 내로딩，避免多次요청求
+      // 드롭다운 데이터 소스 로딩, 초기화 설정 항목 initFn에서 로딩하는 것을 권장, 여러 번 요청 방지
       // editModalConfig.formItems[2]!.attrs!.data = await DeptAPI.getOptions();
-      return await UserAPI.getFormData(data.row.id); // 에 따라ID조회상세
+      return await UserAPI.getFormData(data.row.id); // ID에 따라 상세 조회
     });
   } else if (data.name === "edit") {
     editModalConfig.drawer = { ...editModalConfig.drawer, title: "수정" };
     handleEditClick(data.row, async () => {
-      return await UserAPI.getFormData(data.row.id); // 에 따라ID조회상세
+      return await UserAPI.getFormData(data.row.id); // ID에 따라 상세 조회
     });
   } else if (data.name === "reset_pwd") {
     ElMessageBox.prompt("사용자 「" + data.row.username + "」의 새 비밀번호를 입력하세요", "비밀번호 재설정", {
@@ -190,7 +190,7 @@ const handleOperateClick2 = (data: IOperateData) => {
     editModalConfig.drawer = { ...editModalConfig.drawer, title: "수정" };
     handleEditClick(data.row);
   } else if (data.name === "delete") {
-    ElMessage.success("模拟삭제성공");
+    ElMessage.success("삭제 시뮬레이션 성공");
   }
 };
 

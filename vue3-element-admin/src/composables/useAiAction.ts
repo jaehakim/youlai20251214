@@ -4,107 +4,107 @@ import { onMounted, onBeforeUnmount, nextTick } from "vue";
 import AiCommandApi from "@/api/ai";
 
 /**
- * AI 작업처리기기（简化版）
+ * AI 작업 처리기(간소화 버전)
  *
- * 可以예简단일함수，也可以예설정객체
+ * 단순 함수이거나 설정 객체일 수 있음
  */
 export type Ai액션Handler<T = any> =
   | ((args: T) => Promise<void> | void)
   | {
       /** 함수 실행 */
       execute: (args: T) => Promise<void> | void;
-      /** 여부필요해야확인（기본값 true） */
+      /** 확인 필요 여부(기본값 true) */
       needConfirm?: boolean;
-      /** 확인메시지（지원함수또는문자열） */
+      /** 확인 메시지(함수 또는 문자열 지원) */
       confirmMessage?: string | ((args: T) => string);
-      /** 성공메시지（지원함수또는문자열） */
+      /** 성공 메시지(함수 또는 문자열 지원) */
       successMessage?: string | ((args: T) => string);
-      /** 여부호출백엔드 API（기본값 false，만약로 true 그러면자동호출 executeCommand） */
+      /** 백엔드 API 호출 여부(기본값 false, true면 executeCommand 자동 호출) */
       callBackendApi?: boolean;
     };
 
 /**
- * AI 작업설정
+ * AI 작업 설정
  */
 export interface UseAi액션Options {
-  /** 작업매핑테이블：함수이름 -> 처리기기 */
+  /** 작업 매핑 테이블: 함수 이름 -> 처리기 */
   actionHandlers?: Record<string, Ai액션Handler>;
-  /** 데이터새로고침함수（작업완료후호출） */
+  /** 데이터 새로고침 함수(작업 완료 후 호출) */
   onRefresh?: () => Promise<void> | void;
-  /** 자동검색처리함수 */
+  /** 자동 검색 처리 함수 */
   onAutoSearch?: (키words: string) => void;
-  /** 当前라우팅경로（용도실행명령시传递） */
+  /** 현재 라우팅 경로(명령 실행 시 전달용) */
   currentRoute?: string;
 }
 
 /**
  * AI 작업 Composable
  *
- * 통계하나처리 AI 도우미传递의작업，지원：
- * - 자동검색（通거치 키words + autoSearch 파라미터）
- * - 실행 AI 작업（通거치 ai액션 파라미터）
- * - 설정化의작업처리기기
+ * AI 어시스턴트가 전달한 작업 통합 처리, 지원:
+ * - 자동 검색(키words + autoSearch 파라미터로)
+ * - AI 작업 실행(ai액션 파라미터로)
+ * - 설정 가능한 작업 처리기
  */
 export function useAi액션(options: UseAi액션Options = {}) {
   const route = useRoute();
   const { actionHandlers = {}, onRefresh, onAutoSearch, currentRoute = route.path } = options;
 
-  // 용도跟踪여부이미언마운트，방지에언마운트후실행콜백
+  // 언마운트 여부 추적용, 언마운트 후 콜백 실행 방지
   let isUnmounted = false;
 
   /**
-   * 실행 AI 작업（통계하나처리확인、실행、피드백流程）
+   * AI 작업 실행(확인, 실행, 피드백 통합 처리)
    */
   async function executeAi액션(action: any) {
     if (isUnmounted) return;
 
-    // 兼容两种입参：{ functionName, arguments } 또는 { functionCall: { name, arguments } }
+    // 두 가지 입력 파라미터 형식 호환: { functionName, arguments } 또는 { functionCall: { name, arguments } }
     const fnCall = action.functionCall ?? {
       name: action.functionName,
       arguments: action.arguments,
     };
 
     if (!fnCall?.name) {
-      ElMessage.warning("미识别의 AI 작업");
+      ElMessage.warning("인식되지 않은 AI 작업");
       return;
     }
 
-    // 조회对应의처리기기
+    // 해당 처리기 조회
     const handler = actionHandlers[fnCall.name];
     if (!handler) {
-      ElMessage.warning(`暂지원하지 않음작업: ${fnCall.name}`);
+      ElMessage.warning(`지원하지 않는 작업: ${fnCall.name}`);
       return;
     }
 
     try {
-      // 判断처리기기타입（함수 or 설정객체）
+      // 처리기 타입 판단(함수 또는 설정 객체)
       const isSimpleFunction = typeof handler === "function";
 
       if (isSimpleFunction) {
-        // 简단일함수形式：直接실행
+        // 단순 함수 형식: 직접 실행
         await handler(fnCall.arguments);
       } else {
-        // 설정객체形式：통계하나처리확인、실행、피드백
+        // 설정 객체 형식: 확인, 실행, 피드백 통합 처리
         const config = handler;
 
-        // 1. 확인阶段（기본값필요해야확인）
+        // 1. 확인 단계(기본값 확인 필요)
         if (config.needConfirm !== false) {
           const confirmMsg =
             typeof config.confirmMessage === "function"
               ? config.confirmMessage(fnCall.arguments)
-              : config.confirmMessage || "확인실행이작업하나？";
+              : config.confirmMessage || "이 작업을 실행하시겠습니까?";
 
-          await ElMessageBox.confirm(confirmMsg, "AI 도우미작업확인", {
-            confirmButtonText: "확인실행",
+          await ElMessageBox.confirm(confirmMsg, "AI 어시스턴트 작업 확인", {
+            confirmButtonText: "확인 실행",
             cancelButtonText: "취소",
             type: "warning",
             dangerouslyUseHTMLString: true,
           });
         }
 
-        // 2. 실행阶段
+        // 2. 실행 단계
         if (config.callBackendApi) {
-          // 자동호출백엔드 API
+          // 백엔드 API 자동 호출
           await AiCommandApi.executeCommand({
             originalCommand: action.originalCommand || "",
             confirmMode: "manual",
@@ -116,36 +116,36 @@ export function useAi액션(options: UseAi액션Options = {}) {
             },
           });
         } else {
-          // 실행사용자 정의함수
+          // 사용자 정의 함수 실행
           await config.execute(fnCall.arguments);
         }
 
-        // 3. 성공피드백
+        // 3. 성공 피드백
         const successMsg =
           typeof config.successMessage === "function"
             ? config.successMessage(fnCall.arguments)
-            : config.successMessage || "작업실행성공";
+            : config.successMessage || "작업 실행 성공";
         ElMessage.success(successMsg);
       }
 
-      // 4. 새로고침데이터
+      // 4. 데이터 새로고침
       if (onRefresh) {
         await onRefresh();
       }
     } catch (error: any) {
-      // 처리취소작업
+      // 작업 취소 처리
       if (error === "cancel") {
-        ElMessage.info("이미취소작업");
+        ElMessage.info("작업이 취소되었습니다");
         return;
       }
 
-      console.error("AI 작업실행실패:", error);
-      ElMessage.error(error.message || "작업실행실패");
+      console.error("AI 작업 실행 실패:", error);
+      ElMessage.error(error.message || "작업 실행 실패");
     }
   }
 
   /**
-   * 실행백엔드명령（通用메서드）
+   * 백엔드 명령 실행(공통 메서드)
    */
   async function executeCommand(
     functionName: string,
@@ -164,17 +164,17 @@ export function useAi액션(options: UseAi액션Options = {}) {
       confirmMessage,
     } = options;
 
-    // 만약필요해야확인，先표시확인다이얼로그
+    // 확인이 필요하면 먼저 확인 다이얼로그 표시
     if (needConfirm && confirmMessage) {
       try {
-        await ElMessageBox.confirm(confirmMessage, "AI 도우미작업확인", {
-          confirmButtonText: "확인실행",
+        await ElMessageBox.confirm(confirmMessage, "AI 어시스턴트 작업 확인", {
+          confirmButtonText: "확인 실행",
           cancelButtonText: "취소",
           type: "warning",
           dangerouslyUseHTMLString: true,
         });
       } catch {
-        ElMessage.info("이미취소작업");
+        ElMessage.info("작업이 취소되었습니다");
         return;
       }
     }
@@ -191,7 +191,7 @@ export function useAi액션(options: UseAi액션Options = {}) {
         },
       });
 
-      ElMessage.success("작업실행성공");
+      ElMessage.success("작업 실행 성공");
     } catch (error: any) {
       if (error !== "cancel") {
         throw error;
@@ -200,63 +200,63 @@ export function useAi액션(options: UseAi액션Options = {}) {
   }
 
   /**
-   * 처리자동검색
+   * 자동 검색 처리
    */
   function handleAutoSearch(키words: string) {
     if (onAutoSearch) {
       onAutoSearch(키words);
     } else {
-      ElMessage.info(`AI 도우미이미로귀사자동검색：${키words}`);
+      ElMessage.info(`AI 어시스턴트가 자동 검색을 수행했습니다: ${키words}`);
     }
   }
 
   /**
-   * 초기화：처리 URL 파라미터의 AI 작업
+   * 초기화: URL 파라미터의 AI 작업 처리
    *
-   * 주의：이메서드오직처리 AI 관련파라미터，아님负责페이지데이터의初始로드
-   * 페이지데이터로드应由컴포넌트의 onMounted 훅自행처리
+   * 주의: 이 메서드는 AI 관련 파라미터만 처리하며, 페이지 데이터 초기 로드는 담당하지 않음
+   * 페이지 데이터 로드는 컴포넌트의 onMounted 훅에서 직접 처리해야 함
    */
   async function init() {
     if (isUnmounted) return;
 
-    // 확인여부있음 AI 도우미传递의파라미터
+    // AI 어시스턴트가 전달한 파라미터 확인
     const 키words = route.query.키words as string;
     const autoSearch = route.query.autoSearch as string;
     const ai액션Param = route.query.ai액션 as string;
 
-    // 만약없음任何 AI 파라미터，直接돌아가기
+    // AI 파라미터가 없으면 바로 반환
     if (!키words && !autoSearch && !ai액션Param) {
       return;
     }
 
-    // 에 nextTick 내실행，보장페이지데이터이미로드
+    // nextTick 내에서 실행, 페이지 데이터가 로드되었는지 확인
     nextTick(async () => {
       if (isUnmounted) return;
 
-      // 1. 처리자동검색
+      // 1. 자동 검색 처리
       if (autoSearch === "true" && 키words) {
         handleAutoSearch(키words);
       }
 
-      // 2. 처리 AI 작업
+      // 2. AI 작업 처리
       if (ai액션Param) {
         try {
           const ai액션 = JSON.parse(decodeURIComponent(ai액션Param));
           await executeAi액션(ai액션);
         } catch (error) {
-          console.error("파싱 AI 작업실패:", error);
-          ElMessage.error("AI 작업파라미터파싱실패");
+          console.error("AI 작업 파싱 실패:", error);
+          ElMessage.error("AI 작업 파라미터 파싱 실패");
         }
       }
     });
   }
 
-  // 컴포넌트마운트시자동초기화
+  // 컴포넌트 마운트 시 자동 초기화
   onMounted(() => {
     init();
   });
 
-  // 컴포넌트언마운트시정리
+  // 컴포넌트 언마운트 시 정리
   onBeforeUnmount(() => {
     isUnmounted = true;
   });

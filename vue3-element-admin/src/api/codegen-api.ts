@@ -47,7 +47,7 @@ const GeneratorAPI = {
   },
 
   /**
-   * 다운로드 ZIP 文件
+   * ZIP 파일 다운로드
    * @param url
    * @param fileName
    */
@@ -65,7 +65,7 @@ const GeneratorAPI = {
       const blob = new Blob([response.data], { type: "application/zip" });
       const a = document.createElement("a");
       const url = window.URL.createObjectURL(blob);
-      a.h참조 = url;
+      a.href = url;
       a.download = fileName;
       a.click();
       window.URL.revokeObjectURL(url);
@@ -85,10 +85,10 @@ export interface GeneratorPreviewVO {
   content: string;
 }
 
-/**  데이터 테이블 페이지 쿼리 파라미터 */
+/** 데이터 테이블 페이지 쿼리 파라미터 */
 export interface TablePageQuery extends PageQuery {
   /** 키워드(테이블명) */
-  키words?: string;
+  keywords?: string;
 }
 
 /** 데이터 테이블 페이지 객체 */
@@ -147,7 +147,7 @@ export interface GenConfigForm {
   pageType?: "classic" | "curd";
 
   /** 제거할 테이블 접두사, 예: sys_ */
-  removeTableP참조ix?: string;
+  removeTablePrefix?: string;
 }
 
 /** 필드 설정 */

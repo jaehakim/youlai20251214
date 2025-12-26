@@ -1,17 +1,17 @@
 import type { App } from "vue";
 import { createPinia } from "pinia";
 
-const 저장소 = createPinia();
+const store = createPinia();
 
-// 글로벌등록 저장소
-export function setup스토어(app: App<Element>) {
-  app.use(저장소);
+// 전역 등록 스토어
+export function setupStore(app: App<Element>) {
+  app.use(store);
 }
 
-export * from "./modules/app-저장소";
-export * from "./modules/permission-저장소";
-export * from "./modules/settings-저장소";
-export * from "./modules/tags-view-저장소";
-export * from "./modules/user-저장소";
-export * from "./modules/dict-저장소";
-export { 저장소 };
+export * from "./modules/app-store";
+export * from "./modules/permission-store";
+export * from "./modules/settings-store";
+export * from "./modules/tags-view-store";
+export * from "./modules/user-store";
+export * from "./modules/dict-store";
+export { store };

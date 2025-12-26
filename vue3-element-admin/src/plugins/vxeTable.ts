@@ -1,15 +1,15 @@
 import type { App } from "vue";
 import VXETable from "vxe-table"; // https://vxetable.cn/v4.6/#/table/start/install
 
-// 글로벌기본값파라미터
+// 글로벌 기본값 파라미터
 VXETable.setConfig({
-  // 글로벌尺寸
+  // 글로벌 크기
   size: "medium",
-  // 글로벌 zIndex 起始값，만약항목目의의 z-index 스타일값거치大시就필요해야跟随설정更大，避免被遮挡
+  // 글로벌 zIndex 시작값, 프로젝트의 z-index 스타일 값이 크면 이보다 크게 설정해야 가려지지 않음
   zIndex: 9999,
-  // 버전 번호，对于某些带데이터캐시의기능있음用到，上升버전 번호可以용도초기화데이터
+  // 버전 번호, 데이터 캐시가 있는 일부 기능에서 사용됨, 버전 번호를 올리면 데이터 초기화에 사용할 수 있음
   version: 0,
-  // 글로벌 loading 提示콘텐츠，만약로 null 그러면아님표시텍스트
+  // 글로벌 loading 힌트 내용, null이면 텍스트 표시 안 함
   loadingText: null,
   table: {
     showHeader: true,
@@ -19,12 +19,12 @@ VXETable.setConfig({
     // stripe: false,
     border: "inner",
     // round: false,
-    emptyText: "暂无데이터",
+    emptyText: "데이터 없음",
     rowConfig: {
       isHover: true,
       isCurrent: true,
-      // 행데이터의唯하나주요키필드이름
-      키Field: "_VXE_ID",
+      // 행 데이터의 유일한 기본 키 필드 이름
+      keyField: "_VXE_ID",
     },
     columnConfig: {
       resizable: false,
@@ -34,7 +34,7 @@ VXETable.setConfig({
   },
   pager: {
     // size: "medium",
-    // 配套의스타일
+    // 매칭되는 스타일
     perfect: false,
     pageSize: 10,
     pagerCount: 7,
@@ -65,6 +65,6 @@ VXETable.setConfig({
 });
 
 export function setupVxeTable(app: App) {
-  // Vxe Table 컴포넌트完整引입
+  // Vxe Table 컴포넌트 완전히 가져오기
   app.use(VXETable);
 }
