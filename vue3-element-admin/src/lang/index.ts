@@ -4,12 +4,14 @@ import { useAppStoreHook } from "@/store/modules/app-store";
 // 로컬언어패키지
 import enLocale from "./package/en.json";
 import zhCnLocale from "./package/zh-cn.json";
+import koLocale from "./package/ko.json";
 
 const appStore = useAppStoreHook();
 
 const messages = {
   "zh-cn": zhCnLocale,
   en: enLocale,
+  ko: koLocale,
 };
 
 const i18n = createI18n({

@@ -3,6 +3,7 @@ import { defaultSettings } from "@/settings";
 // Element Plus 영문 언어 패키지 가져오기
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 import en from "element-plus/es/locale/lang/en";
+import ko from "element-plus/es/locale/lang/ko";
 import { store } from "@/store";
 import { DeviceEnum } from "@/enums/settings/device-enum";
 import { SidebarStatus } from "@/enums/settings/layout-enum";
@@ -31,6 +32,8 @@ export const useAppStore = defineStore("app", () => {
   const locale = computed(() => {
     if (language?.value == "en") {
       return en;
+    } else if (language?.value == "ko") {
+      return ko;
     } else {
       return zhCn;
     }

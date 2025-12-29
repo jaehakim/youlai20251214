@@ -28,8 +28,9 @@ defineProps({
 });
 
 const langOptions = [
-  { label: "중국어", value: LanguageEnum.ZH_CN },
+  { label: "中文", value: LanguageEnum.ZH_CN },
   { label: "English", value: LanguageEnum.EN },
+  { label: "한국어", value: LanguageEnum.KO },
 ];
 
 const appStore = useAppStore();
