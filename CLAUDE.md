@@ -135,6 +135,31 @@ pnpm run lint:stylelint        # Stylelint만
 pnpm run commit
 ```
 
+### 프론트엔드 프로젝트 구조
+
+```
+src/
+├── router/              # Vue Router 4 라우팅 설정 (RBAC 기반 동적 라우팅)
+├── views/               # 페이지 컴포넌트
+├── api/                 # Axios API 클라이언트 및 인터셉터
+├── stores/              # Pinia 상태 관리 스토어
+├── components/          # 재사용 가능한 UI 컴포넌트
+├── composables/         # 재사용 가능한 Vue 컴포저블
+├── lang/                # 다국어 번역 (영어/중국어/한국어)
+├── styles/              # 전역 스타일 및 SCSS 변수
+├── utils/               # 유틸리티 함수
+├── enums/               # TypeScript 열거형
+├── types/               # TypeScript 타입 정의
+├── constants/           # 프로젝트 전역 상수
+└── main.ts              # 애플리케이션 진입점
+```
+
+**주요 특징:**
+- **자동 임포트**: `unplugin-auto-import` & `unplugin-vue-components` 사용
+- **타입 안전**: 전체 TypeScript 기반 개발
+- **동적 라우팅**: RBAC 권한 기반 라우트 자동 생성
+- **다국어 지원**: Vue I18n으로 영어/중국어/한국어 지원
+
 ### 개발 환경 설정
 
 1. **Node 버전**: ^20.19.0 또는 >=22.12.0 (LTS 권장)
@@ -151,19 +176,22 @@ pnpm run commit
 - **기본값**: 타입 생성 비활성화 (`dts: false`)
 - **타입 재생성**: `vite.config.ts`에서 `dts`를 파일 경로로 설정, dev 실행 후 다시 `false`로 변경
 
-### 코드 품질
+### 코드 품질 및 DevOps
 
+**린팅 및 포맷팅:**
 - **ESLint 9**: TypeScript, Vue, Prettier 플러그인 포함
 - **Stylelint 16**: SCSS, Vue 지원
-- **Husky + lint-staged**: 커밋 전 린트 훅
+- **Prettier**: 자동 코드 포매팅
+- **Husky + lint-staged**: 커밋 전 린트 훅 자동 실행
 - **Commitlint**: Conventional commit 메시지 강제
 
-### 빌드 설정
-
-- **청크 크기 제한**: 2000kb
-- **압축**: 프로덕션에서 Terser 사용 (console.log, debugger, 주석 제거)
-- **코드 스플리팅**: 해시 기반 네이밍으로 자동 분할
+**빌드 최적화:**
+- **코드 분할**: 해시 기반 네이밍으로 자동 분할
+- **번들 압축**: 프로덕션에서 Terser 사용
+- **선택적 제거**: console.log, debugger, 주석 프로덕션 제거
+- **청크 크기 제한**: 2000kb (대용량 번들 경고)
 - **자산 구성**: `js/`, `img/`, `fonts/`, `media/` 디렉토리
+
 
 ## 프론트엔드-백엔드 통합
 
@@ -175,35 +203,76 @@ pnpm run commit
 
 ### 공유 개념
 
+**데이터 계층 아키텍처:**
+
+```
+API 요청 → query → form → bo → service → mapper → entity
+API 응답 → dto/vo ← service ← mapper ← entity
+```
+
+- **Entity**: 데이터베이스 엔티티 모델
+- **DTO**: 데이터 전송 객체 (API 응답에 사용)
+- **VO**: 뷰 객체 (복잡한 쿼리 결과 조합)
+- **Form**: 요청 본문 객체 (API 입력)
+- **Query**: 쿼리 파라미터 (목록/검색 필터)
+- **BO**: 비즈니스 객체 (내부 비즈니스 로직)
+
+**권한 관리:**
 - **RBAC**: 메뉴/버튼 권한을 가진 역할 기반 접근 제어
-- **데이터 모델**:
-  - `entity`: 데이터베이스 엔티티
-  - `dto`: 데이터 전송 객체 (API 응답)
-  - `vo`: 뷰 객체 (복잡한 쿼리)
-  - `form`: 요청 본문 (API 입력)
-  - `query`: 쿼리 파라미터 (목록/검색)
-  - `bo`: 비즈니스 객체 (내부 로직)
+- **메뉴 관리**: 시스템 메뉴 및 버튼 권한 정의
+- **동적 라우팅**: 프론트엔드에서 사용자 권한에 따라 메뉴/라우트 자동 생성
 
 ## 개발 워크플로우
 
 ### 새 기능 모듈 추가
 
-1. **백엔드**:
-   - `/api/v1/codegen`에서 코드 생성기 사용 (Knife4j 문서)
-   - 생성: Entity, Mapper, Service, Controller, XML
-   - `system/converter`에 MapStruct 컨버터 추가
-   - 메뉴 관리에서 권한 추가
+**1. 백엔드 개발:**
+   - 데이터베이스 테이블 생성 (`youlai-boot/sql/mysql/`)
+   - `/api/v1/codegen`에서 코드 생성기 사용 (Knife4j 문서에서)
+   - 생성되는 파일: Entity, Mapper, Service, Controller, XML 매퍼
+   - `system/converter`에 MapStruct 컨버터 추가 (Entity ↔ DTO/VO/Form 변환)
+   - 비즈니스 로직 구현 (Service 레이어)
+   - 메뉴 관리 시스템에서 권한 추가 및 설정
 
-2. **프론트엔드**:
-   - `src/router/modules`에 라우트 추가
-   - `src/views`에 뷰 생성
-   - `src/api`에 API 호출 추가
-   - `src/lang`에서 i18n 업데이트
+**2. 프론트엔드 개발:**
+   - `src/router/modules`에 라우트 정의 추가
+   - `src/views`에 Vue 페이지 컴포넌트 생성
+   - `src/api`에 API 호출 함수 추가
+   - `src/lang`에서 다국어(i18n) 문자열 업데이트
+   - Element-Plus 컴포넌트로 UI 구성
+
+**3. 테스트 및 배포:**
+   - Knife4j API 문서로 엔드포인트 테스트
+   - 백엔드 `mvn test` 실행
+   - 프론트엔드 `pnpm run lint` 및 `pnpm run type-check` 실행
+   - 프로덕션 빌드 테스트 (`pnpm run build`)
 
 ### API 테스트
 
 - Knife4j: http://localhost:8989/doc.html
 - 온라인 Apifox: https://www.apifox.cn/apidoc/shared-195e783f-4d85-4235-a038-eec696de4ea5
+
+### API 엔드포인트 설계
+
+**명명 규칙:**
+```
+GET    /api/v1/{resource}              # 목록 조회 (페이지네이션)
+GET    /api/v1/{resource}/{id}         # 상세 조회
+GET    /api/v1/{resource}/{id}/detail  # 상세 조회 (복잡한 경우)
+POST   /api/v1/{resource}              # 생성
+PUT    /api/v1/{resource}/{id}         # 수정
+DELETE /api/v1/{resource}/{id}         # 삭제
+```
+
+**쿼리 파라미터:**
+- `pageNum`: 페이지 번호 (기본값: 1)
+- `pageSize`: 페이지당 행 수 (기본값: 10)
+- `keywords`: 검색 키워드
+- 기타 필터: DTO의 Query 클래스에 정의
+
+**주의사항:**
+- API 경로와 프론트엔드에서 호출하는 경로가 일치해야 함
+- 예: 백엔드 `/my` → 프론트엔드도 `/my` (not `/my-page`)
 
 ### 데이터베이스 변경
 
@@ -213,11 +282,43 @@ pnpm run commit
 
 ## 중요 참고 사항
 
+### 보안 및 세션
+
 - **세션 관리**: `security.session.type`을 `jwt`와 `redis-token` 간 변경 시 로그아웃/리프레시 전략이 달라짐
+- **CSRF 설정**: Spring Security 6에서 비활성화됨 (JWT 기반 무상태 인증 사용)
+- **토큰 TTL**: 액세스 토큰 2시간, 리프레시 토큰 7일 (`application-dev.yml`에서 설정 가능)
+
+### 기능별 주의사항
+
 - **다중 테넌시**: 미구현 (단일 테넌트 시스템)
 - **파일 업로드**: 기본 최대 50MB (`application.yml`에서 설정 가능)
 - **캡차 타입**: `circle`, `gif`, `line`, `shear` (수식 또는 랜덤, `application-dev.yml`에서 설정)
 - **XXL-Job**: 기본값 비활성화 (`xxl.job.enabled=false`), 스케줄 작업 필요시 활성화
+- **WebSocket**: 설정 파일에서 비활성화됨 (`VITE_APP_WS_ENDPOINT=` 빈 값)
+
+### 로컬 개발 환경 빠른 시작
+
+**필수 구성요소:**
+```bash
+# 백엔드 실행
+cd youlai-boot
+mvn spring-boot:run
+# 또는 IDE에서 YouLaiBootApplication.java 실행
+
+# 프론트엔드 실행 (새로운 터미널)
+cd vue3-element-admin
+pnpm install  # 처음 한 번만
+pnpm run dev
+```
+
+**접근 주소:**
+- 프론트엔드: http://localhost:3000
+- 백엔드 API: http://localhost:8989
+- API 문서 (Knife4j): http://localhost:8989/doc.html
+
+**기본 인증 정보:**
+- 사용자명: admin
+- 비밀번호: admin123
 
 ## 총 455개 파일에 중국어가 포함
   총 454개 파일 남음:
