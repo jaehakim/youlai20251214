@@ -23,7 +23,7 @@ export const defaultSettings: AppSettings = {
   // 컴포넌트 크기 default | medium | small | large
   size: ComponentSize.DEFAULT,
   // 언어
-  language: LanguageEnum.ZH_CN,
+  language: LanguageEnum.KO,
   // 테마 색상 - 이 값 수정 시 src/styles/variables.scss도 동기 수정 필요
   themeColor: "#4080FF",
   // 워터마크 표시 여부
