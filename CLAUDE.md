@@ -469,12 +469,12 @@ height = calc(100vh - 84px - [페이지 내 요소 높이])
 
 **화면 구성별 권장 높이:**
 
-| 화면 구성 | 계산 | 권장 높이 |
-|----------|------|----------|
-| 검색 + 그리드 + pagination | 84 + 52 + 40 + 50 + 58(여유) | `calc(100vh - 84px - 200px)` |
-| 검색 + 툴바 + 그리드 + pagination | 84 + 52 + 50 + 40 + 50 + 34(여유) | `calc(100vh - 84px - 226px)` |
-| 검색 + 툴바 + 그리드 + pagination (왼쪽 트리 있음) | 추가 공간 필요 | `calc(100vh - 84px - 266px)` |
-| 다이얼로그 내 그리드 | 고정 높이 사용 | `max-height="400px"` ~ `500px` |
+| 화면 구성 | 권장 높이 | 예시 페이지 |
+|----------|----------|------------|
+| 검색 + 그리드 + pagination | `calc(100vh - 84px - 200px)` | system/log |
+| 검색 + 툴바 + 그리드 + pagination | `calc(100vh - 84px - 236px)` | system/config, dict, role, notice |
+| 검색 + 툴바 + 그리드 + pagination (왼쪽 트리 있음) | `calc(100vh - 84px - 266px)` | system/user |
+| 다이얼로그 내 그리드 | `max-height="400px"` ~ `500px` | - |
 
 **주의사항:**
 - 위 높이는 참고용이며, 실제 화면에서 스크롤 유무를 확인하여 조정 필요
@@ -485,6 +485,21 @@ height = calc(100vh - 84px - [페이지 내 요소 높이])
 - 테이블 내부에서 스크롤 발생 → 헤더가 상단에 고정
 - 대량 데이터 조회 시에도 컬럼 헤더 항상 표시
 - 불필요한 페이지 수직 스크롤 방지
+
+### 테이블 헤더 스타일
+
+테이블 헤더에 배경색과 굵은 글씨를 적용하세요.
+
+```scss
+:deep(.el-table__header th) {
+  background-color: #e0e0e0 !important;
+  font-weight: bold !important;
+}
+```
+
+**이유:**
+- 헤더와 데이터 행 구분 명확
+- 전체 시스템 화면의 일관된 스타일 유지
 
 ### 페이지네이션 스타일
 
@@ -548,6 +563,266 @@ height = calc(100vh - 84px - [페이지 내 요소 높이])
   justify-content: center;
 }
 ```
+
+### 시스템 화면 공통 구조
+
+system 폴더의 화면들은 다음과 같은 공통 구조를 따릅니다.
+
+```vue
+<template>
+  <div class="app-container">
+    <!-- 검색 영역 -->
+    <div class="search-container">
+      <el-form ref="queryFormRef" :model="queryParams" :inline="true" @submit.prevent>
+        <el-form-item label="키워드" prop="keywords">
+          <el-input
+            v-model="queryParams.keywords"
+            placeholder="검색어"
+            clearable
+            style="width: 200px"
+            @keyup.enter="handleQuery"
+          />
+        </el-form-item>
+        <el-form-item class="search-buttons">
+          <el-button type="primary" icon="search" @click="handleQuery">검색</el-button>
+          <el-button icon="refresh" @click="handleResetQuery">초기화</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <el-card shadow="hover" class="data-table">
+      <!-- 툴바 영역 -->
+      <div class="data-table__toolbar">
+        <div class="data-table__toolbar--actions">
+          <el-button type="success" icon="plus" @click="handleOpenDialog()">추가</el-button>
+          <el-button type="danger" :disabled="ids.length === 0" icon="delete" @click="handleDelete()">삭제</el-button>
+        </div>
+      </div>
+
+      <!-- 테이블 -->
+      <el-table
+        ref="dataTableRef"
+        v-loading="loading"
+        :data="pageData"
+        highlight-current-row
+        class="data-table__content"
+        border
+        stripe
+        height="calc(100vh - 84px - 236px)"
+        @selection-change="handleSelectionChange"
+      >
+        <el-table-column type="selection" width="55" align="center" />
+        <el-table-column type="index" label="번호" width="60" />
+        <!-- 데이터 컬럼들 -->
+        <el-table-column fixed="right" label="작업" width="220">
+          <template #default="scope">
+            <el-button type="primary" size="small" link icon="edit" @click="handleOpenDialog(scope.row.id)">편집</el-button>
+            <el-button type="danger" size="small" link icon="delete" @click="handleDelete(scope.row.id)">삭제</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
+
+    <!-- Fixed Pagination -->
+    <div v-if="total > 0" class="fixed-pagination">
+      <pagination
+        v-model:total="total"
+        v-model:page="queryParams.pageNum"
+        v-model:limit="queryParams.pageSize"
+        @pagination="fetchData"
+      />
+    </div>
+
+    <!-- 폼 다이얼로그 -->
+    <el-dialog
+      v-model="dialog.visible"
+      :title="dialog.title"
+      width="500px"
+      :close-on-click-modal="false"
+      @close="handleCloseDialog"
+    >
+      <el-form ref="dataFormRef" :model="formData" :rules="rules" label-width="100px">
+        <!-- 폼 필드들 -->
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button type="primary" @click="handleSubmit">확인</el-button>
+          <el-button @click="handleCloseDialog">취소</el-button>
+        </div>
+      </template>
+    </el-dialog>
+  </div>
+</template>
+```
+
+### 시스템 화면 공통 CSS 패턴
+
+system 화면에서 사용하는 공통 스타일입니다.
+
+```scss
+<style scoped lang="scss">
+.app-container {
+  overflow: hidden;
+}
+
+.fixed-pagination {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  background: var(--el-bg-color-overlay, #fff);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
+  z-index: 100;
+  padding: 0 !important;
+  display: flex;
+  justify-content: center;
+}
+
+:deep(.el-pagination) {
+  margin: 0 !important;
+}
+
+:deep(.el-table__header th) {
+  background-color: #e0e0e0 !important;
+  font-weight: bold !important;
+}
+</style>
+```
+
+**필수 CSS 클래스 설명:**
+
+| 클래스 | 설명 |
+|-------|------|
+| `.app-container { overflow: hidden }` | 불필요한 페이지 스크롤 방지 |
+| `.fixed-pagination` | 화면 하단에 페이지네이션 고정 |
+| `:deep(.el-pagination)` | pagination 컴포넌트의 기본 마진 제거 |
+| `:deep(.el-table__header th)` | 테이블 헤더 스타일 커스터마이징 |
+
+### 시스템 화면 공통 함수 패턴
+
+system 화면에서 사용하는 공통 함수 구조입니다.
+
+```typescript
+// 데이터 가져오기
+function fetchData() {
+  loading.value = true;
+  SomeAPI.getPage(queryParams)
+    .then((data) => {
+      pageData.value = data.list;
+      total.value = data.total;
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+}
+
+// 조회 (페이지 초기화 후 데이터 가져오기)
+function handleQuery() {
+  queryParams.pageNum = 1;
+  fetchData();
+}
+
+// 조회 초기화
+function handleResetQuery() {
+  queryFormRef.value.resetFields();
+  queryParams.pageNum = 1;
+  fetchData();
+}
+
+// 행 체크박스 선택 변화
+function handleSelectionChange(selection: any) {
+  ids.value = selection.map((item: any) => item.id);
+}
+
+// 다이얼로그 열기 (추가/수정)
+function handleOpenDialog(id?: string) {
+  dialog.visible = true;
+  if (id) {
+    dialog.title = "수정";
+    SomeAPI.getFormData(id).then((data) => {
+      Object.assign(formData, data);
+    });
+  } else {
+    dialog.title = "추가";
+  }
+}
+
+// 다이얼로그 닫기
+function handleCloseDialog() {
+  dialog.visible = false;
+  dataFormRef.value.resetFields();
+  dataFormRef.value.clearValidate();
+  formData.id = undefined;
+}
+
+// 폼 제출 (추가/수정)
+function handleSubmit() {
+  dataFormRef.value.validate((valid: any) => {
+    if (valid) {
+      loading.value = true;
+      const id = formData.id;
+      if (id) {
+        SomeAPI.update(id, formData)
+          .then(() => {
+            ElMessage.success("수정 성공");
+            handleCloseDialog();
+            handleResetQuery();
+          })
+          .finally(() => (loading.value = false));
+      } else {
+        SomeAPI.create(formData)
+          .then(() => {
+            ElMessage.success("추가 성공");
+            handleCloseDialog();
+            handleResetQuery();
+          })
+          .finally(() => (loading.value = false));
+      }
+    }
+  });
+}
+
+// 삭제
+function handleDelete(id?: number) {
+  const deleteIds = [id || ids.value].join(",");
+  if (!deleteIds) {
+    ElMessage.warning("삭제할 항목을 선택하세요");
+    return;
+  }
+  ElMessageBox.confirm("선택한 데이터 항목을 삭제하시겠습니까?", "경고", {
+    confirmButtonText: "확인",
+    cancelButtonText: "취소",
+    type: "warning",
+  }).then(
+    () => {
+      loading.value = true;
+      SomeAPI.deleteByIds(deleteIds)
+        .then(() => {
+          ElMessage.success("삭제 성공");
+          handleResetQuery();
+        })
+        .finally(() => (loading.value = false));
+    },
+    () => {
+      ElMessage.info("삭제가 취소되었습니다");
+    }
+  );
+}
+
+// 마운트 시 데이터 로드
+onMounted(() => {
+  handleQuery();
+});
+```
+
+**함수 네이밍 규칙:**
+
+| 접두사 | 용도 | 예시 |
+|-------|------|------|
+| `fetch` | 데이터 가져오기 | `fetchData()` |
+| `handle` | 이벤트 핸들러 | `handleQuery()`, `handleSubmit()` |
+| `open` / `close` | 다이얼로그 열기/닫기 | `openDetailDialog()`, `closeDialog()` |
+| `reset` | 폼/상태 초기화 | `resetForm()` |
 
 ### 그리드 정렬 기능 (Frontend + Backend)
 
