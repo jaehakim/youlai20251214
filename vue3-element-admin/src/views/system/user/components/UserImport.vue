@@ -5,6 +5,7 @@
       :align-center="true"
       title="데이터 가져오기"
       width="600px"
+      :close-on-click-modal="false"
       @close="handleClose"
     >
       <el-scrollbar max-height="60vh">
@@ -64,7 +65,7 @@
       </template>
     </el-dialog>
 
-    <el-dialog v-model="resultVisible" title="가져오기 결과" width="600px">
+    <el-dialog v-model="resultVisible" title="가져오기 결과" width="600px" :close-on-click-modal="false">
       <el-alert
         :title="`가져오기 결과：${invalidCount}개 유효하지 않은 데이터，${validCount}개 유효한 데이터`"
         type="warning"

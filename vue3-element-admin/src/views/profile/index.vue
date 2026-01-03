@@ -134,7 +134,7 @@
     </el-row>
 
     <!-- 다이얼로그 -->
-    <el-dialog v-model="dialog.visible" :title="dialog.title" :width="500">
+    <el-dialog v-model="dialog.visible" :title="dialog.title" :width="500" :close-on-click-modal="false">
       <!-- 계정 정보 -->
       <el-form
         v-if="dialog.type === DialogType.ACCOUNT"

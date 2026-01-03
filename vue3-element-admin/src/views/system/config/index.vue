@@ -3,12 +3,13 @@
   <div class="app-container">
     <!-- 검색 영역 -->
     <div class="search-container">
-      <el-form ref="queryFormRef" :model="queryParams" :inline="true">
+      <el-form ref="queryFormRef" :model="queryParams" :inline="true" @submit.prevent>
         <el-form-item label="키워드" prop="keywords">
           <el-input
             v-model="queryParams.keywords"
             placeholder="설정 키\설정 이름을 입력하세요"
             clearable
+            style="width: 250px"
             @keyup.enter="handleQuery"
           />
         </el-form-item>
@@ -49,6 +50,8 @@
         highlight-current-row
         class="data-table__content"
         border
+        stripe
+        height="calc(100vh - 84px - 236px)"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="index" label="번호" width="60" />
@@ -82,20 +85,24 @@
         </el-table-column>
       </el-table>
 
+    </el-card>
+
+    <!-- Fixed Pagination -->
+    <div v-if="total > 0" class="fixed-pagination">
       <pagination
-        v-if="total > 0"
         v-model:total="total"
         v-model:page="queryParams.pageNum"
         v-model:limit="queryParams.pageSize"
         @pagination="fetchData"
       />
-    </el-card>
+    </div>
 
     <!-- 시스템 설정 폼 다이얼로그 -->
     <el-dialog
       v-model="dialog.visible"
       :title="dialog.title"
       width="500px"
+      :close-on-click-modal="false"
       @close="handleCloseDialog"
     >
       <el-form
@@ -293,3 +300,31 @@ onMounted(() => {
   handleQuery();
 });
 </script>
+
+<style scoped lang="scss">
+.app-container {
+  overflow: hidden;
+}
+
+.fixed-pagination {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  background: var(--el-bg-color-overlay, #fff);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
+  z-index: 100;
+  padding: 0 !important;
+  display: flex;
+  justify-content: center;
+}
+
+:deep(.el-pagination) {
+  margin: 0 !important;
+}
+
+:deep(.el-table__header th) {
+  background-color: #e0e0e0 !important;
+  font-weight: bold !important;
+}
+</style>

@@ -2,11 +2,13 @@
   <div class="app-container">
     <!-- 검색 영역 -->
     <div class="search-container">
-      <el-form ref="queryFormRef" :model="queryParams" :inline="true">
+      <el-form ref="queryFormRef" :model="queryParams" :inline="true" @submit.prevent>
         <el-form-item label="키워드" prop="keywords">
           <el-input
             v-model="queryParams.keywords"
             placeholder="부서명"
+            clearable
+            style="width: 200px"
             @keyup.enter="handleQuery"
           />
         </el-form-item>
@@ -57,6 +59,8 @@
         default-expand-all
         :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
         class="data-table__content"
+        border
+        stripe
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" align="center" />
@@ -112,6 +116,7 @@
       v-model="dialog.visible"
       :title="dialog.title"
       width="600px"
+      :close-on-click-modal="false"
       @closed="handleCloseDialog"
     >
       <el-form ref="deptFormRef" :model="formData" :rules="rules" label-width="80px">

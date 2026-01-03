@@ -320,6 +320,303 @@ pnpm run dev
 - 사용자명: admin
 - 비밀번호: admin123
 
+## 코딩 규칙 (Frontend)
+
+### 다이얼로그(모달) 설정
+
+`el-dialog` 사용 시 외부 영역 클릭으로 닫히지 않도록 설정하세요.
+
+```vue
+<!-- 사용하지 마세요 -->
+<el-dialog
+  v-model="dialogVisible"
+  title="제목"
+>
+
+<!-- 이것을 사용하세요 -->
+<el-dialog
+  v-model="dialogVisible"
+  title="제목"
+  :close-on-click-modal="false"
+>
+```
+
+**이유:**
+- 사용자가 실수로 외부 영역 클릭 시 입력 데이터 손실 방지
+- 폼 입력 중 의도치 않은 닫힘 방지
+
+### 검색 폼 설정
+
+검색 영역의 `el-form`에는 반드시 `@submit.prevent`를 추가하세요.
+
+```vue
+<!-- 사용하지 마세요 -->
+<el-form ref="queryFormRef" :model="queryParams" :inline="true">
+
+<!-- 이것을 사용하세요 -->
+<el-form ref="queryFormRef" :model="queryParams" :inline="true" @submit.prevent>
+```
+
+**이유:**
+- Enter 키 입력 시 폼의 기본 submit 동작으로 페이지가 새로고침되는 것을 방지
+- `@keyup.enter="handleQuery"`와 함께 사용하여 Enter 키로 검색 기능 정상 동작
+
+### 검색 Input 너비 설정
+
+`clearable` 속성이 있는 `el-input`에는 반드시 고정 너비를 설정하세요.
+
+```vue
+<!-- 사용하지 마세요 -->
+<el-input
+  v-model="queryParams.keywords"
+  placeholder="키워드"
+  clearable
+  @keyup.enter="handleQuery"
+/>
+
+<!-- 이것을 사용하세요 -->
+<el-input
+  v-model="queryParams.keywords"
+  placeholder="키워드"
+  clearable
+  style="width: 200px"
+  @keyup.enter="handleQuery"
+/>
+```
+
+**권장 너비:**
+| placeholder 길이 | 권장 너비 |
+|-----------------|----------|
+| 짧음 (예: 키워드, 테이블명) | 150px ~ 200px |
+| 보통 (예: 품목코드, 품목명으로 검색) | 250px ~ 300px |
+| 김 (예: 업체명, 제품코드, 품목명으로 검색) | 350px ~ 400px |
+
+**이유:**
+- `clearable` 아이콘이 나타나거나 사라질 때 input 크기 변동 방지
+- 포커스 상태에 따른 레이아웃 흔들림 방지
+
+### 그리드 테이블 설정
+
+`el-table` 사용 시 반드시 `stripe` 속성을 적용하세요.
+
+```vue
+<!-- 사용하지 마세요 -->
+<el-table
+  :data="tableData"
+  border
+>
+
+<!-- 이것을 사용하세요 -->
+<el-table
+  :data="tableData"
+  border
+  stripe
+  highlight-current-row
+>
+```
+
+**필수 속성:**
+| 속성 | 설명 |
+|------|------|
+| `border` | 테두리 표시 |
+| `stripe` | 홀짝 행 배경색 구분 (필수) |
+| `highlight-current-row` | 선택 행 강조 (권장) |
+
+**이유:**
+- 홀수/짝수 행 배경색 구분으로 가독성 향상
+- 대량 데이터 조회 시 행 추적 용이
+
+### 테이블 스크롤 설정
+
+데이터가 많아도 테이블 헤더가 항상 보이도록 `height` 속성을 설정하세요.
+
+```vue
+<!-- 사용하지 마세요 - 페이지 전체 스크롤, 헤더 안 보임 -->
+<el-table
+  :data="pageData"
+  border
+  stripe
+>
+
+<!-- 이것을 사용하세요 - 테이블 내부 스크롤, 헤더 고정 -->
+<el-table
+  :data="pageData"
+  border
+  stripe
+  height="calc(100vh - 84px - 200px)"
+>
+```
+
+**레이아웃 변수 (variables.scss):**
+- `$navbar-height`: 50px
+- `$tags-view-height`: 34px
+- **기본 빼야 할 값**: 84px (navbar + tags-view)
+
+**높이 계산 공식:**
+```
+height = calc(100vh - 84px - [페이지 내 요소 높이])
+```
+
+**페이지 내 요소별 높이 가이드:**
+
+| 요소 | 대략적인 높이 |
+|------|-------------|
+| 검색 영역 (.search-container) | ~52px |
+| 툴바 영역 (.data-table__toolbar) | ~50px |
+| el-card 패딩 (상하) | ~40px |
+| 고정 페이지네이션 (fixed-pagination) | ~50px |
+| 여유 공간 (마진, 패딩 등) | ~10px ~ 20px |
+
+**화면 구성별 권장 높이:**
+
+| 화면 구성 | 계산 | 권장 높이 |
+|----------|------|----------|
+| 검색 + 그리드 + pagination | 84 + 52 + 40 + 50 + 58(여유) | `calc(100vh - 84px - 200px)` |
+| 검색 + 툴바 + 그리드 + pagination | 84 + 52 + 50 + 40 + 50 + 34(여유) | `calc(100vh - 84px - 226px)` |
+| 검색 + 툴바 + 그리드 + pagination (왼쪽 트리 있음) | 추가 공간 필요 | `calc(100vh - 84px - 266px)` |
+| 다이얼로그 내 그리드 | 고정 높이 사용 | `max-height="400px"` ~ `500px` |
+
+**주의사항:**
+- 위 높이는 참고용이며, 실제 화면에서 스크롤 유무를 확인하여 조정 필요
+- 스크롤이 생기면 빼는 값을 10px씩 늘려가며 조정
+- 레이아웃이 복잡한 경우 (예: 왼쪽 트리 패널) 추가 여유 공간 필요
+
+**이유:**
+- 테이블 내부에서 스크롤 발생 → 헤더가 상단에 고정
+- 대량 데이터 조회 시에도 컬럼 헤더 항상 표시
+- 불필요한 페이지 수직 스크롤 방지
+
+### 페이지네이션 스타일
+
+#### 1. 화면 하단 고정 (fixed-pagination)
+
+**용도:** 단일 그리드 화면에서 페이지네이션을 화면 최하단에 고정 배치
+
+```vue
+<el-card>
+  <el-table>...</el-table>
+</el-card>
+
+<!-- Fixed Pagination -->
+<div v-if="total > 0" class="fixed-pagination">
+  <pagination
+    v-model:total="total"
+    v-model:page="queryParams.pageNum"
+    v-model:limit="queryParams.pageSize"
+    @pagination="handleQuery()"
+  />
+</div>
+```
+
+```scss
+.fixed-pagination {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  background: var(--el-bg-color-overlay, #fff);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
+  z-index: 100;
+  padding: 0 !important;
+  display: flex;
+  justify-content: center;
+}
+
+.app-container {
+  overflow: hidden;  /* 불필요한 스크롤 방지 */
+}
+```
+
+#### 2. 그리드 하단 고정 (top-grid-pagination)
+
+**용도:** 화면에 상하 두 개의 그리드가 있는 경우, 상단 그리드 바로 아래에 페이지네이션 배치
+
+```vue
+<div v-if="total > 0" class="top-grid-pagination">
+  <pagination ... />
+</div>
+```
+
+```scss
+.top-grid-pagination {
+  position: relative;
+  padding: 3px 0;
+  background: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: center;
+}
+```
+
+### 그리드 정렬 기능 (Frontend + Backend)
+
+그리드 헤더 클릭 시 DB 레벨 정렬을 적용하세요.
+
+#### Frontend 구현
+
+```vue
+<el-table
+  :data="pageData"
+  @sort-change="handleSortChange"
+>
+  <el-table-column label="컬럼명" prop="fieldName" sortable="custom" />
+</el-table>
+```
+
+```typescript
+const queryParams = reactive<SomePageQuery>({
+  pageNum: 1,
+  pageSize: 30,
+  sortBy: "",        // 정렬 필드 (camelCase)
+  sortDirection: "", // 정렬 방향 ("asc" | "desc")
+});
+
+function handleSortChange({ prop, order }: { prop: string; order: string | null }) {
+  if (order) {
+    queryParams.sortBy = prop;
+    queryParams.sortDirection = order === "ascending" ? "asc" : "desc";
+  } else {
+    queryParams.sortBy = "";
+    queryParams.sortDirection = "";
+  }
+  queryParams.pageNum = 1;
+  fetchData();
+}
+```
+
+#### Backend 구현
+
+```java
+// Query 클래스에 허용 필드 정의
+@Override
+protected Set<String> getCustomAllowedSortFields() {
+    return Set.of("fieldName1", "fieldName2", "createTime");
+}
+
+// Service에서 buildPage() 사용
+Page<SomeBO> page = queryParams.buildPage();
+```
+
+**주의사항:**
+- `sortable="custom"`은 DB 정렬, `sortable`만 쓰면 프론트 정렬
+- 정렬 변경 시 `pageNum = 1`로 초기화
+- 백엔드에서 `getCustomAllowedSortFields()`로 허용 필드 제한 (보안)
+
+## 파일 네이밍 규칙
+
+- Vue 컴포넌트: `PascalCase.vue`
+- TypeScript 파일: `kebab-case.ts`
+- API 파일: `{resource}.api.ts` (예: `user.api.ts`)
+
+## 주요 경로
+
+- API 정의: `vue3-element-admin/src/api/`
+- 뷰 컴포넌트: `vue3-element-admin/src/views/`
+- 유틸리티: `vue3-element-admin/src/utils/`
+- 백엔드 엔티티: `youlai-boot/src/main/java/com/youlai/boot/{module}/model/entity/`
+- MyBatis 매퍼: `youlai-boot/src/main/resources/mapper/`
+
 ## 총 455개 파일에 중국어가 포함
   총 454개 파일 남음:
   - Java 파일: 263개 (주석, JavaDoc, 문자열 리터럴)

@@ -2,7 +2,7 @@
   <div class="app-container">
     <!-- 검색 영역 -->
     <div class="search-container">
-      <el-form ref="queryFormRef" :model="queryParams" :inline="true">
+      <el-form ref="queryFormRef" :model="queryParams" :inline="true" @submit.prevent>
         <el-form-item prop="keywords" label="키워드">
           <el-input
             v-model="queryParams.keywords"
@@ -101,6 +101,7 @@
         :data="pageData"
         highlight-current-row
         border
+        stripe
         class="data-table__content"
       >
         <el-table-column label="생성 시간" prop="createTime" width="180" />
@@ -170,7 +171,7 @@
     </el-card>
 
     <!-- 상세다이얼로그 -->
-    <el-dialog v-model="detailDialogVisible" title="AI 명령레코드상세" width="880px" append-to-body>
+    <el-dialog v-model="detailDialogVisible" title="AI 명령레코드상세" width="880px" append-to-body :close-on-click-modal="false">
       <el-descriptions v-if="currentRow" :column="2" border>
         <el-descriptions-item label="레코드ID">
           {{ currentRow.id }}

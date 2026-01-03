@@ -2,12 +2,13 @@
   <div class="app-container">
     <!-- 검색 영역 -->
     <div class="search-container">
-      <el-form ref="queryFormRef" :model="queryParams" :inline="true">
+      <el-form ref="queryFormRef" :model="queryParams" :inline="true" @submit.prevent>
         <el-form-item label="공지 제목" prop="title">
           <el-input
             v-model="queryParams.title"
             placeholder="키워드"
             clearable
+            style="width: 200px"
             @keyup.enter="handleQuery()"
           />
         </el-form-item>
@@ -35,6 +36,8 @@
         v-loading="loading"
         :data="pageData"
         highlight-current-row
+        border
+        stripe
         class="data-table__content"
       >
         <el-table-column type="index" label="번호" width="60" />
@@ -88,6 +91,7 @@
       :title="noticeDetail?.title ?? '알림상세'"
       width="800px"
       custom-class="notice-detail"
+      :close-on-click-modal="false"
     >
       <div v-if="noticeDetail" class="notice-detail__wrapper">
         <div class="notice-detail__meta">

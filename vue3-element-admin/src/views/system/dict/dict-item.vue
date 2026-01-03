@@ -2,12 +2,13 @@
 <template>
   <div class="app-container">
     <div class="search-container">
-      <el-form ref="queryFormRef" :model="queryParams" :inline="true">
+      <el-form ref="queryFormRef" :model="queryParams" :inline="true" @submit.prevent>
         <el-form-item label="키워드" prop="keywords">
           <el-input
             v-model="queryParams.keywords"
             placeholder="사전 레이블/사전 값"
             clearable
+            style="width: 200px"
             @keyup.enter="handleQuery"
           />
         </el-form-item>
@@ -39,6 +40,7 @@
         highlight-current-row
         :data="tableData"
         border
+        stripe
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" align="center" />
@@ -91,6 +93,7 @@
       v-model="dialog.visible"
       :title="dialog.title"
       width="600px"
+      :close-on-click-modal="false"
       @close="handleCloseDialog"
     >
       <el-form ref="dataFormRef" :model="formData" :rules="computedRules" label-width="100px">

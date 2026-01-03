@@ -2,12 +2,13 @@
   <div class="app-container">
     <!-- 검색 영역 -->
     <div class="search-container">
-      <el-form ref="queryFormRef" :model="queryParams" :inline="true">
+      <el-form ref="queryFormRef" :model="queryParams" :inline="true" @submit.prevent>
         <el-form-item prop="keywords" label="키워드">
           <el-input
             v-model="queryParams.keywords"
             placeholder="테이블명"
             clearable
+            style="width: 200px"
             @keyup.enter="handleQuery"
           />
         </el-form-item>
@@ -36,6 +37,7 @@
         :data="pageData"
         highlight-current-row
         border
+        stripe
         class="data-table__content"
       >
         <el-table-column type="selection" width="55" align="center" />
@@ -450,7 +452,7 @@
       </template>
     </el-drawer>
     <!-- 로컬에 저장 다이얼로그 -->
-    <el-dialog v-model="writeDialog.visible" title="로컬에 저장" width="820px">
+    <el-dialog v-model="writeDialog.visible" title="로컬에 저장" width="820px" :close-on-click-modal="false">
       <div class="space-y-3">
         <el-alert
           v-if="!supportsFSAccess"
