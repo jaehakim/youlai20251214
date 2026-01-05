@@ -50,6 +50,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           target: env.VITE_APP_API_URL,
           rewrite: (path: string) => path.replace(new RegExp("^" + env.VITE_APP_BASE_API), ""),
         },
+        // /upload 파일 요청 프록시
+        "/upload": {
+          changeOrigin: true,
+          target: env.VITE_APP_API_URL,
+        },
       },
     },
     plugins: [

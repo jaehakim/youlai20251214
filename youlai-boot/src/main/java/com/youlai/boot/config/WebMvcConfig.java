@@ -19,7 +19,10 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.beans.factory.annotation.Value;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -38,6 +41,9 @@ import java.util.TimeZone;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    @Value("${oss.local.storage-path}")
+    private String ossLocalStoragePath;
 
     /**
      * 메시지 변환기 설정
@@ -70,6 +76,24 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         jackson2HttpMessageConverter.setObjectMapper(objectMapper);
         converters.add(1, jackson2HttpMessageConverter);
+    }
+
+    /**
+     * 로컬 파일 저장소 정적 리소스 서빙 설정
+     *
+     * @param registry 리소스 핸들러 레지스트리
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Windows와 Unix 경로 형식 모두 지원
+        // File 객체를 사용하여 OS에 맞는 URI 생성
+        File uploadDir = new File(ossLocalStoragePath);
+        String resourceLocation = uploadDir.toURI().toString();
+
+        log.info("파일 업로드 리소스 위치 설정: {} → {}", ossLocalStoragePath, resourceLocation);
+
+        registry.addResourceHandler("/upload/**")
+                .addResourceLocations(resourceLocation);
     }
 
     /**

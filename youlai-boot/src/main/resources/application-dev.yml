@@ -5,14 +5,14 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:32769/youlai_boot?zeroDateTimeBehavior=convertTonull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&autoReconnect=true&allowMultiQueries=true
+    url: jdbc:mysql://10.0.0.148:13306/youlai_boot?zeroDateTimeBehavior=convertTonull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&autoReconnect=true&allowMultiQueries=true
     username: youlai
     password: 123456
   data:
     redis:
       database: 0
-      host: www.youlai.tech
-      port: 6379
+      host: 10.0.0.148
+      port: 16379
       # Redis 서비스에 비밀번호가 설정되지 않은 경우 password를 삭제하거나 주석 처리해야 하며, 빈 문자열로 설정하지 마세요
       password: 123456
       timeout: 10s
@@ -118,11 +118,12 @@ security:
     - /v3/api-docs/**
     - /webjars/**
     - /favicon.ico
+    - /upload/** # 정적 파일 서빙 (인증 불필요)
 
 # 파일 저장 설정
 oss:
   # OSS 타입 (현재 aliyun, minio, local 지원)
-  type: minio
+  type: local
   # MinIO 객체 저장 서비스
   minio:
     # MinIO 서비스 주소
@@ -148,7 +149,7 @@ oss:
   # 로컬 저장
   local:
     # 파일 저장 경로 주의사항: mac 사용자는 /Users/your-username/your-path/를 사용하세요. 그렇지 않으면 권한 문제가 발생할 수 있습니다. windows 사용자는 D:/your-path/를 사용하세요
-    storage-path: /Users/theo/home/
+    storage-path: /APP/FILES/
 # SMS 설정
 sms:
   # 알리바바 클라우드 SMS

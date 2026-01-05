@@ -53,16 +53,21 @@ public class LocalFileService implements FileService {
         // 파일 이름 생성(날짜 폴더)
         String folder = DateUtil.format(LocalDateTime.now(), DatePattern.PURE_DATE_PATTERN);
         String filePrefix = storagePath.endsWith(File.separator) ? storagePath : storagePath + File.separator;
+        String filePath = filePrefix + folder + File.separator + fileName;
+
         //  try-with-resource 문법으로 스트림 자동 해제
         try (InputStream inputStream = file.getInputStream()) {
+            // 디렉토리 없으면 자동 생성
+            FileUtil.mkParentDirs(new File(filePath));
             // 파일 업로드
-            FileUtil.writeFromStream(inputStream, filePrefix + folder + File.separator + fileName);
+            FileUtil.writeFromStream(inputStream, filePath);
         } catch (Exception e) {
             log.error("파일 업로드 실패", e);
             throw new RuntimeException("파일 업로드 실패");
         }
-        // 파일 접근 경로 조회, 여기는 로컬 저장이므로 파일의 상대 경로를 직접 반환하며 프론트엔드에서 접근 접두사를 직접 처리해야 함
-        String fileUrl = File.separator + folder + File.separator + fileName;
+        // 파일 접근 경로 구성: /upload/{folder}/{fileName}
+        // 예: /upload/20250105/abc123def456.jpg
+        String fileUrl = "/upload/" + folder + "/" + fileName;
         FileInfo fileInfo = new FileInfo();
         fileInfo.setName(originalFilename);
         fileInfo.setUrl(fileUrl);
@@ -72,7 +77,7 @@ public class LocalFileService implements FileService {
 
     /**
      * 파일 삭제
-     * @param filePath 파일 전체 URL
+     * @param filePath 파일 전체 URL (예: /upload/20250105/abc123.jpg 또는 /20250105/abc123.jpg)
      * @return 삭제 성공 여부
      */
     @Override
@@ -81,12 +86,19 @@ public class LocalFileService implements FileService {
         if (filePath == null || filePath.isEmpty()) {
             return false;
         }
+
+        // /upload/ 접두사 제거
+        String relativePath = filePath;
+        if (relativePath.startsWith("/upload/")) {
+            relativePath = relativePath.substring("/upload".length());
+        }
+
         // filepath가 폴더인지 판단
-        if (FileUtil.isDirectory(storagePath + filePath)) {
+        if (FileUtil.isDirectory(storagePath + relativePath)) {
             // 폴더 삭제 금지
             return false;
         }
         // 파일 삭제
-        return FileUtil.del(storagePath + filePath);
+        return FileUtil.del(storagePath + relativePath);
     }
 }
