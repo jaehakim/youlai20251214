@@ -75,9 +75,9 @@
     <where>
       <if test="queryParams.keywords != null and queryParams.keywords != ''">
         (
-          acr.original_command LIKE CONCAT('%', #{queryParams.keywords}, '%')
-          OR acr.function_name LIKE CONCAT('%', #{queryParams.keywords}, '%')
-          OR acr.username LIKE CONCAT('%', #{queryParams.keywords}, '%')
+          acr.original_command LIKE '%' || #{queryParams.keywords} || '%'
+          OR acr.function_name LIKE '%' || #{queryParams.keywords} || '%'
+          OR acr.username LIKE '%' || #{queryParams.keywords} || '%'
         )
       </if>
       <if test="queryParams.executeStatus != null and queryParams.executeStatus != ''">

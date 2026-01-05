@@ -14,7 +14,7 @@ public class VisitCount {
     /**
      * 날짜 yyyy-MM-dd
      */
-    private String date;
+    private String createDate;
 
     /**
      * 방문 횟수

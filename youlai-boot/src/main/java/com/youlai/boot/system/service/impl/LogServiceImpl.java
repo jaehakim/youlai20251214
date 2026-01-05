@@ -66,8 +66,8 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
         List<VisitCount> ipCounts = this.baseMapper.getIpCounts(dates.get(0) + " 00:00:00", dates.get(dates.size() - 1) + " 23:59:59");
 
         // 을통계데이터변환값 Map
-        Map<String, Integer> pvMap = pvCounts.stream().collect(Collectors.toMap(VisitCount::getDate, VisitCount::getCount));
-        Map<String, Integer> ipMap = ipCounts.stream().collect(Collectors.toMap(VisitCount::getDate, VisitCount::getCount));
+        Map<String, Integer> pvMap = pvCounts.stream().collect(Collectors.toMap(VisitCount::getCreateDate, VisitCount::getCount));
+        Map<String, Integer> ipMap = ipCounts.stream().collect(Collectors.toMap(VisitCount::getCreateDate, VisitCount::getCount));
 
         // 날짜 일치 및접근수량/접근 IP 수
         List<Integer> pvList = new ArrayList<>();
