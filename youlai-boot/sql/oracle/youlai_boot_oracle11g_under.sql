@@ -626,8 +626,8 @@ CREATE TABLE sys_notice (
     id              NUMBER(19) NOT NULL,
     title           VARCHAR2(500),
     content         CLOB,
-    type            NUMBER(3) NOT NULL,
-    level           VARCHAR2(5) NOT NULL,
+    notice_type            NUMBER(3) NOT NULL,
+    notice_level           VARCHAR2(5) NOT NULL,
     target_type     NUMBER(3) NOT NULL,
     target_user_ids VARCHAR2(255),
     publisher_id    NUMBER(19),
@@ -646,8 +646,8 @@ COMMENT ON TABLE sys_notice IS '공지사항 테이블';
 COMMENT ON COLUMN sys_notice.id IS 'ID';
 COMMENT ON COLUMN sys_notice.title IS '공지 제목';
 COMMENT ON COLUMN sys_notice.content IS '공지 내용';
-COMMENT ON COLUMN sys_notice.type IS '공지 유형';
-COMMENT ON COLUMN sys_notice.level IS '공지 수준';
+COMMENT ON COLUMN sys_notice.notice_type IS '공지 유형';
+COMMENT ON COLUMN sys_notice.notice_level IS '공지 수준';
 COMMENT ON COLUMN sys_notice.target_type IS '대상 유형(1: 전체, 2: 지정)';
 COMMENT ON COLUMN sys_notice.target_user_ids IS '대상자 ID 집합';
 COMMENT ON COLUMN sys_notice.publisher_id IS '발행자 ID';
@@ -1027,16 +1027,16 @@ INSERT INTO sys_user_role (user_id, role_id) VALUES (3, 3);
 INSERT INTO sys_config (id, config_name, config_key, config_value, remark, create_time, create_by, update_time, update_by, is_deleted) VALUES (1, '시스템 제한 QPS', 'IP_QPS_THRESHOLD_LIMIT', '10', '단일 IP 요청의 최대 초당 쿼리 수(QPS) 임계값 Key', SYSDATE, 1, NULL, NULL, 0);
 
 -- sys_notice 초기 데이터
-INSERT INTO sys_notice (id, title, content, type, level, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (1, 'v2.12.0 시스템 로그, 접근 추세 통계 기능 추가.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 1, 'L', 1, '2', 1, 1, SYSDATE, SYSDATE, 2, SYSDATE, 1, SYSDATE, 0);
-INSERT INTO sys_notice (id, title, content, type, level, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (2, 'v2.13.0 메뉴 검색 추가.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 1, 'L', 1, '2', 1, 1, SYSDATE, SYSDATE, 2, SYSDATE, 1, SYSDATE, 0);
-INSERT INTO sys_notice (id, title, content, type, level, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (3, 'v2.14.0 개인 센터 추가.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 1, 'L', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
-INSERT INTO sys_notice (id, title, content, type, level, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (4, 'v2.15.0 로그인 페이지 개편.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 1, 'L', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
-INSERT INTO sys_notice (id, title, content, type, level, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (5, 'v2.16.0 공지사항, 사전 번역 컴포넌트.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 1, 'L', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
-INSERT INTO sys_notice (id, title, content, type, level, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (6, '시스템은 이번 주 토요일 새벽 2시에 유지보수를 진행하며, 예상 유지보수 시간은 2시간입니다.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 2, 'H', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
-INSERT INTO sys_notice (id, title, content, type, level, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (7, '최근 피싱 이메일이 발견되었으니, 낯선 링크를 클릭하지 마시기 바랍니다.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 3, 'L', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
-INSERT INTO sys_notice (id, title, content, type, level, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (8, '국경절 연휴는 10월 1일부터 10월 7일까지 7일간입니다.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 4, 'L', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
-INSERT INTO sys_notice (id, title, content, type, level, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (9, '회사는 10월 15일에 신제품 발표회를 개최합니다. 많은 기대 부탁드립니다.', '회사는 10월 15일에 신제품 발표회를 개최합니다. 많은 기대 부탁드립니다.', 5, 'H', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
-INSERT INTO sys_notice (id, title, content, type, level, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (10, 'v2.16.1 버전 출시.', 'v2.16.1 버전은 WebSocket 중복 연결로 인한 백엔드 스레드 차단 문제를 수정하고, 공지사항을 최적화했습니다.', 1, 'M', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
+INSERT INTO sys_notice (id, title, content, NOTICE_TYPE, NOTICE_LEVEL, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (1, 'v2.12.0 시스템 로그, 접근 추세 통계 기능 추가.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 1, 'L', 1, '2', 1, 1, SYSDATE, SYSDATE, 2, SYSDATE, 1, SYSDATE, 0);
+INSERT INTO sys_notice (id, title, content, NOTICE_TYPE, NOTICE_LEVEL, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (2, 'v2.13.0 메뉴 검색 추가.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 1, 'L', 1, '2', 1, 1, SYSDATE, SYSDATE, 2, SYSDATE, 1, SYSDATE, 0);
+INSERT INTO sys_notice (id, title, content, NOTICE_TYPE, NOTICE_LEVEL, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (3, 'v2.14.0 개인 센터 추가.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 1, 'L', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
+INSERT INTO sys_notice (id, title, content, NOTICE_TYPE, NOTICE_LEVEL, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (4, 'v2.15.0 로그인 페이지 개편.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 1, 'L', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
+INSERT INTO sys_notice (id, title, content, NOTICE_TYPE, NOTICE_LEVEL, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (5, 'v2.16.0 공지사항, 사전 번역 컴포넌트.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 1, 'L', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
+INSERT INTO sys_notice (id, title, content, NOTICE_TYPE, NOTICE_LEVEL, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (6, '시스템은 이번 주 토요일 새벽 2시에 유지보수를 진행하며, 예상 유지보수 시간은 2시간입니다.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 2, 'H', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
+INSERT INTO sys_notice (id, title, content, NOTICE_TYPE, NOTICE_LEVEL, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (7, '최근 피싱 이메일이 발견되었으니, 낯선 링크를 클릭하지 마시기 바랍니다.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 3, 'L', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
+INSERT INTO sys_notice (id, title, content, NOTICE_TYPE, NOTICE_LEVEL, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (8, '국경절 연휴는 10월 1일부터 10월 7일까지 7일간입니다.', '<p>1. 메시지 알림</p><p>2. 사전 재구성</p><p>3. 코드 생성</p>', 4, 'L', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
+INSERT INTO sys_notice (id, title, content, NOTICE_TYPE, NOTICE_LEVEL, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (9, '회사는 10월 15일에 신제품 발표회를 개최합니다. 많은 기대 부탁드립니다.', '회사는 10월 15일에 신제품 발표회를 개최합니다. 많은 기대 부탁드립니다.', 5, 'H', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
+INSERT INTO sys_notice (id, title, content, NOTICE_TYPE, NOTICE_LEVEL, target_type, target_user_ids, publisher_id, publish_status, publish_time, revoke_time, create_by, create_time, update_by, update_time, is_deleted) VALUES (10, 'v2.16.1 버전 출시.', 'v2.16.1 버전은 WebSocket 중복 연결로 인한 백엔드 스레드 차단 문제를 수정하고, 공지사항을 최적화했습니다.', 1, 'M', 1, '2', 2, 1, SYSDATE, SYSDATE, 2, SYSDATE, 2, SYSDATE, 0);
 
 -- sys_user_notice 초기 데이터
 INSERT INTO sys_user_notice (id, notice_id, user_id, is_read, read_time, create_time, update_time, is_deleted) VALUES (1, 1, 2, 1, NULL, SYSDATE, SYSDATE, 0);
