@@ -32,7 +32,11 @@
     <div class="navbar-actions__item">
       <el-dropdown trigger="click">
         <div class="user-profile">
-          <img class="user-profile__avatar" :src="userStore.userInfo.avatar" />
+          <el-avatar
+            :src="avatarUrl"
+            :size="28"
+            @error="handleAvatarError"
+          />
           <span class="user-profile__name">{{ userStore.userInfo.username }}</span>
         </div>
         <template #dropdown>
@@ -67,6 +71,7 @@ import { DeviceEnum } from "@/enums/settings/device-enum";
 import { useAppStore, useSettingsStore, useUserStore } from "@/store";
 import { SidebarColor, ThemeMode } from "@/enums/settings/theme-enum";
 import { LayoutMode } from "@/enums";
+import { generateMSAvatarBase64 } from "@/utils/avatar";
 
 // 자식 컴포넌트 가져오기
 import MenuSearch from "@/components/MenuSearch/index.vue";
@@ -85,6 +90,19 @@ const router = useRouter();
 
 // 데스크톱 장치 여부
 const isDesktop = computed(() => appStore.device === DeviceEnum.DESKTOP);
+
+// 아바타 로딩 실패 상태
+const avatarLoadError = ref(false);
+
+// 아바타 URL (유효한 경로만 반환)
+const avatarUrl = computed(() => {
+  // 아바타가 있고 로딩 실패하지 않았으면 해당 URL 반환
+  if (userStore.userInfo.avatar && !avatarLoadError.value) {
+    return userStore.userInfo.avatar;
+  }
+  // 아바타가 없거나 로딩 실패 → MS 메신저 스타일 기본 아바타 생성 (Base64 SVG)
+  return generateMSAvatarBase64(userStore.userInfo.username || "User", 28);
+});
 
 /**
  * 개인 센터 페이지 열기
@@ -118,6 +136,15 @@ const navbarActionsClass = computed(() => {
 
   return "navbar-actions--dark-text";
 });
+
+/**
+ * 아바타 이미지 로딩 실패 처리
+ */
+function handleAvatarError() {
+  console.warn("사용자 아바타 이미지 로딩 실패");
+  avatarLoadError.value = true;
+  // el-avatar 컴포넌트가 자동으로 기본 아바타 표시
+}
 
 /**
  * 로그아웃
@@ -203,11 +230,10 @@ function handleSettingsClick() {
     height: 100%;
     padding: 0 8px;
 
-    &__avatar {
+    // el-avatar 컴포넌트 스타일
+    :deep(.el-avatar) {
       flex-shrink: 0;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
+      margin-right: 0;
     }
 
     &__name {

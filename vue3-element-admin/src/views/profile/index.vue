@@ -6,7 +6,7 @@
         <el-card class="user-card">
           <div class="user-info">
             <div class="avatar-wrapper">
-              <el-avatar :src="userStore.userInfo.avatar" :size="100" />
+              <el-avatar :src="avatarUrl" :size="100" />
               <el-button
                 type="info"
                 class="avatar-edit-btn"
@@ -234,6 +234,7 @@ import UserAPI, {
 
 import FileAPI from "@/api/file-api";
 import { useUserStoreHook } from "@/store";
+import { generateMSAvatarBase64 } from "@/utils/avatar";
 
 import { Camera } from "@element-plus/icons-vue";
 
@@ -441,6 +442,18 @@ const handleCancel = () => {
 
 const fileInput = ref<HTMLInputElement | null>(null);
 
+/**
+ * 아바타 URL (기본값 포함)
+ */
+const avatarUrl = computed(() => {
+  // 아바타가 있으면 해당 URL 반환
+  if (userStore.userInfo.avatar) {
+    return userStore.userInfo.avatar;
+  }
+  // 아바타가 없으면 MS 메신저 스타일 기본 아바타 생성 (Base64 SVG)
+  return generateMSAvatarBase64(userStore.userInfo.username || "User", 100);
+});
+
 const triggerFileUpload = () => {
   fileInput.value?.click();
 };
@@ -448,20 +461,52 @@ const triggerFileUpload = () => {
 const handleFileChange = async (event: Event) => {
   const target = event.target as HTMLInputElement;
   const file = target.files ? target.files[0] : null;
-  if (file) {
-    // 파일 업로드 API 호출
-    try {
-      const data = await FileAPI.uploadFile(file);
-      // 사용자 정보 업데이트
-      await UserAPI.updateProfile({
-        avatar: data.url,
-      });
-      // 사용자 아바타 업데이트
-      userStore.userInfo.avatar = data.url;
-    } catch (error) {
-      console.error("아바타 업로드 실패: " + error);
-      ElMessage.error("아바타 업로드 실패");
+
+  if (!file) {
+    return;
+  }
+
+  try {
+    // 파일 유효성 검사
+    if (!file.type.startsWith("image/")) {
+      ElMessage.error("이미지 파일만 업로드 가능합니다");
+      resetFileInput();
+      return;
     }
+
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (file.size > maxSize) {
+      ElMessage.error("파일 크기는 10MB 이하여야 합니다");
+      resetFileInput();
+      return;
+    }
+
+    // 파일 업로드 API 호출
+    const data = await FileAPI.uploadFile(file);
+
+    // 사용자 정보 업데이트
+    await UserAPI.updateProfile({
+      avatar: data.url,
+    });
+
+    // 사용자 아바타 업데이트
+    userStore.userInfo.avatar = data.url;
+    ElMessage.success("아바타가 성공적으로 업로드되었습니다");
+  } catch (error) {
+    console.error("아바타 업로드 실패:", error);
+    ElMessage.error("아바타 업로드 실패");
+  } finally {
+    // 파일 입력 초기화
+    resetFileInput();
+  }
+};
+
+/**
+ * 파일 입력 초기화
+ */
+const resetFileInput = () => {
+  if (fileInput.value) {
+    fileInput.value.value = "";
   }
 };
 

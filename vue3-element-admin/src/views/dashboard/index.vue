@@ -7,9 +7,10 @@
       <div class="flex flex-wrap">
         <!-- 왼쪽 인사말 영역 -->
         <div class="flex-1 flex items-start">
-          <img
-            class="w80px h80px rounded-full"
-            :src="userStore.userInfo.avatar + '?imageView2/1/w/80/h/80'"
+          <el-avatar
+            :src="avatarUrl80"
+            :size="80"
+            @error="handleAvatarError"
           />
           <div class="ml-5">
             <p>{{ greetings }}</p>
@@ -357,6 +358,7 @@ import { dayjs } from "element-plus";
 import LogAPI, { VisitStatsVO, VisitTrendVO } from "@/api/system/log-api";
 import { useUserStore } from "@/store/modules/user-store";
 import { formatGrowthRate } from "@/utils";
+import { generateMSAvatarBase64 } from "@/utils/avatar";
 import { useTransition, useDateFormat } from "@vueuse/core";
 import { Connection, Failed } from "@element-plus/icons-vue";
 import { useOnlineCount } from "@/composables";
@@ -390,6 +392,28 @@ interface VersionItem {
 }
 
 const userStore = useUserStore();
+
+// 아바타 로딩 실패 상태
+const avatarLoadError = ref(false);
+
+// 80x80 크기 아바타 URL
+const avatarUrl80 = computed(() => {
+  // 아바타가 있고 로딩 실패하지 않았으면 해당 URL 반환
+  if (userStore.userInfo.avatar && !avatarLoadError.value) {
+    return userStore.userInfo.avatar;
+  }
+  // 아바타가 없거나 로딩 실패 → MS 메신저 스타일 기본 아바타 생성 (Base64 SVG)
+  return generateMSAvatarBase64(userStore.userInfo.username || "User", 80);
+});
+
+/**
+ * 아바타 이미지 로딩 실패 처리
+ */
+function handleAvatarError() {
+  console.warn("사용자 아바타 이미지 로딩 실패");
+  avatarLoadError.value = true;
+  // el-avatar 컴포넌트가 자동으로 기본 아바타 표시
+}
 
 // 현재 공지 사항 목록
 const vesionList = ref<VersionItem[]>([
