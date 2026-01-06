@@ -71,9 +71,9 @@ export interface NoticeForm {
   /** 내용 */
   content?: string;
   /** 유형 */
-  type?: number;
+  noticeType?: number;
   /** 우선 순위/수준 */
-  level?: string;
+  noticeLevel?: string;
   /** 대상 유형 */
   targetType?: number;
   /** 대상 사용자 ID (쉼표(,)로 구분) */
@@ -87,7 +87,7 @@ export interface NoticePageVO {
   /** 내용 */
   content?: string;
   /** 유형 */
-  type?: number;
+  noticeType?: number;
   /** 발행인 ID */
   publisherId?: bigint;
   /** 우선 순위 */
@@ -109,11 +109,11 @@ export interface NoticeDetailVO {
   /** 내용 */
   content?: string;
   /** 유형 */
-  type?: number;
+  noticeType?: number;
   /** 발행인 이름 */
   publisherName?: string;
   /** 우선 순위/수준 */
-  level?: string;
+  noticeLevel?: string;
   /** 발행 시간 */
   publishTime?: Date;
   /** 발행 상태 */

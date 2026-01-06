@@ -33,13 +33,13 @@ public class NoticePageVO implements Serializable {
     private Integer publishStatus;
 
     @Schema(description = "공지 유형")
-    private Integer type;
+    private Integer noticeType;
 
     @Schema(description = "발행자명")
     private String publisherName;
 
     @Schema(description = "공지 등급")
-    private String level;
+    private String noticeLevel;
 
     @Schema(description = "발행 시간")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")

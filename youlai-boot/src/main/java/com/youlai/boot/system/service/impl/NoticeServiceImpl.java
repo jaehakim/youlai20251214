@@ -223,7 +223,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
             NoticeDTO noticeDTO = new NoticeDTO();
             noticeDTO.setId(id);
             noticeDTO.setTitle(notice.getTitle());
-            noticeDTO.setType(notice.getType());
+            noticeDTO.setNoticeType(notice.getNoticeType());
             noticeDTO.setPublishTime(notice.getPublishTime());
 
             onlineReceivers.forEach(receiver -> messagingTemplate.convertAndSendToUser(receiver, "/queue/message", noticeDTO));

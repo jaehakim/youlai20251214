@@ -25,13 +25,13 @@ public class NoticeDetailVO {
     private String content;
 
     @Schema(description = "공지 유형")
-    private Integer type;
+    private Integer noticeType;
 
     @Schema(description = "발행자")
     private String publisherName;
 
     @Schema(description = "우선순위(L-낮음 M-보통 H-높음)")
-    private String level;
+    private String noticeLevel;
 
     @Schema(description = "발행 상태(0-미발행 1-발행완료 2-회수) 중복 필드, 발행 여부 판단 용이")
     private Integer publishStatus;

@@ -19,7 +19,7 @@ public class NoticeDTO {
     private Long id;
 
     @Schema(description = "공지 유형")
-    private Integer type;
+    private Integer noticeType;
 
     @Schema(description = "공지 제목")
     private String title;

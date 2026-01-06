@@ -39,10 +39,10 @@ public class NoticeForm implements Serializable {
     private String content;
 
     @Schema(description = "공지 유형")
-    private Integer type;
+    private Integer noticeType;
 
     @Schema(description = "우선순위 (L-낮음 M-중간 H-높음)")
-    private String level;
+    private String noticeLevel;
 
     @Schema(description = "대상 유형 (1-전체 2-지정)")
     @Range(min = 1, max = 2, message = "대상 유형 범위는 [1,2]입니다")

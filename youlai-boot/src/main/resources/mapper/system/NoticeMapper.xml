@@ -7,9 +7,9 @@
         SELECT
                 t1.id,
                 t1.title,
-                t1.type,
+                t1.notice_type ,
                 t2.nickname AS publisherName,
-                t1.level,
+                t1.notice_level ,
                 t1.target_type,
                 t1.publish_status,
                 t1.publish_time,
@@ -18,7 +18,7 @@
         FROM
             sys_notice t1
                 LEFT JOIN sys_user t2 ON t2.id = t1.publisher_id
-        WHERE
+        <where>
             t1.is_deleted = 0
             <if test="queryParams.title != null and queryParams.title != ''">
                 AND t1.title LIKE '%' || #{queryParams.title} || '%'
@@ -34,6 +34,7 @@
                     AND TRUNC(t1.publish_time) &lt;= TO_DATE(SUBSTR(#{queryParams.publishTime[1]}, 1, 10), 'YYYY-MM-DD')
                 </if>
             </if>
+        </where>
         ORDER BY
             t1.publish_time DESC,
             t1.create_time DESC
@@ -45,9 +46,9 @@
             t1.id,
             t1.title,
             t1.content,
-            t1.type,
+            t1.notice_type ,
             t2.nickname AS publisherName,
-            t1.level,
+            t1.notice_level ,
             t1.publish_status,
             t1.publish_time
         FROM

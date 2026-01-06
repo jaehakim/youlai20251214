@@ -72,13 +72,13 @@
         <el-table-column label="공지 제목" prop="title" min-width="200" />
         <el-table-column align="center" label="공지 유형" width="150">
           <template #default="scope">
-            <DictLabel v-model="scope.row.type" :code="'notice_type'" />
+            <DictLabel v-model="scope.row.noticeType" :code="'notice_type'" />
           </template>
         </el-table-column>
         <el-table-column align="center" label="발행인" prop="publisherName" width="150" />
         <el-table-column align="center" label="공지 등급" width="100">
           <template #default="scope">
-            <DictLabel v-model="scope.row.level" code="notice_level" />
+            <DictLabel v-model="scope.row.noticeLevel" code="notice_level" />
           </template>
         </el-table-column>
         <el-table-column align="center" label="공지 대상 유형" prop="targetType" min-width="100">
@@ -186,11 +186,11 @@
           <el-input v-model="formData.title" placeholder="공지 제목" clearable />
         </el-form-item>
 
-        <el-form-item label="공지 유형" prop="type">
-          <Dict v-model="formData.type" code="notice_type" />
+        <el-form-item label="공지 유형" prop="noticeType">
+          <Dict v-model="formData.noticeType" code="notice_type" />
         </el-form-item>
-        <el-form-item label="공지 등급" prop="level">
-          <Dict v-model="formData.level" code="notice_level" />
+        <el-form-item label="공지 등급" prop="noticeLevel">
+          <Dict v-model="formData.noticeLevel" code="notice_level" />
         </el-form-item>
         <el-form-item label="대상 유형" prop="targetType">
           <el-radio-group v-model="formData.targetType">
@@ -301,7 +301,7 @@ const dialog = reactive({
 
 // 공지사항 폼 데이터
 const formData = reactive<NoticeForm>({
-  level: "L", // 기본 우선순위: 낮음
+  noticeLevel: "L", // 기본 우선순위: 낮음
   targetType: 1, // 기본 대상 유형: 전체
 });
 
@@ -322,7 +322,7 @@ const rules = reactive({
       },
     },
   ],
-  type: [{ required: true, message: "공지 유형을 선택하세요", trigger: "change" }],
+  noticeType: [{ required: true, message: "공지 유형을 선택하세요", trigger: "change" }],
 });
 
 const detailDialog = reactive({
@@ -374,7 +374,7 @@ function handleOpenDialog(id?: string) {
       Object.assign(formData, data);
     });
   } else {
-    Object.assign(formData, { level: 0, targetType: 0 });
+    Object.assign(formData, { noticeLevel: "L", targetType: 1 });
     dialog.title = "공지사항 추가";
   }
 }

@@ -26,12 +26,12 @@ public class NoticeBO {
     /**
      * 공지 유형
      */
-    private Integer type;
+    private Integer noticeType;
 
     /**
      * 공지 유형 라벨
      */
-    private String typeLabel;
+    private String noticeTypeLabel;
 
     /**
      * 공지 내용
@@ -46,7 +46,7 @@ public class NoticeBO {
     /**
      * 공지 레벨 (L: 낮음, M: 중간, H: 높음)
      */
-    private String level;
+    private String noticeLevel;
 
     /**
      * 대상 유형 (1: 전체 2: 지정)

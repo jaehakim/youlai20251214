@@ -44,13 +44,13 @@
         <el-table-column label="공지 제목" prop="title" min-width="200" />
         <el-table-column align="center" label="공지 유형" width="150">
           <template #default="scope">
-            <DictLabel v-model="scope.row.type" code="notice_type" />
+            <DictLabel v-model="scope.row.noticeType" code="notice_type" />
           </template>
         </el-table-column>
         <el-table-column align="center" label="발행자" prop="publisherName" width="100" />
         <el-table-column align="center" label="공지 등급" width="100">
           <template #default="scope">
-            <DictLabel v-model="scope.row.level" code="notice_level" />
+            <DictLabel v-model="scope.row.noticeLevel" code="notice_level" />
           </template>
         </el-table-column>
         <el-table-column
