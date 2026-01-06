@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.boot.system.mapper.UserMapper">
 
-    <!-- 사용자 페이지 목록 -->
+    <!-- 사용자 페이지 목록 (기본/Oracle용) -->
     <select id="getUserPage" resultType="com.youlai.boot.system.model.bo.UserBO">
         SELECT
             u.id,
@@ -16,13 +16,21 @@
             u.STATUS,
             u.email,
             d.NAME AS dept_name,
-            LISTAGG(r.NAME, ',') WITHIN GROUP (ORDER BY r.NAME) AS roleNames,
+            ur.roleNames,
             u.create_time
         FROM
             sys_user u
-                LEFT JOIN sys_dept d ON u.dept_id = d.id
-                LEFT JOIN sys_user_role sur ON u.id = sur.user_id
-                LEFT JOIN sys_role r ON sur.role_id = r.id
+            LEFT JOIN sys_dept d ON u.dept_id = d.id
+            LEFT OUTER JOIN (
+                SELECT
+                    r.user_id,
+                    LISTAGG(sur.name, ',') WITHIN GROUP (ORDER BY sur.name) AS roleNames
+                FROM
+                    sys_user_role r
+                    LEFT JOIN sys_role sur ON r.role_id = sur.id
+                GROUP BY
+                    r.user_id
+            ) ur ON u.id = ur.user_id
         <where>
             u.is_deleted = 0
             <!-- 슈퍼 관리자가 아닌 사용자는 슈퍼 관리자 조회 제한 -->
@@ -59,24 +67,95 @@
                 </if>
             </if>
             <if test="queryParams.roleIds != null and queryParams.roleIds.size() > 0">
-                AND sur.role_id IN
-                <foreach item="roleId" collection="queryParams.roleIds" open="(" separator="," close=")">
-                    #{roleId}
-                </foreach>
+                AND ur.user_id IN (
+                    SELECT DISTINCT sur.user_id
+                    FROM sys_user_role sur
+                    WHERE sur.role_id IN
+                    <foreach item="roleId" collection="queryParams.roleIds" open="(" separator="," close=")">
+                        #{roleId}
+                    </foreach>
+                )
             </if>
         </where>
-        GROUP BY
-            u.id
-        <choose>
-            <!-- 정렬 파라미터가 모두 전달된 경우 -->
-            <when test="queryParams.field != null and queryParams.field != '' and queryParams.direction != null">
-                ORDER BY u.${queryParams.field} ${queryParams.direction}
-            </when>
-            <!-- 기본 정렬 -->
-            <otherwise>
-                ORDER BY u.update_time DESC, u.create_time DESC
-            </otherwise>
-        </choose>
+        ORDER BY
+            u.id DESC
+    </select>
+
+    <!-- 사용자 페이지 목록 (MySQL용) -->
+    <select id="getUserPage" resultType="com.youlai.boot.system.model.bo.UserBO" databaseId="mysql">
+        SELECT
+            u.id,
+            u.username,
+            u.nickname,
+            u.mobile,
+            u.gender,
+            u.avatar,
+            u.STATUS,
+            u.email,
+            d.NAME AS dept_name,
+            ur.roleNames,
+            u.create_time
+        FROM
+            sys_user u
+            LEFT JOIN sys_dept d ON u.dept_id = d.id
+            LEFT OUTER JOIN (
+                SELECT
+                    r.user_id,
+                    GROUP_CONCAT(DISTINCT sur.name ORDER BY sur.name SEPARATOR ',') AS roleNames
+                FROM
+                    sys_user_role r
+                    LEFT JOIN sys_role sur ON r.role_id = sur.id
+                GROUP BY
+                    r.user_id
+            ) ur ON u.id = ur.user_id
+        <where>
+            u.is_deleted = 0
+            <!-- 슈퍼 관리자가 아닌 사용자는 슈퍼 관리자 조회 제한 -->
+            <if test="!queryParams.isRoot">
+                AND NOT EXISTS (
+                SELECT
+                    1
+                FROM sys_user_role sur
+                    INNER JOIN sys_role r ON sur.role_id = r.id
+                WHERE
+                    sur.user_id = u.id
+                    AND r.code = '${@com.youlai.boot.common.constant.SystemConstants@ROOT_ROLE_CODE}'
+                )
+            </if>
+            <if test='queryParams.keywords!=null and queryParams.keywords.trim() neq ""'>
+                AND (
+                    u.username LIKE CONCAT('%', #{queryParams.keywords}, '%')
+                    OR u.nickname LIKE CONCAT('%', #{queryParams.keywords}, '%')
+                    OR u.mobile LIKE CONCAT('%', #{queryParams.keywords}, '%')
+                    )
+            </if>
+            <if test='queryParams.status!=null'>
+                AND u.status = #{queryParams.status}
+            </if>
+            <if test='queryParams.deptId!=null'>
+                AND CONCAT(',', d.tree_path, ',', d.id, ',') LIKE CONCAT('%,', #{queryParams.deptId}, ',%')
+            </if>
+            <if test="queryParams.createTime != null and queryParams.createTime.size > 0">
+                <if test="queryParams.createTime[0] != null and queryParams.createTime[0] != ''">
+                    AND DATE(u.create_time) &gt;= DATE(#{queryParams.createTime[0]})
+                </if>
+                <if test="queryParams.createTime[1] != null and queryParams.createTime[1] != ''">
+                    AND DATE(u.create_time) &lt;= DATE(#{queryParams.createTime[1]})
+                </if>
+            </if>
+            <if test="queryParams.roleIds != null and queryParams.roleIds.size() > 0">
+                AND u.id IN (
+                    SELECT DISTINCT sur.user_id
+                    FROM sys_user_role sur
+                    WHERE sur.role_id IN
+                    <foreach item="roleId" collection="queryParams.roleIds" open="(" separator="," close=")">
+                        #{roleId}
+                    </foreach>
+                )
+            </if>
+        </where>
+        ORDER BY
+            u.id DESC
     </select>
 
     <!-- 사용자 폼 정보 매핑 -->
@@ -181,7 +260,7 @@
             t1.mobile = #{mobile} AND t1.is_deleted = 0
     </select>
 
-    <!-- 사용자 내보내기 목록 조회 -->
+    <!-- 사용자 내보내기 목록 조회 (기본/Oracle용) -->
     <select id="listExportUsers" resultType="com.youlai.boot.system.model.dto.UserExportDTO">
         SELECT
             u.username,
@@ -219,10 +298,51 @@
                 AND ',' || d.tree_path || ',' || d.id || ',' LIKE '%,' || #{deptId} || ',%'
             </if>
         </where>
+        GROUP BY u.id, u.username, u.nickname, u.mobile, u.email, u.gender, d.NAME, u.create_time
+    </select>
+
+    <!-- 사용자 내보내기 목록 조회 (MySQL용) -->
+    <select id="listExportUsers" resultType="com.youlai.boot.system.model.dto.UserExportDTO" databaseId="mysql">
+        SELECT
+            u.username,
+            u.nickname,
+            u.mobile,
+            u.email,
+            u.gender,
+            d.NAME AS dept_name,
+            u.create_time
+        FROM
+            sys_user u
+                LEFT JOIN sys_dept d ON u.dept_id = d.id
+        <where>
+            u.is_deleted = 0
+            <if test="!isRoot">
+            AND NOT EXISTS (
+                SELECT
+                    1
+                FROM sys_user_role sur
+                    INNER JOIN sys_role r ON sur.role_id = r.id
+                WHERE
+                    sur.user_id = u.id
+                    AND r.code = '${@com.youlai.boot.common.constant.SystemConstants@ROOT_ROLE_CODE}'
+            )
+            </if>
+            <if test='keywords!=null and keywords.trim() neq ""'>
+                AND (u.username LIKE CONCAT('%', #{keywords}, '%')
+                OR u.nickname LIKE CONCAT('%', #{keywords}, '%')
+                OR u.mobile LIKE CONCAT('%', #{keywords}, '%'))
+            </if>
+            <if test='status!=null'>
+                AND u.status = #{status}
+            </if>
+            <if test='deptId!=null'>
+                AND CONCAT(',', d.tree_path, ',', d.id, ',') LIKE CONCAT('%,', #{deptId}, ',%')
+            </if>
+        </where>
         GROUP BY u.id
     </select>
 
-    <!-- 사용자 ID로 사용자 프로필 조회 -->
+    <!-- 사용자 ID로 사용자 프로필 조회 (기본/Oracle용) -->
     <select id="getUserProfile" resultType="com.youlai.boot.system.model.bo.UserBO">
         SELECT
             u.id,
@@ -243,6 +363,33 @@
                 LEFT JOIN sys_role r ON sur.role_id = r.id
         WHERE
             u.id = #{userId} AND u.is_deleted = 0
+        GROUP BY
+            u.id, u.username, u.nickname, u.mobile, u.gender, u.avatar, u.STATUS, u.email, d.NAME, u.create_time
+    </select>
+
+    <!-- 사용자 ID로 사용자 프로필 조회 (MySQL용) -->
+    <select id="getUserProfile" resultType="com.youlai.boot.system.model.bo.UserBO" databaseId="mysql">
+        SELECT
+            u.id,
+            u.username,
+            u.nickname,
+            u.mobile,
+            u.gender,
+            u.avatar,
+            u.STATUS,
+            u.email,
+            d.NAME AS deptName,
+            GROUP_CONCAT(DISTINCT r.NAME ORDER BY r.NAME SEPARATOR ',') AS roleNames,
+            u.create_time
+        FROM
+            sys_user u
+                LEFT JOIN sys_dept d ON u.dept_id = d.id
+                LEFT JOIN sys_user_role sur ON u.id = sur.user_id
+                LEFT JOIN sys_role r ON sur.role_id = r.id
+        WHERE
+            u.id = #{userId} AND u.is_deleted = 0
+        GROUP BY
+            u.id
     </select>
 
 </mapper>

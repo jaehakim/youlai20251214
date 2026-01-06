@@ -109,6 +109,7 @@
               </template>
             </el-table-column>
             <el-table-column label="부서" width="120" align="center" prop="deptName" />
+            <el-table-column label="권한명" min-width="150" align="left" header-align="center" prop="roleNames" />
             <el-table-column label="휴대폰 번호" align="center" prop="mobile" width="120" />
             <el-table-column label="이메일" align="center" prop="email" width="160" />
             <el-table-column label="상태" align="center" prop="status" width="80">
