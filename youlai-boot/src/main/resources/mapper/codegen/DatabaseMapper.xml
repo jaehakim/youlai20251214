@@ -4,9 +4,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.youlai.boot.platform.codegen.mapper.DatabaseMapper">
 
-    <!-- 데이터베이스 테이블 페이지 조회 (MySQL 전용) -->
-    <!-- Oracle의 경우 user_tables, user_tab_columns 등을 사용하는 별도의 쿼리 필요 -->
+    <!-- 데이터베이스 테이블 페이지 조회 (기본/Oracle용) -->
+    <!-- Oracle의 경우 user_tables, user_tab_columns 등을 사용 -->
     <select id="getTablePage" resultType="com.youlai.boot.platform.codegen.model.vo.TablePageVO">
+        SELECT
+            t1.TABLE_NAME ,
+            t1.COMMENTS AS TABLE_COMMENT ,
+            NULL AS TABLE_COLLATION,
+            NULL AS ENGINE,
+            NULL AS CREATE_TIME,
+            CASE WHEN t2.id IS NOT NULL THEN 1 ELSE 0 END AS isConfigured
+        FROM
+            user_tables t1
+            LEFT JOIN all_tab_comments t3 ON t1.TABLE_NAME = t3.TABLE_NAME AND t3.OWNER = USER
+            LEFT JOIN gen_config t2 ON t1.TABLE_NAME = t2.table_name
+        WHERE
+            1 = 1
+            <if test="queryParams.keywords != null and queryParams.keywords.trim() neq ''">
+                AND t1.TABLE_NAME LIKE '%' || #{queryParams.keywords} || '%'
+            </if>
+        <!-- 제외할 테이블 -->
+        <if test="queryParams.excludeTables != null and queryParams.excludeTables.size() > 0">
+            AND t1.TABLE_NAME NOT IN
+            <foreach collection="queryParams.excludeTables" item="excludeTable" open="(" close=")" separator=",">
+                #{excludeTable}
+            </foreach>
+        </if>
+        ORDER BY
+            t1.TABLE_NAME ASC
+    </select>
+
+    <!-- 데이터베이스 테이블 페이지 조회 (MySQL 전용) -->
+    <select id="getTablePage" resultType="com.youlai.boot.platform.codegen.model.vo.TablePageVO" databaseId="mysql">
         SELECT
             t1.TABLE_NAME ,
             t1.TABLE_COMMENT ,
@@ -21,7 +50,7 @@
             t1.TABLE_SCHEMA = (SELECT DATABASE())
             AND t1.table_type = 'BASE TABLE'
             <if test="queryParams.keywords != null and queryParams.keywords.trim() neq ''">
-                AND t1.TABLE_NAME LIKE '%' || #{queryParams.keywords} || '%'
+                AND t1.TABLE_NAME LIKE CONCAT('%', #{queryParams.keywords}, '%')
             </if>
         <!-- 제외할 테이블 -->
         <if test="queryParams.excludeTables != null and queryParams.excludeTables.size() > 0">
@@ -34,7 +63,24 @@
             CREATE_TIME DESC
     </select>
 
+
+    <!-- 테이블 메타데이터 조회 (기본/Oracle용) -->
     <select id="getTableMetadata" resultType="com.youlai.boot.platform.codegen.model.bo.TableMetaData">
+        SELECT
+            TABLE_NAME ,
+            COMMENTS AS TABLE_COMMENT ,
+            NULL AS TABLE_COLLATION,
+            NULL AS ENGINE,
+            NULL AS CREATE_TIME
+        FROM
+            user_tables t1
+            LEFT JOIN all_tab_comments t2 ON t1.TABLE_NAME = t2.TABLE_NAME AND t2.OWNER = USER
+        WHERE
+            TABLE_NAME = UPPER(#{tableName})
+    </select>
+
+    <!-- MySQL용 테이블 메타데이터 조회 -->
+    <select id="getTableMetadata" resultType="com.youlai.boot.platform.codegen.model.bo.TableMetaData" databaseId="mysql">
         SELECT
             TABLE_NAME ,
             TABLE_COMMENT ,
@@ -48,7 +94,35 @@
           AND TABLE_NAME = #{tableName}
     </select>
 
+    <!-- 테이블 컬럼 조회 (기본/Oracle용) -->
     <select id="getTableColumns" resultType="com.youlai.boot.platform.codegen.model.bo.ColumnMetaData">
+        SELECT
+            t1.COLUMN_NAME,
+            t1.DATA_TYPE,
+            t2.COMMENTS AS COLUMN_COMMENT,
+            CASE WHEN t3.CONSTRAINT_TYPE = 'P' THEN 1 ELSE 0 END AS isPrimaryKey,
+            CASE WHEN t1.NULLABLE = 'Y' THEN 'YES' ELSE 'NO' END AS IS_NULLABLE,
+            t1.DATA_LENGTH AS CHARACTER_MAXIMUM_LENGTH,
+            NULL AS CHARACTER_SET_NAME,
+            NULL AS COLLATION_NAME
+        FROM
+            user_tab_columns t1
+            LEFT JOIN all_col_comments t2 ON t1.TABLE_NAME = t2.TABLE_NAME
+                AND t1.COLUMN_NAME = t2.COLUMN_NAME
+                AND t2.OWNER = USER
+            LEFT JOIN (
+                SELECT col.TABLE_NAME, col.COLUMN_NAME, cons.CONSTRAINT_TYPE
+                FROM user_cons_columns col
+                JOIN user_constraints cons ON col.CONSTRAINT_NAME = cons.CONSTRAINT_NAME
+                WHERE cons.CONSTRAINT_TYPE = 'P'
+            ) t3 ON t1.TABLE_NAME = t3.TABLE_NAME AND t1.COLUMN_NAME = t3.COLUMN_NAME
+        WHERE
+            t1.TABLE_NAME = UPPER(#{tableName})
+        ORDER BY t1.COLUMN_ID ASC
+    </select>
+
+    <!-- MySQL용 테이블 컬럼 조회 -->
+    <select id="getTableColumns" resultType="com.youlai.boot.platform.codegen.model.bo.ColumnMetaData" databaseId="mysql">
         SELECT
             COLUMN_NAME,
             DATA_TYPE,
