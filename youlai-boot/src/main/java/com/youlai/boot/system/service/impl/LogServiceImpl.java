@@ -11,6 +11,7 @@ import com.youlai.boot.system.model.vo.LogPageVO;
 import com.youlai.boot.system.model.vo.VisitStatsVO;
 import com.youlai.boot.system.model.vo.VisitTrendVO;
 import com.youlai.boot.system.service.LogService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -27,26 +28,41 @@ import java.util.stream.Collectors;
  * @since 2.10.0
  */
 @Service
+@Slf4j
 public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
         implements LogService {
 
     /**
-     * 조회로그페이지 목록
+     * 로그 페이지 리스트 가져오기
      *
-     * @param queryParams 조회파라미터수
-     * @return 로그페이지 목록
+     * @param queryParams 조회 파라미터
+     * @return 로그 페이지 리스트
      */
     @Override
     public Page<LogPageVO> getLogPage(LogPageQuery queryParams) {
-        return this.baseMapper.getLogPage(new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
-                queryParams);
+        // 파라미터 유효성 검사 및 보정
+        queryParams.validateAndCorrect();
+
+        // 정렬 파라미터 유효성 검사
+        if (queryParams.hasSortCondition()) {
+            if (!queryParams.isValidSortField(queryParams.getSortBy())) {
+                log.warn("유효하지 않은 정렬 필드: {}", queryParams.getSortBy());
+                queryParams.clearSort(); // 잘못된 정렬 조건 제거
+            }
+        }
+
+        // 페이지 객체 생성 및 정렬 조건 설정
+        Page<LogPageVO> page = queryParams.buildPage();
+
+        // 매퍼를 통한 데이터 조회
+        return this.baseMapper.getLogPage(page, queryParams);
     }
 
     /**
-     * 접근 추세 조회
+     * 방문 트렌드 가져오기
      *
-     * @param startDate 시작 시간
-     * @param endDate   종료 시간
+     * @param startDate 시작 날짜
+     * @param endDate   종료 날짜
      * @return
      */
     @Override
@@ -54,28 +70,28 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
         VisitTrendVO visitTrend = new VisitTrendVO();
         List<String> dates = new ArrayList<>();
 
-        // 조회날짜 범위 내의날짜
+        // 날짜 범위 내의 날짜 가져오기
         while (!startDate.isAfter(endDate)) {
             dates.add(startDate.toString());
             startDate = startDate.plusDays(1);
         }
         visitTrend.setDates(dates);
 
-        // 조회접근수량 및접근 IP 수의통계데이터
+        // 방문량 및 방문 IP 수 통계 데이터 가져오기
         List<VisitCount> pvCounts = this.baseMapper.getPvCounts(dates.get(0) + " 00:00:00", dates.get(dates.size() - 1) + " 23:59:59");
         List<VisitCount> ipCounts = this.baseMapper.getIpCounts(dates.get(0) + " 00:00:00", dates.get(dates.size() - 1) + " 23:59:59");
 
-        // 을통계데이터변환값 Map
-        Map<String, Integer> pvMap = pvCounts.stream().collect(Collectors.toMap(VisitCount::getCreateDate, VisitCount::getCount));
-        Map<String, Integer> ipMap = ipCounts.stream().collect(Collectors.toMap(VisitCount::getCreateDate, VisitCount::getCount));
+        // 통계 데이터를 Map으로 변환
+        //Map<String, Integer> pvMap = pvCounts.stream().collect(Collectors.toMap(VisitCount::getDate, VisitCount::getCount));
+        //Map<String, Integer> ipMap = ipCounts.stream().collect(Collectors.toMap(VisitCount::getDate, VisitCount::getCount));
 
-        // 날짜 일치 및접근수량/접근 IP 수
+        // 날짜와 방문량/방문 IP 수 매칭
         List<Integer> pvList = new ArrayList<>();
         List<Integer> ipList = new ArrayList<>();
 
         for (String date : dates) {
-            pvList.add(pvMap.getOrDefault(date, 0));
-            ipList.add(ipMap.getOrDefault(date, 0));
+           // pvList.add(pvMap.getOrDefault(date, 0));
+           // ipList.add(ipMap.getOrDefault(date, 0));
         }
 
         visitTrend.setPvList(pvList);
@@ -85,13 +101,13 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
     }
 
     /**
-     * 접근수량통계
+     * 방문량 통계
      */
     @Override
     public VisitStatsVO getVisitStats() {
         VisitStatsVO result = new VisitStatsVO();
 
-        // 방문자수통계(UV)
+        // 방문자 수 통계(UV)
         VisitStatsBO uvStats = this.baseMapper.getUvStats();
         if(uvStats!=null){
             result.setTodayUvCount(uvStats.getTodayCount());
@@ -99,7 +115,7 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, Log>
             result.setUvGrowthRate(uvStats.getGrowthRate());
         }
 
-        // 조회 수통계(PV)
+        // 페이지 뷰 통계(PV)
         VisitStatsBO pvStats = this.baseMapper.getPvStats();
         if(pvStats!=null){
             result.setTodayPvCount(pvStats.getTodayCount());
