@@ -242,7 +242,7 @@ const total = ref(0);
 
 const queryParams = reactive<RolePageQuery>({
   pageNum: 1,
-  pageSize: 10,
+  pageSize: 20,
 });
 
 // 역할 테이블 데이터

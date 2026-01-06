@@ -298,7 +298,7 @@ const userFormRef = ref();
 // 목록 조회 매개변수
 const queryParams = reactive<UserPageQuery>({
   pageNum: 1,
-  pageSize: 10,
+  pageSize: 20,
 });
 
 // 목록 데이터

@@ -91,7 +91,7 @@ const total = ref(0);
 
 const queryParams = reactive<LogPageQuery>({
   pageNum: 1,
-  pageSize: 10,
+  pageSize: 20,
   keywords: "",
   createTime: ["", ""],
   sortBy: "", // 정렬 필드

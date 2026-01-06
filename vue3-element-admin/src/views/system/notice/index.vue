@@ -286,7 +286,7 @@ const total = ref(0);
 
 const queryParams = reactive<NoticePageQuery>({
   pageNum: 1,
-  pageSize: 10,
+  pageSize: 20,
 });
 
 const userOptions = ref<OptionType[]>([]);

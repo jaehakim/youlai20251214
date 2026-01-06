@@ -157,7 +157,7 @@ const total = ref(0);
 
 const queryParams = reactive<DictPageQuery>({
   pageNum: 1,
-  pageSize: 10,
+  pageSize: 20,
 });
 
 const tableData = ref<DictPageVO[]>();
